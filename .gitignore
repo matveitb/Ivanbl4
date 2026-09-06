@@ -1,0 +1,11 @@
+# Дампы прошивок не коммитим по умолчанию
+firmware/*.bin
+firmware/*.ori
+firmware/*.hex
+firmware/*.frf
+
+# Результаты анализа
+out/
+
+__pycache__/
+*.pyc
