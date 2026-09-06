@@ -24,17 +24,27 @@ import fwdiff         # noqa: E402
 import gridscan       # noqa: E402
 import bosch_csum     # noqa: E402
 import axisscan       # noqa: E402
+import damos          # noqa: E402
 
 STOCK = os.path.join(ROOT, "firmware", "FBH3ID60_stok.bin")
 CSOK1 = os.path.join(ROOT, "firmware", "FBH3ID60 e2 tun csok.bin")
 CSOK2 = os.path.join(ROOT, "firmware", "FBH3ID60 e2 tun csok v2___.bin")
 
-# адрес -> (ширина, высота)
+DAMOS = os.path.join(ROOT, "firmware", "px5ns03d.dam")
+
+# Карты зажигания FBH3ID60: адрес -> (ширина, высота).
+# Геометрия и имена подтверждены заводским DAMOS родственной прошивки.
 IGN_MAPS = {
-    0x10529: (11, 16),
-    0x10A01: (12, 15),
-    0x10AB5: (12, 16),
+    0x10529: (11, 16),   # KFZWOP
+    0x109F5: (12, 16),   # KFZW
+    0x10AB5: (12, 16),   # KFZW2
+    0x10935: (12, 16),   # KFZWMS
 }
+# Те, что детектор ширины находит точно и самостоятельно
+GRID_DETECTABLE = {0x10529: (11, 16), 0x10AB5: (12, 16)}
+# Между двумя csok правились только эти три; KFZWMS менялся относительно
+# стока, но между csok1 и csok2 он одинаков.
+IGN_CHANGED_BETWEEN_CSOK = {0x10529: (11, 16), 0x109F5: (12, 16), 0x10AB5: (12, 16)}
 
 
 def main() -> int:
@@ -85,7 +95,7 @@ def main() -> int:
 
     # --- геометрия карт зажигания -------------------------------------
     print("\nГеометрия карт зажигания (gridscan):")
-    for addr, (w, h) in IGN_MAPS.items():
+    for addr, (w, h) in GRID_DETECTABLE.items():
         grids = gridscan.scan(fw, addr - 0x40, addr + w * h + 0x40,
                               wmin=4, wmax=32, probe=96, step=8,
                               max_score=12.0, min_margin=1.25, min_rows=4,
@@ -100,10 +110,19 @@ def main() -> int:
     a, b = fwlib.load(CSOK1), fwlib.load(CSOK2)
     regions = fwdiff.diff_regions(a.data, b.data, merge_gap=16)
     fwdiff.classify(regions)
-    for addr, (w, h) in IGN_MAPS.items():
+    for addr, (w, h) in IGN_CHANGED_BETWEEN_CSOK.items():
         lo, hi = addr, addr + w * h
         hit = any(r.start < hi and lo < r.end for r in regions)
         check(hit, "изменения затрагивают карту @0x%05X" % addr)
+    kms = 0x10935
+    hit = any(r.start < kms + 12 * 16 and kms < r.end for r in regions)
+    check(not hit, "KFZWMS между двумя csok не менялся")
+
+    # а относительно стока KFZWMS правился
+    st = fwlib.load(STOCK)
+    reg2 = fwdiff.diff_regions(st.data, a.data, merge_gap=16)
+    hit2 = any(r.start < kms + 12 * 16 and kms < r.end for r in reg2)
+    check(hit2, "KFZWMS изменён относительно стока")
     csum = [r for r in regions if r.start >= 0x1FC00]
     check(bool(csum), "правка контрольных сумм обнаружена в таблице 0x1FC00")
 
@@ -113,6 +132,42 @@ def main() -> int:
     total = sum(len(c) for c in chains)
     check(len(chains) == 2 and total == 45,
           "две цепочки осей, всего 45 осей (получено %d / %d)" % (len(chains), total))
+
+    # --- DAMOS -----------------------------------------------------------
+    if os.path.exists(DAMOS):
+        print("\nDAMOS (px5ns03d):")
+        d = damos.parse(DAMOS)
+        check(len(d.variables) == 2447, "разобрано 2447 переменных (получено %d)"
+              % len(d.variables))
+        check(len(d.conversions) == 333, "разобрано 333 пересчёта (получено %d)"
+              % len(d.conversions))
+        segs = {n: (a, b) for n, a, b in d.segments}
+        check(segs.get("DATA1") == (0x810000, 0x81FFFF),
+              "сегмент DATA1 = $810000..$81FFFF")
+        zwop = d.by_name("KFZWOP")
+        check(zwop is not None and zwop.file_offset == 0x10528,
+              "KFZWOP по DAMOS лежит в исходной прошивке по 0x10528")
+        if zwop:
+            w, h = d.dims(zwop)
+            check((w, h) == (11, 16), "KFZWOP имеет размер 11x16 (получено %dx%d)" % (w, h))
+            cw = d.conv(zwop.conv_w)
+            check(cw is not None and abs(cw.factor - 0.75) < 1e-9,
+                  "масштаб угла зажигания 0.75 град/ед. (получено %.6g)"
+                  % (cw.factor if cw else -1))
+            cx = d.conv(zwop.conv_x)
+            check(cx is not None and abs(cx.factor - 40.0) < 1e-9,
+                  "масштаб оборотов 40 об/мин на единицу (получено %.6g)"
+                  % (cx.factor if cx else -1))
+
+        # карты зажигания в FBH3ID60 читаются в разумном диапазоне градусов
+        print("\nКарты зажигания в физических единицах:")
+        for addr, (w, h), name in ((0x10529, (11, 16), "KFZWOP"),
+                                   (0x109F5, (12, 16), "KFZW"),
+                                   (0x10AB5, (12, 16), "KFZW2")):
+            vals = fw.vec(addr, w * h, 1, signed=True)
+            lo, hi = min(vals) * 0.75, max(vals) * 0.75
+            check(-30.0 <= lo and hi <= 50.0,
+                  "%s в пределах -30..50 град (получено %.2f..%.2f)" % (name, lo, hi))
 
     print()
     if fails:

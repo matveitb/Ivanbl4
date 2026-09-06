@@ -1,97 +1,167 @@
 {
-  "profile": "FBH3ID60",
-  "ecu": "Bosch M7.9.7 / Infineon C167",
-  "vehicle": "Kia Spectra 1.6",
-  "identification": {
-    "addr": "0x10182",
-    "string": "EURO-3     REP.SHOP.CDA-1.6D     0261208504 1037368793 F3D6IS0H   M91B266B   FBH3ID60   391102X3350",
-    "bosch_hw": "0261208504",
-    "bosch_sw": "1037368793",
-    "calibration": "FBH3ID60",
-    "oem_part": "391102X3350"
+ "profile": "FBH3ID60",
+ "ecu": "Bosch M7.9.7 / Infineon C167",
+ "vehicle": "Kia Spectra 1.6",
+ "identification": {
+  "addr": "0x10182",
+  "string": "EURO-3     REP.SHOP.CDA-1.6D     0261208504 1037368793 F3D6IS0H   M91B266B   FBH3ID60   391102X3350",
+  "bosch_hw": "0261208504",
+  "bosch_sw": "1037368793",
+  "calibration": "FBH3ID60",
+  "oem_part": "391102X3350"
+ },
+ "flash": {
+  "size": 524288,
+  "base_address": "0x800000",
+  "note": "смещение в файле = адрес - 0x800000"
+ },
+ "checksum": {
+  "table_addr": "0x1FC00",
+  "record_size": 16,
+  "record_layout": "start:u32, end:u32, sum:u32, ~sum:u32",
+  "algorithm": "сумма 16-битных LE слов по региону [start..end] включительно, 32-битный аккумулятор",
+  "verified": "32 из 34 записей сходятся точно на всех трёх прошивках",
+  "skipped": "записи с адресами 0x00000000-0x00007FFF описывают память вне дампа; во всех прошивках одинаковы, не пересчитываются"
+ },
+ "axis_blocks": [
+  {
+   "addr": "0x1008C",
+   "end": "0x10182",
+   "count": 21,
+   "note": "цепочка осей подряд, формат n:u8 + X[n]:u8; упирается в строку идентификации"
   },
-  "flash": {
-    "size": 524288,
-    "base_address": "0x800000",
-    "note": "смещение в файле = адрес - 0x800000"
+  {
+   "addr": "0x181C1",
+   "end": "0x18291",
+   "count": 24,
+   "note": "вторая цепочка осей того же формата"
+  }
+ ],
+ "maps": [
+  {
+   "name": "KFZWOP",
+   "layout": "bare_grid",
+   "addr": "0x10529",
+   "data_addr": "0x10529",
+   "kind": "3d",
+   "nx": 11,
+   "ny": 16,
+   "data_width": 1,
+   "factor": 0.75,
+   "unit": "grad KW",
+   "signed": true,
+   "confidence": "подтверждена",
+   "source": "DAMOS KFZWOP + дифф csok + gridscan",
+   "note": "Оптимальный угол опережения зажигания. Столбцы = нагрузка (11 точек, ось SRL11OPUW), строки = обороты (16 точек, ось SNM16OPUB, x40 об/мин). Сток 0.75..45 град. Меняется и в тюнинге, и между двумя csok."
   },
-  "checksum": {
-    "table_addr": "0x1FC00",
-    "record_size": 16,
-    "record_layout": "start:u32, end:u32, sum:u32, ~sum:u32",
-    "algorithm": "сумма 16-битных LE слов по региону [start..end] включительно, 32-битный аккумулятор",
-    "verified": "32 из 34 записей сходятся точно на всех трёх прошивках",
-    "skipped": "записи с адресами 0x00000000-0x00007FFF описывают память вне дампа; во всех прошивках одинаковы, не пересчитываются"
+  {
+   "name": "KFZW",
+   "layout": "bare_grid",
+   "addr": "0x109F5",
+   "data_addr": "0x109F5",
+   "kind": "3d",
+   "nx": 12,
+   "ny": 16,
+   "data_width": 1,
+   "factor": 0.75,
+   "unit": "grad KW",
+   "signed": true,
+   "confidence": "подтверждена",
+   "source": "DAMOS KFZW + дифф csok",
+   "note": "Основная карта угла опережения зажигания. Столбцы = нагрузка (12 точек, ось SRL12ZUUB), строки = обороты (16 точек, SNM16ZUUB). Сток -0.75..42.75 град."
   },
-  "axis_blocks": [
-    {"addr": "0x1008C", "end": "0x10182", "count": 21,
-     "note": "цепочка осей подряд, формат n:u8 + X[n]:u8; упирается в строку идентификации"},
-    {"addr": "0x181C1", "end": "0x18291", "count": 24,
-     "note": "вторая цепочка осей того же формата"}
-  ],
-  "maps": [
-    {
-      "name": "IGN_MAIN_11x16",
-      "layout": "bare_grid", "addr": "0x10529", "data_addr": "0x10529",
-      "kind": "3d", "nx": 11, "ny": 16, "data_width": 1,
-      "confidence": "подтверждена",
-      "source": "дифф csok1/csok2 + gridscan + ручная проверка",
-      "note": "Карта зажигания. Столбцы = нагрузка (растёт вправо), строки = обороты (растут вниз). Сток 1..60. Меняется и между двумя csok, и относительно стока (+0..+9)."
-    },
-    {
-      "name": "IGN_2_12x15",
-      "layout": "bare_grid", "addr": "0x10A01", "data_addr": "0x10A01",
-      "kind": "3d", "nx": 12, "ny": 15, "data_width": 1,
-      "confidence": "подтверждена",
-      "source": "дифф csok1/csok2 + gridscan",
-      "note": "Вторая карта зажигания. Сток 3..57. Меняется между csok и относительно стока (+0..+15)."
-    },
-    {
-      "name": "IGN_3_12x16",
-      "layout": "bare_grid", "addr": "0x10AB5", "data_addr": "0x10AB5",
-      "kind": "3d", "nx": 12, "ny": 16, "data_width": 1,
-      "confidence": "подтверждена",
-      "source": "дифф csok1/csok2 + gridscan",
-      "note": "Третья карта зажигания. Сток 3..45."
-    },
-    {
-      "name": "MAP_16x16_0101F4",
-      "layout": "bosch_header", "addr": "0x101F4", "data_addr": "0x10216",
-      "kind": "3d", "nx": 16, "ny": 16, "axis_width": 1, "data_width": 1,
-      "confidence": "подтверждена",
-      "source": "mapscan + ручная проверка",
-      "note": "Классический формат Bosch с заголовком и осями внутри блока. Максимум ссылок из кода. Ось X 6..133, ось Y 10..150, данные 89..200."
-    },
-    {
-      "name": "MAP_16x16_010316",
-      "layout": "bosch_header", "addr": "0x10316", "data_addr": "0x10338",
-      "kind": "3d", "nx": 16, "ny": 16, "axis_width": 1, "data_width": 1,
-      "confidence": "подтверждена",
-      "source": "mapscan + gridscan (совпали независимо)",
-      "note": "Данные 89..190. Найдена обоими сканерами независимо."
-    },
-    {
-      "name": "CURVE_6_019559",
-      "layout": "bosch_header", "addr": "0x1955B", "data_addr": "0x19562",
-      "kind": "2d", "nx": 6, "ny": 1, "axis_width": 1, "data_width": 1,
-      "confidence": "подтверждена",
-      "source": "дифф csok1/csok2",
-      "note": "Кривая на 6 точек, ось 37..162, данные 110..116. Меняется между двумя csok."
-    },
-    {
-      "name": "CURVE_6_019568",
-      "layout": "bosch_header", "addr": "0x19568", "data_addr": "0x1956F",
-      "kind": "2d", "nx": 6, "ny": 1, "axis_width": 1, "data_width": 1,
-      "confidence": "подтверждена",
-      "source": "дифф csok1/csok2",
-      "note": "Вторая кривая на 6 точек с той же осью. Меняется между двумя csok."
-    }
-  ],
-  "other_regions": [
-    {
-      "name": "DIAG_FLAGS",
-      "addr": "0x10009", "end": "0x10027",
-      "note": "Таблица флагов диагностики (значения 0/1). В прошивке csok часть единиц заменена нулями относительно стока -- отключены проверки."
-    }
-  ]
+  {
+   "name": "KFZW2",
+   "layout": "bare_grid",
+   "addr": "0x10AB5",
+   "data_addr": "0x10AB5",
+   "kind": "3d",
+   "nx": 12,
+   "ny": 16,
+   "data_width": 1,
+   "factor": 0.75,
+   "unit": "grad KW",
+   "signed": true,
+   "confidence": "подтверждена",
+   "source": "DAMOS KFZW2 + дифф csok + gridscan",
+   "note": "Карта зажигания, вариант 2. Сток 2.25..33.75 град."
+  },
+  {
+   "name": "KFZWMS",
+   "layout": "bare_grid",
+   "addr": "0x10935",
+   "data_addr": "0x10935",
+   "kind": "3d",
+   "nx": 12,
+   "ny": 16,
+   "data_width": 1,
+   "factor": 0.75,
+   "unit": "grad KW",
+   "signed": true,
+   "confidence": "подтверждена",
+   "source": "DAMOS KFZWMS",
+   "note": "Предельно поздний угол зажигания. В стоке вся карта равна -33 (-24.75 град). Правится тюнингом."
+  },
+  {
+   "name": "KFETAZW",
+   "layout": "bosch_header",
+   "addr": "0x101F4",
+   "data_addr": "0x10216",
+   "kind": "3d",
+   "nx": 16,
+   "ny": 16,
+   "axis_width": 1,
+   "data_width": 1,
+   "factor": 0.5,
+   "unit": "%",
+   "confidence": "подтверждена",
+   "source": "DAMOS KFETAZW (структурное совпадение) + mapscan",
+   "note": "Карта КПД по углу опережения зажигания. Классический формат Bosch: заголовок nx/ny и оси внутри блока."
+  },
+  {
+   "name": "KFETAZWN",
+   "layout": "bosch_header",
+   "addr": "0x10316",
+   "data_addr": "0x10338",
+   "kind": "3d",
+   "nx": 16,
+   "ny": 16,
+   "axis_width": 1,
+   "data_width": 1,
+   "factor": 0.5,
+   "unit": "%",
+   "confidence": "подтверждена",
+   "source": "DAMOS KFETAZWN (структурное совпадение) + mapscan + gridscan",
+   "note": "То же на холостом ходу."
+  },
+  {
+   "name": "KFZWMN",
+   "layout": "bare_grid",
+   "addr": "0x14DA4",
+   "data_addr": "0x14DA4",
+   "kind": "3d",
+   "nx": 12,
+   "ny": 16,
+   "data_width": 1,
+   "factor": 0.75,
+   "unit": "grad KW",
+   "signed": true,
+   "confidence": "подтверждена",
+   "source": "DAMOS KFZWMN + дифф сток/csok",
+   "note": "Карта минимального угла зажигания. Изменена калибровщиком."
+  }
+ ],
+ "other_regions": [
+  {
+   "name": "DIAG_FLAGS",
+   "addr": "0x10009",
+   "end": "0x10027",
+   "note": "Таблица флагов диагностики (значения 0/1). В прошивке csok часть единиц заменена нулями относительно стока -- отключены проверки."
+  }
+ ],
+ "damos_reference": {
+  "file": "firmware/px5ns03d.dam",
+  "ecu": "Bosch M7.9, ПО px5ns03d",
+  "note": "Заводской DAMOS от родственной прошивки того же семейства. Дал имена, описания и масштабы; адреса перенесены инструментом tools/xfer.py и проверены структурно."
+ }
 }
