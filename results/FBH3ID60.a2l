@@ -129,6 +129,18 @@ ASAP2_VERSION 1 61
       COEFFS 0 1 -0.75 0 0 0.001953125
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_n0p75_0_gradKW
+      "zw_ub_qn0p75"
+      RAT_FUNC "%.3f" "grad KW"
+      COEFFS 0 1 0 0 0 -0.75
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p3921568627_0_DK
+      "relDK_ub_b100"
+      RAT_FUNC "%.3f" "% DK"
+      COEFFS 0 1 0 0 0 0.3921568627
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p25_0
       "fak_ub_b64"
       RAT_FUNC "%.3f" "-"
@@ -315,12 +327,6 @@ ASAP2_VERSION 1 61
       COEFFS 0 1 48 0 0 0.75
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p3921568627_0_DK
-      "relDK_ub_b100"
-      RAT_FUNC "%.3f" "% DK"
-      COEFFS 0 1 0 0 0 0.3921568627
-    /end COMPU_METHOD
-
     /begin COMPU_METHOD CM_5_0_GradC
       "temp_q5"
       RAT_FUNC "%.1f" "Grad C"
@@ -385,12 +391,6 @@ ASAP2_VERSION 1 61
       "spg_ub_b320"
       RAT_FUNC "%.1f" "V"
       COEFFS 0 1 0 0 0 1.25
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_n0p75_0_gradKW
-      "zw_ub_qn0p75"
-      RAT_FUNC "%.3f" "grad KW"
-      COEFFS 0 1 0 0 0 -0.75
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_6_0_GradKW
@@ -2639,7 +2639,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC PLRHAV
-      "подтверждена | damos | адрес 0x111F1, данные 0x111F1 | масштаб x0.00390625 - | Weighting factor of P-part LRHK depending on catalyst age"
+      "неоднозначная | damos-сомнительно | адрес 0x111F1, данные 0x111F1 | масштаб x0.00390625 - | Weighting factor of P-part LRHK depending on catalyst age"
       CURVE
       0x111F1
       RL_GRID_DU8
@@ -2658,7 +2658,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FWSTAA1
-      "вероятная | damos-вероятно | адрес 0x11205, данные 0x11205 | масштаб x0.0078125 - | afterstart correction"
+      "неоднозначная | damos-сомнительно | адрес 0x11205, данные 0x11205 | масштаб x0.0078125 - | afterstart correction"
       CURVE
       0x11205
       RL_GRID_DU8
@@ -2677,7 +2677,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FWSTAB1
-      "вероятная | damos-вероятно | адрес 0x1120B, данные 0x1120B | масштаб x0.0078125 - | weighting afterstart decrease range 1"
+      "неоднозначная | damos-сомнительно | адрес 0x1120B, данные 0x1120B | масштаб x0.0078125 - | weighting afterstart decrease range 1"
       CURVE
       0x1120B
       RL_GRID_DU8
@@ -2696,7 +2696,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FWSTAB2
-      "вероятная | damos-вероятно | адрес 0x11211, данные 0x11211 | масштаб x0.0078125 - | weighting afterstart decrease range 2"
+      "неоднозначная | damos-сомнительно | адрес 0x11211, данные 0x11211 | масштаб x0.0078125 - | weighting afterstart decrease range 2"
       CURVE
       0x11211
       RL_GRID_DU8
@@ -2715,7 +2715,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FWSTAB3
-      "вероятная | damos-вероятно | адрес 0x11217, данные 0x11217 | масштаб x0.0078125 - | weighting afterstart decrease range 3"
+      "неоднозначная | damos-сомнительно | адрес 0x11217, данные 0x11217 | масштаб x0.0078125 - | weighting afterstart decrease range 3"
       CURVE
       0x11217
       RL_GRID_DU8
@@ -2734,7 +2734,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FWSTAS1
-      "вероятная | damos-вероятно | адрес 0x1121D, данные 0x1121D | масштаб x0.0078125 - | correction of threshold 1 for afterstart"
+      "неоднозначная | damos-сомнительно | адрес 0x1121D, данные 0x1121D | масштаб x0.0078125 - | correction of threshold 1 for afterstart"
       CURVE
       0x1121D
       RL_GRID_DU8
@@ -2790,13 +2790,32 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFNSWRL
-      "подтверждена | damos-точно | адрес 0x11239, данные 0x11239 | масштаб x0.0078125 - | weighting of afterstart enrichment"
-      MAP
-      0x11239
+    /begin CHARACTERISTIC WKRLZOF
+      "вероятная | damos-вероятно | адрес 0x11235, данные 0x11235 | масштаб x-0.75 grad KW | Bloc of fixed values: ignition reatard offset for guided cylinder"
+      CURVE
+      0x11235
+      RL_GRID_DS8
+      0
+      CM_n0p75_0_gradKW
+      0
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKNLN
+      "вероятная | damos-вероятно | адрес 0x1124E, данные 0x1124E | масштаб x0.392157 % DK | limp home throttle plate angle"
+      CURVE
+      0x1124E
       RL_GRID_DU8
       0
-      CM_0p0078125_0
+      CM_0p3921568627_0_DK
       0
       255
       /begin AXIS_DESCR FIX_AXIS
@@ -2806,14 +2825,6 @@ ASAP2_VERSION 1 61
         0
         5
         FIX_AXIS_PAR_DIST 0 1 6
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        8
-        0
-        7
-        FIX_AXIS_PAR_DIST 0 1 8
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -2890,7 +2901,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_114_112C2_14
+    /begin CHARACTERISTIC MAP_115_112C2_14
       "вероятная | mapscan | адрес 0x112C2, данные 0x112D1"
       CURVE
       0x112C2
@@ -2908,7 +2919,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC GRID_115_112DF_4x49
+    /begin CHARACTERISTIC GRID_116_112DF_4x49
       "вероятная | gridscan | адрес 0x112DF, данные 0x112DF | константная таблица (все значения 128)"
       MAP
       0x112DF
@@ -2935,7 +2946,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_116_113A3_14x14
+    /begin CHARACTERISTIC MAP_117_113A3_14x14
       "вероятная | mapscan | адрес 0x113A3, данные 0x113C1"
       MAP
       0x113A3
@@ -2998,7 +3009,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_119_11567_8
+    /begin CHARACTERISTIC MAP_120_11567_8
       "вероятная | mapscan | адрес 0x11567, данные 0x11570"
       CURVE
       0x11567
@@ -3035,26 +3046,25 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC FVERMN
-      "подтверждена | damos | адрес 0x11581, данные 0x11581 | масштаб x0.00390625 - | characteristic line: filter factor for purge flow in the manifold with fresh air"
+    /begin CHARACTERISTIC MAP_122_11580_6
+      "вероятная | mapscan | адрес 0x11580, данные 0x11587"
       CURVE
-      0x11581
-      RL_GRID_DU8
+      0x11580
+      RL_2D_A8_DU8
       0
-      CM_0p00390625_0
+      CM_IDENTITY
       0
       255
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
         6
         0
-        5
-        FIX_AXIS_PAR_DIST 0 1 6
+        255
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_122_11595_8
+    /begin CHARACTERISTIC MAP_123_11595_8
       "вероятная | mapscan | адрес 0x11595, данные 0x1159E"
       CURVE
       0x11595
@@ -3072,7 +3082,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_123_115EC_7
+    /begin CHARACTERISTIC MAP_124_115EC_7
       "вероятная | mapscan | адрес 0x115EC, данные 0x115F4"
       CURVE
       0x115EC
@@ -3090,7 +3100,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_124_115FB_7
+    /begin CHARACTERISTIC MAP_125_115FB_7
       "вероятная | mapscan | адрес 0x115FB, данные 0x11603"
       CURVE
       0x115FB
@@ -3127,7 +3137,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_126_11616_8
+    /begin CHARACTERISTIC MAP_127_11616_8
       "вероятная | mapscan | адрес 0x11616, данные 0x1161F"
       CURVE
       0x11616
@@ -3145,7 +3155,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_127_11673_6
+    /begin CHARACTERISTIC MAP_128_11673_6
       "вероятная | mapscan | адрес 0x11673, данные 0x1167A"
       CURVE
       0x11673
@@ -3163,7 +3173,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_128_1168B_6
+    /begin CHARACTERISTIC MAP_129_1168B_6
       "вероятная | mapscan | адрес 0x1168B, данные 0x11692"
       CURVE
       0x1168B
@@ -3181,7 +3191,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_129_11698_12
+    /begin CHARACTERISTIC MAP_130_11698_12
       "вероятная | mapscan | адрес 0x11698, данные 0x116A5"
       CURVE
       0x11698
@@ -3199,7 +3209,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_130_116B2_6x6
+    /begin CHARACTERISTIC MAP_131_116B2_6x6
       "вероятная | mapscan | адрес 0x116B2, данные 0x116C0"
       MAP
       0x116B2
@@ -3224,7 +3234,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_131_116E5_4
+    /begin CHARACTERISTIC MAP_132_116E5_4
       "вероятная | mapscan | адрес 0x116E5, данные 0x116EA"
       CURVE
       0x116E5
@@ -3269,7 +3279,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_133_11986_5x6
+    /begin CHARACTERISTIC MAP_134_11986_5x6
       "вероятная | mapscan | адрес 0x11986, данные 0x11993"
       MAP
       0x11986
@@ -3348,7 +3358,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_136_11A1A_6
+    /begin CHARACTERISTIC MAP_137_11A1A_6
       "вероятная | mapscan | адрес 0x11A1A, данные 0x11A21"
       CURVE
       0x11A1A
@@ -3385,7 +3395,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_138_11A40_10x10
+    /begin CHARACTERISTIC MAP_139_11A40_10x10
       "вероятная | mapscan | адрес 0x11A40, данные 0x11A56"
       MAP
       0x11A40
@@ -3638,7 +3648,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_151_11AD4_16x12
+    /begin CHARACTERISTIC MAP_152_11AD4_16x12
       "вероятная | mapscan | адрес 0x11AD4, данные 0x11AF2"
       MAP
       0x11AD4
@@ -3836,7 +3846,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_159_11F22_8
+    /begin CHARACTERISTIC MAP_160_11F22_8
       "вероятная | mapscan | адрес 0x11F22, данные 0x11F2B"
       CURVE
       0x11F22
@@ -4092,7 +4102,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_170_124D4_6
+    /begin CHARACTERISTIC MAP_171_124D4_6
       "вероятная | mapscan | адрес 0x124D4, данные 0x124DB"
       CURVE
       0x124D4
@@ -4110,7 +4120,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_171_128BD_21
+    /begin CHARACTERISTIC MAP_172_128BD_21
       "вероятная | mapscan | адрес 0x128BD, данные 0x128E8"
       CURVE
       0x128BD
@@ -4166,7 +4176,7 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_174_14915_6
+    /begin CHARACTERISTIC MAP_175_14915_6
       "вероятная | mapscan | адрес 0x14915, данные 0x14922"
       CURVE
       0x14915
@@ -4279,41 +4289,21 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC DZWOAGR
-      "подтверждена | damos | адрес 0x14999, данные 0x14999 | масштаб x0.75 grad KW | AGR-rate-dependent offset of optimum ignition angle"
+    /begin CHARACTERISTIC MAP_181_14998_10
+      "вероятная | mapscan | адрес 0x14998, данные 0x149A3"
       CURVE
-      0x14999
-      RL_GRID_DS8
+      0x14998
+      RL_2D_A8_DU16
       0
-      CM_0p75_0_gradKW
+      CM_IDENTITY
       0
-      127
-      /begin AXIS_DESCR FIX_AXIS
+      65535
+      /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
         10
         0
-        9
-        FIX_AXIS_PAR_DIST 0 1 10
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC DZWOM
-      "вероятная | damos-вероятно | адрес 0x149AF, данные 0x149AF | масштаб x0.75 grad KW | temperature-dependent offset of optimum ignition angle"
-      CURVE
-      0x149AF
-      RL_GRID_DS8
-      0
-      CM_0p75_0_gradKW
-      0
-      127
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        5
-        0
-        4
-        FIX_AXIS_PAR_DIST 0 1 5
+        255
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -5385,7 +5375,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TLRZWTMS
-      "подтверждена | damos | адрес 0x15A89, данные 0x15A89 | масштаб x0.1 s | Time until hard LC switch on after start (CARB)"
+      "неоднозначная | damos-сомнительно | адрес 0x15A89, данные 0x15A89 | масштаб x0.1 s | Time until hard LC switch on after start (CARB)"
       CURVE
       0x15A89
       RL_GRID_DU8
@@ -5404,7 +5394,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC LALIUSH
-      "вероятная | damos-вероятно | адрес 0x15A97, данные 0x15A97 | масштаб x0.000244141 - | lambda linearization, sensor behind catalyst"
+      "неоднозначная | damos-сомнительно | адрес 0x15A97, данные 0x15A97 | масштаб x0.000244141 - | lambda linearization, sensor behind catalyst"
       CURVE
       0x15A97
       RL_GRID_DU16
@@ -5442,7 +5432,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FLRFKATE
-      "подтверждена | damos | адрес 0x15AD7, данные 0x15AD7 | масштаб x0.0078125 - | Rating of factor fkatei from %TEB to optimize the regulation parameter"
+      "неоднозначная | damos-сомнительно | адрес 0x15AD7, данные 0x15AD7 | масштаб x0.0078125 - | Rating of factor fkatei from %TEB to optimize the regulation parameter"
       CURVE
       0x15AD7
       RL_GRID_DU8
@@ -5461,7 +5451,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZLASOHML
-      "вероятная | damos-вероятно | адрес 0x15AE7, данные 0x15AE7 | time constant for PT1-filter of the pseude lambda behind catalyst"
+      "неоднозначная | damos-сомнительно | адрес 0x15AE7, данные 0x15AE7 | time constant for PT1-filter of the pseude lambda behind catalyst"
       CURVE
       0x15AE7
       RL_GRID_DU8
@@ -9059,7 +9049,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFRINH
-      "подтверждена | damos | адрес 0x188DF, данные 0x188DF | масштаб x8 Ohm | MAP for Nernst resistor post cat"
+      "неоднозначная | damos-сомнительно | адрес 0x188DF, данные 0x188DF | масштаб x8 Ohm | MAP for Nernst resistor post cat"
       MAP
       0x188DF
       RL_GRID_DU8
@@ -9794,8 +9784,8 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFLASKH
-      "подтверждена | damos-точно | адрес 0x18CFA, данные 0x18CFA | масштаб x0.0078125 - | Performance characteristics lambda exhaust nominal at catalyst heating"
+    /begin CHARACTERISTIC KFLMSKH
+      "подтверждена | damos-точно | адрес 0x18CFA, данные 0x18CFA | масштаб x0.0078125 - | Performance characteristics lambda engine nominal at catalyst heating"
       MAP
       0x18CFA
       RL_GRID_DU8
@@ -11096,27 +11086,26 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC FQTEDL
-      "подтверждена | damos | адрес 0x196F9, данные 0x196F9 | масштаб x0.0078125 - | Factor for exponential decrease of flow rate"
+    /begin CHARACTERISTIC MAP_521_196F8_5
+      "вероятная | mapscan | адрес 0x196F8, данные 0x196FE"
       CURVE
-      0x196F9
-      RL_GRID_DU8
+      0x196F8
+      RL_2D_A8_DU8
       0
-      CM_0p0078125_0
+      CM_IDENTITY
       0
       255
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
         5
         0
-        4
-        FIX_AXIS_PAR_DIST 0 1 5
+        255
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FQTEVA
-      "вероятная | damos-вероятно | адрес 0x19704, данные 0x19704 | масштаб x0.0625 - | progression of purge rate controller"
+      "неоднозначная | damos-сомнительно | адрес 0x19704, данные 0x19704 | масштаб x0.0625 - | progression of purge rate controller"
       CURVE
       0x19704
       RL_GRID_DU8
@@ -12777,7 +12766,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KDLASHKI
-      "подтверждена | damos | адрес 0x1B899, данные 0x1B899 | масштаб x3.05176e-05 - | evaluation factor of I-part of LRHK, f(dlashkm)"
+      "неоднозначная | damos-сомнительно | адрес 0x1B899, данные 0x1B899 | масштаб x3.05176e-05 - | evaluation factor of I-part of LRHK, f(dlashkm)"
       CURVE
       0x1B899
       RL_GRID_DS16
@@ -13169,7 +13158,7 @@ ASAP2_VERSION 1 61
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZKRKATA
-      "вероятная | damos-вероятно | адрес 0x1BD5D, данные 0x1BD5D | масштаб x0.0146484 %/s | integration speed integrator rkat, f(abo)"
+      "неоднозначная | damos-сомнительно | адрес 0x1BD5D, данные 0x1BD5D | масштаб x0.0146484 %/s | integration speed integrator rkat, f(abo)"
       CURVE
       0x1BD5D
       RL_GRID_DU16
@@ -13206,22 +13195,21 @@ ASAP2_VERSION 1 61
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC DLBTS
-      "подтверждена | damos | адрес 0x1BD75, данные 0x1BD75 | масштаб x0.0078125 - | Delta nominal Lambda for component protection"
+    /begin CHARACTERISTIC MAP_623_1BD71_5
+      "вероятная | mapscan | адрес 0x1BD71, данные 0x1BD7C"
       CURVE
-      0x1BD75
-      RL_GRID_DS8
+      0x1BD71
+      RL_2D_A16_DU16
       0
-      CM_0p0078125_0
+      CM_IDENTITY
       0
-      127
-      /begin AXIS_DESCR FIX_AXIS
+      65535
+      /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        8
+        5
         0
-        7
-        FIX_AXIS_PAR_DIST 0 1 8
+        65535
       /end AXIS_DESCR
     /end CHARACTERISTIC
 

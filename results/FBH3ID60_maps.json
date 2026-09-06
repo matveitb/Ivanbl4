@@ -2728,10 +2728,10 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 70137,
-   "source": "damos",
-   "confidence": "подтверждена",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "Weighting factor of P-part LRHK depending on catalyst age",
-   "score": 1.0,
+   "score": 0.5,
    "refs": 0,
    "signed": false,
    "factor": 0.00390625,
@@ -2742,7 +2742,7 @@
    "y_unit": "",
    "damos_addr": 70043,
    "how": "структурно",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "FWSTAA1",
@@ -2755,8 +2755,8 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 70155,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "afterstart correction",
    "score": 0.5,
    "refs": 0,
@@ -2769,7 +2769,7 @@
    "y_unit": "",
    "damos_addr": 70472,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "FWSTAB1",
@@ -2782,8 +2782,8 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 70161,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "weighting afterstart decrease range 1",
    "score": 0.5,
    "refs": 0,
@@ -2796,7 +2796,7 @@
    "y_unit": "",
    "damos_addr": 70478,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "FWSTAB2",
@@ -2809,8 +2809,8 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 70167,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "weighting afterstart decrease range 2",
    "score": 0.5,
    "refs": 0,
@@ -2823,7 +2823,7 @@
    "y_unit": "",
    "damos_addr": 70484,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "FWSTAB3",
@@ -2836,8 +2836,8 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 70173,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "weighting afterstart decrease range 3",
    "score": 0.5,
    "refs": 0,
@@ -2850,7 +2850,7 @@
    "y_unit": "",
    "damos_addr": 70490,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "FWSTAS1",
@@ -2863,8 +2863,8 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 70179,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "correction of threshold 1 for afterstart",
    "score": 0.5,
    "refs": 0,
@@ -2877,7 +2877,7 @@
    "y_unit": "",
    "damos_addr": 70496,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "FWSTAS2",
@@ -2934,31 +2934,58 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "KFNSWRL",
+   "name": "WKRLZOF",
    "layout": "bare_grid",
-   "addr": 70201,
-   "data_addr": 70201,
-   "kind": "3d",
-   "nx": 6,
-   "ny": 8,
+   "addr": 70197,
+   "data_addr": 70197,
+   "kind": "2d",
+   "nx": 8,
+   "ny": 1,
    "axis_width": 1,
    "data_width": 1,
-   "end": 70249,
-   "source": "damos-точно",
-   "confidence": "подтверждена",
-   "note": "weighting of afterstart enrichment",
-   "score": 1.0,
+   "end": 70205,
+   "source": "damos-вероятно",
+   "confidence": "вероятная",
+   "note": "Bloc of fixed values: ignition reatard offset for guided cylinder",
+   "score": 0.5,
+   "refs": 0,
+   "signed": true,
+   "factor": -0.75,
+   "shift": 0.0,
+   "unit": "grad KW",
+   "conv": "zw_ub_qn0p75",
+   "x_unit": "",
+   "y_unit": "",
+   "damos_addr": 70112,
+   "how": "выравнивание",
+   "verify": "нечего проверять"
+  },
+  {
+   "name": "WDKNLN",
+   "layout": "bare_grid",
+   "addr": 70222,
+   "data_addr": 70222,
+   "kind": "2d",
+   "nx": 6,
+   "ny": 1,
+   "axis_width": 1,
+   "data_width": 1,
+   "end": 70228,
+   "source": "damos-вероятно",
+   "confidence": "вероятная",
+   "note": "limp home throttle plate angle",
+   "score": 0.5,
    "refs": 0,
    "signed": false,
-   "factor": 0.0078125,
+   "factor": 0.39215686274509803,
    "shift": 0.0,
-   "unit": "-",
-   "conv": "fak_ub_b2",
-   "x_unit": "Grad C",
-   "y_unit": "%",
-   "damos_addr": 70508,
+   "unit": "% DK",
+   "conv": "relDK_ub_b100",
+   "x_unit": "Upm",
+   "y_unit": "",
+   "damos_addr": 70136,
    "how": "выравнивание",
-   "verify": "подтверждена"
+   "verify": "нечего проверять"
   },
   {
    "name": "KFDMDN1",
@@ -3042,7 +3069,7 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "MAP_114_112C2_14",
+   "name": "MAP_115_112C2_14",
    "layout": "bosch_header",
    "addr": 70338,
    "data_addr": 70353,
@@ -3061,7 +3088,7 @@
    "dmax": 129
   },
   {
-   "name": "GRID_115_112DF_4x49",
+   "name": "GRID_116_112DF_4x49",
    "layout": "bare_grid",
    "addr": 70367,
    "data_addr": 70367,
@@ -3080,7 +3107,7 @@
    "dmax": 128
   },
   {
-   "name": "MAP_116_113A3_14x14",
+   "name": "MAP_117_113A3_14x14",
    "layout": "bosch_header",
    "addr": 70563,
    "data_addr": 70593,
@@ -3153,7 +3180,7 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "MAP_119_11567_8",
+   "name": "MAP_120_11567_8",
    "layout": "bosch_header",
    "addr": 71015,
    "data_addr": 71024,
@@ -3199,34 +3226,26 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "FVERMN",
-   "layout": "bare_grid",
-   "addr": 71041,
-   "data_addr": 71041,
+   "name": "MAP_122_11580_6",
+   "layout": "bosch_header",
+   "addr": 71040,
+   "data_addr": 71047,
    "kind": "2d",
    "nx": 6,
    "ny": 1,
    "axis_width": 1,
    "data_width": 1,
-   "end": 71047,
-   "source": "damos",
-   "confidence": "подтверждена",
-   "note": "characteristic line: filter factor for purge flow in the manifold with fresh air",
-   "score": 1.0,
-   "refs": 0,
-   "signed": false,
-   "factor": 0.00390625,
-   "shift": 0.0,
-   "unit": "-",
-   "conv": "fak_ub_b1",
-   "x_unit": "Upm",
-   "y_unit": "",
-   "damos_addr": 71011,
-   "how": "структурно",
-   "verify": "нечего проверять"
+   "end": 71053,
+   "source": "mapscan",
+   "confidence": "вероятная",
+   "note": "",
+   "score": 0.5799707244008715,
+   "refs": 2,
+   "dmin": 60,
+   "dmax": 87
   },
   {
-   "name": "MAP_122_11595_8",
+   "name": "MAP_123_11595_8",
    "layout": "bosch_header",
    "addr": 71061,
    "data_addr": 71070,
@@ -3245,7 +3264,7 @@
    "dmax": 139
   },
   {
-   "name": "MAP_123_115EC_7",
+   "name": "MAP_124_115EC_7",
    "layout": "bosch_header",
    "addr": 71148,
    "data_addr": 71156,
@@ -3264,7 +3283,7 @@
    "dmax": 59
   },
   {
-   "name": "MAP_124_115FB_7",
+   "name": "MAP_125_115FB_7",
    "layout": "bosch_header",
    "addr": 71163,
    "data_addr": 71171,
@@ -3310,7 +3329,7 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "MAP_126_11616_8",
+   "name": "MAP_127_11616_8",
    "layout": "bosch_header",
    "addr": 71190,
    "data_addr": 71199,
@@ -3329,7 +3348,7 @@
    "dmax": 255
   },
   {
-   "name": "MAP_127_11673_6",
+   "name": "MAP_128_11673_6",
    "layout": "bosch_header",
    "addr": 71283,
    "data_addr": 71290,
@@ -3348,7 +3367,7 @@
    "dmax": 90
   },
   {
-   "name": "MAP_128_1168B_6",
+   "name": "MAP_129_1168B_6",
    "layout": "bosch_header",
    "addr": 71307,
    "data_addr": 71314,
@@ -3367,7 +3386,7 @@
    "dmax": 16
   },
   {
-   "name": "MAP_129_11698_12",
+   "name": "MAP_130_11698_12",
    "layout": "bosch_header",
    "addr": 71320,
    "data_addr": 71333,
@@ -3386,7 +3405,7 @@
    "dmax": 123
   },
   {
-   "name": "MAP_130_116B2_6x6",
+   "name": "MAP_131_116B2_6x6",
    "layout": "bosch_header",
    "addr": 71346,
    "data_addr": 71360,
@@ -3405,7 +3424,7 @@
    "dmax": 128
   },
   {
-   "name": "MAP_131_116E5_4",
+   "name": "MAP_132_116E5_4",
    "layout": "bosch_header",
    "addr": 71397,
    "data_addr": 71402,
@@ -3451,7 +3470,7 @@
    "verify": "подтверждена"
   },
   {
-   "name": "MAP_133_11986_5x6",
+   "name": "MAP_134_11986_5x6",
    "layout": "bosch_header",
    "addr": 72070,
    "data_addr": 72083,
@@ -3524,7 +3543,7 @@
    "verify": "не сходится"
   },
   {
-   "name": "MAP_136_11A1A_6",
+   "name": "MAP_137_11A1A_6",
    "layout": "bosch_header",
    "addr": 72218,
    "data_addr": 72225,
@@ -3570,7 +3589,7 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "MAP_138_11A40_10x10",
+   "name": "MAP_139_11A40_10x10",
    "layout": "bosch_header",
    "addr": 72256,
    "data_addr": 72278,
@@ -3913,7 +3932,7 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "MAP_151_11AD4_16x12",
+   "name": "MAP_152_11AD4_16x12",
    "layout": "bosch_header",
    "addr": 72404,
    "data_addr": 72434,
@@ -4121,7 +4140,7 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "MAP_159_11F22_8",
+   "name": "MAP_160_11F22_8",
    "layout": "bosch_header",
    "addr": 73506,
    "data_addr": 73515,
@@ -4410,7 +4429,7 @@
    "verify": "подтверждена"
   },
   {
-   "name": "MAP_170_124D4_6",
+   "name": "MAP_171_124D4_6",
    "layout": "bosch_header",
    "addr": 74964,
    "data_addr": 74971,
@@ -4429,7 +4448,7 @@
    "dmax": 107
   },
   {
-   "name": "MAP_171_128BD_21",
+   "name": "MAP_172_128BD_21",
    "layout": "bosch_header",
    "addr": 75965,
    "data_addr": 76008,
@@ -4502,7 +4521,7 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "MAP_174_14915_6",
+   "name": "MAP_175_14915_6",
    "layout": "bosch_header",
    "addr": 84245,
    "data_addr": 84258,
@@ -4656,58 +4675,23 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "DZWOAGR",
-   "layout": "bare_grid",
-   "addr": 84377,
-   "data_addr": 84377,
+   "name": "MAP_181_14998_10",
+   "layout": "bosch_header",
+   "addr": 84376,
+   "data_addr": 84387,
    "kind": "2d",
    "nx": 10,
    "ny": 1,
    "axis_width": 1,
-   "data_width": 1,
-   "end": 84387,
-   "source": "damos",
-   "confidence": "подтверждена",
-   "note": "AGR-rate-dependent offset of optimum ignition angle",
-   "score": 1.0,
-   "refs": 0,
-   "signed": true,
-   "factor": 0.75,
-   "shift": 0.0,
-   "unit": "grad KW",
-   "conv": "zw_sb_q0p75",
-   "x_unit": "%",
-   "y_unit": "",
-   "damos_addr": 84354,
-   "how": "структурно",
-   "verify": "нечего проверять"
-  },
-  {
-   "name": "DZWOM",
-   "layout": "bare_grid",
-   "addr": 84399,
-   "data_addr": 84399,
-   "kind": "2d",
-   "nx": 5,
-   "ny": 1,
-   "axis_width": 1,
-   "data_width": 1,
-   "end": 84404,
-   "source": "damos-вероятно",
+   "data_width": 2,
+   "end": 84407,
+   "source": "mapscan",
    "confidence": "вероятная",
-   "note": "temperature-dependent offset of optimum ignition angle",
-   "score": 0.5,
-   "refs": 0,
-   "signed": true,
-   "factor": 0.75,
-   "shift": 0.0,
-   "unit": "grad KW",
-   "conv": "zw_sb_q0p75",
-   "x_unit": "Grad C",
-   "y_unit": "",
-   "damos_addr": 84398,
-   "how": "выравнивание",
-   "verify": "нечего проверять"
+   "note": "",
+   "score": 0.5642456082627604,
+   "refs": 17,
+   "dmin": 0,
+   "dmax": 40
   },
   {
    "name": "MAP_182_149B8_10",
@@ -5944,10 +5928,10 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 88717,
-   "source": "damos",
-   "confidence": "подтверждена",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "Time until hard LC switch on after start (CARB)",
-   "score": 1.0,
+   "score": 0.5,
    "refs": 0,
    "signed": false,
    "factor": 0.1,
@@ -5958,7 +5942,7 @@
    "y_unit": "",
    "damos_addr": 88862,
    "how": "структурно",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "LALIUSH",
@@ -5971,8 +5955,8 @@
    "axis_width": 1,
    "data_width": 2,
    "end": 88747,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "lambda linearization, sensor behind catalyst",
    "score": 0.5,
    "refs": 0,
@@ -5985,7 +5969,7 @@
    "y_unit": "",
    "damos_addr": 88890,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "LALIUSRH",
@@ -6025,10 +6009,10 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 88796,
-   "source": "damos",
-   "confidence": "подтверждена",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "Rating of factor fkatei from %TEB to optimize the regulation parameter",
-   "score": 1.0,
+   "score": 0.5,
    "refs": 0,
    "signed": false,
    "factor": 0.0078125,
@@ -6039,7 +6023,7 @@
    "y_unit": "",
    "damos_addr": 88790,
    "how": "структурно",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "ZLASOHML",
@@ -6052,8 +6036,8 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 88815,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "time constant for PT1-filter of the pseude lambda behind catalyst",
    "score": 0.5,
    "refs": 0,
@@ -6066,7 +6050,7 @@
    "y_unit": "",
    "damos_addr": 88970,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "RLSALUN_0_A",
@@ -10870,10 +10854,10 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 100590,
-   "source": "damos",
-   "confidence": "подтверждена",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "MAP for Nernst resistor post cat",
-   "score": 1.0,
+   "score": 0.5,
    "refs": 0,
    "signed": false,
    "factor": 8.0,
@@ -10884,7 +10868,7 @@
    "y_unit": "-",
    "damos_addr": 100558,
    "how": "структурно",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "KFTPKOR",
@@ -11730,7 +11714,7 @@
    "dmax": 145
   },
   {
-   "name": "KFLASKH",
+   "name": "KFLMSKH",
    "layout": "bare_grid",
    "addr": 101626,
    "data_addr": 101626,
@@ -11742,7 +11726,7 @@
    "end": 101690,
    "source": "damos-точно",
    "confidence": "подтверждена",
-   "note": "Performance characteristics lambda exhaust nominal at catalyst heating",
+   "note": "Performance characteristics lambda engine nominal at catalyst heating",
    "score": 1.0,
    "refs": 0,
    "signed": false,
@@ -11752,8 +11736,8 @@
    "conv": "fak_ub_b2",
    "x_unit": "Upm",
    "y_unit": "%",
-   "damos_addr": 101546,
-   "how": "выравнивание",
+   "damos_addr": 101628,
+   "how": "структурно",
    "verify": "подтверждена"
   },
   {
@@ -13378,31 +13362,23 @@
    "verify": "подтверждена"
   },
   {
-   "name": "FQTEDL",
-   "layout": "bare_grid",
-   "addr": 104185,
-   "data_addr": 104185,
+   "name": "MAP_521_196F8_5",
+   "layout": "bosch_header",
+   "addr": 104184,
+   "data_addr": 104190,
    "kind": "2d",
    "nx": 5,
    "ny": 1,
    "axis_width": 1,
    "data_width": 1,
-   "end": 104190,
-   "source": "damos",
-   "confidence": "подтверждена",
-   "note": "Factor for exponential decrease of flow rate",
-   "score": 1.0,
-   "refs": 0,
-   "signed": false,
-   "factor": 0.0078125,
-   "shift": 0.0,
-   "unit": "-",
-   "conv": "fak_ub_b2",
-   "x_unit": "-",
-   "y_unit": "",
-   "damos_addr": 104133,
-   "how": "структурно",
-   "verify": "нечего проверять"
+   "end": 104195,
+   "source": "mapscan",
+   "confidence": "вероятная",
+   "note": "",
+   "score": 0.6524356617647059,
+   "refs": 15,
+   "dmin": 35,
+   "dmax": 55
   },
   {
    "name": "FQTEVA",
@@ -13415,8 +13391,8 @@
    "axis_width": 1,
    "data_width": 1,
    "end": 104202,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "progression of purge rate controller",
    "score": 0.5,
    "refs": 0,
@@ -13429,7 +13405,7 @@
    "y_unit": "",
    "damos_addr": 104144,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "MAP_523_19719_8",
@@ -15348,10 +15324,10 @@
    "axis_width": 1,
    "data_width": 2,
    "end": 112813,
-   "source": "damos",
-   "confidence": "подтверждена",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "evaluation factor of I-part of LRHK, f(dlashkm)",
-   "score": 1.0,
+   "score": 0.5,
    "refs": 0,
    "signed": true,
    "factor": 3.0517578125e-05,
@@ -15362,7 +15338,7 @@
    "y_unit": "",
    "damos_addr": 112814,
    "how": "структурно",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "MAP_602_1B8C0_5",
@@ -15856,8 +15832,8 @@
    "axis_width": 1,
    "data_width": 2,
    "end": 114019,
-   "source": "damos-вероятно",
-   "confidence": "вероятная",
+   "source": "damos-сомнительно",
+   "confidence": "неоднозначная",
    "note": "integration speed integrator rkat, f(abo)",
    "score": 0.5,
    "refs": 0,
@@ -15870,7 +15846,7 @@
    "y_unit": "",
    "damos_addr": 114012,
    "how": "выравнивание",
-   "verify": "нечего проверять"
+   "verify": "неоднозначно"
   },
   {
    "name": "ZKRKAZA",
@@ -15900,31 +15876,23 @@
    "verify": "нечего проверять"
   },
   {
-   "name": "DLBTS",
-   "layout": "bare_grid",
-   "addr": 114037,
-   "data_addr": 114037,
+   "name": "MAP_623_1BD71_5",
+   "layout": "bosch_header",
+   "addr": 114033,
+   "data_addr": 114044,
    "kind": "2d",
-   "nx": 8,
+   "nx": 5,
    "ny": 1,
-   "axis_width": 1,
-   "data_width": 1,
-   "end": 114045,
-   "source": "damos",
-   "confidence": "подтверждена",
-   "note": "Delta nominal Lambda for component protection",
-   "score": 1.0,
+   "axis_width": 2,
+   "data_width": 2,
+   "end": 114054,
+   "source": "mapscan",
+   "confidence": "вероятная",
+   "note": "",
+   "score": 0.5326925448108767,
    "refs": 0,
-   "signed": true,
-   "factor": 0.0078125,
-   "shift": 0.0,
-   "unit": "-",
-   "conv": "fak_sb_b1",
-   "x_unit": "%",
-   "y_unit": "",
-   "damos_addr": 114154,
-   "how": "структурно",
-   "verify": "нечего проверять"
+   "dmin": 1280,
+   "dmax": 3462
   },
   {
    "name": "KLESUKKO",

@@ -106,7 +106,9 @@ def from_xfer(path: str) -> list[dict]:
         if v.get("addr") is None or v.get("width", 0) < 2:
             continue
         how, ver = v.get("how"), v.get("verify")
-        if how == "структурно":
+        if v.get("ambiguous"):
+            src, conf = "damos-сомнительно", "неоднозначная"
+        elif how == "структурно":
             src = "damos-точно" if ver == "подтверждена" else "damos"
             conf = "подтверждена"
         elif ver == "подтверждена":

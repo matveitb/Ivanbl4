@@ -101,43 +101,44 @@ FZNWN7;0x1113C;0x1113C;голая сетка;2d;16;1;8;0.001953125;-0.75;;вер
 KFWHSTT;0x11156;0x11156;голая сетка;3d;6;6;8;0.0078125;;-;вероятная;damos-вероятно;map weighting of hot start factor
 KFWKSTN;0x11184;0x11184;голая сетка;3d;4;4;8;0.00390625;;-;вероятная;damos-вероятно;map weighting of factor cold start
 KFWKSTT;0x111A8;0x111A8;голая сетка;3d;6;12;8;0.0078125;;-;подтверждена;damos-точно;map weighting of factor cold start
-PLRHAV;0x111F1;0x111F1;голая сетка;2d;8;1;8;0.00390625;;-;подтверждена;damos;Weighting factor of P-part LRHK depending on catalyst age
-FWSTAA1;0x11205;0x11205;голая сетка;2d;6;1;8;0.0078125;;-;вероятная;damos-вероятно;afterstart correction
-FWSTAB1;0x1120B;0x1120B;голая сетка;2d;6;1;8;0.0078125;;-;вероятная;damos-вероятно;weighting afterstart decrease range 1
-FWSTAB2;0x11211;0x11211;голая сетка;2d;6;1;8;0.0078125;;-;вероятная;damos-вероятно;weighting afterstart decrease range 2
-FWSTAB3;0x11217;0x11217;голая сетка;2d;6;1;8;0.0078125;;-;вероятная;damos-вероятно;weighting afterstart decrease range 3
-FWSTAS1;0x1121D;0x1121D;голая сетка;2d;6;1;8;0.0078125;;-;вероятная;damos-вероятно;correction of threshold 1 for afterstart
+PLRHAV;0x111F1;0x111F1;голая сетка;2d;8;1;8;0.00390625;;-;неоднозначная;damos-сомнительно;Weighting factor of P-part LRHK depending on catalyst age
+FWSTAA1;0x11205;0x11205;голая сетка;2d;6;1;8;0.0078125;;-;неоднозначная;damos-сомнительно;afterstart correction
+FWSTAB1;0x1120B;0x1120B;голая сетка;2d;6;1;8;0.0078125;;-;неоднозначная;damos-сомнительно;weighting afterstart decrease range 1
+FWSTAB2;0x11211;0x11211;голая сетка;2d;6;1;8;0.0078125;;-;неоднозначная;damos-сомнительно;weighting afterstart decrease range 2
+FWSTAB3;0x11217;0x11217;голая сетка;2d;6;1;8;0.0078125;;-;неоднозначная;damos-сомнительно;weighting afterstart decrease range 3
+FWSTAS1;0x1121D;0x1121D;голая сетка;2d;6;1;8;0.0078125;;-;неоднозначная;damos-сомнительно;correction of threshold 1 for afterstart
 FWSTAS2;0x11223;0x11223;голая сетка;2d;6;1;8;0.0078125;;-;вероятная;damos-вероятно;correction of threshold 2 for afterstart
 LZFUER;0x1122D;0x1122D;голая сетка;2d;8;1;8;1;;;вероятная;damos-вероятно;guide cylinder assignment
-KFNSWRL;0x11239;0x11239;голая сетка;3d;6;8;8;0.0078125;;-;подтверждена;damos-точно;weighting of afterstart enrichment
+WKRLZOF;0x11235;0x11235;голая сетка;2d;8;1;8;-0.75;;grad KW;вероятная;damos-вероятно;Bloc of fixed values: ignition reatard offset for guided cylinder
+WDKNLN;0x1124E;0x1124E;голая сетка;2d;6;1;8;0.39215686;;% DK;вероятная;damos-вероятно;limp home throttle plate angle
 KFDMDN1;0x1126F;0x1126F;голая сетка;3d;4;5;8;0.390625;;%;сомнительная;damos-сомнительно;Torque reduction at downshift by 1 gear
 KFDMUP;0x1128E;0x1128E;голая сетка;3d;4;5;8;0.390625;;%;сомнительная;damos-сомнительно;Torque reduction at shift up
 FHSTT;0x112BA;0x112BA;голая сетка;2d;6;1;8;0.25;;-;вероятная;damos-вероятно;factor hot start
-MAP_114_112C2_14;0x112C2;0x112D1;с заголовком;2d;14;1;8;;;;вероятная;mapscan;
-GRID_115_112DF_4x49;0x112DF;0x112DF;голая сетка;3d;4;49;8;;;;вероятная;gridscan;константная таблица (все значения 128)
-MAP_116_113A3_14x14;0x113A3;0x113C1;с заголовком;3d;14;14;16;;;;вероятная;mapscan;
+MAP_115_112C2_14;0x112C2;0x112D1;с заголовком;2d;14;1;8;;;;вероятная;mapscan;
+GRID_116_112DF_4x49;0x112DF;0x112DF;голая сетка;3d;4;49;8;;;;вероятная;gridscan;константная таблица (все значения 128)
+MAP_117_113A3_14x14;0x113A3;0x113C1;с заголовком;3d;14;14;16;;;;вероятная;mapscan;
 TKOAMXN;0x11550;0x11550;голая сетка;2d;8;1;8;0.2;;s;вероятная;damos-вероятно;maximum shutdown time for air-conditioning compressor
 TKOEMNN;0x11558;0x11558;голая сетка;2d;8;1;8;0.2;;s;вероятная;damos-вероятно;minimal time of air-condition compressor beeing swiched on
-MAP_119_11567_8;0x11567;0x11570;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
+MAP_120_11567_8;0x11567;0x11570;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
 FVRMDYN;0x11579;0x11579;голая сетка;2d;5;1;8;0.03125;;-;вероятная;damos-вероятно;dynamic factor for purge flow in the manifold with fresh air
-FVERMN;0x11581;0x11581;голая сетка;2d;6;1;8;0.00390625;;-;подтверждена;damos;characteristic line: filter factor for purge flow in the manifold with fresh air
-MAP_122_11595_8;0x11595;0x1159E;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
-MAP_123_115EC_7;0x115EC;0x115F4;с заголовком;2d;7;1;8;;;;вероятная;mapscan;
-MAP_124_115FB_7;0x115FB;0x11603;с заголовком;2d;7;1;8;;;;вероятная;mapscan;
+MAP_122_11580_6;0x11580;0x11587;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
+MAP_123_11595_8;0x11595;0x1159E;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
+MAP_124_115EC_7;0x115EC;0x115F4;с заголовком;2d;7;1;8;;;;вероятная;mapscan;
+MAP_125_115FB_7;0x115FB;0x11603;с заголовком;2d;7;1;8;;;;вероятная;mapscan;
 FAGRH;0x11612;0x11612;голая сетка;2d;4;1;8;0.0078125;;-;вероятная;damos-вероятно;altitude correction of EGR set value
-MAP_126_11616_8;0x11616;0x1161F;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
-MAP_127_11673_6;0x11673;0x1167A;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
-MAP_128_1168B_6;0x1168B;0x11692;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
-MAP_129_11698_12;0x11698;0x116A5;с заголовком;2d;12;1;8;;;;вероятная;mapscan;
-MAP_130_116B2_6x6;0x116B2;0x116C0;с заголовком;3d;6;6;8;;;;вероятная;mapscan;
-MAP_131_116E5_4;0x116E5;0x116EA;с заголовком;2d;4;1;8;;;;вероятная;mapscan;
+MAP_127_11616_8;0x11616;0x1161F;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
+MAP_128_11673_6;0x11673;0x1167A;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
+MAP_129_1168B_6;0x1168B;0x11692;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
+MAP_130_11698_12;0x11698;0x116A5;с заголовком;2d;12;1;8;;;;вероятная;mapscan;
+MAP_131_116B2_6x6;0x116B2;0x116C0;с заголовком;3d;6;6;8;;;;вероятная;mapscan;
+MAP_132_116E5_4;0x116E5;0x116EA;с заголовком;2d;4;1;8;;;;вероятная;mapscan;
 KFAGRS;0x1171F;0x1171F;голая сетка;3d;12;16;8;0.01953125;;V;подтверждена;damos-точно;map EGR set value, camshaft position late
-MAP_133_11986_5x6;0x11986;0x11993;с заголовком;3d;5;6;8;;;;вероятная;mapscan;
+MAP_134_11986_5x6;0x11986;0x11993;с заголовком;3d;5;6;8;;;;вероятная;mapscan;
 KFAGRI;0x119B2;0x119B2;голая сетка;3d;7;7;8;0.03125;;1/s;сомнительная;damos-сомнительно;I component map of EGR controller
 KFAGRP;0x119E3;0x119E3;голая сетка;3d;7;7;8;0.00390625;;-;сомнительная;damos-сомнительно;P component map of EGR controller
-MAP_136_11A1A_6;0x11A1A;0x11A21;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
+MAP_137_11A1A_6;0x11A1A;0x11A21;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
 SUA08FEUB;0x11A2D;0x11A2D;голая сетка;2d;7;1;8;1;;;подтверждена;damos;
-MAP_138_11A40_10x10;0x11A40;0x11A56;с заголовком;3d;10;10;8;;;;вероятная;mapscan;
+MAP_139_11A40_10x10;0x11A40;0x11A56;с заголовком;3d;10;10;8;;;;вероятная;mapscan;
 FFTEV6;0x11ABB;0x11ABB;голая сетка;2d;2;1;8;1;;;вероятная;damos-вероятно;freeze frame table: injector power stage 6
 FFTFRAO;0x11ABD;0x11ABD;голая сетка;2d;2;1;8;1;;;вероятная;damos-вероятно;freeze frame table: FRAO mixture adaptation
 FFTFRAU;0x11ABF;0x11ABF;голая сетка;2d;2;1;8;1;;;вероятная;damos-вероятно;freeze frame table: FRAU mixture adaptation
@@ -150,7 +151,7 @@ FFTHSVE;0x11ACB;0x11ACB;голая сетка;2d;2;1;8;1;;;вероятная;da
 FFTKAT;0x11ACD;0x11ACD;голая сетка;2d;2;1;8;1;;;вероятная;damos-вероятно;Freeze frame table: catalyst
 FFTKOSE;0x11ACF;0x11ACF;голая сетка;2d;2;1;8;1;;;вероятная;damos-вероятно;Freeze frame table: A/C compressor control power stage
 FFTKPE;0x11AD1;0x11AD1;голая сетка;2d;2;1;8;1;;;вероятная;damos-вероятно;Freeze frame table: fuel pump relay power stage
-MAP_151_11AD4_16x12;0x11AD4;0x11AF2;с заголовком;3d;16;12;16;;;;вероятная;mapscan;
+MAP_152_11AD4_16x12;0x11AD4;0x11AF2;с заголовком;3d;16;12;16;;;;вероятная;mapscan;
 KFLUAR2;0x11CB0;0x11CB0;голая сетка;3d;8;8;8;1;;(Umdr./sec)^2;сомнительная;damos-сомнительно;map for engine roughness distance reference value
 KFLUARZ;0x11CF0;0x11CF0;голая сетка;3d;8;8;8;1;;(Umdr./sec)^2;сомнительная;damos-сомнительно;map for engine roughness distance reference value at ZAS (cylinder cut-off)
 DLURMIN;0x11D30;0x11D30;голая сетка;2d;8;1;8;1;;(Umdr./sec)^2;вероятная;damos-вероятно;speed dependensy of engine roughness referenz minimum value 1
@@ -158,7 +159,7 @@ KFDLUR1;0x11DB9;0x11DB9;голая сетка;3d;8;8;8;1;;(Umdr./sec)^2;сомн
 KFDLUR2;0x11DF9;0x11DF9;голая сетка;3d;8;8;8;1;;(Umdr./sec)^2;сомнительная;damos-сомнительно;map engine roughness difference dluts referenz value
 KFDLURZ;0x11E39;0x11E39;голая сетка;3d;8;8;8;1;;(Umdr./sec)^2;подтверждена;damos-точно;map engine roughness difference dluts referenz value at ZAS (cylinder cut-off)
 ANALUN;0x11E91;0x11E91;голая сетка;2d;8;1;8;1;;;вероятная;damos-вероятно;number of combustions for deactivation after detected misfire
-MAP_159_11F22_8;0x11F22;0x11F2B;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
+MAP_160_11F22_8;0x11F22;0x11F2B;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
 KFLURB1;0x11FDE;0x11FDE;голая сетка;3d;8;8;8;1;;(Umdr./sec)^2;сомнительная;damos-сомнительно;map for engine roughness - reference base value
 KFLURB2;0x1201E;0x1201E;голая сетка;3d;8;8;8;1;;(Umdr./sec)^2;вероятная;damos-вероятно;map for engine roughness - reference base value
 KFLURBZ;0x1205E;0x1205E;голая сетка;3d;8;8;8;1;;(Umdr./sec)^2;сомнительная;damos-сомнительно;map for engine roughness base value, in case of ZAS
@@ -169,18 +170,17 @@ LURMIN2;0x1216E;0x1216E;голая сетка;2d;8;1;8;1;;(Umdr./sec)^2;веро
 LURMIN3;0x12176;0x12176;голая сетка;2d;8;1;8;1;;(Umdr./sec)^2;вероятная;damos-вероятно;speed dependensy of engine roughness referenz minimum value 3
 KFKSWF;0x12192;0x12192;голая сетка;3d;6;6;8;1;;;вероятная;damos-вероятно;map for catalyst protection, weighting factors
 KFFWK_0_A;0x1223F;0x1223F;голая сетка;3d;16;24;8;0.0078125;;-;подтверждена;damos-точно;factors - characteristic map for KFWK
-MAP_170_124D4_6;0x124D4;0x124DB;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
-MAP_171_128BD_21;0x128BD;0x128E8;с заголовком;2d;21;1;16;;;;вероятная;mapscan;
+MAP_171_124D4_6;0x124D4;0x124DB;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
+MAP_172_128BD_21;0x128BD;0x128E8;с заголовком;2d;21;1;16;;;;вероятная;mapscan;
 SAN12ESUW;0x148B8;0x148B8;голая сетка;2d;12;1;8;1;;;вероятная;damos-вероятно;Distribution for the limited injection counter anztib_w
 SNM16OPUW;0x148D2;0x148D2;голая сетка;2d;16;1;8;1;;;вероятная;damos-вероятно;set point distribution engine speed
-MAP_174_14915_6;0x14915;0x14922;с заголовком;2d;6;1;16;;;;вероятная;mapscan;
+MAP_175_14915_6;0x14915;0x14922;с заголовком;2d;6;1;16;;;;вероятная;mapscan;
 NDFILOG;0x14934;0x14934;голая сетка;2d;6;1;8;0.25;;U/min;вероятная;damos-вероятно;Threshold for filter output ndfil
 TVKUPHS;0x14940;0x14940;голая сетка;2d;6;1;8;0.01;;s;вероятная;damos-вероятно;delay time for clutch switch during shifting in higher gear
 TVKUPRS;0x1494C;0x1494C;голая сетка;2d;6;1;8;0.01;;s;вероятная;damos-вероятно;delay time for clutch switch during shifting in lower gear
 DETANN;0x14959;0x14959;голая сетка;2d;10;1;8;0.001953125;;%;вероятная;damos-вероятно;negative change limitation of etazwvg for each 10ms
 DETAPN;0x14979;0x14979;голая сетка;2d;10;1;8;0.001953125;;%;вероятная;damos-вероятно;Positive change limitation of etazwvg for each 10ms
-DZWOAGR;0x14999;0x14999;голая сетка;2d;10;1;8;0.75;;grad KW;подтверждена;damos;AGR-rate-dependent offset of optimum ignition angle
-DZWOM;0x149AF;0x149AF;голая сетка;2d;5;1;8;0.75;;grad KW;вероятная;damos-вероятно;temperature-dependent offset of optimum ignition angle
+MAP_181_14998_10;0x14998;0x149A3;с заголовком;2d;10;1;16;;;;вероятная;mapscan;
 MAP_182_149B8_10;0x149B8;0x149C3;с заголовком;2d;10;1;16;;;;вероятная;mapscan;
 MAP_183_149D8_10;0x149D8;0x149E3;с заголовком;2d;10;1;16;;;;вероятная;mapscan;
 MAP_184_14A11_10;0x14A11;0x14A26;с заголовком;2d;10;1;16;;;;вероятная;mapscan;
@@ -236,11 +236,11 @@ LLSPMSN;0x156F9;0x156F9;голая сетка;2d;16;1;16;0.0015258789;;%;под�
 MSNLLSP;0x1573B;0x1573B;голая сетка;2d;16;1;16;0.0015625;;kg/h;вероятная;damos-вероятно;chara. line standardised air mass flow dependent on ISA position
 KFMSNTAG;0x1579A;0x1579A;голая сетка;3d;12;10;8;0.1;;kg/h;подтверждена;damos-точно;EGR mass flow standardised
 TLRVAMW;0x15A78;0x15A78;голая сетка;2d;8;1;8;0.02;;s;вероятная;damos-вероятно;blocking time for activation LC after VA (word)
-TLRZWTMS;0x15A89;0x15A89;голая сетка;2d;4;1;8;0.1;;s;подтверждена;damos;Time until hard LC switch on after start (CARB)
-LALIUSH;0x15A97;0x15A97;голая сетка;2d;10;1;16;0.00024414062;;-;вероятная;damos-вероятно;lambda linearization, sensor behind catalyst
+TLRZWTMS;0x15A89;0x15A89;голая сетка;2d;4;1;8;0.1;;s;неоднозначная;damos-сомнительно;Time until hard LC switch on after start (CARB)
+LALIUSH;0x15A97;0x15A97;голая сетка;2d;10;1;16;0.00024414062;;-;неоднозначная;damos-сомнительно;lambda linearization, sensor behind catalyst
 LALIUSRH;0x15AC1;0x15AC1;голая сетка;2d;10;1;16;0.00024414062;;-;вероятная;damos-вероятно;lambda linearization, sensor behind catalyst
-FLRFKATE;0x15AD7;0x15AD7;голая сетка;2d;5;1;8;0.0078125;;-;подтверждена;damos;Rating of factor fkatei from %TEB to optimize the regulation parameter
-ZLASOHML;0x15AE7;0x15AE7;голая сетка;2d;8;1;8;1;;s;вероятная;damos-вероятно;time constant for PT1-filter of the pseude lambda behind catalyst
+FLRFKATE;0x15AD7;0x15AD7;голая сетка;2d;5;1;8;0.0078125;;-;неоднозначная;damos-сомнительно;Rating of factor fkatei from %TEB to optimize the regulation parameter
+ZLASOHML;0x15AE7;0x15AE7;голая сетка;2d;8;1;8;1;;s;неоднозначная;damos-сомнительно;time constant for PT1-filter of the pseude lambda behind catalyst
 RLSALUN_0_A;0x15B20;0x15B20;голая сетка;2d;8;1;8;0.75;;%;вероятная;damos-вероятно;threshold load fuel cut-off detection for deactivating misfire detection
 NGALU_0_A;0x15B28;0x15B28;голая сетка;2d;8;1;8;0.39063;;U/min/s;вероятная;damos-вероятно;Misfire Detection : treshold for gradient of engine speed
 NGKRWN;0x15B4A;0x15B4A;голая сетка;2d;16;1;8;0.39063;;U/min/s;вероятная;damos-вероятно;threshold revolution gradient for dynamics detection
@@ -422,7 +422,7 @@ KLATMLAE;0x1889A;0x1889A;голая сетка;2d;6;1;8;0.00390625;;-;вероя
 KLATMZWE;0x188A0;0x188A0;голая сетка;2d;6;1;8;0.00390625;;-;вероятная;damos-вероятно;Temperature of the exotherme decrease in cat during ignition retard tkatm
 FRINH1;0x188C0;0x188C0;голая сетка;2d;5;1;8;0.25;;-;подтверждена;damos;Multiplication factor for RIN nominal value downstream of the catalyzer
 MAP_422_188CA_5;0x188CA;0x188D0;с заголовком;2d;5;1;8;;;;вероятная;mapscan;
-KFRINH;0x188DF;0x188DF;голая сетка;3d;3;5;8;8;;Ohm;подтверждена;damos;MAP for Nernst resistor post cat
+KFRINH;0x188DF;0x188DF;голая сетка;3d;3;5;8;8;;Ohm;неоднозначная;damos-сомнительно;MAP for Nernst resistor post cat
 KFTPKOR;0x18907;0x18907;голая сетка;3d;7;8;8;0.0078125;;-;подтверждена;damos-точно;correction map for the measured cycle duration TP (tpsvkof)
 FFRITMS;0x1898F;0x1898F;голая сетка;2d;4;1;8;0.00390625;;-;подтверждена;damos;tmst dependent factor to modify I-dynamic of lambda control
 KFRI;0x18997;0x18997;голая сетка;3d;6;7;8;0.3058104;;%/s;подтверждена;damos-точно;I characteristic map
@@ -456,7 +456,7 @@ MAP_453_18C7C_8;0x18C7C;0x18C85;с заголовком;2d;8;1;8;;;;вероят
 MAP_454_18CCE_4;0x18CCE;0x18CD3;с заголовком;2d;4;1;8;;;;вероятная;mapscan;
 KFEKWTMP;0x18CD7;0x18CD7;голая сетка;3d;4;4;8;0.5;;%;подтверждена;damos-точно;characteristic diagram efficiency while keeping catalyst warm
 MAP_456_18CE9_8;0x18CE9;0x18CF2;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
-KFLASKH;0x18CFA;0x18CFA;голая сетка;3d;8;8;8;0.0078125;;-;подтверждена;damos-точно;Performance characteristics lambda exhaust nominal at catalyst heating
+KFLMSKH;0x18CFA;0x18CFA;голая сетка;3d;8;8;8;0.0078125;;-;подтверждена;damos-точно;Performance characteristics lambda engine nominal at catalyst heating
 MAP_458_18D3B_8;0x18D3B;0x18D44;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
 LMSTMOT;0x18D4D;0x18D4D;голая сетка;2d;4;1;8;0.0078125;;-;вероятная;damos-вероятно;tmot-correction of lambda engine nominal
 KEMLN;0x18D5D;0x18D5D;голая сетка;2d;16;1;8;0.75;;Grad KW;вероятная;damos-вероятно;length of the sampling window for knock control
@@ -520,8 +520,8 @@ FMRFAZTE;0x19457;0x19457;голая сетка;2d;4;1;8;0.015625;;-;вероят
 FBZFRAT;0x19464;0x19464;голая сетка;2d;5;1;8;0.00390625;;-;вероятная;damos-вероятно;weighting factor for integration speed KFFRAT as f(abo)
 KFFDLBTS;0x194A1;0x194A1;голая сетка;3d;16;12;8;0.0078125;;-;сомнительная;damos-сомнительно;Factor delta nominal Lambda for component protection
 KFLBTS;0x19636;0x19636;голая сетка;3d;16;12;8;0.0078125;;-;подтверждена;damos-точно;Nominal Lambda for component protection
-FQTEDL;0x196F9;0x196F9;голая сетка;2d;5;1;8;0.0078125;;-;подтверждена;damos;Factor for exponential decrease of flow rate
-FQTEVA;0x19704;0x19704;голая сетка;2d;6;1;8;0.0625;;-;вероятная;damos-вероятно;progression of purge rate controller
+MAP_521_196F8_5;0x196F8;0x196FE;с заголовком;2d;5;1;8;;;;вероятная;mapscan;
+FQTEVA;0x19704;0x19704;голая сетка;2d;6;1;8;0.0625;;-;неоднозначная;damos-сомнительно;progression of purge rate controller
 MAP_523_19719_8;0x19719;0x19722;с заголовком;2d;8;1;8;;;;вероятная;mapscan;
 KFTKONS;0x1972A;0x1972A;голая сетка;3d;8;8;8;1;;s;подтверждена;damos-точно;A/C switch-on delay time (morning brake sharpness)
 MAP_525_1976E_6;0x1976E;0x19775;с заголовком;2d;6;1;8;;;;вероятная;mapscan;
@@ -600,7 +600,7 @@ ZATMRML;0x1B739;0x1B739;голая сетка;2d;7;1;8;1;;s;вероятная;d
 THSHKTK;0x1B807;0x1B807;голая сетка;2d;8;1;8;3.9062e-05;0.05;s;вероятная;damos-вероятно;Line for switch off time of lambda sensor heating post cat dep. on temp
 THSVKTA;0x1B829;0x1B829;голая сетка;2d;8;1;8;3.9062e-05;0.05;s;вероятная;damos-вероятно;Line of switching off time for lambda sensor heating depending on exh.gas temp
 KFFRMIN;0x1B85E;0x1B85E;голая сетка;3d;5;5;16;3.0517578e-05;;-;вероятная;damos-вероятно;lower limit of control range
-KDLASHKI;0x1B899;0x1B899;голая сетка;2d;10;1;16;3.0517578e-05;;-;подтверждена;damos;evaluation factor of I-part of LRHK, f(dlashkm)
+KDLASHKI;0x1B899;0x1B899;голая сетка;2d;10;1;16;3.0517578e-05;;-;неоднозначная;damos-сомнительно;evaluation factor of I-part of LRHK, f(dlashkm)
 MAP_602_1B8C0_5;0x1B8C0;0x1B8C6;с заголовком;2d;5;1;8;;;;вероятная;mapscan;
 MAP_603_1B91F_5;0x1B91F;0x1B925;с заголовком;2d;5;1;8;;;;вероятная;mapscan;
 LAMKAML;0x1B939;0x1B939;голая сетка;2d;5;1;16;0.00024414062;;-;вероятная;damos-вероятно;lambda setpoint for catylyst deoxidation (dependent on air mass)
@@ -620,9 +620,9 @@ ZMRFABN;0x1BCDB;0x1BCDB;голая сетка;2d;5;1;8;1;;s;вероятная;d
 KFFRAT;0x1BCFA;0x1BCFA;голая сетка;3d;4;4;16;7.6293945e-05;;1/s;вероятная;damos-вероятно;load and speed dependent gradient of FRAT integrator
 ZKFRAOA;0x1BD41;0x1BD41;голая сетка;2d;3;1;16;7.6293945e-05;;1/s;вероятная;damos-вероятно;time constant for frao-integrator, f(number of starts with fuel in oil)
 ZKFRAUA;0x1BD4F;0x1BD4F;голая сетка;2d;3;1;16;7.6293945e-05;;1/s;вероятная;damos-вероятно;time constant for frau-integrator, f(number of starts with
-ZKRKATA;0x1BD5D;0x1BD5D;голая сетка;2d;3;1;16;0.014648438;;%/s;вероятная;damos-вероятно;integration speed integrator rkat, f(abo)
+ZKRKATA;0x1BD5D;0x1BD5D;голая сетка;2d;3;1;16;0.014648438;;%/s;неоднозначная;damos-сомнительно;integration speed integrator rkat, f(abo)
 ZKRKAZA;0x1BD6B;0x1BD6B;голая сетка;2d;3;1;16;0.014648438;;%/s;вероятная;damos-вероятно;integration speed integrator rkaz, f(abo)
-DLBTS;0x1BD75;0x1BD75;голая сетка;2d;8;1;8;0.0078125;;-;подтверждена;damos;Delta nominal Lambda for component protection
+MAP_623_1BD71_5;0x1BD71;0x1BD7C;с заголовком;2d;5;1;16;;;;вероятная;mapscan;
 KLESUKKO;0x1BD89;0x1BD89;голая сетка;2d;5;1;16;3.0517578e-05;;-;подтверждена;damos;Characteristic line transient compensation at A/C on
 KLKESUKFS;0x1BD99;0x1BD99;голая сетка;2d;5;1;16;3.0517578e-05;;-;вероятная;damos-вероятно;characteristic line of integration factor for trans. comp. at engaging gear(A/T)
 KLKESUKKO;0x1BDA9;0x1BDA9;голая сетка;2d;5;1;16;3.0517578e-05;;-;вероятная;damos-вероятно;characteristic line of integration factor for transient compensation at A/C on

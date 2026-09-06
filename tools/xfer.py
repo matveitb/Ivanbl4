@@ -270,7 +270,7 @@ def main(argv=None) -> int:
         e = {
             "name": v.name, "desc": v.desc, "type": v.typ,
             "src_addr": v.file_offset, "addr": addr, "how": how,
-            "verify": verdict, "data_addr": data_offset(d, v, addr) if addr is not None else None,
+            "verify": verdict, "ambiguous": False, "data_addr": data_offset(d, v, addr) if addr is not None else None,
             "width": w, "height": h, "data_width": dw,
             "signed": bool(c and c.phys_min < 0),
             "unit": c.unit if c else "",
@@ -286,8 +286,31 @@ def main(argv=None) -> int:
         }
         out.append(e)
 
+    # --- шаг 3: снять неоднозначности ------------------------------------
+    # Выравнивание может посадить две разные переменные на один адрес либо
+    # переставить соседние записи местами. Такие адреса помечаем: доверять
+    # им нельзя, даже если каждая запись по отдельности выглядит правдоподобно.
+    claims: dict[int, list[dict]] = {}
+    for e in out:
+        if e["addr"] is not None:
+            claims.setdefault(e["addr"], []).append(e)
+    ambiguous = 0
+    for addr, group in claims.items():
+        if len(group) < 2:
+            continue
+        # если одна из записей найдена структурно, она и права
+        strong = [g for g in group if g["how"] == "структурно"]
+        for g in group:
+            if strong and g in strong and len(strong) == 1:
+                continue
+            g["ambiguous"] = True
+            g["verify"] = "неоднозначно"
+            ambiguous += 1
+
     print("\nПеренос: %s" % ", ".join("%s %d" % (k, n) for k, n in stat.most_common()),
           file=sys.stderr)
+    print("Адресов, на которые претендует несколько имён: %d (записей: %d)"
+          % (sum(1 for g in claims.values() if len(g) > 1), ambiguous), file=sys.stderr)
 
     maps = [e for e in out if e["addr"] is not None and e["width"] > 1 and e["height"] > 1]
     curves = [e for e in out if e["addr"] is not None and e["width"] > 1 and e["height"] == 1]
