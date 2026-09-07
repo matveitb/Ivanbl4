@@ -15,7 +15,7 @@ fullload -- чтение и правка KFLBTS, заданной лямбды �
 
 Залить lambda 0.92 в зону низов при полном газе (строки 7..11, столбцы 3..7):
     python3 tools/fullload.py set firmware/FBH3ID60_stok.bin -o out/stock_ll.bin \
-        --lam 0.92 --rows 7:11 --cols 3:7
+        --lam 0.92 --rows 7:11 --cols 3:8
 
 После правки контрольную сумму пересчитывает tools/bosch_csum.py.
 """
@@ -96,4 +96,7 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except BrokenPipeError:      # вывод обрезан через head и подобное
+        sys.exit(0)
