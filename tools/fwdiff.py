@@ -85,11 +85,25 @@ def diff_regions(a: bytes, b: bytes, merge_gap: int = 16) -> list[Region]:
     return regions
 
 
+# Таблица контрольных сумм M7.9.7 (см. tools/bosch_csum.py)
+CSUM_TABLE = (0x1FC00, 0x20000)
+
+
 def classify(regions: list[Region]) -> None:
+    """
+    Помечать правку как контрольную сумму можно ТОЛЬКО если она попала в саму
+    таблицу сумм. Раньше сюда попадала любая мелкая изолированная правка, и
+    из-за этого настоящая находка -- отсечка по оборотам (2 байта по 0x14BB4) --
+    была подписана как "вероятно контрольная сумма".
+    """
+    lo, hi = CSUM_TABLE
     for r in regions:
-        if r.size <= 4 and r.changed_bytes <= 4:
-            r.kind = "checksum?"
-            r.note = "мелкая изолированная правка -- вероятно контрольная сумма"
+        if r.start < hi and lo < r.end:
+            r.kind = "checksum"
+            r.note = "правка внутри таблицы контрольных сумм 0x1FC00"
+        elif r.size <= 4 and r.changed_bytes <= 4:
+            r.kind = "small"
+            r.note = "мелкая изолированная правка (скаляр или порог)"
         elif r.size == 1:
             r.kind = "single"
 

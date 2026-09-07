@@ -519,7 +519,7 @@ WDKARN;0x19441;0x19441;голая сетка;2d;10;1;8;0.390625;;%;вероят�
 FMRFAZTE;0x19457;0x19457;голая сетка;2d;4;1;8;0.015625;;-;вероятная;damos-вероятно;weighting of engine speed to calculate current power
 FBZFRAT;0x19464;0x19464;голая сетка;2d;5;1;8;0.00390625;;-;вероятная;damos-вероятно;weighting factor for integration speed KFFRAT as f(abo)
 KFFDLBTS;0x194A1;0x194A1;голая сетка;3d;16;12;8;0.0078125;;-;сомнительная;damos-сомнительно;Factor delta nominal Lambda for component protection
-KFLBTS;0x19636;0x19636;голая сетка;3d;16;12;8;0.0078125;;-;подтверждена;damos-точно;Nominal Lambda for component protection
+KFLBTS;0x19636;0x19636;голая сетка;3d;16;12;8;0.0078125;;;подтверждена;профиль;Целевая лямбда защиты компонентов. Сток обогащает до 0.789 на высокой нагрузке, csok до 0.844, MPower -- 1.000 во всех 192 ячейках, то есть обогащение защиты отключено полностью.
 MAP_521_196F8_5;0x196F8;0x196FE;с заголовком;2d;5;1;8;;;;вероятная;mapscan;
 FQTEVA;0x19704;0x19704;голая сетка;2d;6;1;8;0.0625;;-;неоднозначная;damos-сомнительно;progression of purge rate controller
 MAP_523_19719_8;0x19719;0x19722;с заголовком;2d;8;1;8;;;;вероятная;mapscan;

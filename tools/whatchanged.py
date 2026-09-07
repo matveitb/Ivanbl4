@@ -111,7 +111,8 @@ def main(argv=None) -> int:
     if unnamed:
         print("\nОбласти без опознанной карты (%d):" % len(unnamed))
         for r in unnamed:
-            tag = " -- вероятно контрольная сумма" if r.kind == "checksum?" else ""
+            tag = (" -- таблица контрольных сумм" if r.kind == "checksum"
+                   else " -- мелкая правка: скаляр или порог" if r.kind == "small" else "")
             print("   0x%05X..0x%05X  %d байт%s" % (r.start, r.end, r.size, tag))
 
     if args.md:
@@ -140,7 +141,8 @@ def main(argv=None) -> int:
                 fh.write("\n## Области без опознанной карты\n\n")
                 fh.write("| Начало | Конец | Байт | Замечание |\n|---|---|---|---|\n")
                 for r in unnamed:
-                    tag = "вероятно контрольная сумма" if r.kind == "checksum?" else ""
+                    tag = ("таблица контрольных сумм" if r.kind == "checksum"
+                           else "мелкая правка: скаляр или порог" if r.kind == "small" else "")
                     fh.write("| `0x%05X` | `0x%05X` | %d | %s |\n"
                              % (r.start, r.end, r.size, tag))
             fh.write("\n> Строки с достоверностью «вероятная» или «сомнительная» "
