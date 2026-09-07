@@ -38,6 +38,10 @@ AXES = {
                      unit="%", desc="relative load, 12 points"),
     "SRL11_OP": dict(addr=0x14B70, n=11, width=2, factor=0.0234375, offset=0.0,
                      unit="%", desc="relative load for KFZWOP, 11 points"),
+    "SNM16_GK": dict(addr=0x181F7, n=16, width=1, factor=40.0, offset=0.0,
+                     unit="rpm", desc="engine speed for KFLBTS, 16 points"),
+    "SRL12_GK": dict(addr=0x1821E, n=12, width=1, factor=0.75, offset=0.0,
+                     unit="%", desc="relative load for KFLBTS, 12 points"),
 }
 
 # Какая карта какими осями пользуется: (ось строк = X, ось столбцов = Y)
@@ -46,6 +50,7 @@ MAP_AXES = {
     "KFZW2":  ("SNM16_ZU", "SRL12_ZU"),
     "KFZWMS": ("SNM16_ZU", "SRL12_ZU"),
     "KFZWOP": ("SNM16_OP", "SRL11_OP"),
+    "KFLBTS": ("SNM16_GK", "SRL12_GK"),
 }
 
 RU = {

@@ -361,6 +361,30 @@ ASAP2_VERSION 1 51
       1535.98
     /end AXIS_PTS
 
+    /begin AXIS_PTS SNM16_GK
+      "engine speed for KFLBTS, 16 points"
+      0x181F7
+      NO_INPUT_QUANTITY
+      RL_AXIS_U8
+      0
+      CM_40_0_rpm
+      16
+      0
+      10200
+    /end AXIS_PTS
+
+    /begin AXIS_PTS SRL12_GK
+      "relative load for KFLBTS, 12 points"
+      0x1821E
+      NO_INPUT_QUANTITY
+      RL_AXIS_U8
+      0
+      CM_0p75_0
+      12
+      0
+      191.25
+    /end AXIS_PTS
+
     /begin CHARACTERISTIC SGA08MDUB
       "podtverzhdena damos addr 0x10067 | base point distribution of actual gear 8 b.pt."
       CURVE
@@ -3524,21 +3548,21 @@ ASAP2_VERSION 1 51
       CM_0p0078125_0
       0
       1.99219
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_IDENTITY
-        16
-        0
-        15
-        FIX_AXIS_PAR_DIST 0 1 16
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
+        CM_0p75_0
         12
         0
-        11
-        FIX_AXIS_PAR_DIST 0 1 12
+        191.25
+        AXIS_PTS_REF SRL12_GK
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        16
+        0
+        10200
+        AXIS_PTS_REF SNM16_GK
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
