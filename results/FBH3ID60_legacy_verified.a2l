@@ -1,0 +1,4120 @@
+ASAP2_VERSION 1 51
+
+/begin PROJECT FBH3ID60 "Bosch M7.9.7 C167"
+
+  /begin HEADER "Kia Spectra 1.6 FBH3ID60"
+    VERSION "1.0"
+  /end HEADER
+
+  /begin MODULE FBH3ID60_MOD "Bosch M7.9.7"
+
+    /begin MOD_COMMON "little endian, alignment 1"
+      BYTE_ORDER MSB_LAST
+      ALIGNMENT_BYTE 1
+      ALIGNMENT_WORD 1
+      ALIGNMENT_LONG 1
+    /end MOD_COMMON
+
+    /begin COMPU_METHOD CM_IDENTITY
+      "raw values"
+      RAT_FUNC "%.3f" ""
+      COEFFS 0 1 0 0 0 1
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_40_0_rpm
+      "scale 40"
+      RAT_FUNC "%.1f" "rpm"
+      COEFFS 0 1 0 0 0 40
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p75_0
+      "scale 0.75"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.75
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0234375_0
+      "scale 0.0234375"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.0234375
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p5_0
+      "scale 0.5"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.5
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p390625_0
+      "scale 0.390625"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.390625
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p75_0_gradKW
+      "scale 0.75"
+      RAT_FUNC "%.3f" "grad KW"
+      COEFFS 0 1 0 0 0 0.75
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p00390625_0_Umin
+      "scale 0.00390625"
+      RAT_FUNC "%.3f" "%/(U/min)"
+      COEFFS 0 1 0 0 0 0.00390625
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_40_0_Upm
+      "scale 40"
+      RAT_FUNC "%.1f" "Upm"
+      COEFFS 0 1 0 0 0 40
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p03125_0
+      "scale 0.03125"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.03125
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0078125_0
+      "scale 0.0078125"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.0078125
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p1_0_ms
+      "scale 0.1"
+      RAT_FUNC "%.3f" "ms"
+      COEFFS 0 1 0 0 0 0.1
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p00390625_0
+      "scale 0.00390625"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.00390625
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p01953125_0_V
+      "scale 0.0195312"
+      RAT_FUNC "%.3f" "V"
+      COEFFS 0 1 0 0 0 0.01953125
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p78_0
+      "scale 0.78"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.78
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0001220703125_0
+      "scale 0.00012207"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.0001220703125
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p001525878906_0
+      "scale 0.00152588"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.001525878906
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p1_0_kgh
+      "scale 0.1"
+      RAT_FUNC "%.3f" "kg/h"
+      COEFFS 0 1 0 0 0 0.1
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p002666666667_0_ms
+      "scale 0.00266667"
+      RAT_FUNC "%.3f" "ms"
+      COEFFS 0 1 0 0 0 0.002666666667
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p046875_0
+      "scale 0.046875"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.046875
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_3p2_0_kgh
+      "scale 3.2"
+      RAT_FUNC "%.1f" "kg/h"
+      COEFFS 0 1 0 0 0 3.2
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_1p525878906En05_0
+      "scale 1.52588e-05"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 1.525878906e-05
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p000390625_0_kgh
+      "scale 0.000390625"
+      RAT_FUNC "%.3f" "kg/h"
+      COEFFS 0 1 0 0 0 0.000390625
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_10_0_Umin
+      "scale 10"
+      RAT_FUNC "%.1f" "U/min"
+      COEFFS 0 1 0 0 0 10
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p1960784314_0
+      "scale 0.196078"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.1960784314
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p75_48_GradC
+      "scale 0.75"
+      RAT_FUNC "%.3f" "Grad C"
+      COEFFS 0 1 48 0 0 0.75
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p3921568627_0_DK
+      "scale 0.392157"
+      RAT_FUNC "%.3f" "% DK"
+      COEFFS 0 1 0 0 0 0.3921568627
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p1_0_s
+      "scale 0.1"
+      RAT_FUNC "%.3f" "s"
+      COEFFS 0 1 0 0 0 0.1
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_5_0_GradC
+      "scale 5"
+      RAT_FUNC "%.1f" "Grad C"
+      COEFFS 0 1 0 0 0 5
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_5_50_GradC
+      "scale 5"
+      RAT_FUNC "%.1f" "Grad C"
+      COEFFS 0 1 50 0 0 5
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p25_0
+      "scale 0.25"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.25
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p3058103976_0_s
+      "scale 0.30581"
+      RAT_FUNC "%.3f" "%/s"
+      COEFFS 0 1 0 0 0 0.3058103976
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p048828125_0
+      "scale 0.0488281"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.048828125
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p02275555556_0_kg
+      "scale 0.0227556"
+      RAT_FUNC "%.3f" "kg"
+      COEFFS 0 1 0 0 0 0.02275555556
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_6_0_GradKW
+      "scale 6"
+      RAT_FUNC "%.1f" "Grad KW"
+      COEFFS 0 1 0 0 0 6
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p015625_0
+      "scale 0.015625"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.015625
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p001953125_0
+      "scale 0.00195312"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.001953125
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_4p768359375En05_0_1s
+      "scale 4.76836e-05"
+      RAT_FUNC "%.3f" "1/s"
+      COEFFS 0 1 0 0 0 4.768359375e-05
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p5_0_ms
+      "scale 0.5"
+      RAT_FUNC "%.3f" "ms"
+      COEFFS 0 1 0 0 0 0.5
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p09103840683_0_kg
+      "scale 0.0910384"
+      RAT_FUNC "%.3f" "kg"
+      COEFFS 0 1 0 0 0 0.09103840683
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p003051757812_0
+      "scale 0.00305176"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.003051757812
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0390625_0_hPa
+      "scale 0.0390625"
+      RAT_FUNC "%.3f" "hPa"
+      COEFFS 0 1 0 0 0 0.0390625
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_3p051757812En05_0
+      "scale 3.05176e-05"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 3.051757812e-05
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p125_0
+      "scale 0.125"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.125
+    /end COMPU_METHOD
+
+    /begin RECORD_LAYOUT RL_AXIS_U8
+      NO_AXIS_PTS_X 1 UBYTE
+      AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT RL_AXIS_U16
+      NO_AXIS_PTS_X 1 UBYTE
+      AXIS_PTS_X    2 UWORD INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT RL_GRID_UBYTE
+      FNC_VALUES 1 UBYTE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT RL_3D_A8_UBYTE
+      NO_AXIS_PTS_X 1 UBYTE
+      NO_AXIS_PTS_Y 2 UBYTE
+      AXIS_PTS_X    3 UBYTE INDEX_INCR DIRECT
+      AXIS_PTS_Y    4 UBYTE INDEX_INCR DIRECT
+      FNC_VALUES    5 UBYTE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT RL_GRID_SBYTE
+      FNC_VALUES 1 SBYTE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT RL_GRID_UWORD
+      FNC_VALUES 1 UWORD ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT RL_GRID_SWORD
+      FNC_VALUES 1 SWORD ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin AXIS_PTS SNM16_ZU
+      "engine speed, 16 points"
+      0x10103
+      NO_INPUT_QUANTITY
+      RL_AXIS_U8
+      0
+      CM_40_0_rpm
+      16
+      0
+      10200
+    /end AXIS_PTS
+
+    /begin AXIS_PTS SNM16_OP
+      "engine speed for KFZWOP, 16 points"
+      0x100F2
+      NO_INPUT_QUANTITY
+      RL_AXIS_U8
+      0
+      CM_40_0_rpm
+      16
+      0
+      10200
+    /end AXIS_PTS
+
+    /begin AXIS_PTS SRL12_ZU
+      "relative load, 12 points"
+      0x10157
+      NO_INPUT_QUANTITY
+      RL_AXIS_U8
+      0
+      CM_0p75_0
+      12
+      0
+      191.25
+    /end AXIS_PTS
+
+    /begin AXIS_PTS SRL11_OP
+      "relative load for KFZWOP, 11 points"
+      0x14B70
+      NO_INPUT_QUANTITY
+      RL_AXIS_U16
+      0
+      CM_0p0234375_0
+      11
+      0
+      1535.98
+    /end AXIS_PTS
+
+    /begin CHARACTERISTIC SGA08MDUB
+      "podtverzhdena damos addr 0x10067 | base point distribution of actual gear 8 b.pt."
+      CURVE
+      0x10067
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SML05DKUB
+      "podtverzhdena damos addr 0x10070 | base point distribution air mass"
+      CURVE
+      0x10070
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SML05LKUB
+      "podtverzhdena damos addr 0x10076"
+      CURVE
+      0x10076
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SML08LHUB
+      "podtverzhdena damos addr 0x1007C | ml dependet basic point (number 8)"
+      CURVE
+      0x1007C
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM05DKUB
+      "podtverzhdena damos addr 0x1008C | base point distribution nmot"
+      CURVE
+      0x1008C
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM06LLUB
+      "podtverzhdena damos addr 0x10092 | distribution of engine speed"
+      CURVE
+      0x10092
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM07LRUB
+      "podtverzhdena damos addr 0x10099"
+      CURVE
+      0x10099
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM08DMUB
+      "podtverzhdena damos addr 0x100A1 | Datapoint distribution in DMD, 8 speed datapoints"
+      CURVE
+      0x100A1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM08LHUB
+      "podtverzhdena damos addr 0x100AA | nmot dependet basic point (number 8)"
+      CURVE
+      0x100AA
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM08__UB
+      "podtverzhdena damos addr 0x100B3 | Base point distribution engine speed, 8 base points"
+      CURVE
+      0x100B3
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM10FEUB
+      "podtverzhdena damos addr 0x100BC"
+      CURVE
+      0x100BC
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM12ESUB
+      "podtverzhdena damos addr 0x100C7 | Distribution for the engine speed nmot"
+      CURVE
+      0x100C7
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM12FEUB
+      "podtverzhdena damos addr 0x100D4 | set points of WDKSMX, WDKUGDN"
+      CURVE
+      0x100D4
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM16CIUB
+      "podtverzhdena damos addr 0x100E1 | Base point distribution of engine speed, 16 base pts."
+      CURVE
+      0x100E1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM16OPUB
+      "podtverzhdena damos addr 0x100F2"
+      CURVE
+      0x100F2
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM16ZUUB
+      "podtverzhdena damos addr 0x10103 | datapoint distribution engine speed, 16 datapoints"
+      CURVE
+      0x10103
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM24ZUUB
+      "podtverzhdena damos addr 0x10114 | datapoint distribution of engine speed, 24 datapoints"
+      CURVE
+      0x10114
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        24
+        0
+        23
+        FIX_AXIS_PAR_DIST 0 1 24
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SQM05TEUB
+      "podtverzhdena damos addr 0x1012D | air mass quotient dependet basic point (number =5)"
+      CURVE
+      0x1012D
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL06LHUB
+      "podtverzhdena damos addr 0x10133"
+      CURVE
+      0x10133
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL06LRUB
+      "podtverzhdena damos addr 0x1013A"
+      CURVE
+      0x1013A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL08DMUB
+      "podtverzhdena damos addr 0x10141"
+      CURVE
+      0x10141
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL12ESUB
+      "podtverzhdena damos addr 0x1014A | Distribution for the relative air charge rl"
+      CURVE
+      0x1014A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL12ZUUB
+      "podtverzhdena damos addr 0x10157 | datapoint distribution relative air charge, 12 datapoints"
+      CURVE
+      0x10157
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL16ZUUB
+      "podtverzhdena damos addr 0x10164 | datapoint distribution relative charge, 16 datapoints"
+      CURVE
+      0x10164
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM12ESUB
+      "podtverzhdena damos addr 0x10175 | Distribution for the engine coolant temperature tmot"
+      CURVE
+      0x10175
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFETAZW
+      "podtverzhdena profil addr 0x101F4 | Karta KPD po uglu operezheniya zazhiganiya. Klassicheskiy format Bosch: zagolovok nx/ny i osi vnutri bloka."
+      MAP
+      0x101F4
+      RL_3D_A8_UBYTE
+      0
+      CM_0p5_0
+      0
+      127.5
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        255
+      /end AXIS_DESCR
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFETAZWN
+      "podtverzhdena profil addr 0x10316 | To zhe na holostom hodu."
+      MAP
+      0x10316
+      RL_3D_A8_UBYTE
+      0
+      CM_0p5_0
+      0
+      127.5
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        255
+      /end AXIS_DESCR
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMPED
+      "podtverzhdena damos-tochno addr 0x10452 | MDFAW"
+      MAP
+      0x10452
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ETALAM
+      "podtverzhdena damos addr 0x10515 | Lambda effectiveness"
+      CURVE
+      0x10515
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZWOP
+      "podtverzhdena profil addr 0x10529 | Optimalnyy ugol operezheniya zazhiganiya. Stolbcy = nagruzka (11 tochek, os SRL11OPUW), stroki = oboroty (16 tochek, os SNM16OPUB, x40 ob/min). Stok 0.75..45 grad. "
+      MAP
+      0x10529
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p0234375_0
+        11
+        0
+        1535.98
+        AXIS_PTS_REF SRL11_OP
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        16
+        0
+        10200
+        AXIS_PTS_REF SNM16_OP
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NMAXPRL
+      "podtverzhdena damos addr 0x105DB | P-element in NMAX control"
+      CURVE
+      0x105DB
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0_Umin
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NMXDAEF
+      "podtverzhdena damos addr 0x105EC | maximum permitted engine speed for throttle actuator substitute function"
+      CURVE
+      0x105EC
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      0
+      10200
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZINMAXRL
+      "podtverzhdena damos addr 0x105FA | I-gradient for NMAX control"
+      CURVE
+      0x105FA
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SBF02MFSB
+      "podtverzhdena damos addr 0x10629"
+      CURVE
+      0x10629
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKODASH
+      "podtverzhdena damos addr 0x1073B | A/C dependent line for correction factor"
+      CURVE
+      0x1073B
+      RL_GRID_UBYTE
+      0
+      CM_0p03125_0
+      0
+      7.96875
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FVDASHM
+      "podtverzhdena damos addr 0x1074C | Gain factor for dashpot"
+      CURVE
+      0x1074C
+      RL_GRID_UBYTE
+      0
+      CM_0p03125_0
+      0
+      7.96875
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMIDSH0
+      "podtverzhdena damos-tochno addr 0x1076C | torque for dashpot (geardependent)"
+      MAP
+      0x1076C
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMIDSH1
+      "podtverzhdena damos-tochno addr 0x107AC | torque for dashpot (geardependent)"
+      MAP
+      0x107AC
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMIDSH2
+      "podtverzhdena damos-tochno addr 0x107EC | torque for dashpot (geardependent)"
+      MAP
+      0x107EC
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMIDSH3
+      "podtverzhdena damos-tochno addr 0x1082C | torque for dashpot (geardependent)"
+      MAP
+      0x1082C
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZWMS
+      "podtverzhdena profil addr 0x10935 | Predelno pozdniy ugol zazhiganiya. V stoke vsya karta ravna -33 (-24.75 grad). Pravitsya tyuningom."
+      MAP
+      0x10935
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_0
+        12
+        0
+        191.25
+        AXIS_PTS_REF SRL12_ZU
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        16
+        0
+        10200
+        AXIS_PTS_REF SNM16_ZU
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZW
+      "podtverzhdena profil addr 0x109F5 | Osnovnaya karta ugla operezheniya zazhiganiya. Stolbcy = nagruzka (12 tochek, os SRL12ZUUB), stroki = oboroty (16 tochek, SNM16ZUUB). Stok -0.75..42.75 grad."
+      MAP
+      0x109F5
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_0
+        12
+        0
+        191.25
+        AXIS_PTS_REF SRL12_ZU
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        16
+        0
+        10200
+        AXIS_PTS_REF SNM16_ZU
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZW2
+      "podtverzhdena profil addr 0x10AB5 | Karta zazhiganiya, variant 2. Stok 2.25..33.75 grad."
+      MAP
+      0x10AB5
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_0
+        12
+        0
+        191.25
+        AXIS_PTS_REF SRL12_ZU
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        16
+        0
+        10200
+        AXIS_PTS_REF SNM16_ZU
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FSZTM
+      "podtverzhdena damos addr 0x10B76 | Factor dwell angle correction tmot depending"
+      CURVE
+      0x10B76
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFSZT
+      "podtverzhdena damos addr 0x10B98 | Dwell angle characteristic map"
+      MAP
+      0x10B98
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_ms
+      0
+      25.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KLMDLOAD2
+      "podtverzhdena damos addr 0x10FA3 | charact. line for torque for electrical load 2"
+      CURVE
+      0x10FA3
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FABMDWA
+      "podtverzhdena damos addr 0x10FBB | Factor to decrease the converter torque depending of nturb"
+      CURVE
+      0x10FBB
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFWKSTT
+      "podtverzhdena damos-tochno addr 0x111A8 | map weighting of factor cold start"
+      MAP
+      0x111A8
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFAGRS
+      "podtverzhdena damos-tochno addr 0x1171F | map EGR set value, camshaft position late"
+      MAP
+      0x1171F
+      RL_GRID_UBYTE
+      0
+      CM_0p01953125_0_V
+      0
+      4.98047
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SUA08FEUB
+      "podtverzhdena damos addr 0x11A2D"
+      CURVE
+      0x11A2D
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDLURZ
+      "podtverzhdena damos-tochno addr 0x11E39 | map engine roughness difference dluts referenz value at ZAS (cylinder cut-off)"
+      MAP
+      0x11E39
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFLURM1
+      "podtverzhdena damos-tochno addr 0x1211E | reference base value map for engine roughness for misfire detection"
+      MAP
+      0x1211E
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFWK_0_A
+      "podtverzhdena damos-tochno addr 0x1223F | factors - characteristic map for KFWK"
+      MAP
+      0x1223F
+      RL_GRID_SBYTE
+      0
+      CM_0p0078125_0
+      -1
+      0.992188
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        24
+        0
+        23
+        FIX_AXIS_PAR_DIST 0 1 24
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZWMN
+      "podtverzhdena profil addr 0x14DA4 | Karta minimalnogo ugla zazhiganiya. Izmenena kalibrovschikom."
+      MAP
+      0x14DA4
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZWMNST
+      "podtverzhdena damos-tochno addr 0x14EA0 | minimal ignition spark advance for engine start and after start"
+      MAP
+      0x14EA0
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZWWLNM
+      "podtverzhdena damos-tochno addr 0x14F96 | Delta ignition sparc advance during engine warm up phase"
+      MAP
+      0x14F96
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFWK_0_A
+      "podtverzhdena damos-tochno addr 0x1502E | spark-advance-angle characteristic map for knock-protection function"
+      MAP
+      0x1502E
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MDST
+      "podtverzhdena damos addr 0x1507E | Starting torque"
+      CURVE
+      0x1507E
+      RL_GRID_SBYTE
+      0
+      CM_0p78_0
+      -99.84
+      99.06
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FNSTABNV
+      "podtverzhdena damos addr 0x1509D | Factor for engine speed stabilisation by torque"
+      CURVE
+      0x1509D
+      RL_GRID_UWORD
+      0
+      CM_0p0001220703125_0
+      0
+      7.99988
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LLSPMSN
+      "podtverzhdena damos addr 0x156F9 | char. line of ISA pos. dependent on standardised air mass flow"
+      CURVE
+      0x156F9
+      RL_GRID_UWORD
+      0
+      CM_0p001525878906_0
+      0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMSNTAG
+      "podtverzhdena damos-tochno addr 0x1579A | EGR mass flow standardised"
+      MAP
+      0x1579A
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_kgh
+      0
+      25.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDYES_0_A
+      "podtverzhdena damos-tochno addr 0x15B82 | Threshold for dynamic presetting values"
+      MAP
+      0x15B82
+      RL_GRID_UBYTE
+      0
+      CM_0p0234375_0
+      0
+      5.97656
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVUB
+      "podtverzhdena damos addr 0x15E35 | voltage correction"
+      CURVE
+      0x15E35
+      RL_GRID_UBYTE
+      0
+      CM_0p002666666667_0_ms
+      0
+      0.68
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVCO
+      "podtverzhdena damos addr 0x15E87 | idle-speed potentiometer correction"
+      CURVE
+      0x15E87
+      RL_GRID_SWORD
+      0
+      CM_0p046875_0
+      -1536
+      1535.95
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DMSTES
+      "podtverzhdena damos addr 0x15EAB | characteristic line maximum increase of purge mass flow"
+      CURVE
+      0x15EAB
+      RL_GRID_UBYTE
+      0
+      CM_3p2_0_kgh
+      0
+      816
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC AGREDRLS
+      "podtverzhdena damos addr 0x15F40 | EGR-reduction depending on drlsol"
+      CURVE
+      0x15F40
+      RL_GRID_UWORD
+      0
+      CM_1p525878906En05_0
+      0
+      0.999985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MSNTATE
+      "podtverzhdena damos addr 0x15F6D | Characteristic standardized mass flow through TEV"
+      CURVE
+      0x15F6D
+      RL_GRID_UWORD
+      0
+      CM_0p000390625_0_kgh
+      0
+      25.5996
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NNSTA
+      "podtverzhdena damos addr 0x18195 | engine-speed transition normal -> start"
+      CURVE
+      0x18195
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      0
+      10200
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NSTNM
+      "podtverzhdena damos addr 0x1819C | transition start -> normal"
+      CURVE
+      0x1819C
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      0
+      10200
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SDK10TEUB
+      "podtverzhdena damos addr 0x181A2 | wdkba dependet basic point (number 10)"
+      CURVE
+      0x181A2
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SEZ06TMUB
+      "podtverzhdena damos addr 0x181AD | Datapoint distribution of ignition timing efficiency"
+      CURVE
+      0x181AD
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SFR05TEUB
+      "podtverzhdena damos addr 0x181B4 | frmit dependet basic point (number 5)"
+      CURVE
+      0x181B4
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SGA06MFUB
+      "podtverzhdena damos addr 0x181BA"
+      CURVE
+      0x181BA
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SKS06ESUB
+      "podtverzhdena damos addr 0x181C1 | Distribution for the start adaption factor kstaa"
+      CURVE
+      0x181C1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SML06TEUB
+      "podtverzhdena damos addr 0x181C8 | ml dependet basic point (number 6)"
+      CURVE
+      0x181C8
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SML06TMUB
+      "podtverzhdena damos addr 0x181CF | ml dependet basic point (number 6)"
+      CURVE
+      0x181CF
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM06LHUB
+      "podtverzhdena damos addr 0x181D6"
+      CURVE
+      0x181D6
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM06MFUB
+      "podtverzhdena damos addr 0x181DD"
+      CURVE
+      0x181DD
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM07ESUB
+      "podtverzhdena damos addr 0x181E4 | Base point distribution of engine speed, 7 base pts."
+      CURVE
+      0x181E4
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM10TEUB
+      "podtverzhdena damos addr 0x181EC | nmot dependet basic point (number 10)"
+      CURVE
+      0x181EC
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM16GKUB
+      "podtverzhdena damos addr 0x181F7 | Datapoint distribution mixture control 16 nmot datapoints"
+      CURVE
+      0x181F7
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SNM16KRUB
+      "podtverzhdena damos addr 0x18208 | datapoint distribution engine speed, 16 datapoints"
+      CURVE
+      0x18208
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL04KRUB
+      "podtverzhdena damos addr 0x18219 | datapoint distribution relative charge, 4 datapoints"
+      CURVE
+      0x18219
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL12GKUB
+      "podtverzhdena damos addr 0x1821E"
+      CURVE
+      0x1821E
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ST107TMUB
+      "podtverzhdena damos addr 0x1822B | tabgmst dependet basic point (number 7)"
+      CURVE
+      0x1822B
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ST307TMUB
+      "podtverzhdena damos addr 0x18233 | tkatmst dependet basic point (number 7)"
+      CURVE
+      0x18233
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STA06ESUB
+      "podtverzhdena damos addr 0x1823B | Distribution for the air temperature in the intake manifold"
+      CURVE
+      0x1823B
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM04__UB
+      "podtverzhdena damos addr 0x18242"
+      CURVE
+      0x18242
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM05SAUB
+      "podtverzhdena damos addr 0x18247 | base point distribution"
+      CURVE
+      0x18247
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM05TMUB
+      "podtverzhdena damos addr 0x1824D | tmst dependet basic point (number 5)"
+      CURVE
+      0x1824D
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM06LLUB
+      "podtverzhdena damos addr 0x18253 | Datapoint distribution, engine temperature, 6 datapoints"
+      CURVE
+      0x18253
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM06__UB
+      "podtverzhdena damos addr 0x1825A | Datapoint distribution, engine temperature, 6 datapoints"
+      CURVE
+      0x1825A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM08DMUB
+      "podtverzhdena damos addr 0x18261"
+      CURVE
+      0x18261
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM08LEUB
+      "podtverzhdena damos addr 0x1826A"
+      CURVE
+      0x1826A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STM09ESUB
+      "podtverzhdena damos addr 0x18273 | Base point distribution of engine temperature, 9 base pts."
+      CURVE
+      0x18273
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        9
+        0
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STS12ESUB
+      "podtverzhdena damos addr 0x1827D | Distribution for engine coolant temperature at start"
+      CURVE
+      0x1827D
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STW06MDUB
+      "podtverzhdena damos addr 0x1828A"
+      CURVE
+      0x1828A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLVMXN
+      "podtverzhdena damos addr 0x182B7 | maximum volumetric flow with open throttle valve"
+      CURVE
+      0x182B7
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      0
+      191.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        11
+        0
+        10
+        FIX_AXIS_PAR_DIST 0 1 11
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLVSMXN
+      "podtverzhdena damos addr 0x182CE | maximum volumetric flow with open throttle valve and SU"
+      CURVE
+      0x182CE
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      0
+      191.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        11
+        0
+        10
+        FIX_AXIS_PAR_DIST 0 1 11
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDMDFA
+      "podtverzhdena damos-tochno addr 0x182F5 | Map Damping ratio for filtering motors torque"
+      MAP
+      0x182F5
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDMDFAS
+      "podtverzhdena damos-tochno addr 0x18319 | Map Damping ratio for filtering motor torque on fuel feed restart"
+      MAP
+      0x18319
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDMDFAU
+      "podtverzhdena damos-tochno addr 0x1833D | Map damping ratio for filtering motor torque on low clutch torque"
+      MAP
+      0x1833D
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZMDFA
+      "podtverzhdena damos-tochno addr 0x18361 | Map time constant values for filtering motor torque"
+      MAP
+      0x18361
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZMDFAS
+      "podtverzhdena damos-tochno addr 0x18385 | Map time constant values for filtering motor torque on fuel feed restart"
+      MAP
+      0x18385
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZMDFAU
+      "podtverzhdena damos-tochno addr 0x183A9 | Map time constant values for filtering motor torque on low clutch torque"
+      MAP
+      0x183A9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC REDZEM
+      "podtverzhdena damos addr 0x183DF | threshold between ignition intervention and injector disabling"
+      CURVE
+      0x183DF
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNEVTMOD
+      "podtverzhdena damos addr 0x1847D | char.line delta desired engine speed dependent on evtmod"
+      CURVE
+      0x1847D
+      RL_GRID_UBYTE
+      0
+      CM_10_0_Umin
+      0
+      2550
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNLBZ
+      "podtverzhdena damos addr 0x1848E | Idle speed increase for battery charging balance"
+      CURVE
+      0x1848E
+      RL_GRID_UBYTE
+      0
+      CM_10_0_Umin
+      0
+      2550
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FNSSTM
+      "podtverzhdena damos addr 0x1849B | Faktor for taget engine speed during start"
+      CURVE
+      0x1849B
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NSLPP
+      "podtverzhdena damos addr 0x184B7 | Target speed depending on the pump pressure of power steerung"
+      CURVE
+      0x184B7
+      RL_GRID_UBYTE
+      0
+      CM_10_0_Umin
+      0
+      2550
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NSLPPFS
+      "podtverzhdena damos addr 0x184C0 | Target speed depending on the pump pressure of power steering with B_fs=1"
+      CURVE
+      0x184C0
+      RL_GRID_UBYTE
+      0
+      CM_10_0_Umin
+      0
+      2550
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NTANS
+      "podtverzhdena damos addr 0x184C9 | idle speed rpm tans-dependent"
+      CURVE
+      0x184C9
+      RL_GRID_UBYTE
+      0
+      CM_10_0_Umin
+      0
+      2550
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DMDKOE
+      "podtverzhdena damos addr 0x184FC | Start value of torque filter when AC is swiched on"
+      CURVE
+      0x184FC
+      RL_GRID_UBYTE
+      0
+      CM_0p1960784314_0
+      0
+      50
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMDKO
+      "podtverzhdena damos-tochno addr 0x18516 | map for torque needed for air condition"
+      MAP
+      0x18516
+      RL_GRID_UBYTE
+      0
+      CM_0p1960784314_0
+      0
+      50
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC EVTMODO
+      "podtverzhdena damos addr 0x185CD | offset for evtmod depending on filtered engine temperature"
+      CURVE
+      0x185CD
+      RL_GRID_SBYTE
+      0
+      CM_0p75_48_GradC
+      -144
+      47.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FDVANS
+      "podtverzhdena damos addr 0x185E6 | Temperature factor for air at throttle valve"
+      CURVE
+      0x185E6
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FWFTBRTA
+      "podtverzhdena damos addr 0x185F7 | Weighting for ftbr as a function of tans"
+      CURVE
+      0x185F7
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FZPUSA
+      "podtverzhdena damos addr 0x1867D | correction faktor time constant ambient pressure adaptation during fuel cut-off"
+      CURVE
+      0x1867D
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKHKDN
+      "podtverzhdena damos addr 0x18695 | High threshold throttle plate for altitude adaptation"
+      CURVE
+      0x18695
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WPUAVLN
+      "podtverzhdena damos addr 0x186AF | Throttle valve angle as of which VL ambient pressure adaptation is active"
+      CURVE
+      0x186AF
+      RL_GRID_UBYTE
+      0
+      CM_0p3921568627_0_DK
+      0
+      100
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WPUAVLSN
+      "podtverzhdena damos addr 0x186C8 | Throttle valve angle as of which VL ambient pressure adaptation is blocked"
+      CURVE
+      0x186C8
+      RL_GRID_UBYTE
+      0
+      CM_0p3921568627_0_DK
+      0
+      100
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFTAGRV
+      "podtverzhdena damos addr 0x186F6 | Factor for temperature decrease between EGR line and EGR valve"
+      MAP
+      0x186F6
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFTDAG
+      "podtverzhdena damos addr 0x18736 | Factor for temperatur decrease between EGR line and EGR induction"
+      MAP
+      0x18736
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFSU
+      "podtverzhdena damos addr 0x18775 | Load/speed performance characteristics for suction tube switchover"
+      MAP
+      0x18775
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFSU2
+      "podtverzhdena damos addr 0x187A7 | map for intake manifold switch over, flap 2"
+      MAP
+      0x187A7
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVSUM
+      "podtverzhdena damos addr 0x187D5 | delay time for intake manifold switch over in dependence of engine temperatur"
+      CURVE
+      0x187D5
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      0
+      25.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFATMLA
+      "podtverzhdena damos-tochno addr 0x18800 | map exhaust gas temperature correction = f(lambda)"
+      MAP
+      0x18800
+      RL_GRID_SBYTE
+      0
+      CM_5_0_GradC
+      -640
+      635
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFATMZW
+      "podtverzhdena damos-tochno addr 0x18824 | map exhaust gas temperature correktion = f(ignition-variation)"
+      MAP
+      0x18824
+      RL_GRID_SBYTE
+      0
+      CM_5_0_GradC
+      -640
+      635
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFTATM
+      "podtverzhdena damos-tochno addr 0x1885A | map exhaust gas temperature f(nmot,rl)"
+      MAP
+      0x1885A
+      RL_GRID_SBYTE
+      0
+      CM_5_50_GradC
+      -690
+      585
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRINH1
+      "podtverzhdena damos addr 0x188C0 | Multiplication factor for RIN nominal value downstream of the catalyzer"
+      CURVE
+      0x188C0
+      RL_GRID_UBYTE
+      0
+      CM_0p25_0
+      0
+      63.75
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFTPKOR
+      "podtverzhdena damos-tochno addr 0x18907 | correction map for the measured cycle duration TP (tpsvkof)"
+      MAP
+      0x18907
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FFRITMS
+      "podtverzhdena damos addr 0x1898F | tmst dependent factor to modify I-dynamic of lambda control"
+      CURVE
+      0x1898F
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFRI
+      "podtverzhdena damos-tochno addr 0x18997 | I characteristic map"
+      MAP
+      0x18997
+      RL_GRID_UBYTE
+      0
+      CM_0p3058103976_0_s
+      0
+      77.9817
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFRP
+      "podtverzhdena damos-tochno addr 0x189EB | P characteristic map"
+      MAP
+      0x189EB
+      RL_GRID_UBYTE
+      0
+      CM_0p048828125_0
+      0
+      12.4512
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFTV
+      "podtverzhdena damos-tochno addr 0x18AEA | weighting map for TVLRH"
+      MAP
+      0x18AEA
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FNSKHLL
+      "podtverzhdena damos addr 0x18B81 | factor idle speed increase after start"
+      CURVE
+      0x18B81
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFNLLKHM
+      "podtverzhdena damos addr 0x18BC7 | Nominal idling speed during catalyzer heating"
+      MAP
+      0x18BC7
+      RL_GRID_UBYTE
+      0
+      CM_10_0_Umin
+      0
+      2550
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MLSUS
+      "podtverzhdena damos addr 0x18BE9 | reference of air mass flow integral"
+      CURVE
+      0x18BE9
+      RL_GRID_UBYTE
+      0
+      CM_0p02275555556_0_kg
+      0
+      5.80267
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFEKWTMP
+      "podtverzhdena damos-tochno addr 0x18CD7 | characteristic diagram efficiency while keeping catalyst warm"
+      MAP
+      0x18CD7
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFLMSKH
+      "podtverzhdena damos-tochno addr 0x18CFA | Performance characteristics lambda engine nominal at catalyst heating"
+      MAP
+      0x18CFA
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFWEE
+      "podtverzhdena damos-tochno addr 0x18FF8 | characteristic map angle end of injection"
+      MAP
+      0x18FF8
+      RL_GRID_UBYTE
+      0
+      CM_6_0_GradKW
+      0
+      1530
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFWEEK
+      "podtverzhdena damos-tochno addr 0x19038 | map for end of injection angle (cold parameters)"
+      MAP
+      0x19038
+      RL_GRID_UBYTE
+      0
+      CM_6_0_GradKW
+      0
+      1530
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WEESTN
+      "podtverzhdena damos addr 0x190B4 | end of injection angle during start"
+      CURVE
+      0x190B4
+      RL_GRID_UBYTE
+      0
+      CM_6_0_GradKW
+      0
+      1530
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFLF
+      "podtverzhdena damos addr 0x190EC | lambda characteristic map at part load"
+      MAP
+      0x190EC
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFWL
+      "podtverzhdena damos-tochno addr 0x191DF | map warm-up factor"
+      MAP
+      0x191DF
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FUKNSTM
+      "podtverzhdena damos addr 0x1930C | initial value of transient control post cranking factor"
+      CURVE
+      0x1930C
+      RL_GRID_UBYTE
+      0
+      CM_0p015625_0
+      0
+      3.98438
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        9
+        0
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFLBTS
+      "podtverzhdena profil addr 0x19636 | Celevaya lyambda zaschity komponentov. Stok obogaschaet do 0.789 na vysokoy nagruzke, csok do 0.844, MPower -- 1.000 vo vseh 192 yacheykah, to est obogaschenie zasc"
+      MAP
+      0x19636
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFTKONS
+      "podtverzhdena damos-tochno addr 0x1972A | A/C switch-on delay time (morning brake sharpness)"
+      MAP
+      0x1972A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFTEAX
+      "podtverzhdena damos addr 0x1982B | Characteristic map for limitation of the purge rate"
+      MAP
+      0x1982B
+      RL_GRID_UBYTE
+      0
+      CM_0p001953125_0
+      0
+      0.498047
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFQTE
+      "podtverzhdena damos-tochno addr 0x1983F | Map for purge rate increase / decrease"
+      MAP
+      0x1983F
+      RL_GRID_UBYTE
+      0
+      CM_4p768359375En05_0_1s
+      0
+      0.0121593
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFTATX
+      "podtverzhdena damos addr 0x1986F | map for max. duty cycle"
+      MAP
+      0x1986F
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFTEVP
+      "podtverzhdena damos-tochno addr 0x198C4 | Characteristic map for period time of the PCV"
+      MAP
+      0x198C4
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0_ms
+      0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        9
+        0
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFTVTEV
+      "podtverzhdena damos addr 0x198FC | characteristic map for CVP delay time"
+      MAP
+      0x198FC
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0_ms
+      0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDETATE
+      "podtverzhdena damos-tochno addr 0x19923 | correction of ignition angle effectiveness for diagnosis of PCV"
+      MAP
+      0x19923
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMDDAGR
+      "podtverzhdena damos-tochno addr 0x199A7 | Map torque reserve at tester demand of EGR-short test"
+      MAP
+      0x199A7
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      0
+      99.6094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFIDTHM
+      "podtverzhdena damos-tochno addr 0x19AB5 | Map value for threshold of integrated air mass for thermostat error detection"
+      MAP
+      0x19AB5
+      RL_GRID_UBYTE
+      0
+      CM_0p09103840683_0_kg
+      0
+      23.2148
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDMDARO
+      "podtverzhdena damos-tochno addr 0x1A54E | Upper threshold for torque intervension"
+      MAP
+      0x1A54E
+      RL_GRID_SBYTE
+      0
+      CM_0p003051757812_0
+      -0.390625
+      0.387573
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDMDARU
+      "podtverzhdena damos-tochno addr 0x1A5C6 | Lower threshold for torque intervension"
+      MAP
+      0x1A5C6
+      RL_GRID_SBYTE
+      0
+      CM_0p003051757812_0
+      -0.390625
+      0.387573
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDZWKG
+      "podtverzhdena damos-tochno addr 0x1A6BB | ignition angle correction due to knock limit shift"
+      MAP
+      0x1A6BB
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZWNWSUE
+      "podtverzhdena damos addr 0x1A700 | Delta ignition angle dependent on the camshaft overlap"
+      MAP
+      0x1A700
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZWWLTM
+      "podtverzhdena damos-tochno addr 0x1A7BA | Delta ignition sparc advance during engine warm up phase"
+      MAP
+      0x1A7BA
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_gradKW
+      -96
+      95.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFPSDMX
+      "podtverzhdena damos-tochno addr 0x1A8F7 | pressure threshold for B_nplm failure (check DS-S)"
+      MAP
+      0x1A8F7
+      RL_GRID_UBYTE
+      0
+      CM_0p0390625_0_hPa
+      0
+      9.96094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FPVMXN2
+      "podtverzhdena damos addr 0x1A9A0 | factor for pressure ratio maximum with secondary last sensor"
+      CURVE
+      0x1A9A0
+      RL_GRID_UWORD
+      0
+      CM_3p051757812En05_0
+      0
+      1.99997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFRLW
+      "podtverzhdena damos-tochno addr 0x1B3F3 | rlw-map from throttle valve angle"
+      MAP
+      0x1B3F3
+      RL_GRID_UBYTE
+      0
+      CM_0p0234375_0
+      0
+      5.97656
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFZKPUA
+      "podtverzhdena damos-tochno addr 0x1B53F | time constant for ambient pressure"
+      MAP
+      0x1B53F
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ATMTANS
+      "podtverzhdena damos addr 0x1B67A | temperature correction of the exhaust model temperature"
+      CURVE
+      0x1B67A
+      RL_GRID_SBYTE
+      0
+      CM_5_0_GradC
+      -640
+      635
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKHLA
+      "podtverzhdena damos addr 0x1B950 | Weighting factor Lambda nominal for catalyzer heating"
+      CURVE
+      0x1B950
+      RL_GRID_UWORD
+      0
+      CM_1p525878906En05_0
+      0
+      0.999985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKHMD
+      "podtverzhdena damos addr 0x1B96C | Weighting factor torque reserve for catalyzer heating"
+      CURVE
+      0x1B96C
+      RL_GRID_UWORD
+      0
+      CM_1p525878906En05_0
+      0
+      0.999985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KLESUKKO
+      "podtverzhdena damos addr 0x1BD89 | Characteristic line transient compensation at A/C on"
+      CURVE
+      0x1BD89
+      RL_GRID_UWORD
+      0
+      CM_3p051757812En05_0
+      0
+      1.99997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FQTEPT
+      "podtverzhdena damos addr 0x1BE3F | characteristic line: for fuel-tank underpressure limitation"
+      CURVE
+      0x1BE3F
+      RL_GRID_SBYTE
+      0
+      CM_0p125_0
+      -16
+      15.875
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+  /end MODULE
+
+/end PROJECT
