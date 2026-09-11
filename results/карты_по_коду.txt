@@ -1,0 +1,238 @@
+Опись карт по вызовам процедур интерполяции (Ghidra, полный проход по коду).
+Процедуры: 0x833A00, 0x833F10, 0x833FFC, 0x834310.
+Страница x 0x4000 + указатель - 0x800000 = файловое смещение.
+
+    тело      ось  процедура    вызов  имя
+0x18194        -     833a00   833688  
+0x1819B        -     833a00   833666  
+0x182B6        -     833a00   83b266  RLVMXN
+0x182CD        -     833a00   83b254  RLVSMXN
+0x182E6        -     833f10   83bbf4  
+0x182EC        -     833f10   83bc2a  
+0x182F5  0x181DD     833ffc   83bcd2  KFDMDFA / SNM06MFUB ось n=6
+0x18319  0x181DD     833ffc   83bd1e  KFDMDFAS / SNM06MFUB ось n=6
+0x1833D  0x181DD     833ffc   83bcf8  KFDMDFAU / SNM06MFUB ось n=6
+0x18361  0x181DD     833ffc   83bd44  KFZMDFA / SNM06MFUB ось n=6
+0x18385  0x181DD     833ffc   83bd90  KFZMDFAS / SNM06MFUB ось n=6
+0x183A9  0x181DD     833ffc   83bd6a  KFZMDFAU / SNM06MFUB ось n=6
+0x183D0        -     833f10   83bc6a  
+0x183D6        -     833f10   83bca0  
+0x183DE        -     833a00   83c09a  
+0x18449  0x100B3     833ffc   83e6e0   / SNM08__UB ось n=8
+0x18471        -     833f10   83e6ba  
+0x18476        -     833f10   83e6a6  
+0x1847C        -     833a00   83ed2c  
+0x1848D        -     833a00   83ee44  
+0x1849A        -     833a00   83f138  
+0x184AA        -     833f10   83ed18  
+0x184B0        -     833f10   83ed04  
+0x184B6        -     833a00   83eeb6  
+0x184BF        -     833a00   83ef02  
+0x184C8        -     833a00   83eec8  
+0x184D9        -     833f10   83f600  
+0x184DF        -     833f10   83f5e8  
+0x184E5        -     833f10   83f48e  
+0x184FB        -     833a00   84014a  
+0x185CC        -     833a00   843f96  
+0x185E5        -     833a00   843eac  
+0x185F6        -     833a00   84401e  
+0x1867C        -     833a00   8443b6  
+0x18694        -     833a00   844676  
+0x186A1        -     833a00   844696  
+0x186AE        -     833a00   844332  
+0x186C7        -     833a00   84434c  
+0x187D4        -     833a00   8455d4  
+0x187E2        -     833f10   845e2c  
+0x187E8        -     833f10   845e98  
+0x187EF        -     833f10   845b9e  
+0x1889A        -     833f10   845c9a  
+0x188A0        -     833f10   845c86  
+0x188BF        -     833a00   8476ce  
+0x188CA        -     833a00   84756c  
+0x1898E        -     833a00   84aa74  
+0x18997  0x1013A     833ffc   84aada  KFRI / SRL06LRUB ось n=6
+0x189EB  0x1013A     833ffc   84ab00  KFRP / SRL06LRUB ось n=6
+0x18AC0        -     833a00   84b5d6  
+0x18AD1        -     833a00   84b7a4  
+0x18AEA  0x10133     833ffc   84c064  KFFTV / SRL06LHUB ось n=6
+0x18B5E        -     833f10   84be8e  
+0x18B66        -     833f10   84be76  
+0x18B6E        -     833f10   84c040  
+0x18B80        -     833a00   84c2ea  
+0x18BA4        -     833a00   84d3da  
+0x18BAF        -     833a00   84d4e4  
+0x18BE8        -     833a00   84cea8  
+0x18C01        -     833f10   84d3be  
+0x18C0F        -     833a00   84d76e  
+0x18C18        -     833a00   84d782  
+0x18D8C        -     833a00   84d8ee  
+0x18D95        -     833a00   84d994  
+0x18D9E        -     833a00   84d95e  
+0x18DAF        -     833f10   84dcdc  
+0x18DBF  0x18219     833ffc   84dca0   / SRL04KRUB ось n=4
+0x18F2D        -     833f10   84ee82  
+0x18FCA        -     833a00   8506ec  
+0x18FF8  0x19078     833ffc   85167c  KFWEE ось n=8
+0x19038  0x19078     833ffc   8516a2  KFWEEK ось n=8
+0x19093        -     833f10   8516fe  
+0x1909B        -     833f10   8516b6  
+0x190A3        -     833f10   85164c  
+0x190AB        -     833f10   8516e4  
+0x190B3        -     833a00   8516d2  
+0x190BC        -     833a00   851602  
+0x191AC        -     833a00   851a66  
+0x191B5        -     833f10   851d08  
+0x191BB        -     833a00   851da8  
+0x191DC        -     833f10   851d80  
+0x191E2        -     833f10   851d94  
+0x191E8        -     833f10   851d1c  
+0x191F4        -     833f10   851d30  
+0x19200        -     833f10   851d44  
+0x1920C        -     833f10   851d58  
+0x19218        -     833f10   851d6c  
+0x19344  0x1827D     833ffc   8521d2   / STS12ESUB ось n=12
+0x193E0        -     833a00   852368  
+0x193F3  0x181E4     833ffc   852328   / SNM07ESUB ось n=7
+0x19432  0x181E4     833ffc   85234e   / SNM07ESUB ось n=7
+0x19471  0x181E4     833ffc   852470   / SNM07ESUB ось n=7
+0x194B0  0x181E4     833ffc   8523f8   / SNM07ESUB ось n=7
+0x194EF        -     833f10   8522ba  
+0x194F8        -     833f10   8522a6  
+0x19509        -     833f10   853326  
+0x19515        -     833a00   85352a  
+0x1952B        -     833a00   853912  
+0x19538        -     833a00   85470e  
+0x19576  0x181F7     833ffc   855c44  KFFDLBTS (кандидат) / SNM16GKUB ось n=16
+0x19636  0x181F7     833ffc   855b6e  KFLBTS / SNM16GKUB ось n=16
+0x196F7        -     833a00   855e98  
+0x1976E        -     833a00   857660  
+0x1977B        -     833a00   857672  
+0x19793        -     833a00   857610  
+0x1979E        -     833a00   85742a  
+0x197B0        -     833a00   85758c  
+0x197BC  0x181A2     833ffc   8574fe   / SDK10TEUB ось n=10
+0x1983F  0x181B4     833ffc   857414  KFQTE / SFR05TEUB ось n=5
+0x198AD        -     833f10   85769a  
+0x19950        -     833a00   85818e  
+0x19A0E        -     833a00   8606a2  
+0x19A25        -     833a00   8604e0  
+0x19A2F        -     833a00   860430  
+0x19A59        -     833a00   860540  
+0x19A6B        -     833a00   860ece  
+0x19AD2        -     833a00   866706  
+0x1B8C0        -     833a00   8574c6  
+
+всего различных пар тело/ось: 118
+из них с известным именем: 16
+тел карт БЕЗ имени: 102
+  0x18194, 0x1819B, 0x182E6, 0x182EC, 0x183D0, 0x183D6, 0x183DE, 0x18449, 0x18471, 0x18476, 0x1847C, 0x1848D, 0x1849A, 0x184AA, 0x184B0, 0x184B6, 0x184BF, 0x184C8, 0x184D9, 0x184DF, 0x184E5, 0x184FB, 0x185CC, 0x185E5, 0x185F6, 0x1867C, 0x18694, 0x186A1, 0x186AE, 0x186C7, 0x187D4, 0x187E2, 0x187E8, 0x187EF, 0x1889A, 0x188A0, 0x188BF, 0x188CA, 0x1898E, 0x18AC0, 0x18AD1, 0x18B5E, 0x18B66, 0x18B6E, 0x18B80, 0x18BA4, 0x18BAF, 0x18BE8, 0x18C01, 0x18C0F, 0x18C18, 0x18D8C, 0x18D95, 0x18D9E, 0x18DAF, 0x18DBF, 0x18F2D, 0x18FCA, 0x19093, 0x1909B, 0x190A3, 0x190AB, 0x190B3, 0x190BC, 0x191AC, 0x191B5, 0x191BB, 0x191DC, 0x191E2, 0x191E8, 0x191F4, 0x19200, 0x1920C, 0x19218, 0x19344, 0x193E0, 0x193F3, 0x19432, 0x19471, 0x194B0, 0x194EF, 0x194F8, 0x19509, 0x19515, 0x1952B, 0x19538, 0x196F7, 0x1976E, 0x1977B, 0x19793, 0x1979E, 0x197B0, 0x197BC, 0x198AD, 0x19950, 0x19A0E, 0x19A25, 0x19A2F, 0x19A59, 0x19A6B, 0x19AD2, 0x1B8C0
+
+
+Кандидаты по имени: ближайшая переменная из переноса DAMOS в пределах +-48 байт.
+Это ПОДСКАЗКА, а не установленный факт: перенос в этих районах не проверен.
+
+0x18194  CWPWF          (перенос 0x18193, расхождение -1)  code word for powerfail
+0x1819B  NSTNM          (перенос 0x1819C, расхождение +1)  transition start -> normal
+0x182B6  FMIVL          (перенос 0x182B5, расхождение -1)  factor correction maximum torque full load
+0x182CD  RLVSMXN        (перенос 0x182CE, расхождение +1)  maximum volumetric flow with open throttle valve and SU
+0x182E6  DFAUWKN        (перенос 0x182E6, расхождение +0)  Damping ratio for filtering torque on a low clutch torque and 
+0x182EC  DFAWKN         (перенос 0x182EC, расхождение +0)  Damping ratio for filtering torque on an openned lockup clutch
+0x182F5  KFDMDFA        (перенос 0x182F5, расхождение +0)  Map Damping ratio for filtering motors torque
+0x18319  KFDMDFAS       (перенос 0x18319, расхождение +0)  Map Damping ratio for filtering motor torque on fuel feed rest
+0x1833D  KFDMDFAU       (перенос 0x1833D, расхождение +0)  Map damping ratio for filtering motor torque on low clutch tor
+0x18361  KFZMDFA        (перенос 0x18361, расхождение +0)  Map time constant values for filtering motor torque
+0x18385  KFZMDFAS       (перенос 0x18385, расхождение +0)  Map time constant values for filtering motor torque on fuel fe
+0x183A9  KFZMDFAU       (перенос 0x183A9, расхождение +0)  Map time constant values for filtering motor torque on low clu
+0x183D0  ZFAUWKN        (перенос 0x183D0, расхождение +0)  lower time constant value for filt. torque on openned lockup c
+0x183D6  ZFAWKN         (перенос 0x183D6, расхождение +0)  time constant for filtering motor torque on openned lockup clu
+0x183DE  ZMDFAWE        (перенос 0x183DD, расхождение -1)  time constant for filtering engine torque on fuel feed restart
+0x18449  KFTVSA         (перенос 0x18449, расхождение +0)  Retard time for overrun fuel cut-off
+0x18471  NWECVTM        (перенос 0x18471, расхождение +0)  Fuel restart-speed at CVT
+0x18476  TVSATM         (перенос 0x18476, расхождение +0)  delay time after cranking for fuel cut off
+0x1847C  CWLBZFS        (перенос 0x1847B, расхождение -1)  code word rpm-increase dependent on battery charge only in P, 
+0x1848D  DNLBZ          (перенос 0x1848E, расхождение +1)  Idle speed increase for battery charging balance
+0x1849A  FNSSTM         (перенос 0x1849B, расхождение +1)  Faktor for taget engine speed during start
+0x184AA  NFSM           (перенос 0x184AA, расхождение +0)  desired engine speed DRIVE-position switch on
+0x184B0  NLLM           (перенос 0x184B0, расхождение +0)  desired engine speed
+0x184B6  NSLPP          (перенос 0x184B7, расхождение +1)  Target speed depending on the pump pressure of power steerung
+0x184BF  NSLPPFS        (перенос 0x184C0, расхождение +1)  Target speed depending on the pump pressure of power steering 
+0x184C8  NTANS          (перенос 0x184C9, расхождение +1)  idle speed rpm tans-dependent
+0x184D9  LIMXDNS        (перенос 0x184D9, расхождение +0)  upper integrator limit for standing car
+0x184DF  LIMXVDNS       (перенос 0x184DF, расхождение +0)  upper integrator limit for rolling car
+0x184E5  LISTM          (перенос 0x184E5, расхождение +0)  value of idle speed control integrator during start
+0x184FB  CWTUMKO        (перенос 0x184FA, расхождение -1)  code word ambient temperature for A/C compressor
+0x185CC  CWTEMPK        (перенос 0x185CB, расхождение -1)  code word for addressing FWFTBRTA depending on (tans/evtmod)
+0x185E5  FDVANS         (перенос 0x185E6, расхождение +1)  Temperature factor for air at throttle valve
+0x185F6  FWFTBRTA       (перенос 0x185F7, расхождение +1)  Weighting for ftbr as a function of tans
+0x1867C  FHOMX          (перенос 0x1867B, расхождение -1)  maximum factor for diagnosis of altitude correction
+0x18694  VHA            (перенос 0x18693, расхождение -1)  Speed threshold for altitude adaptation
+0x186A1  WDKHKN         (перенос 0x186A2, расхождение +1)  Low threshold throttle plate for altitude adaptation
+0x186AE  WPUAVLN        (перенос 0x186AF, расхождение +1)  Throttle valve angle as of which VL ambient pressure adaptatio
+0x186C7  WPUAVLSN       (перенос 0x186C8, расхождение +1)  Throttle valve angle as of which VL ambient pressure adaptatio
+0x187D4  TVSU2          (перенос 0x187D3, расхождение -1)  delay time for intake manifold switch over, flap 2
+0x187E2  ATMABKA        (перенос 0x187E2, расхождение +0)  factor reduction of exhaust gas temperature = f(soak time)
+0x187E8  ATMABKK        (перенос 0x187E8, расхождение +0)  factor reduction for catalyst temperature = f(soak time)
+0x187EF  FATMRML        (перенос 0x187EF, расхождение +0)  divide factor exhaust-/exhaust-pipe temperature
+0x1889A  KLATMLAE       (перенос 0x1889A, расхождение +0)  Temperature of the exotherme decrease during enrichment
+0x188A0  KLATMZWE       (перенос 0x188A0, расхождение +0)  Temperature of the exotherme decrease in cat during ignition r
+0x188BF  CWGGLSH        (перенос 0x188BE, расхождение -1)  code word for Ri-evaluation for sensor downstr. of cat (not fu
+0x188CA  FRINV1         (перенос 0x188CB, расхождение +1)  Multiplicativ factor for RIN desired value pre cat
+0x1898E  UHSN           (перенос 0x1898D, расхождение -1)  Nominal battery voltage for lambda sensor heating
+0x18997  KFRI           (перенос 0x18997, расхождение +0)  I characteristic map
+0x189EB  KFRP           (перенос 0x189EB, расхождение +0)  P characteristic map
+0x18AC0  DTMTMRW        (перенос 0x18ABF, расхождение -1)  temperature difference thresh. for detection of hard LC-switch
+0x18AD1  RLLRUN         (перенос 0x18AD2, расхождение +1)  char.line above nmot,lower rL control limit for controller in 
+0x18AEA  KFFTV          (перенос 0x18AEA, расхождение +0)  weighting map for TVLRH
+0x18B5E  FKAXAVKAT      (перенос 0x18B5D, расхождение -1)  weighting factor for oxygen capacity depending on avkatf
+0x18B66  NDAHC          (перенос 0x18B67, расхождение +1)  speed threshold of MT/AT encoding diagnosis
+0x18B6E  BTRKHTMS       (перенос 0x18B6B, расхождение -3)  Characteristic enabling flag B_trkh
+0x18B80  FKHABMN        (перенос 0x18B7F, расхождение -1)  threshold terminating factor catalyst heating
+0x18BA4  FTMLAKH        (перенос 0x18BB0, расхождение +12)  tmot-correction of lambda-weighting at catalyst heating
+0x18BAF  FTMLAKH        (перенос 0x18BB0, расхождение +1)  tmot-correction of lambda-weighting at catalyst heating
+0x18BE8  MLKHMX         (перенос 0x18BE7, расхождение -1)  max. air flow for catalyst heating
+0x18C01  NFSKHM         (перенос 0x18C01, расхождение +0)  LL nominal speed with driving graduations and catalyzer heatin
+0x18C0F  CWKHMD         (перенос 0x18C0E, расхождение -1)  code word for torque reserve in catalyzer heating
+0x18C18  FMDKHTM        (перенос 0x18C19, расхождение +1)  tmot-correction of torque reserve for catalyst heating
+0x18D8C  KFMAKR         (перенос 0x18D6D, расхождение -31)  map for starting measuring window knock control
+0x18D95  NKRFM1         (перенос 0x18DAD, расхождение +24)  revolution threshold for filter mean frequency area 1
+0x18D9E  NKRFM1         (перенос 0x18DAD, расхождение +15)  revolution threshold for filter mean frequency area 1
+0x18DAF  NKRFM3         (перенос 0x18DAF, расхождение +0)  revolution threshold for filter mean frequency area 3
+0x18DBF  KE1N           (перенос 0x18DBB, расхождение -4)  knock detection threshold at cylindertimer 1
+0x18F2D  KRVFN          (перенос 0x18F2D, расхождение +0)  number of firings/cyl. or time for ignition advancing
+0x18FCA  DWDKLA         (перенос 0x18FC9, расхождение -1)  Limitation of upward adaptation of the angle of the throttle v
+0x18FF8  KFWEE          (перенос 0x18FF8, расхождение +0)  characteristic map angle end of injection
+0x19038  KFWEEK         (перенос 0x19038, расхождение +0)  map for end of injection angle (cold parameters)
+0x19093  WEAN           (перенос 0x19093, расхождение +0)  angle injection break off
+0x1909B  WEEM           (перенос 0x1909B, расхождение +0)  correction of prestorage angle
+0x190A3  WEEMRFAN       (перенос 0x190A3, расхождение +0)  end of injection angle at max relative driver request
+0x190AB  WEESTM         (перенос 0x190AB, расхождение +0)  correction of pretiming of injection during start
+0x190B3  WEESTN         (перенос 0x190B4, расхождение +1)  end of injection angle during start
+0x190BC  ZZWEETM        (перенос 0x190BD, расхождение +1)  Switchover threshold pattern angle
+0x191AC  FSTHO          (перенос 0x191AD, расхождение +1)  weighting of factor start
+0x191B5  FNSA           (перенос 0x191B5, расхождение +0)  after start increase
+0x191BB  FNSHO          (перенос 0x191BC, расхождение +1)  weighting of afterstart enrichment
+0x191DC  FZANSSA1       (перенос 0x191DC, расхождение +0)  factor for ign. sync. decreasing of afterstart enrichment at h
+0x191E2  FZANSSA2       (перенос 0x191E2, расхождение +0)  factor for ign. sync. decreasing of afterstart enrichment at h
+0x191E8  FZANSSM1       (перенос 0x191E8, расхождение +0)  factor for ign. sync. decreasing of afterstart enrichment abov
+0x191F4  FZANSSM2       (перенос 0x191F4, расхождение +0)  factor for ign. sync. decreasing of afterstart enrichment belo
+0x19200  FZANSSM3       (перенос 0x19200, расхождение +0)  factor for ign. sync. decreasing of afterstart enrichment in r
+0x1920C  SZANSSM1       (перенос 0x1920C, расхождение +0)  switching level 1 of afterstart enrichment
+0x19218  SZANSSM1       (перенос 0x1920C, расхождение -12)  switching level 1 of afterstart enrichment
+0x19344  KFAVAK         (перенос 0x1935D, расхождение +25)  share factor wall wetting for deceleration enleanment
+0x193E0  KFVAKL         (перенос 0x193DB, расхождение -5)  factor decel. enleanment (short- and long-time part)
+0x193F3  KFVAKL         (перенос 0x193DB, расхождение -24)  factor decel. enleanment (short- and long-time part)
+0x19432  FUKAVAWO       (перенос 0x19432, расхождение +0)  upper limit adaptive transient control correction factor VA (h
+0x19471  FRAORX         (перенос 0x19471, расхождение +0)  reduced upper threshold for trao correction
+0x194B0  KFFDLBTS       (перенос 0x194A1, расхождение -15)  Factor delta nominal Lambda for component protection
+0x19636  KFLBTS         (перенос 0x19636, расхождение +0)  Nominal Lambda for component protection
+0x196F7  FTEHB          (перенос 0x196F7, расхождение +0)  Limit for purge factor to detect high concentration
+0x1983F  KFQTE          (перенос 0x1983F, расхождение +0)  Map for purge rate increase / decrease
+0x198AD  ZBTEML         (перенос 0x198AD, расхождение +0)  integration speed for canister charge adaptation
+0x19950  TMDTEU         (перенос 0x19970, расхождение +32)  lowest engine temperature threshold for diagnose
+0x19A0E  TMLF1          (перенос 0x19A0E, расхождение +0)  engine temperature threshold for fan 1
+0x19A25  TMDMX          (перенос 0x19A24, расхождение -1)  maximum engine temperature
+0x19A2F  TMMXRT         (перенос 0x19A2E, расхождение -1)  max. engine cool.temp. for retriggering models (blockheater-de
+0x19A59  TNSRT          (перенос 0x19A58, расхождение -1)  max. time after start to retrigger calculation of engine tempe
+0x19A6B  TADMX          (перенос 0x19A6A, расхождение -1)  intake-air temperature max.
+0x19AD2  CVNIO          (перенос 0x19AD1, расхождение -1)  calibr. verific. numb. for tester at proper detected check sum
+0x1B8C0  ILMLKAXTK      (перенос 0x1B8C3, расхождение +3)  Threshold of richness area of O2 purging after fuel cat off, f
