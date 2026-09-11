@@ -1167,5 +1167,185 @@
     "note": "Адрес не подтверждён. Значения 6 в стоке/MPower/L и 0 в csok/csok v2/Xoptim -- любопытно, но проверять надо отдельно."
    }
   ]
+ },
+ "overrun_fuel_cut": {
+  "note": "Отсечка подачи топлива при сбросе газа (Schubabschaltung). Найдена по коду: весь блок 0x10ED8..0x10F00 читается функциями 0x3E5CA..0x3F0EC, подряд, ячейка в ячейку, и ровно соответствует подряд идущему списку скаляров DAMOS со сдвигом +1. Выравнивание подтверждено значениями: TKATSA 950 °C, ENSAKHG 63, DNWEELLS 520, DNWEK 200 и DNSATIP 0 совпадают с исходной M7.9 байт в байт.",
+  "found_by": "tools/calref.py -- перекрёстные ссылки кода на калибровку через DPP и extp",
+  "items": [
+   {
+    "name": "KSZWE",
+    "addr": "0x10ED8",
+    "width": 1,
+    "factor": -0.75,
+    "offset": 0,
+    "unit": "°КВ",
+    "desc": "угол защиты от детонации",
+    "stock": -189.0,
+    "same_in_all": true,
+    "m79_source": -183.75,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "CWSAWE",
+    "addr": "0x10ED9",
+    "width": 1,
+    "factor": 1,
+    "offset": 0,
+    "unit": "",
+    "desc": "кодовое слово: отсечка топлива -- возврат",
+    "stock": 0,
+    "same_in_all": true,
+    "m79_source": 1,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "DNSAH",
+    "addr": "0x10EDA",
+    "width": 1,
+    "factor": 40,
+    "offset": 0,
+    "unit": "об/мин",
+    "desc": "дельта оборотов отсечки, верхняя, относительно оборотов возврата",
+    "stock": 1000,
+    "same_in_all": true,
+    "m79_source": 320,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "DNSAL",
+    "addr": "0x10EDB",
+    "width": 1,
+    "factor": 40,
+    "offset": 0,
+    "unit": "об/мин",
+    "desc": "дельта оборотов отсечки, нижняя, относительно оборотов возврата",
+    "stock": 600,
+    "same_in_all": true,
+    "m79_source": 200,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "DNSATIP",
+    "addr": "0x10EDC",
+    "width": 1,
+    "factor": 40,
+    "offset": 0,
+    "unit": "об/мин",
+    "desc": "подъём оборотов отсечки при тычке газом",
+    "stock": 0,
+    "same_in_all": true,
+    "m79_source": 0,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "DNSLL",
+    "addr": "0x10EDD",
+    "width": 1,
+    "factor": 40,
+    "offset": 0,
+    "unit": "об/мин",
+    "desc": "гистерезис возврата топлива на холостом",
+    "stock": 800,
+    "same_in_all": true,
+    "m79_source": 560,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "DNVSA",
+    "addr": "0x10EDE",
+    "width": 1,
+    "factor": 40,
+    "offset": 0,
+    "unit": "об/мин",
+    "desc": "подъём оборотов отсечки на малой скорости",
+    "stock": 1600,
+    "same_in_all": true,
+    "m79_source": 1200,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "DNWEELLS",
+    "addr": "0x10EDF",
+    "width": 1,
+    "factor": 40,
+    "offset": 0,
+    "unit": "об/мин",
+    "desc": "дельта возврата при отказе клапана ХХ",
+    "stock": 520,
+    "same_in_all": true,
+    "m79_source": 520,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "DNWEK",
+    "addr": "0x10EE0",
+    "width": 1,
+    "factor": 40,
+    "offset": 0,
+    "unit": "об/мин",
+    "desc": "дельта возврата при включённом кондиционере",
+    "stock": 200,
+    "same_in_all": true,
+    "m79_source": 200,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "DVSA",
+    "addr": "0x10EE1",
+    "width": 1,
+    "factor": 1,
+    "offset": 0,
+    "unit": "км/ч",
+    "desc": "дельта скорости для подъёма оборотов отсечки",
+    "stock": 16,
+    "same_in_all": true,
+    "m79_source": 8,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "ENSAKHG",
+    "addr": "0x10EE2",
+    "width": 1,
+    "factor": 1,
+    "offset": 0,
+    "unit": "",
+    "desc": "разрешение отсечки по передаче при прогреве катализатора",
+    "stock": 63,
+    "same_in_all": true,
+    "m79_source": 63,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TKATSA",
+    "addr": "0x10EE3",
+    "width": 1,
+    "factor": 5,
+    "offset": -50,
+    "unit": "°C",
+    "desc": "порог температуры катализатора для отсечки",
+    "stock": 950,
+    "same_in_all": true,
+    "m79_source": 950,
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "VSAA",
+    "addr": "0x10EE4",
+    "width": 1,
+    "factor": 1,
+    "offset": 0,
+    "unit": "км/ч",
+    "desc": "порог скорости для подъёма оборотов отсечки",
+    "stock": 20,
+    "same_in_all": true,
+    "m79_source": 16,
+    "confidence": "подтверждена"
+   }
+  ],
+  "lever": "Чтобы топливо при сбросе не отключалось: поднять DNSAH 0x10EDA и DNSAL 0x10EDB. По описанию DAMOS это дельты порога отсечки ОТНОСИТЕЛЬНО оборотов возврата, то есть отсечка включается на оборотах возврата плюс дельта. Задрав дельту до 127 (5080 об/мин), порог уводится выше достижимого, и отсечка не включается. Арифметику сложения в коде я не проследил до конца, направление взято из описания DAMOS.",
+  "not_found": [
+   "NWENG -- базовые обороты возврата топлива, кривая, адресуется указателем, не найдена",
+   "KFNWEGM -- карта возврата топлива по оборотам, не найдена"
+  ]
  }
 }
