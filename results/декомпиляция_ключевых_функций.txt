@@ -1,0 +1,163 @@
+======================================================================
+0x55B5E  функция FUN_855b5e @ 855b5e, размер 412
+
+void FUN_855b5e(void)
+
+{
+  uint uVar1;
+  char cVar2;
+  short sVar3;
+  undefined2 uVar4;
+  ushort uVar5;
+  ushort uVar6;
+  
+  sRam0098a4 = func_0x833ffc(0x1636,0x206,0x1f7,0x206);
+  sRam0098a4 = sRam0098a4 << 5;
+  bRam0098b2 = bRam0098b2 & 0xfe;
+  if (cRam0098ae == '\0') {
+    uRam008a32 = uRam008871;
+  }
+  else {
+    uRam008a32 = func_0x006ba0(uRam0098ac,cRam0098ae);
+  }
+  cRam0098ae = 0;
+  uRam0098ac = 0;
+  bRam0098b2 = bRam0098b2 | 1;
+  uVar6 = Ram00fd0a;
+  if ((((uVar6 & 0x100) == 0) || ((bRam819575 & 2) != 0)) &&
+     ((uVar6 = Ram00fd16, (uVar6 & 0x2000) == 0 || ((bRam819575 & 1) != 0)))) {
+    cRam008a30 = func_0x0069cc((short)cRam008863,(short)cRam00889c);
+    if (cRam008a30 < '\x01') {
+      cRam008a30 = '\0';
+    }
+    uRam008a31 = uRam0004d3;
+    if (('\0' < cRam008a30) && (uRam008a31 = uRam000513, cRam008a30 < 'A')) {
+      uRam008a31 = *(undefined1 *)(uint3)((short)cRam008a30 + 0x4d3);
+    }
+    uRam008a2f = func_0x006980(uRam008a31,uRam008a32);
+    sVar3 = func_0x833ffc(0x1576,0x206,0x1f7,0x206);
+    cVar2 = func_0x834310(uRam81b896,0x3897,0x206,0x389f,0x206);
+    uRam0098a0 = func_0x006ab2((short)cVar2 << 8,sVar3 << 6);
+  }
+  uVar4 = func_0x0068e8(sRam0098a4,0x1000);
+  uVar5 = func_0x00686c(uVar4,uRam0098a0);
+  uVar6 = uVar5;
+  if ((short)uVar5 < 0) {
+    uVar6 = -uVar5;
+  }
+  uVar1 = (uint)uVar6 * (uint)uRam0098a6;
+  if ((uVar1 & 0xc0000000) == 0) {
+    uVar6 = (short)(uVar1 >> 0x10) << 1 | (ushort)uVar1 >> 0xf;
+    if ((short)uVar5 < 0) {
+      uVar6 = -uVar6;
+    }
+  }
+  else if ((short)uVar5 < 0) {
+    uVar6 = 0x8000;
+  }
+  else {
+    uVar6 = 0x7fff;
+  }
+  uRam0098a2 = func_0x006852(0x1000,uVar6);
+  return;
+}
+
+
+======================================================================
+0x3E66C  функция FUN_83e66c @ 83e66c, размер 14
+
+void FUN_83e66c(void)
+
+{
+  uRam0091df = uRam000eda;
+  uRam0091de = 0;
+  return;
+}
+
+
+======================================================================
+0x3BF26  функция FUN_83bf26 @ 83bf26, размер 360
+
+void FUN_83bf26(void)
+
+{
+  undefined1 uVar1;
+  ushort uVar2;
+  ushort uVar3;
+  undefined2 uVar4;
+  short sVar5;
+  undefined2 uVar6;
+  int iVar7;
+  
+  uRam009158 = uRam004bb4;
+  uVar3 = func_0x0067d8(uRam004bb4,uRam004bb2);
+  uVar2 = Ram00f8a0;
+  if (uVar3 < uVar2) {
+    uVar2 = Ram00fd16;
+    Ram00fd16 = uVar2 | 4;
+    uRam009154 = 0;
+    uVar2 = Ram00fd16;
+    Ram00fd16 = uVar2 | 2;
+  }
+  else {
+    uVar2 = Ram00fd16;
+    Ram00fd16 = uVar2 & 0xfffb;
+    if (sRam009b10 < 1) {
+      uRam009156 = Ram00f8a0;
+    }
+    else {
+      uVar4 = func_0x006a80((ushort)bRam0005f8 << 8,sRam009b10);
+      uVar6 = Ram00f8a0;
+      uRam009156 = func_0x0067d8(uVar4,uVar6);
+    }
+    sRam009150 = func_0x0068e8(uRam009158,uRam009156);
+    if (sRam009150 < 1) {
+      uVar2 = Ram00fd16;
+      Ram00fd16 = uVar2 | 2;
+    }
+    else if (uRam008f10 <= uRam009154) {
+      uVar2 = Ram00fd16;
+      Ram00fd16 = uVar2 & 0xfffd;
+    }
+    uVar2 = Ram00fd16;
+    if ((uVar2 & 2) == 0) {
+      uRam00914c = 0;
+      uRam009154 = (ushort)bRam0005d9 << 8;
+    }
+    else {
+      uVar1 = UNK_00f86b;
+      sVar5 = func_0x00716a(0x5da,uVar1);
+      iVar7 = func_0x006b28(sRam009150,sVar5 * 0x29);
+      if (iVar7 < 0x400000) {
+        if (iVar7 < -0x3f0000) {
+          uRam00914e = 0x8000;
+        }
+        else {
+          uRam00914e = (ushort)iVar7 >> 7 | (short)((uint)iVar7 >> 0x10) << 9;
+        }
+      }
+      else {
+        uRam00914e = 0x7fff;
+      }
+      if (uRam009154 != 0) {
+        uVar1 = UNK_00f86b;
+        sVar5 = func_0x00716a(0x5f9,uVar1);
+        uRam00914c = func_0x006e2e(sVar5 << 8,uRam00914e,uRam00914c);
+      }
+      uVar6 = func_0x00686c(uRam00914e,uRam00914c);
+      uRam009152 = func_0x00683e(uVar6,uRam008f10 >> 1);
+      if ((short)uRam009152 < 0) {
+        uRam009154 = 0;
+      }
+      else if ((ushort)bRam0005d9 * 0x80 < uRam009152) {
+        uRam009154 = (ushort)bRam0005d9 << 8;
+      }
+      else {
+        uRam009154 = uRam009152 << 1;
+      }
+    }
+  }
+  return;
+}
+
+
