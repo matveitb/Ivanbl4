@@ -255,6 +255,17 @@ def main() -> int:
         check(abs(fw.vec(0x1898D, 1, 1)[0] * 0.0704 - 13.02) < 0.05,
               "UHSN около 13.0 В (номинал для подогрева датчика)")
 
+
+        # KFLF: заголовочная карта, указатель кода ведёт на заголовок 0x190CE
+        check(fw.vec(0x190CE, 1, 1)[0] == 12 and fw.vec(0x190CF, 1, 1)[0] == 16,
+              "заголовок KFLF 0x190CE: nx=12, ny=16")
+        check(0x190CE + 2 + 12 + 16 == 0x190EC,
+              "данные KFLF начинаются ровно по 0x190EC")
+        ax = fw.vec(0x190D0, 12, 1)
+        ay = fw.vec(0x190DC, 16, 1)
+        check(all(ax[i] < ax[i + 1] for i in range(11)), "ось X KFLF строго растёт")
+        check(all(ay[i] < ay[i + 1] for i in range(15)), "ось Y KFLF строго растёт")
+
     print()
     if fails:
         print("ПРОВАЛЕНО проверок: %d" % len(fails))

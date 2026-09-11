@@ -26,6 +26,10 @@ public class InterpCalls extends GhidraScript {
         return currentProgram.getAddressFactory().getDefaultAddressSpace().getAddress(BASE + off);
     }
 
+    private static boolean regsEmpty(Map<String, String> regs) {
+        return !regs.containsKey("r12") && !regs.containsKey("r14");
+    }
+
     @Override
     public void run() throws Exception {
         String[] args = getScriptArgs();
@@ -33,6 +37,11 @@ public class InterpCalls extends GhidraScript {
         String out = args.length > 1 ? args[1] : null;
 
         AddressSet set = new AddressSet(at(CODE_LO), at(CODE_HI - 1));
+        if (currentProgram.getListing().getInstructions(set, true).hasNext() == false) {
+            println("код не разобран, дизассемблирую...");
+            new ghidra.app.cmd.disassemble.DisassembleCommand(set, null, true)
+                    .applyTo(currentProgram, monitor);
+        }
         List<Instruction> win = new ArrayList<>();
         List<String> rows = new ArrayList<>();
         Map<String, Integer> hits = new TreeMap<>();
@@ -45,7 +54,12 @@ public class InterpCalls extends GhidraScript {
             if (!ins.getMnemonicString().startsWith("call")) continue;
             String txt = ins.toString().toLowerCase().replace("0x", "");
             String tgt = null;
-            for (String t : targets) if (txt.contains(t)) tgt = t;
+            if (targets.contains("*")) {
+                int sp = txt.indexOf(' ');
+                tgt = sp > 0 ? txt.substring(sp + 1).trim() : "?";
+            } else {
+                for (String t : targets) if (txt.contains(t)) tgt = t;
+            }
             if (tgt == null) continue;
             hits.merge(tgt, 1, Integer::sum);
 
@@ -59,6 +73,7 @@ public class InterpCalls extends GhidraScript {
                     }
                 }
             }
+            if (targets.contains("*") && regsEmpty(regs)) continue;
             rows.add(String.format("%s\t%s\tr12=%s r13=%s r14=%s r15=%s",
                     ins.getAddress(), tgt,
                     regs.getOrDefault("r12", "-"), regs.getOrDefault("r13", "-"),
