@@ -193,6 +193,25 @@ def main() -> int:
         check(u16(0x14BB8) * 0.25 == 1200.0, "NMXDKPU = 1200 об/мин (лимп-хоум)")
         check(u16(0x14BBA) * 0.01 == 3.0, "TNMAXDV = 3 с")
 
+
+        # KFMIOP: блок 0x14A10 длиной 16*11 слов упирается ровно в ось SRL11OPUW
+        mio = [fw.vec(0x14A10 + 2 * (r * 11 + c), 1, 2)[0] * 0.00152588
+               for r in range(16) for c in range(11)]
+        check(0x14A10 + 2 * 11 * 16 == 0x14B70,
+              "KFMIOP кончается ровно там, где начинается ось 0x14B70")
+        rows_ok = all(all(mio[r * 11 + c] < mio[r * 11 + c + 1] for c in range(10))
+                      for r in range(16))
+        check(rows_ok, "KFMIOP строго растёт по нагрузке во всех 16 строках")
+        check(3.9 <= mio[0] <= 4.1 and 83.0 <= mio[-1] <= 84.0,
+              "KFMIOP в стоке от 4.00 до 83.50 %% (получено %.2f..%.2f)" % (mio[0], mio[-1]))
+
+        # ETADZW: КПД по дельте угла, 100 %% при нуле и монотонное падение
+        eta = fw.vec(0x104D3, 65, 1)
+        check(eta[0] * 0.5 == 100.0, "ETADZW начинается со 100 %%")
+        check(all(eta[i] >= eta[i + 1] for i in range(64)), "ETADZW не возрастает")
+        check(20.0 <= eta[-1] * 0.5 <= 22.0,
+              "ETADZW кончается на 21.5 %% (получено %.1f)" % (eta[-1] * 0.5))
+
     print()
     if fails:
         print("ПРОВАЛЕНО проверок: %d" % len(fails))
