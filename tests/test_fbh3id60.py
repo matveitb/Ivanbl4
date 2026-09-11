@@ -239,6 +239,15 @@ def main() -> int:
         check(mask[7 * 16 + 4] == 0 and mask[8 * 16 + 4] == 0,
               "на 2000 об/мин при 65 и 70 %% нагрузки маска закрыта")
 
+
+        # KFLF: единственный блок из 192 байт 1.000 в районе смеси
+        data = fw.vec(0x18000, 0x4000, 1)
+        runs = [a for a in range(len(data) - 192)
+                if all(data[a + i] == 128 for i in range(192))
+                and (a == 0 or data[a - 1] != 128)]
+        check(runs == [0x190EC - 0x18000],
+              "в 0x18000..0x1C000 ровно один блок из 192 байт 1.000, и это 0x190EC")
+
     print()
     if fails:
         print("ПРОВАЛЕНО проверок: %d" % len(fails))
