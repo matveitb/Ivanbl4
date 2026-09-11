@@ -266,6 +266,17 @@ def main() -> int:
         check(all(ax[i] < ax[i + 1] for i in range(11)), "ось X KFLF строго растёт")
         check(all(ay[i] < ay[i + 1] for i in range(15)), "ось Y KFLF строго растёт")
 
+
+        # плёночная модель: четыре карты 7x9 с шагом 0x3F на общей оси 0x181E4
+        check(fw.vec(0x181E4, 1, 1)[0] == 7, "ось плёночной модели 0x181E4: 7 точек")
+        for name, a in (("KFABAK", 0x193F3), ("KFAVAK", 0x19432),
+                        ("KFBAKL", 0x19471), ("KFVAKL", 0x194B0)):
+            v = fw.vec(a, 63, 1)
+            check(all(x > 0 for x in v), "%s 0x%05X: ни одной нулевой ячейки" % (name, a))
+        b = fw.vec(0x19471, 63, 1)
+        check(b[0] * 0.0625 > b[56] * 0.0625,
+              "KFBAKL убывает от первой строки к последней")
+
     print()
     if fails:
         print("ПРОВАЛЕНО проверок: %d" % len(fails))
