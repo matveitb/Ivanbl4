@@ -135,6 +135,7 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
 
     maps = json.load(open(args.maps, encoding="utf-8"))["maps"]
+    profile = json.load(open(args.profile, encoding="utf-8")) if args.profile else {}
     if args.min_confidence == "verified":
         maps = [m for m in maps if m.get("confidence") == "подтверждена"]
     maps = sorted(maps, key=lambda m: m["addr"])
@@ -244,6 +245,75 @@ def main(argv=None) -> int:
             '    /end CHARACTERISTIC\n'
             % (nm, comment(cmt), "MAP" if is3d else "CURVE", m["addr"], rl, cm,
                plo, phi, descr))
+
+
+    # --- всё подтверждённое из профиля ---------------------------------
+    # Профиль накопил находки, которых нет в maps.json: контур детонации,
+    # адсорбер, плёночная модель, моментная модель, блок катализатора.
+    # Берём из него всё, у чего есть адрес и имя, кроме уже выданного.
+    done_addr = {m["addr"] for m in maps}
+    extra = []
+
+    def collect(node):
+        if isinstance(node, dict):
+            a, nm = node.get("addr"), node.get("name")
+            if isinstance(a, str) and a.startswith("0x") and nm:
+                addr = int(a, 16)
+                if addr not in done_addr:
+                    done_addr.add(addr)
+                    rows = node.get("rows") or node.get("height") or 1
+                    cols = node.get("cols") or node.get("width") or 1
+                    n = node.get("n") or 1
+                    cnt = max(1, rows * cols, n)
+                    extra.append(dict(name=nm, addr=addr, count=cnt,
+                                      width=node.get("width_bytes") or node.get("width", 1) or 1,
+                                      factor=node.get("factor") or 1.0,
+                                      offset=node.get("offset") or 0.0,
+                                      unit=node.get("unit", ""),
+                                      desc=node.get("desc") or node.get("note", ""),
+                                      conf=node.get("confidence", "")))
+            for v in node.values():
+                collect(v)
+        elif isinstance(node, list):
+            for v in node:
+                collect(v)
+
+    if args.min_confidence == "verified":
+        keep = ("подтверждена",)
+        collect(profile)
+        extra = [e for e in extra if e["conf"] in keep]
+    else:
+        collect(profile)
+    for e in extra:
+        # у карт ширина ячейки лежит в width, а не в числе столбцов
+        w = e["width"] if e["width"] in (1, 2) else 1
+        cnt = e["count"] if e["count"] > 1 else 1
+        dtype = TYPE_U[w]
+        rl = "RL_GRID_%s" % dtype
+        layouts.setdefault(rl,
+            '\n    /begin RECORD_LAYOUT %s\r\n      FNC_VALUES 1 %s ROW_DIR DIRECT\r\n'
+            '    /end RECORD_LAYOUT\r\n' % (rl, dtype))
+        cm = cm_name(e["factor"], e["offset"], e["unit"])
+        b = cm_block(e["factor"], e["offset"], e["unit"])
+        if b:
+            compus.setdefault(cm, b)
+        hi = e["factor"] * ((1 << (8 * w)) - 1) - e["offset"]
+        lo = -e["offset"]
+        if lo > hi:
+            lo, hi = hi, lo
+        nm = ident(e["name"], used)
+        cmt = (e["conf"] + " | " if e["conf"] else "") + e["desc"]
+        if cnt > 1:
+            descr = ('\n      /begin AXIS_DESCR FIX_AXIS\n        NO_INPUT_QUANTITY\n'
+                     '        CM_IDENTITY\n        %d\n        0\n        %d\n'
+                     '        FIX_AXIS_PAR_DIST 0 1 %d\n      /end AXIS_DESCR' % (cnt, cnt - 1, cnt))
+            kind = "CURVE"
+        else:
+            descr, kind = "", "VALUE"
+        chars.append('\n    /begin CHARACTERISTIC %s\n      "%s"\n      %s\n      0x%X\n'
+                     '      %s\n      0\n      %s\n      %.6g\n      %.6g%s\n'
+                     '    /end CHARACTERISTIC\n'
+                     % (nm, comment(cmt), kind, e["addr"], rl, cm, lo, hi, descr))
 
     head = ('ASAP2_VERSION 1 51\n\n/begin PROJECT %s "Bosch M7.9.7 C167"\n\n'
             '  /begin HEADER "Kia Spectra 1.6 %s"\n    VERSION "1.0"\n  /end HEADER\n\n'

@@ -519,6 +519,120 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.000732421875
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p25_0_obmin
+      "scale 0.25"
+      RAT_FUNC "%.3f" "ob/min"
+      COEFFS 0 1 0 0 0 0.25
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_4_0_kgh
+      "scale 4"
+      RAT_FUNC "%.1f" "kg/h"
+      COEFFS 0 1 0 0 0 4
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p00152588_0_otopornogomoment
+      "scale 0.00152588"
+      RAT_FUNC "%.3f" "% ot opornogo momenta"
+      COEFFS 0 1 0 0 0 0.00152588
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p00152588_0
+      "scale 0.00152588"
+      RAT_FUNC "%.3f" ""
+      COEFFS 0 1 0 0 0 0.00152588
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_n0p75_0_KV
+      "scale -0.75"
+      RAT_FUNC "%.3f" "KV"
+      COEFFS 0 1 0 0 0 -0.75
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_40_0_obmin
+      "scale 40"
+      RAT_FUNC "%.1f" "ob/min"
+      COEFFS 0 1 0 0 0 40
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_5_n50_C
+      "scale 5"
+      RAT_FUNC "%.1f" "C"
+      COEFFS 0 1 -50 0 0 5
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p00177936_0_ms
+      "scale 0.00177936"
+      RAT_FUNC "%.3f" "ms/%"
+      COEFFS 0 1 0 0 0 0.00177936
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p00266667_0_ms
+      "scale 0.00266667"
+      RAT_FUNC "%.3f" "ms"
+      COEFFS 0 1 0 0 0 0.00266667
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p52_0_mVms
+      "scale 0.52"
+      RAT_FUNC "%.3f" "mV/ms"
+      COEFFS 0 1 0 0 0 0.52
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p09362_0_1V
+      "scale 0.09362"
+      RAT_FUNC "%.3f" "1/V"
+      COEFFS 0 1 0 0 0 0.09362
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p005215686275_0_V
+      "scale 0.00521569"
+      RAT_FUNC "%.3f" "V"
+      COEFFS 0 1 0 0 0 0.005215686275
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p8695652174_0_mg
+      "scale 0.869565"
+      RAT_FUNC "%.3f" "mg"
+      COEFFS 0 1 0 0 0 0.8695652174
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p8695652174_0_mgs
+      "scale 0.869565"
+      RAT_FUNC "%.3f" "mg/s"
+      COEFFS 0 1 0 0 0 0.8695652174
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p05_0_s
+      "scale 0.05"
+      RAT_FUNC "%.3f" "s"
+      COEFFS 0 1 0 0 0 0.05
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p01_0
+      "scale 0.01"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.01
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p01_0p05_s
+      "scale 0.01"
+      RAT_FUNC "%.3f" "s"
+      COEFFS 0 1 0.05 0 0 0.01
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0704_0_V
+      "scale 0.0704"
+      RAT_FUNC "%.3f" "V"
+      COEFFS 0 1 0 0 0 0.0704
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0444_0_g
+      "scale 0.0444"
+      RAT_FUNC "%.3f" "g"
+      COEFFS 0 1 0 0 0 0.0444
+    /end COMPU_METHOD
+
     /begin RECORD_LAYOUT RL_AXIS_U8
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
@@ -13833,6 +13947,2199 @@ ASAP2_VERSION 1 51
         3
         FIX_AXIS_PAR_DIST 0 1 4
       /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DIAG_FLAGS
+      "Tablica flagov diagnostiki (znacheniya 0/1). V proshivke csok chast edinic zamenena nulyami otnositelno stoka -- otklyucheny proverki."
+      VALUE
+      0x10009
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNMAXH
+      "veroyatnaya | Gisterezis zhestkogo ogranicheniya: toplivo vozvraschaetsya na NMAX minus 120 ob/min. Odinakov vo vseh vosmi proshivkah."
+      CURVE
+      0x14BB2
+      RL_GRID_UWORD
+      0
+      CM_0p25_0_obmin
+      -0
+      16383.8
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NMAX
+      "podtverzhdena | Otsechka. Znacheniya sovpali s tem, chto nazyval kalibrovschik (6800 protiv 7700)."
+      CURVE
+      0x14BB4
+      RL_GRID_UWORD
+      0
+      CM_0p25_0_obmin
+      -0
+      16383.8
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NMAXDV
+      "veroyatnaya | Ogranichenie oborotov pri neispravnom signale skorosti, a ne vtoroy porog obychnoy otsechki. Kosvennoe podtverzhdenie: L podnyal NMAX do 7084 i ostavil zdes 6000 -- bud eto rabochiy pred"
+      CURVE
+      0x14BB6
+      RL_GRID_UWORD
+      0
+      CM_0p25_0_obmin
+      -0
+      16383.8
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NMXDKPU
+      "veroyatnaya | Predel pri neizvestnom ili oshibochnom polozhenii drosselya, limp-houm. 1200 vo vseh proshivkah."
+      CURVE
+      0x14BB8
+      RL_GRID_UWORD
+      0
+      CM_0p25_0_obmin
+      -0
+      16383.8
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TNMAXDV
+      "veroyatnaya | Zaderzhka vklyucheniya ogranicheniya po NMAXDV. 3 s vo vseh proshivkah."
+      CURVE
+      0x14BBA
+      RL_GRID_UWORD
+      0
+      CM_0p01_0_s
+      -0
+      655.35
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAHSH
+      "podogrev datchika posle katalizatora"
+      VALUE
+      0x11DA5
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAKAT
+      "diagnostika katalizatora"
+      VALUE
+      0x11DA9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLALASH
+      "starenie datchika posle katalizatora"
+      VALUE
+      0x11DB3
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLALSH
+      "sam datchik posle katalizatora"
+      VALUE
+      0x11DB8
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAFRAO
+      ""
+      VALUE
+      0x11DA1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAFRAU
+      ""
+      VALUE
+      0x11DA2
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAHSV
+      ""
+      VALUE
+      0x11DA7
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLALATP
+      ""
+      VALUE
+      0x11DB4
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLALATV
+      ""
+      VALUE
+      0x11DB5
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLARKAT
+      ""
+      VALUE
+      0x11DC7
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFDLBTS__kandidat
+      ""
+      CURVE
+      0x19576
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        192
+        0
+        191
+        FIX_AXIS_PAR_DIST 0 1 192
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVLBTS
+      "0 vo vseh vosmi proshivkah, dopolnitelnoy zaderzhki net"
+      VALUE
+      0x196F6
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DKROKMX
+      "maximum offset-compensation value"
+      VALUE
+      0x1163B
+      RL_GRID_UBYTE
+      0
+      CM_0p01953125_0_V
+      -0
+      4.98047
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKEFMC
+      "correction factor for knock detection thresh. in case of change of filter frequ."
+      VALUE
+      0x1163C
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      -0
+      15.9375
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKELDY
+      "correction factor for knock detection threshold during load dynamics"
+      VALUE
+      0x1163D
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      -0
+      15.9375
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKENDY
+      "correction factor for knock detection threshold with engine-speed dynamics"
+      VALUE
+      0x1163E
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      -0
+      15.9375
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKRFTPFMC
+      "correction factor of low pass characteristic at switch of filter mean frequency"
+      VALUE
+      0x1163F
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRFTP1
+      "low pass characteristic normal"
+      VALUE
+      0x11640
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRFTP2
+      "low pass characteristic at engine speed dynamics"
+      VALUE
+      0x11641
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRFTP3
+      "low pass characteristic at load dynamic"
+      VALUE
+      0x11642
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRKFKS
+      "selected knock detection threshold, if missing cylinder one detection"
+      VALUE
+      0x11643
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRVST
+      "gain after cranking"
+      VALUE
+      0x11644
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC REFINI
+      "initial value for reference level if knock control enabled"
+      VALUE
+      0x11645
+      RL_GRID_UBYTE
+      0
+      CM_0p01953125_0_V
+      -0
+      4.98047
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRDWA
+      "knock control difference current ignition angle to adaption map"
+      VALUE
+      0x1164D
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0_GradKW
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRDWKLA
+      "The SV-learning value for KR adaption after knocking detected"
+      VALUE
+      0x1164E
+      RL_GRID_UBYTE
+      0
+      CM_n0p75_0_gradKW
+      -191.25
+      -0
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRDWSA
+      "The FV-learning value for KR adation when wkra-wkr > KRDWA"
+      VALUE
+      0x1164F
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0_GradKW
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRLMDY
+      "Read if change of load range: always or only if dynamic active"
+      VALUE
+      0x11650
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRNMDY
+      "Read if change of speed range: allways or only if dynamic active"
+      VALUE
+      0x11651
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KSZA
+      "number of knock sensor"
+      VALUE
+      0x11652
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DYADS
+      "add. retarding per cycle through adapt. dynamics"
+      VALUE
+      0x11663
+      RL_GRID_UBYTE
+      0
+      CM_n0p75_0_gradKW
+      -191.25
+      -0
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DYAFVS
+      "advance step for deactivation of dynamic response"
+      VALUE
+      0x11664
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0_GradKW
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DYAVF
+      "deactivation period for dynamics retardation"
+      VALUE
+      0x11665
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKELDYA
+      "Corrective factor for knock detection threshold for adaptation of load dynamic"
+      VALUE
+      0x11666
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      -0
+      15.9375
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC PZWKRA
+      "percentage frequency of ignition angle output by KC during dyn. adaption"
+      VALUE
+      0x11667
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      -0
+      99.6094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMDYNA
+      "engine temperature threshold to enable load dynamic adaptation"
+      VALUE
+      0x11668
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWDKRNT
+      "code word: kc-diagnosis integrator gradient"
+      VALUE
+      0x11669
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWDKROF
+      "code word: kc-diagnosis reset value"
+      VALUE
+      0x1166A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DKROKU
+      "lower rpm-limit for determination of offset-compensation-value"
+      VALUE
+      0x1166B
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRFHT
+      "error frequency, test pulse"
+      VALUE
+      0x1166C
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC UDKRGOFS
+      "voltage threshold for DIA/KR basic offset amplifier"
+      VALUE
+      0x1166D
+      RL_GRID_UBYTE
+      0
+      CM_0p01953125_0_V
+      -0
+      4.98047
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWDKRTP
+      "code word: kc-diagnosis testpulse"
+      VALUE
+      0x1166E
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC UDKRTP
+      "integr.volt.thresh. f.diagn. knock eval.circ. test pulse"
+      VALUE
+      0x1166F
+      RL_GRID_UBYTE
+      0
+      CM_0p01953125_0_V
+      -0
+      4.98047
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NDSVL
+      "full-load switch error detection / n threshold minimum"
+      VALUE
+      0x11670
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC QDPSLL
+      "maximum rate of air flow for plausibility test of idle-speed switch"
+      VALUE
+      0x11671
+      RL_GRID_UBYTE
+      0
+      CM_4_0_kgh
+      -0
+      1020
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLDSVL
+      "full-load switch error detection / load-signal threshold maximal"
+      VALUE
+      0x11672
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFABAK_1
+      "dolya plenki dlya obogascheniya na razgone"
+      CURVE
+      0x193F3
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        63
+        0
+        62
+        FIX_AXIS_PAR_DIST 0 1 63
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFAVAK_1
+      "dolya plenki dlya obedneniya na sbrose"
+      CURVE
+      0x19432
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        63
+        0
+        62
+        FIX_AXIS_PAR_DIST 0 1 63
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFBAKL_1
+      "faktor obogascheniya na razgone, korotkaya i dlinnaya sostavlyayuschie"
+      CURVE
+      0x19471
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      -0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        63
+        0
+        62
+        FIX_AXIS_PAR_DIST 0 1 63
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFVAKL
+      "faktor obedneniya na sbrose"
+      CURVE
+      0x194B0
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      -0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        63
+        0
+        62
+        FIX_AXIS_PAR_DIST 0 1 63
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLVMXN_1
+      "podtverzhdena | maks. napolnenie pri otkrytom drossele"
+      CURVE
+      0x182B6
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        11
+        0
+        10
+        FIX_AXIS_PAR_DIST 0 1 11
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLVSMXN_1
+      "podtverzhdena | to zhe pri pereklyuchennom vpuske (SU)"
+      CURVE
+      0x182CD
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        11
+        0
+        10
+        FIX_AXIS_PAR_DIST 0 1 11
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMIOP
+      "podtverzhdena |"
+      CURVE
+      0x14A10
+      RL_GRID_UWORD
+      0
+      CM_0p00152588_0_otopornogomoment
+      -0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        176
+        0
+        175
+        FIX_AXIS_PAR_DIST 0 1 176
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRL11OPUW_1
+      "ta zhe os, chto u KFZWOP"
+      CURVE
+      0x14B70
+      RL_GRID_UWORD
+      0
+      CM_0p0234375_0
+      -0
+      1535.98
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        11
+        0
+        10
+        FIX_AXIS_PAR_DIST 0 1 11
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFETAZW_1
+      "podtverzhdena | karta KPD po uglu"
+      CURVE
+      0x10216
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      -0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        256
+        0
+        255
+        FIX_AXIS_PAR_DIST 0 1 256
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMIRL
+      "somnitelnaya | obratnaya karta: trebuemoe napolnenie iz trebuemogo momenta"
+      CURVE
+      0x14B84
+      RL_GRID_UBYTE
+      0
+      CM_0p0234375_0
+      -0
+      5.97656
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        192
+        0
+        191
+        FIX_AXIS_PAR_DIST 0 1 192
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMDS
+      "somnitelnaya | karta momenta mehanicheskih poter"
+      CURVE
+      0x150D4
+      RL_GRID_UWORD
+      0
+      CM_0p00152588_0
+      -0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        120
+        0
+        119
+        FIX_AXIS_PAR_DIST 0 1 120
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MDIMX
+      "somnitelnaya | verhniy predel indicirovannogo momenta"
+      VALUE
+      0x105D9
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      -0
+      99.6094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWMDAPP
+      "somnitelnaya | kodovoe slovo: kalibrovka bez momentnoy struktury"
+      VALUE
+      0x10024
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KSZWE
+      "podtverzhdena | ugol zaschity ot detonacii"
+      VALUE
+      0x10ED8
+      RL_GRID_UBYTE
+      0
+      CM_n0p75_0_KV
+      -191.25
+      -0
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWSAWE
+      "podtverzhdena | kodovoe slovo: otsechka topliva -- vozvrat"
+      VALUE
+      0x10ED9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNSAH
+      "podtverzhdena | delta oborotov otsechki, verhnyaya, otnositelno oborotov vozvrata"
+      VALUE
+      0x10EDA
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNSAL
+      "podtverzhdena | delta oborotov otsechki, nizhnyaya, otnositelno oborotov vozvrata"
+      VALUE
+      0x10EDB
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNSATIP
+      "podtverzhdena | podem oborotov otsechki pri tychke gazom"
+      VALUE
+      0x10EDC
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNSLL
+      "podtverzhdena | gisterezis vozvrata topliva na holostom"
+      VALUE
+      0x10EDD
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNVSA
+      "podtverzhdena | podem oborotov otsechki na maloy skorosti"
+      VALUE
+      0x10EDE
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNWEELLS
+      "podtverzhdena | delta vozvrata pri otkaze klapana HH"
+      VALUE
+      0x10EDF
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNWEK
+      "podtverzhdena | delta vozvrata pri vklyuchennom kondicionere"
+      VALUE
+      0x10EE0
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DVSA
+      "podtverzhdena | delta skorosti dlya podema oborotov otsechki"
+      VALUE
+      0x10EE1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ENSAKHG
+      "podtverzhdena | razreshenie otsechki po peredache pri progreve katalizatora"
+      VALUE
+      0x10EE2
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TKATSA
+      "podtverzhdena | porog temperatury katalizatora dlya otsechki"
+      VALUE
+      0x10EE3
+      RL_GRID_UBYTE
+      0
+      CM_5_n50_C
+      50
+      1325
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC VSAA
+      "podtverzhdena | porog skorosti dlya podema oborotov otsechki"
+      VALUE
+      0x10EE4
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRKTE
+      "veroyatnaya | pereschet otnositelnoy massy topliva rk v effektivnoe vremya vpryska te -- postoyannaya forsunki"
+      VALUE
+      0x19485
+      RL_GRID_UBYTE
+      0
+      CM_0p00177936_0_ms
+      -0
+      0.453737
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRKAP
+      "podtverzhdena | globalnyy mnozhitel otnositelnoy massy topliva"
+      VALUE
+      0x190CD
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TEMIN
+      "somnitelnaya | minimalnoe effektivnoe vremya vpryska"
+      VALUE
+      0x15E44
+      RL_GRID_UBYTE
+      0
+      CM_0p00266667_0_ms
+      -0
+      0.680001
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TSTEAA
+      "inhibit time after condition B_te (canister purge active)"
+      VALUE
+      0x1893F
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVLRHMN
+      "lower limit for tv-correction"
+      VALUE
+      0x18940
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0_s
+      -0
+      2.55
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVLRHMX
+      "upper limit for tv-correction"
+      VALUE
+      0x18941
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0_s
+      -0
+      2.55
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ANZDYNSH
+      "Amount of dynamic measurement for swinging check of sensor post cat"
+      VALUE
+      0x18942
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWDLSAHK
+      "code word for test aging of O2-sensor post cat"
+      VALUE
+      0x18943
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TABGSTG
+      "threshold for exhaust temperature dynamic-measuring"
+      VALUE
+      0x18944
+      RL_GRID_UBYTE
+      0
+      CM_5_50_GradC
+      -50
+      1225
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TFRMB
+      "time delay for detect. the mean value of lamda control factor within thresholds"
+      VALUE
+      0x18945
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TLLASH
+      "time delay for reset lamlash_w if lamsons_w is not lamlash_w"
+      VALUE
+      0x18946
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TSALASH
+      "Time after fuel cut-off for the checking of the sensor downstream catalyst"
+      VALUE
+      0x18947
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TUSCHUB
+      "Delay time for interference peaks at thrust detection of the rear oxygen sensor"
+      VALUE
+      0x18948
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TUSHSMIN
+      "Minimum time for measuring the gradient for enable filter"
+      VALUE
+      0x18949
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TUSSA
+      "delay time after crossing the control threshold downstream cat"
+      VALUE
+      0x1894A
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC USHLEAN
+      "Threshold for lean volt. for reset dynamic measurement of sensor downstream cat."
+      VALUE
+      0x1894B
+      RL_GRID_UBYTE
+      0
+      CM_0p005215686275_0p2_V
+      -0.2
+      1.13
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC USHRICH
+      "Threshold for rich volt. for valid dyn. measurement of sensor downstream cat."
+      VALUE
+      0x1894C
+      RL_GRID_UBYTE
+      0
+      CM_0p005215686275_0p2_V
+      -0.2
+      1.13
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC USHSTGMX
+      "Value for maximum gradient for initial value of filter"
+      VALUE
+      0x1894D
+      RL_GRID_UBYTE
+      0
+      CM_0p52_0_mVms
+      -0
+      132.6
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC USHSTSOLL
+      "Threshold for permitted gradient of the sensor voltage downstream catalyst"
+      VALUE
+      0x1894E
+      RL_GRID_UBYTE
+      0
+      CM_0p52_0_mVms
+      -0
+      132.6
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC USSCHUB
+      "Threshold for sensor voltage downstream catalyst after fuel cut-off"
+      VALUE
+      0x1894F
+      RL_GRID_UBYTE
+      0
+      CM_0p005215686275_0p2_V
+      -0.2
+      1.13
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWGGLSV
+      "Code word for Ri-measurement for O2sensor pre cat (not fully heated)"
+      VALUE
+      0x18950
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ADKATNF
+      "scaling factor for signal amplitude of the sensor resp. of the catalyst stress"
+      VALUE
+      0x18951
+      RL_GRID_UBYTE
+      0
+      CM_0p09362_0_1V
+      -0
+      23.8731
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC AHKATMN
+      "threshold value catalyst good, AHKAT < AHKATMN"
+      VALUE
+      0x18952
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC AHKATS
+      "threshold value for sum AHKAT,AHKAT2 (stereo)"
+      VALUE
+      0x18953
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC AHKATSB
+      "threshold value for error of adding range (stereo)"
+      VALUE
+      0x18954
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC AHKTMXT
+      "threshold value catalyst defect at tester's request"
+      VALUE
+      0x18955
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC APEKTDX
+      "max. number of tests with error result"
+      VALUE
+      0x18956
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC AVKATFS
+      "setting value for AVKATF in case of powerfail"
+      VALUE
+      0x18957
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDKATLK
+      "code word for B_lrka active"
+      VALUE
+      0x18958
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DKATCW
+      "single run resp. initialization of the DKAT function"
+      VALUE
+      0x18959
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DRLKTDP
+      "Threshold for engine load change"
+      VALUE
+      0x1895A
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DRLKTDPT
+      "Threshold for engine load change at tester's request"
+      VALUE
+      0x1895B
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FALRKTD
+      "amplification factor for amplitude of lambda controller"
+      VALUE
+      0x1895C
+      RL_GRID_UBYTE
+      0
+      CM_0p03125_0
+      -0
+      7.96875
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FALRKTT
+      "amplification factor for amplitude of lambda controller at tester mode"
+      VALUE
+      0x1895D
+      RL_GRID_UBYTE
+      0
+      CM_0p03125_0
+      -0
+      7.96875
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KATBFMNT
+      "threshold value for small catalyst stress at tester's request"
+      VALUE
+      0x1895E
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KATBFN
+      "standardized mean value of the sensor amplitude"
+      VALUE
+      0x1895F
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KATBFNM
+      "scaling factor multiplicative for catalyst stress"
+      VALUE
+      0x18960
+      RL_GRID_UBYTE
+      0
+      CM_0p005215686275_0_V
+      -0
+      1.33
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KATBFNP
+      "scaling factor additive for catalyst stress"
+      VALUE
+      0x18961
+      RL_GRID_UBYTE
+      0
+      CM_0p005215686275_0_V
+      -0
+      1.33
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KATBFSX
+      "maximum integrator value for stop condition"
+      VALUE
+      0x18962
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KATBSG
+      "catalyst storage value for catalyst stress"
+      VALUE
+      0x18963
+      RL_GRID_UBYTE
+      0
+      CM_0p8695652174_0_mg
+      -0
+      221.739
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KATBSH
+      "offset for lambda control slightly in the rich area"
+      VALUE
+      0x18964
+      RL_GRID_UBYTE
+      0
+      CM_0p8695652174_0_mgs
+      -0
+      221.739
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KATBSHG
+      "limitation factor of model lambda-offset due to sensor mean values"
+      VALUE
+      0x18965
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NDKTSOT
+      "upper engine speed limit for function request"
+      VALUE
+      0x18966
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NDKTSUT
+      "lower engine speed limit for function request"
+      VALUE
+      0x18967
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NKTDX
+      "Maximum speed for DKAT calculation"
+      VALUE
+      0x18968
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLDKTOT
+      "upper load limit for function request"
+      VALUE
+      0x18969
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLDKTUT
+      "lower load limit for function request"
+      VALUE
+      0x1896A
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMAXKAT
+      "maximum catalyst temp. for active diagnosis"
+      VALUE
+      0x1896B
+      RL_GRID_UBYTE
+      0
+      CM_5_50_GradC
+      -50
+      1225
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMINKAT
+      "minimum catalyst temperature for monitoring"
+      VALUE
+      0x1896C
+      RL_GRID_UBYTE
+      0
+      CM_5_50_GradC
+      -50
+      1225
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMNKATT
+      "minimum catalyst temperature for monitoring during tester mode"
+      VALUE
+      0x1896D
+      RL_GRID_UBYTE
+      0
+      CM_5_50_GradC
+      -50
+      1225
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMSUKTD
+      "minimum engine start temp. for monitoring"
+      VALUE
+      0x1896E
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TWDKATST
+      "waiting time after stop condition for filter and integrator"
+      VALUE
+      0x1896F
+      RL_GRID_UBYTE
+      0
+      CM_0p05_0_s
+      -0
+      12.75
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TWKTDLP
+      "delay time after parameter switch over in lambda control"
+      VALUE
+      0x18970
+      RL_GRID_UBYTE
+      0
+      CM_0p05_0_s
+      -0
+      12.75
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZDKATAD
+      "filter time constant of the differentiator for signal amplitude"
+      VALUE
+      0x18971
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZDKATAF
+      "time constant 'absolute value filter' for signal amplitude"
+      VALUE
+      0x18972
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZDKATSH
+      "time constant low pass filter, mean sensor values"
+      VALUE
+      0x18973
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZDKTBD
+      "time constant of the differentiator for RF-alternating component"
+      VALUE
+      0x18974
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZDKTBF
+      "time constant for gas mixing procedure in front of catalyst"
+      VALUE
+      0x18975
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZKTDRL
+      "time constant low pass filter, engine load"
+      VALUE
+      0x18976
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC PHLSNVMN
+      "minimal normalised heating-power-diagnosis sensor pre catalyst"
+      VALUE
+      0x18977
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0
+      -0
+      2.55
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TABGMSVU
+      "temp. threshold from exhaust temp. modell for diagn. sensor upstream"
+      VALUE
+      0x18978
+      RL_GRID_UBYTE
+      0
+      CM_5_50_GradC
+      -50
+      1225
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMASO
+      "time after fuel cut off for commen open sensor ground"
+      VALUE
+      0x18979
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMNEB
+      "Engine temprerature threshold for measurement of sensor shunt pre cat"
+      VALUE
+      0x1897A
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMSV
+      "engine temp. threshold for recognition cold start for measuring sensor upstream"
+      VALUE
+      0x1897B
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMSVA
+      "threshold for engine switch-off temp. for measuring cooling sensor upstream cat"
+      VALUE
+      0x1897C
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TRSA
+      "monitoring time closed-loop control (upstream CAT) -> sensor off"
+      VALUE
+      0x1897D
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TUSEINV
+      "Delay time for condition Lambda sensor ready bit"
+      VALUE
+      0x1897E
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC PHLSNHMN
+      "Heating power for adequate sensor heating"
+      VALUE
+      0x1897F
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0
+      -0
+      2.55
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THHA
+      "off time to reduce heater power of oxygen sensor downstream cat at 13Volt"
+      VALUE
+      0x18980
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0p05_s
+      -0.05
+      2.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THHA2
+      "off time to reduce heater power of oxygen sensor2 downstream cat at 13Volt"
+      VALUE
+      0x18981
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0p05_s
+      -0.05
+      2.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THHAWU
+      "Switch OFF time during power reduction of sensor heating post cat"
+      VALUE
+      0x18982
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0_s
+      -0
+      2.55
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THSHA
+      "Verz gerungszeit f r Sonde ausreichend beheizt"
+      VALUE
+      0x18983
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THVA
+      "off time to reduce heater power of oxygen sensor upstream cat at 13 Volt"
+      VALUE
+      0x18984
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0p05_s
+      -0.05
+      2.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THVA2
+      "off time to reduce heater power of oxygen sensor2 upstream cat at 13 Volt"
+      VALUE
+      0x18985
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0p05_s
+      -0.05
+      2.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THVAWU
+      "Switch OFF time during power reduction of sensor heating pre cat"
+      VALUE
+      0x18986
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0_s
+      -0
+      2.55
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMOHSMN
+      "Minimum engine temperature for lambda sensor heating"
+      VALUE
+      0x18987
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TREHS
+      "time for restart sensor heating"
+      VALUE
+      0x18988
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVHSH
+      "delay time for sensor heater downstream cut"
+      VALUE
+      0x18989
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVHSV
+      "delay time for sensor heater upstream cut"
+      VALUE
+      0x1898A
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVHSVMX
+      "delay time for maximum sensor heater upstream cut"
+      VALUE
+      0x1898B
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC UBHS
+      "battery voltage threshold for switching off oxygen sensor heater"
+      VALUE
+      0x1898C
+      RL_GRID_UBYTE
+      0
+      CM_0p0704_0_V
+      -0
+      17.952
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC UHSN
+      "Nominal battery voltage for lambda sensor heating"
+      VALUE
+      0x1898D
+      RL_GRID_UBYTE
+      0
+      CM_0p0704_0_V
+      -0
+      17.952
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TATELL
+      "tans-threshold for canister purge control with B_ll = 1"
+      VALUE
+      0x19535
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMSNOGA
+      "threshold tms for endless purge control, if mixture adaptation without error"
+      VALUE
+      0x19537
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMTE
+      "engine-temperature threshold for canister purge"
+      VALUE
+      0x1976C
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRHB
+      "limit for lambda controller to reset Bit 'High HC-canister charge'"
+      VALUE
+      0x197AB
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FTEADAB
+      "Canister charge threshold for interruption of the purge phase"
+      VALUE
+      0x197AC
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      -0
+      127.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FTEADMX
+      "Maximum value of the canister charge (ftead)"
+      VALUE
+      0x197AD
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      -0
+      127.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FTEFHB
+      "Limit for flow rate of purge system to detect high concentration"
+      VALUE
+      0x197AE
+      RL_GRID_UBYTE
+      0
+      CM_0p001953125_0
+      -0
+      0.498047
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FTEHB
+      "Limit for purge factor to detect high concentration"
+      VALUE
+      0x197AF
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      -0
+      127.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FUMRBRK
+      "factor calculation of canister charge (ftead) from HC-concentration"
+      VALUE
+      0x197BB
+      RL_GRID_UBYTE
+      0
+      CM_0p125_0
+      -0
+      31.875
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KHCTEMN
+      "minimum value of HC concentration in purge flow"
+      VALUE
+      0x198AB
+      RL_GRID_UBYTE
+      0
+      CM_0p015625_0
+      -0
+      3.98438
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KHCTEMX
+      "maximum value of HC concentration in purge flow"
+      VALUE
+      0x198AC
+      RL_GRID_UBYTE
+      0
+      CM_0p015625_0
+      -0
+      3.98438
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNDTEO
+      "upper Nsoll-Nist threshold for abortion diagnosis CPV"
+      VALUE
+      0x19912
+      RL_GRID_UBYTE
+      0
+      CM_10_0_Umin
+      -0
+      2550
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNDTEU
+      "lower Nsoll-Nist threshold for abortion diagnosis CPV"
+      VALUE
+      0x19913
+      RL_GRID_UBYTE
+      0
+      CM_10_0_Umin
+      -0
+      2550
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ETAZWTEN
+      "minimum threschold of ignition angle efficiency for diagnosis of PCV"
+      VALUE
+      0x19914
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      -0
+      127.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKADPMN
+      "minimum feul part via CPV for passive O.K. testing."
+      VALUE
+      0x19915
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC IMSDTEVA
+      "thershold for integral of purge mass flow after a long purge stop"
+      VALUE
+      0x19916
+      RL_GRID_UBYTE
+      0
+      CM_0p0444_0_g
+      -0
+      11.322
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TC6TECI
+      "mode 6 code word for O.K. check of CPV form DLDP"
+      VALUE
+      0x1996E
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TC6TECL
+      "mode 6 code word for O.K. check of CPV from air-test"
+      VALUE
+      0x1996F
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TC6TECNL
+      "mode 6 code word for NOT O.K. check of CPV from air-test"
+      VALUE
+      0x19970
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TC6TECP
+      "mode 6 code word for passive O.K. check of CPV"
+      VALUE
+      0x19971
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TC6TECRF
+      "mode 6 code word for O.K. check of CPV from FR-deviation dircetion rich"
+      VALUE
+      0x19972
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TC6TECRM
+      "mode 6 code word for O.K. check of CPV from FR-deviation dircetion lean"
+      VALUE
+      0x19973
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TC6TECT
+      "mode 6 code word for O.K. check of CPV form DLDP"
+      VALUE
+      0x19974
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TTEVAZ
+      "duration of stay for CPV opening with not successful frm"
+      VALUE
+      0x19978
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVDTEB
+      "delay time for statement TEV o.k./defect in diagnosis DTEV"
+      VALUE
+      0x1997A
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVDTEE
+      "Duration as of PCV open for checking of DTEV"
+      VALUE
+      0x1997B
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVDTEVP
+      "delay time for setting of the flip flop 'Passive Diagnosis CPV o.k.'"
+      VALUE
+      0x1997D
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVDTEVZ
+      "delay time for closing CPV for active DTEV"
+      VALUE
+      0x1997F
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
     /end CHARACTERISTIC
 
   /end MODULE

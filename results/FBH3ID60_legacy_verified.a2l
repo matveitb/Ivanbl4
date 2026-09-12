@@ -279,6 +279,36 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.125
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p25_0_obmin
+      "scale 0.25"
+      RAT_FUNC "%.3f" "ob/min"
+      COEFFS 0 1 0 0 0 0.25
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p00152588_0_otopornogomoment
+      "scale 0.00152588"
+      RAT_FUNC "%.3f" "% ot opornogo momenta"
+      COEFFS 0 1 0 0 0 0.00152588
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_n0p75_0_KV
+      "scale -0.75"
+      RAT_FUNC "%.3f" "KV"
+      COEFFS 0 1 0 0 0 -0.75
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_40_0_obmin
+      "scale 40"
+      RAT_FUNC "%.1f" "ob/min"
+      COEFFS 0 1 0 0 0 40
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_5_n50_C
+      "scale 5"
+      RAT_FUNC "%.1f" "C"
+      COEFFS 0 1 -50 0 0 5
+    /end COMPU_METHOD
+
     /begin RECORD_LAYOUT RL_AXIS_U8
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
@@ -4137,6 +4167,255 @@ ASAP2_VERSION 1 51
         5
         FIX_AXIS_PAR_DIST 0 1 6
       /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NMAX
+      "podtverzhdena | Otsechka. Znacheniya sovpali s tem, chto nazyval kalibrovschik (6800 protiv 7700)."
+      CURVE
+      0x14BB4
+      RL_GRID_UWORD
+      0
+      CM_0p25_0_obmin
+      -0
+      16383.8
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLVMXN_1
+      "podtverzhdena | maks. napolnenie pri otkrytom drossele"
+      CURVE
+      0x182B6
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        11
+        0
+        10
+        FIX_AXIS_PAR_DIST 0 1 11
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLVSMXN_1
+      "podtverzhdena | to zhe pri pereklyuchennom vpuske (SU)"
+      CURVE
+      0x182CD
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        11
+        0
+        10
+        FIX_AXIS_PAR_DIST 0 1 11
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMIOP
+      "podtverzhdena |"
+      CURVE
+      0x14A10
+      RL_GRID_UWORD
+      0
+      CM_0p00152588_0_otopornogomoment
+      -0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        176
+        0
+        175
+        FIX_AXIS_PAR_DIST 0 1 176
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFETAZW_1
+      "podtverzhdena | karta KPD po uglu"
+      CURVE
+      0x10216
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      -0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        256
+        0
+        255
+        FIX_AXIS_PAR_DIST 0 1 256
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KSZWE
+      "podtverzhdena | ugol zaschity ot detonacii"
+      VALUE
+      0x10ED8
+      RL_GRID_UBYTE
+      0
+      CM_n0p75_0_KV
+      -191.25
+      -0
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWSAWE
+      "podtverzhdena | kodovoe slovo: otsechka topliva -- vozvrat"
+      VALUE
+      0x10ED9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNSAH
+      "podtverzhdena | delta oborotov otsechki, verhnyaya, otnositelno oborotov vozvrata"
+      VALUE
+      0x10EDA
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNSAL
+      "podtverzhdena | delta oborotov otsechki, nizhnyaya, otnositelno oborotov vozvrata"
+      VALUE
+      0x10EDB
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNSATIP
+      "podtverzhdena | podem oborotov otsechki pri tychke gazom"
+      VALUE
+      0x10EDC
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNSLL
+      "podtverzhdena | gisterezis vozvrata topliva na holostom"
+      VALUE
+      0x10EDD
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNVSA
+      "podtverzhdena | podem oborotov otsechki na maloy skorosti"
+      VALUE
+      0x10EDE
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNWEELLS
+      "podtverzhdena | delta vozvrata pri otkaze klapana HH"
+      VALUE
+      0x10EDF
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DNWEK
+      "podtverzhdena | delta vozvrata pri vklyuchennom kondicionere"
+      VALUE
+      0x10EE0
+      RL_GRID_UBYTE
+      0
+      CM_40_0_obmin
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DVSA
+      "podtverzhdena | delta skorosti dlya podema oborotov otsechki"
+      VALUE
+      0x10EE1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ENSAKHG
+      "podtverzhdena | razreshenie otsechki po peredache pri progreve katalizatora"
+      VALUE
+      0x10EE2
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TKATSA
+      "podtverzhdena | porog temperatury katalizatora dlya otsechki"
+      VALUE
+      0x10EE3
+      RL_GRID_UBYTE
+      0
+      CM_5_n50_C
+      50
+      1325
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC VSAA
+      "podtverzhdena | porog skorosti dlya podema oborotov otsechki"
+      VALUE
+      0x10EE4
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRKAP
+      "podtverzhdena | globalnyy mnozhitel otnositelnoy massy topliva"
+      VALUE
+      0x190CD
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
     /end CHARACTERISTIC
 
   /end MODULE
