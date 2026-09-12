@@ -99,23 +99,30 @@ def vint(n):
             return bytes(out)
 
 
-def make_rar5(path, names):
-    """Минимальный RAR5 по спецификации: подпись, главный блок, файлы, конец."""
-    def block(htype, body, data=b""):
-        head = vint(htype) + vint(0x02 if data else 0)
+def make_rar5(path, names, volume=False, cont_next=False):
+    """
+    Минимальный RAR5 по спецификации: подпись, главный блок, файлы, конец.
+
+    volume    -- взвести флаг тома в главном заголовке;
+    cont_next -- пометить последний файл как продолжающийся в следующий том.
+    """
+    def block(htype, body, data=b"", hflags=0):
+        head = vint(htype) + vint(hflags | (0x02 if data else 0))
         if data:
             head += vint(len(data))
         head += body
         return b"\x00\x00\x00\x00" + vint(len(head)) + head + data
 
     out = bytearray(b"Rar!\x1a\x07\x01\x00")
-    out += block(1, vint(0))                                   # главный
-    for name in names:
+    out += block(1, vint(0x01 if volume else 0x00))            # главный
+    for i, name in enumerate(names):
         raw = name.encode("utf-8")
         payload = b"\xaa" * 64
         body = (vint(0) + vint(len(payload) * 2) + vint(0)
                 + vint(0) + vint(0) + vint(len(raw)) + raw)
-        out += block(2, body, payload)
+        last = i == len(names) - 1
+        out += block(2, body, payload,
+                     hflags=0x10 if (cont_next and last) else 0)
     out += block(5, vint(0))                                   # конец
     open(path, "wb").write(bytes(out))
 
@@ -146,6 +153,8 @@ def main():
 
         make_rar5(os.path.join(tmp, "a.rar"),
                   ["docs/readme.txt", "M7.9.7/1037368793.dam"])
+        make_rar5(os.path.join(tmp, "vol.part1.rar"),
+                  ["big/1037368793.dam"], volume=True, cont_next=True)
 
         have7z = shutil.which("7z")
         if have7z:
@@ -176,6 +185,17 @@ def main():
             names = [e.name for e in entries]
             check(names == ["docs/readme.txt", "M7.9.7/1037368793.dam"],
                   "RAR5: имена разобраны (%s)" % names)
+            check(not rm.notes,
+                  "RAR5: самостоятельный архив не помечен как том")
+
+            # -- RAR5, настоящий том многотомника
+            kind, entries, rm = remotels.listing(
+                base + "/vol.part1.rar", 10**6, 20)
+            joined = " | ".join(rm.notes)
+            check("том многотомного" in joined,
+                  "RAR5: флаг тома в главном заголовке замечен")
+            check("в следующий: 1" in joined,
+                  "RAR5: файл, продолжающийся в следующий том, замечен")
 
             # -- 7z
             if have7z:

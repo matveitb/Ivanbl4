@@ -45,6 +45,7 @@ Range. Значит список имён внутри архива можно �
 from __future__ import annotations
 
 import argparse
+import concurrent.futures as futures
 import os
 import re
 import lzma
@@ -69,6 +70,7 @@ class Remote:
         self.ranges = False
         self.requests = 0
         self.bytes = 0
+        self.notes: list[str] = []
         self._cache: list[tuple[int, int, bytes]] = []
 
     def probe(self) -> None:
@@ -399,44 +401,73 @@ def _vint(rd, pos: int) -> tuple[int, int]:
 
 
 def rar5_entries(rm: Remote, limit: int) -> list[Entry]:
+    """
+    Обход заголовков RAR5. Данные файлов перешагиваются: DataSize из
+    заголовка говорит, сколько байт пропустить до следующего блока.
+
+    Попутно определяется, самостоятельный это архив или том многотомника.
+    Разница принципиальная: у тома часть файлов физически продолжается в
+    соседнем томе, и вытащить такой файл по Range нельзя. Смотрим два
+    признака -- флаг тома в главном заголовке и флаги продолжения у
+    отдельных файлов.
+    """
     out, pos = [], 8
+    cont_prev = cont_next = 0
     while rm.size and pos < rm.size and len(out) < limit:
         try:
             hs, p = _vint(rm.read, pos + 4)
         except (IndexError, urllib.error.HTTPError):
             break
+        if hs <= 0:
+            break
         body = p
         blk = rm.read(body, min(hs, 1 << 16))
+        rd = lambda o, n, b=blk: b[o:o + n]                   # noqa: E731
         q = 0
-        htype, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
-        flags, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
-        extra = 0
+        htype, q = _vint(rd, q)
+        flags, q = _vint(rd, q)
         if flags & 0x01:
-            extra, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
+            _extra, q = _vint(rd, q)
         data = 0
         if flags & 0x02:
-            data, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
-        if htype == 5:                       # конец архива
+            data, q = _vint(rd, q)
+        cont_prev += bool(flags & 0x08)
+        cont_next += bool(flags & 0x10)
+
+        if htype == 5:                                        # конец архива
             break
-        if htype in (2, 3):                  # файл / служебный
-            _fflags, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
-            unp, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
-            _attr, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
-            if _fflags & 0x02:
-                q += 4
-            if _fflags & 0x04:
-                q += 4
-            _ci, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
-            _os, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
-            nlen, q = _vint(lambda o, n, b=blk: b[o:o + n], q)
+        if htype == 1:                                        # главный
+            aflags, q = _vint(rd, q)
+            if aflags & 0x01:
+                rm.notes.append("главный заголовок помечен как том "
+                                "многотомного архива")
+            if aflags & 0x04:
+                rm.notes.append("архив solid -- файлы распаковываются только "
+                                "подряд с начала, по одному не вытащить")
+        elif htype in (2, 3):                                 # файл, служебный
+            fflags, q = _vint(rd, q)
+            unp, q = _vint(rd, q)
+            _attr, q = _vint(rd, q)
+            if fflags & 0x02:
+                q += 4                                        # mtime
+            if fflags & 0x04:
+                q += 4                                        # CRC
+            _ci, q = _vint(rd, q)
+            _os, q = _vint(rd, q)
+            nlen, q = _vint(rd, q)
             if htype == 2:
                 out.append(Entry(_name(blk[q:q + nlen]), unp, data, body, -1))
         pos = body + hs + data
+
+    if cont_prev or cont_next:
+        rm.notes.append("файлов, продолжающихся из прошлого тома: %d, "
+                        "в следующий: %d" % (cont_prev, cont_next))
     return out
 
 
 def rar4_entries(rm: Remote, limit: int) -> list[Entry]:
     out, pos = [], 7
+    cont_prev = cont_next = 0
     while rm.size and pos < rm.size and len(out) < limit:
         h = rm.read(pos, 11)
         if len(h) < 7:
@@ -446,17 +477,30 @@ def rar4_entries(rm: Remote, limit: int) -> list[Entry]:
         add = struct.unpack_from("<I", h, 7)[0] if flags & 0x8000 else 0
         if hsize < 7:
             break
-        if htype == 0x74:
+        if htype == 0x73:                                     # главный
+            if flags & 0x0001:
+                rm.notes.append("главный заголовок помечен как том "
+                                "многотомного архива")
+            if flags & 0x0008:
+                rm.notes.append("архив solid -- файлы распаковываются только "
+                                "подряд с начала, по одному не вытащить")
+        elif htype == 0x74:                                   # файл
             blk = rm.read(pos, min(hsize, 1 << 16))
             packed, unp = struct.unpack_from("<II", blk, 7)
             nlen = struct.unpack_from("<H", blk, 26)[0]
             q = 32
             if flags & 0x100:
                 q += 8
+            cont_prev += bool(flags & 0x0001)
+            cont_next += bool(flags & 0x0002)
             out.append(Entry(_name(blk[q:q + nlen]), unp, packed, pos, -1))
-        if htype == 0x7B:
+        elif htype == 0x7B:
             break
         pos += hsize + add
+
+    if cont_prev or cont_next:
+        rm.notes.append("файлов, продолжающихся из прошлого тома: %d, "
+                        "в следующий: %d" % (cont_prev, cont_next))
     return out
 
 
@@ -477,6 +521,11 @@ def listing(url: str, limit: int, timeout: int) -> tuple[str, list[Entry], Remot
         return kind, rar5_entries(rm, limit), rm
     if kind == "rar4":
         return kind, rar4_entries(rm, limit), rm
+    if re.search(r"\.(00[2-9]|0[1-9]\d|[1-9]\d\d)(\?|$)", url):
+        raise RuntimeError(
+            "подписи архива в начале файла нет, а имя оканчивается на номер "
+            "-- похоже на второй и далее кусок побайтово разрезанного архива "
+            "(7z.001/.002). Оглавление есть только в первом куске")
     raise RuntimeError("формат не распознан (первые байты %r)" % rm.read(0, 8))
 
 
@@ -500,6 +549,8 @@ def main(argv=None) -> int:
     ap.add_argument("--dest", default=".")
     ap.add_argument("--limit", type=int, default=100000)
     ap.add_argument("--timeout", type=int, default=60)
+    ap.add_argument("--jobs", type=int, default=8,
+                    help="сколько архивов читать одновременно")
     ap.add_argument("--out", help="куда записать найденное")
     a = ap.parse_args(argv)
 
@@ -517,58 +568,77 @@ def main(argv=None) -> int:
     total_req = total_bytes = 0
     rc = 0
 
-    for url in urls:
+    def one(url):
+        """Прочитать один архив. Возвращает готовые строки, чтобы вывод от
+        параллельных задач не перемешивался."""
         tag = url.split("/")[-1][:60] or url
+        lines, found = [], []
         if a.probe:
             rm = Remote(url, a.timeout)
             try:
                 rm.probe()
-                head = rm.read(0, 16)
-                print("%-60s %-6s размер %-10s Range %s"
-                      % (tag, sniff(head),
-                         human(rm.size) if rm.size else "?",
-                         "да" if rm.ranges else "НЕТ"))
+                lines.append("%-60s %-6s размер %-10s Range %s"
+                             % (tag, sniff(rm.read(0, 16)),
+                                human(rm.size) if rm.size else "?",
+                                "да" if rm.ranges else "НЕТ"))
             except Exception as exc:                     # noqa: BLE001
-                print("%-60s ОШИБКА %s" % (tag, exc))
-                rc = 1
-            continue
+                return tag, ["%-60s ОШИБКА %s" % (tag, exc)], [], None, 1
+            return tag, lines, [], rm, 0
 
         try:
             kind, entries, rm = listing(url, a.limit, a.timeout)
         except Exception as exc:                         # noqa: BLE001
-            print("%-60s ОШИБКА %s" % (tag, exc), file=sys.stderr)
-            rc = 1
-            continue
+            return tag, ["== %s  ОШИБКА %s" % (tag, exc)], [], None, 1
 
-        total_req += rm.requests
-        total_bytes += rm.bytes
         hits = [e for e in entries if not rx or rx.search(e.name)]
         share = (100.0 * rm.bytes / rm.size) if rm.size else 0
-        print("== %s  [%s]  записей %d, подошло %d  "
-              "(скачано %s из %s, %.4f %%, запросов %d)"
-              % (tag, kind, len(entries), len(hits),
-                 human(rm.bytes), human(rm.size or 0), share, rm.requests))
+        lines.append("== %s  [%s]  записей %d, подошло %d  "
+                     "(скачано %s из %s, %.4f %%, запросов %d)"
+                     % (tag, kind, len(entries), len(hits),
+                        human(rm.bytes), human(rm.size or 0), share,
+                        rm.requests))
+        for note in rm.notes:
+            lines.append("   ВНИМАНИЕ: " + note)
+        if kind.startswith("rar") and not rm.notes:
+            lines.append("   самостоятельный архив -- один файл вытаскивается "
+                         "отдельно")
         for e in hits:
-            line = "   %10s  %s" % (human(e.size) if e.size else "", e.name)
-            print(line)
-            if sink:
-                sink.write("%s\t%s\t%d\n" % (url, e.name, e.size))
+            lines.append("   %10s  %s"
+                         % (human(e.size) if e.size else "", e.name))
+            found.append((url, e.name, e.size))
 
         if a.get:
-            sel = [e for e in entries if e.name == a.get
-                   or e.name.endswith("/" + a.get)]
+            sel = [e for e in entries
+                   if e.name == a.get or e.name.endswith("/" + a.get)]
             if not sel:
-                print("   нет такого файла в архиве: " + a.get, file=sys.stderr)
-                rc = 1
+                lines.append("   нет такого файла в архиве: " + a.get)
             elif kind != "zip":
-                print("   --get пока только для ZIP", file=sys.stderr)
-                rc = 1
+                lines.append("   --get пока только для ZIP")
             else:
                 blob = zip_get(rm, sel[0])
                 os.makedirs(a.dest, exist_ok=True)
                 dst = os.path.join(a.dest, os.path.basename(sel[0].name))
                 open(dst, "wb").write(blob)
-                print("   вытащено %s -> %s" % (human(len(blob)), dst))
+                lines.append("   вытащено %s -> %s" % (human(len(blob)), dst))
+        return tag, lines, found, rm, 0
+
+    jobs = max(1, min(a.jobs, len(urls)))
+    if jobs == 1:
+        results = [one(u) for u in urls]
+    else:
+        with futures.ThreadPoolExecutor(jobs) as pool:
+            results = list(pool.map(one, urls))
+
+    for _tag, lines, found, rm, bad in results:
+        rc |= bad
+        for ln in lines:
+            print(ln)
+        if sink:
+            for url, name, size in found:
+                sink.write("%s\t%s\t%d\n" % (url, name, size))
+        if rm:
+            total_req += rm.requests
+            total_bytes += rm.bytes
 
     if sink:
         sink.close()
