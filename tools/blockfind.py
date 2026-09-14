@@ -42,7 +42,7 @@ def conv_of(d: damos.Damos, v: damos.Variable):
     c = d.conv(v.conv_w)
     f = c.factor if c else 1.0
     sh = c.shift if c else 0.0
-    w = 2 if (c and c.raw_max >= 65535) else 1
+    w, _signed = damos.width_of(c)
     return f, sh, w
 
 

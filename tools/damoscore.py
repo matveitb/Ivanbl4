@@ -89,10 +89,11 @@ def load_dam(path: str) -> list[Obj]:
         if not (DATA_LO <= off < DATA_HI):
             continue
         c = d.conv(v.conv_w)
-        width = 2 if (c and c.raw_max >= 65535) else 1
+        width, signed = damos.width_of(c)
         lo, hi = (v.w_min, v.w_max) if v.w_max > v.w_min else (None, None)
         out.append(Obj(off, v.name, v.nx == 0 and v.ny == 0, width,
-                       c.factor if c else 1.0, c.shift if c else 0.0, lo, hi))
+                       c.factor if c else 1.0, c.shift if c else 0.0, lo, hi,
+                       signed))
     return out
 
 

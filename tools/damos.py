@@ -87,6 +87,27 @@ class Conversion:
         return s
 
 
+_TYPETAG = re.compile(r'_(ub|uw|sb|sw|ul|sl)_')
+
+
+def width_of(conv) -> tuple[int, bool]:
+    """
+    Ширина и знаковость величины по её пересчёту.
+
+    Надёжный источник -- метка типа в ИМЕНИ пересчёта: ub/uw/sb/sw это
+    unsigned/signed byte/word. Догадка по raw_max врёт: у KUMSRL пересчёт
+    kumsrl_ub_b0p002 с raw_max 128000, но величина однобайтовая, и по
+    raw_max она бы считалась словом, а проверка допуска -- мусором.
+    """
+    if conv is None:
+        return 1, False
+    m = _TYPETAG.search(conv.name or "")
+    if m:
+        tag = m.group(1)
+        return {"b": 1, "w": 2, "l": 4}[tag[1]], tag[0] == "s"
+    return (2 if conv.raw_max >= 65535 else 1), False
+
+
 @dataclass
 class Variable:
     idx: int

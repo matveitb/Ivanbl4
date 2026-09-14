@@ -309,6 +309,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 -50 0 0 5
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_7p8125En06_0_kgh1min
+      "scale 7.8125e-06"
+      RAT_FUNC "%.3f" "(kg/h)/(1/min)/%"
+      COEFFS 0 1 0 0 0 7.8125e-06
+    /end COMPU_METHOD
+
     /begin RECORD_LAYOUT RL_AXIS_U8
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
@@ -4416,6 +4422,36 @@ ASAP2_VERSION 1 51
       CM_0p0078125_0
       -0
       1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KUMSRL
+      "podtverzhdena | konstanta perescheta rashoda vozduha v otnositelnoe napolnenie"
+      VALUE
+      0x1157C
+      RL_GRID_UBYTE
+      0
+      CM_7p8125En06_0_kgh1min
+      -0
+      0.00199219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KLAF
+      "podtverzhdena | funkciya istecheniya Sen-Venana dlya drosselya"
+      CURVE
+      0x15754
+      RL_GRID_UWORD
+      0
+      CM_IDENTITY
+      -0
+      65535
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        501
+        0
+        500
+        FIX_AXIS_PAR_DIST 0 1 501
+      /end AXIS_DESCR
     /end CHARACTERISTIC
 
   /end MODULE
