@@ -4454,6 +4454,101 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFPU
+      "podtverzhdena | korrekciya pulsaciy potoka, oboroty x ugol drosselya"
+      CURVE
+      0x114A3
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFPUSU
+      "podtverzhdena | to zhe pri izmenyaemoy geometrii vpuska (rezhim 1)"
+      CURVE
+      0x111FD
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFPUNW
+      "podtverzhdena | to zhe pri upravlenii fazami (rezhim 2) -- vsya v edinicah, fazovraschatelya tut net"
+      CURVE
+      0x112DF
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFPUSUNW
+      "podtverzhdena | to zhe pri oboih (rezhim 3) -- vsya v edinicah"
+      CURVE
+      0x113C1
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFKHFM
+      "podtverzhdena | korrekciya harakteristiki DMRV, oboroty x napolnenie"
+      CURVE
+      0x1111B
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
   /end MODULE
 
 /end PROJECT

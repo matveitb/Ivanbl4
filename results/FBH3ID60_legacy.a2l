@@ -645,6 +645,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.00078125
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p001525878906_0_ugladrossely
+      "scale 0.00152588"
+      RAT_FUNC "%.3f" "% ugla drosselya"
+      COEFFS 0 1 0 0 0 0.001525878906
+    /end COMPU_METHOD
+
     /begin RECORD_LAYOUT RL_AXIS_U8
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
@@ -16274,6 +16280,101 @@ ASAP2_VERSION 1 51
         0
         95
         FIX_AXIS_PAR_DIST 0 1 96
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKUGDN_1
+      "veroyatnaya | ugol drosselya, pri kotorom dostigaetsya 95 % maksimalno vozmozhnogo napolneniya"
+      CURVE
+      0x15B40
+      RL_GRID_UWORD
+      0
+      CM_0p001525878906_0_ugladrossely
+      -0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFPU
+      "podtverzhdena | korrekciya pulsaciy potoka, oboroty x ugol drosselya"
+      CURVE
+      0x114A3
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFPUSU
+      "podtverzhdena | to zhe pri izmenyaemoy geometrii vpuska (rezhim 1)"
+      CURVE
+      0x111FD
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFPUSUNW
+      "podtverzhdena | to zhe pri oboih (rezhim 3) -- vsya v edinicah"
+      CURVE
+      0x113C1
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFKHFM
+      "podtverzhdena | korrekciya harakteristiki DMRV, oboroty x napolnenie"
+      CURVE
+      0x1111B
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        196
+        0
+        195
+        FIX_AXIS_PAR_DIST 0 1 196
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
