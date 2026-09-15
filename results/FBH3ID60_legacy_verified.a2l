@@ -327,6 +327,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 7.8125e-06
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p001525878906_0_ugladrossely
+      "scale 0.00152588"
+      RAT_FUNC "%.3f" "% ugla drosselya"
+      COEFFS 0 1 0 0 0 0.001525878906
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p0078125_0_mnozhitel
       "scale 0.0078125"
       RAT_FUNC "%.3f" "mnozhitel"
@@ -4193,10 +4199,48 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC DNMAXH
+      "podtverzhdena | Gisterezis zhestkogo ogranicheniya: toplivo vozvraschaetsya na NMAX minus 120 ob/min. Odinakov vo vseh vosmi proshivkah."
+      CURVE
+      0x14BB2
+      RL_GRID_UWORD
+      0
+      CM_0p25_0_obmin
+      -0
+      16383.8
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC NMAX
       "podtverzhdena | Otsechka. Znacheniya sovpali s tem, chto nazyval kalibrovschik (6800 protiv 7700)."
       CURVE
       0x14BB4
+      RL_GRID_UWORD
+      0
+      CM_0p25_0_obmin
+      -0
+      16383.8
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NMAXDV
+      "podtverzhdena | Ogranichenie oborotov pri neispravnom signale skorosti, a ne vtoroy porog obychnoy otsechki. Kosvennoe podtverzhdenie: L podnyal NMAX do 7084 i ostavil zdes 6000 -- bud eto rabochiy pr"
+      CURVE
+      0x14BB6
       RL_GRID_UWORD
       0
       CM_0p25_0_obmin
@@ -4266,6 +4310,25 @@ ASAP2_VERSION 1 51
         0
         175
         FIX_AXIS_PAR_DIST 0 1 176
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ETADZW
+      "podtverzhdena | KPD sgoraniya v zavisimosti ot delty ugla operezheniya"
+      CURVE
+      0x104D3
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      -0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        65
+        0
+        64
+        FIX_AXIS_PAR_DIST 0 1 65
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -4343,6 +4406,50 @@ ASAP2_VERSION 1 51
         9
         FIX_AXIS_PAR_DIST 0 1 10
       /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MDLF1
+      "podtverzhdena | moment na privod ventilyatora ohlazhdeniya 1"
+      VALUE
+      0x10FB3
+      RL_GRID_UBYTE
+      0
+      CM_0p1960784314_0
+      -0
+      50
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MDLF2
+      "podtverzhdena | to zhe, ventilyator 2"
+      VALUE
+      0x10FB4
+      RL_GRID_UBYTE
+      0
+      CM_0p1960784314_0
+      -0
+      50
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MDLFE1
+      "podtverzhdena | dobavka momenta pri vklyuchenii ventilyatora 1"
+      VALUE
+      0x10FB5
+      RL_GRID_UBYTE
+      0
+      CM_0p1960784314_0
+      -0
+      50
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MDLFE2
+      "podtverzhdena | dobavka momenta pri vklyuchenii ventilyatora 2"
+      VALUE
+      0x10FB6
+      RL_GRID_UBYTE
+      0
+      CM_0p1960784314_0
+      -0
+      50
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KSZWE
@@ -4510,6 +4617,47 @@ ASAP2_VERSION 1 51
       0.00199219
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MSALLMN
+      "podtverzhdena | nizhniy predel adaptacii vozduha HH"
+      VALUE
+      0x1157D
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_kgh
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MSALLMX
+      "podtverzhdena | verhniy predel adaptacii vozduha HH"
+      VALUE
+      0x1157E
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_kgh
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLNOT
+      "podtverzhdena | Podmena napolneniya pri otkaze. Imenno etot mehanizm sposoben derzhat nevernoe napolnenie skolko ugodno dolgo, v otlichie ot oshibki prognoza, zhivuschey 2-5 ciklov."
+      CURVE
+      0x11580
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KLAF
       "podtverzhdena | funkciya istecheniya Sen-Venana dlya drosselya"
       CURVE
@@ -4526,6 +4674,25 @@ ASAP2_VERSION 1 51
         0
         500
         FIX_AXIS_PAR_DIST 0 1 501
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKUGDN
+      "podtverzhdena | ugol drosselya, pri kotorom dostigaetsya 95 % maksimalno vozmozhnogo napolneniya"
+      CURVE
+      0x15B40
+      RL_GRID_UWORD
+      0
+      CM_0p001525878906_0_ugladrossely
+      -0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
