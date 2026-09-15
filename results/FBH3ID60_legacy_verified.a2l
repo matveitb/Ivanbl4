@@ -315,6 +315,18 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 7.8125e-06
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p0234375_0_napolneniya
+      "scale 0.0234375"
+      RAT_FUNC "%.3f" "% napolneniya"
+      COEFFS 0 1 0 0 0 0.0234375
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0078125_0_mnozhitel
+      "scale 0.0078125"
+      RAT_FUNC "%.3f" "mnozhitel"
+      COEFFS 0 1 0 0 0 0.0078125
+    /end COMPU_METHOD
+
     /begin RECORD_LAYOUT RL_AXIS_U8
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
@@ -4454,6 +4466,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFRLW_1
+      "podtverzhdena | rezervnyy signal napolneniya ot ugla drosselya i oborotov (auxiliary load signal). Imenno na nego EBU pereklyuchaetsya, kogda osnovnoy signal po DMRV priznan negodnym -- tot samyy seco"
+      CURVE
+      0x1ACAA
+      RL_GRID_UWORD
+      0
+      CM_0p0234375_0_napolneniya
+      -0
+      1535.98
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        144
+        0
+        143
+        FIX_AXIS_PAR_DIST 0 1 144
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFPU
       "podtverzhdena | korrekciya pulsaciy potoka, oboroty x ugol drosselya"
       CURVE
@@ -4546,6 +4577,25 @@ ASAP2_VERSION 1 51
         0
         195
         FIX_AXIS_PAR_DIST 0 1 196
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC PUKANS
+      "podtverzhdena | popravka korrekcii pulsaciy po temperature vozduha na vpuske"
+      CURVE
+      0x11568
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0_mnozhitel
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
