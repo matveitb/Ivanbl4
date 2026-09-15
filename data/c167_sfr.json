@@ -1,0 +1,1472 @@
+{
+ "source": "Infineon C167CR/C167SR Data Sheet V3.3, 2005-02, таблица 8, раздел 3.15",
+ "discrepancies": [
+  "T7IC: 0xF17A даёт 0xBD, в таблице 0xBE",
+  "T8IC: 0xF17C даёт 0xBE, в таблице 0xBF"
+ ],
+ "registers": {
+  "ADCIC": {
+   "addr": 65432,
+   "sreg": 204,
+   "space": "S",
+   "bit": true,
+   "desc": "A/D Converter End of Conversion Interrupt Control Register"
+  },
+  "ADCON": {
+   "addr": 65440,
+   "sreg": 208,
+   "space": "S",
+   "bit": true,
+   "desc": "A/D Converter Control Register"
+  },
+  "ADDAT": {
+   "addr": 65184,
+   "sreg": 80,
+   "space": "S",
+   "bit": false,
+   "desc": "A/D Converter Result Register"
+  },
+  "ADDAT2": {
+   "addr": 61600,
+   "sreg": 80,
+   "space": "E",
+   "bit": false,
+   "desc": "A/D Converter 2 Result Register"
+  },
+  "ADDRSEL1": {
+   "addr": 65048,
+   "sreg": 12,
+   "space": "S",
+   "bit": false,
+   "desc": "Address Select Register 1"
+  },
+  "ADDRSEL2": {
+   "addr": 65050,
+   "sreg": 13,
+   "space": "S",
+   "bit": false,
+   "desc": "Address Select Register 2"
+  },
+  "ADDRSEL3": {
+   "addr": 65052,
+   "sreg": 14,
+   "space": "S",
+   "bit": false,
+   "desc": "Address Select Register 3"
+  },
+  "ADDRSEL4": {
+   "addr": 65054,
+   "sreg": 15,
+   "space": "S",
+   "bit": false,
+   "desc": "Address Select Register 4"
+  },
+  "ADEIC": {
+   "addr": 65434,
+   "sreg": 205,
+   "space": "S",
+   "bit": true,
+   "desc": "A/D Converter Overrun Error Interrupt Control Register"
+  },
+  "BUSCON0": {
+   "addr": 65292,
+   "sreg": 134,
+   "space": "S",
+   "bit": true,
+   "desc": "Bus Configuration Register 0"
+  },
+  "BUSCON1": {
+   "addr": 65300,
+   "sreg": 138,
+   "space": "S",
+   "bit": true,
+   "desc": "Bus Configuration Register 1"
+  },
+  "BUSCON2": {
+   "addr": 65302,
+   "sreg": 139,
+   "space": "S",
+   "bit": true,
+   "desc": "Bus Configuration Register 2"
+  },
+  "BUSCON3": {
+   "addr": 65304,
+   "sreg": 140,
+   "space": "S",
+   "bit": true,
+   "desc": "Bus Configuration Register 3"
+  },
+  "BUSCON4": {
+   "addr": 65306,
+   "sreg": 141,
+   "space": "S",
+   "bit": true,
+   "desc": "Bus Configuration Register 4"
+  },
+  "CAPREL": {
+   "addr": 65098,
+   "sreg": 37,
+   "space": "S",
+   "bit": false,
+   "desc": "GPT2 Capture/Reload Register"
+  },
+  "CC0": {
+   "addr": 65152,
+   "sreg": 64,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 0"
+  },
+  "CC0IC": {
+   "addr": 65400,
+   "sreg": 188,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Register 0 Interrupt Ctrl. Reg."
+  },
+  "CC1": {
+   "addr": 65154,
+   "sreg": 65,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 1"
+  },
+  "CC10": {
+   "addr": 65172,
+   "sreg": 74,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 10"
+  },
+  "CC10IC": {
+   "addr": 65420,
+   "sreg": 198,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 10 Interrupt Ctrl. Reg."
+  },
+  "CC11": {
+   "addr": 65174,
+   "sreg": 75,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 11"
+  },
+  "CC11IC": {
+   "addr": 65422,
+   "sreg": 199,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 11 Interrupt Ctrl. Reg."
+  },
+  "CC12": {
+   "addr": 65176,
+   "sreg": 76,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 12"
+  },
+  "CC12IC": {
+   "addr": 65424,
+   "sreg": 200,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 12 Interrupt Ctrl. Reg."
+  },
+  "CC13": {
+   "addr": 65178,
+   "sreg": 77,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 13"
+  },
+  "CC13IC": {
+   "addr": 65426,
+   "sreg": 201,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 13 Interrupt Ctrl. Reg."
+  },
+  "CC14": {
+   "addr": 65180,
+   "sreg": 78,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 14"
+  },
+  "CC14IC": {
+   "addr": 65428,
+   "sreg": 202,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 14 Interrupt Ctrl. Reg."
+  },
+  "CC15": {
+   "addr": 65182,
+   "sreg": 79,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 15"
+  },
+  "CC15IC": {
+   "addr": 65430,
+   "sreg": 203,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 15 Interrupt Ctrl. Reg."
+  },
+  "CC16": {
+   "addr": 65120,
+   "sreg": 48,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 16"
+  },
+  "CC16IC": {
+   "addr": 61792,
+   "sreg": 176,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 16 Interrupt Ctrl. Reg."
+  },
+  "CC17": {
+   "addr": 65122,
+   "sreg": 49,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 17"
+  },
+  "CC17IC": {
+   "addr": 61794,
+   "sreg": 177,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 17 Interrupt Ctrl. Reg."
+  },
+  "CC18": {
+   "addr": 65124,
+   "sreg": 50,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 18"
+  },
+  "CC18IC": {
+   "addr": 61796,
+   "sreg": 178,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 18 Interrupt Ctrl. Reg."
+  },
+  "CC19": {
+   "addr": 65126,
+   "sreg": 51,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 19"
+  },
+  "CC19IC": {
+   "addr": 61798,
+   "sreg": 179,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 19 Interrupt Ctrl. Reg."
+  },
+  "CC1IC": {
+   "addr": 65402,
+   "sreg": 189,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 1 Interrupt Ctrl. Reg."
+  },
+  "CC2": {
+   "addr": 65156,
+   "sreg": 66,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 2"
+  },
+  "CC20": {
+   "addr": 65128,
+   "sreg": 52,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 20"
+  },
+  "CC20IC": {
+   "addr": 61800,
+   "sreg": 180,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 20 Interrupt Ctrl. Reg."
+  },
+  "CC21": {
+   "addr": 65130,
+   "sreg": 53,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 21"
+  },
+  "CC21IC": {
+   "addr": 61802,
+   "sreg": 181,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 21 Interrupt Ctrl. Reg."
+  },
+  "CC22": {
+   "addr": 65132,
+   "sreg": 54,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 22"
+  },
+  "CC22IC": {
+   "addr": 61804,
+   "sreg": 182,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 22 Interrupt Ctrl. Reg."
+  },
+  "CC23": {
+   "addr": 65134,
+   "sreg": 55,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 23"
+  },
+  "CC23IC": {
+   "addr": 61806,
+   "sreg": 183,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 23 Interrupt Ctrl. Reg."
+  },
+  "CC24": {
+   "addr": 65136,
+   "sreg": 56,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 24"
+  },
+  "CC24IC": {
+   "addr": 61808,
+   "sreg": 184,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 24 Interrupt Ctrl. Reg."
+  },
+  "CC25": {
+   "addr": 65138,
+   "sreg": 57,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 25"
+  },
+  "CC25IC": {
+   "addr": 61810,
+   "sreg": 185,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 25 Interrupt Ctrl. Reg."
+  },
+  "CC26": {
+   "addr": 65140,
+   "sreg": 58,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 26"
+  },
+  "CC26IC": {
+   "addr": 61812,
+   "sreg": 186,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 26 Interrupt Ctrl. Reg."
+  },
+  "CC27": {
+   "addr": 65142,
+   "sreg": 59,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 27"
+  },
+  "CC27IC": {
+   "addr": 61814,
+   "sreg": 187,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 27 Interrupt Ctrl. Reg."
+  },
+  "CC28": {
+   "addr": 65144,
+   "sreg": 60,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 28"
+  },
+  "CC28IC": {
+   "addr": 61816,
+   "sreg": 188,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 28 Interrupt Ctrl. Reg."
+  },
+  "CC29": {
+   "addr": 65146,
+   "sreg": 61,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 29"
+  },
+  "CC29IC": {
+   "addr": 61828,
+   "sreg": 194,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 29 Interrupt Ctrl. Reg."
+  },
+  "CC2IC": {
+   "addr": 65404,
+   "sreg": 190,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 2 Interrupt Ctrl. Reg."
+  },
+  "CC3": {
+   "addr": 65158,
+   "sreg": 67,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 3"
+  },
+  "CC30": {
+   "addr": 65148,
+   "sreg": 62,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 30"
+  },
+  "CC30IC": {
+   "addr": 61836,
+   "sreg": 198,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 30 Interrupt Ctrl. Reg."
+  },
+  "CC31": {
+   "addr": 65150,
+   "sreg": 63,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 31"
+  },
+  "CC31IC": {
+   "addr": 61844,
+   "sreg": 202,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Reg. 31 Interrupt Ctrl. Reg."
+  },
+  "CC3IC": {
+   "addr": 65406,
+   "sreg": 191,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 3 Interrupt Ctrl. Reg."
+  },
+  "CC4": {
+   "addr": 65160,
+   "sreg": 68,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 4"
+  },
+  "CC4IC": {
+   "addr": 65408,
+   "sreg": 192,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 4 Interrupt Ctrl. Reg."
+  },
+  "CC5": {
+   "addr": 65162,
+   "sreg": 69,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 5"
+  },
+  "CC5IC": {
+   "addr": 65410,
+   "sreg": 193,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Register 5 Interrupt Ctrl. Reg."
+  },
+  "CC6": {
+   "addr": 65164,
+   "sreg": 70,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 6"
+  },
+  "CC6IC": {
+   "addr": 65412,
+   "sreg": 194,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 6 Interrupt Ctrl. Reg."
+  },
+  "CC7": {
+   "addr": 65166,
+   "sreg": 71,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 7"
+  },
+  "CC7IC": {
+   "addr": 65414,
+   "sreg": 195,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 7 Interrupt Ctrl. Reg."
+  },
+  "CC8": {
+   "addr": 65168,
+   "sreg": 72,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 8"
+  },
+  "CC8IC": {
+   "addr": 65416,
+   "sreg": 196,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 8 Interrupt Ctrl. Reg."
+  },
+  "CC9": {
+   "addr": 65170,
+   "sreg": 73,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Register 9"
+  },
+  "CC9IC": {
+   "addr": 65418,
+   "sreg": 197,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Reg. 9 Interrupt Ctrl. Reg."
+  },
+  "CCM0": {
+   "addr": 65362,
+   "sreg": 169,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Mode Control Register 0"
+  },
+  "CCM1": {
+   "addr": 65364,
+   "sreg": 170,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Mode Control Register 1"
+  },
+  "CCM2": {
+   "addr": 65366,
+   "sreg": 171,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Mode Control Register 2"
+  },
+  "CCM3": {
+   "addr": 65368,
+   "sreg": 172,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Mode Control Register 3"
+  },
+  "CCM4": {
+   "addr": 65314,
+   "sreg": 145,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Mode Control Register 4"
+  },
+  "CCM5": {
+   "addr": 65316,
+   "sreg": 146,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Mode Control Register 5"
+  },
+  "CCM6": {
+   "addr": 65318,
+   "sreg": 147,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Mode Control Register 6"
+  },
+  "CCM7": {
+   "addr": 65320,
+   "sreg": 148,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Mode Control Register 7"
+  },
+  "CP": {
+   "addr": 65040,
+   "sreg": 8,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Context Pointer Register"
+  },
+  "CRIC": {
+   "addr": 65386,
+   "sreg": 181,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT2 CAPREL Interrupt Ctrl. Register"
+  },
+  "CSP": {
+   "addr": 65032,
+   "sreg": 4,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Code Segment Pointer Register (read only)"
+  },
+  "DP0L": {
+   "addr": 61696,
+   "sreg": 128,
+   "space": "E",
+   "bit": true,
+   "desc": "P0L Direction Control Register               00H"
+  },
+  "DP0H": {
+   "addr": 61698,
+   "sreg": 129,
+   "space": "E",
+   "bit": true,
+   "desc": "P0H Direction Control Register               00H"
+  },
+  "DP1L": {
+   "addr": 61700,
+   "sreg": 130,
+   "space": "E",
+   "bit": true,
+   "desc": "P1L Direction Control Register               00H"
+  },
+  "DP1H": {
+   "addr": 61702,
+   "sreg": 131,
+   "space": "E",
+   "bit": true,
+   "desc": "P1H Direction Control Register               00H"
+  },
+  "DP2": {
+   "addr": 65474,
+   "sreg": 225,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 2 Direction Control Register"
+  },
+  "DP3": {
+   "addr": 65478,
+   "sreg": 227,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 3 Direction Control Register"
+  },
+  "DP4": {
+   "addr": 65482,
+   "sreg": 229,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 4 Direction Control Register               00H"
+  },
+  "DP6": {
+   "addr": 65486,
+   "sreg": 231,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 6 Direction Control Register               00H"
+  },
+  "DP7": {
+   "addr": 65490,
+   "sreg": 233,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 7 Direction Control Register               00H"
+  },
+  "DP8": {
+   "addr": 65494,
+   "sreg": 235,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 8 Direction Control Register               00H"
+  },
+  "DPP0": {
+   "addr": 65024,
+   "sreg": 0,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Data Page Pointer 0 Reg. (10 bits)"
+  },
+  "DPP1": {
+   "addr": 65026,
+   "sreg": 1,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Data Page Pointer 1 Reg. (10 bits)"
+  },
+  "DPP2": {
+   "addr": 65028,
+   "sreg": 2,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Data Page Pointer 2 Reg. (10 bits)"
+  },
+  "DPP3": {
+   "addr": 65030,
+   "sreg": 3,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Data Page Pointer 3 Reg. (10 bits)"
+  },
+  "EXICON": {
+   "addr": 61888,
+   "sreg": 224,
+   "space": "E",
+   "bit": true,
+   "desc": "External Interrupt Control Register"
+  },
+  "MDC": {
+   "addr": 65294,
+   "sreg": 135,
+   "space": "S",
+   "bit": true,
+   "desc": "CPU Multiply Divide Control Register"
+  },
+  "MDH": {
+   "addr": 65036,
+   "sreg": 6,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Multiply Divide Reg. – High Word"
+  },
+  "MDL": {
+   "addr": 65038,
+   "sreg": 7,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Multiply Divide Reg. – Low Word"
+  },
+  "ODP2": {
+   "addr": 61890,
+   "sreg": 225,
+   "space": "E",
+   "bit": true,
+   "desc": "Port 2 Open Drain Control Register"
+  },
+  "ODP3": {
+   "addr": 61894,
+   "sreg": 227,
+   "space": "E",
+   "bit": true,
+   "desc": "Port 3 Open Drain Control Register"
+  },
+  "ODP6": {
+   "addr": 61902,
+   "sreg": 231,
+   "space": "E",
+   "bit": true,
+   "desc": "Port 6 Open Drain Control Register              00H"
+  },
+  "ODP7": {
+   "addr": 61906,
+   "sreg": 233,
+   "space": "E",
+   "bit": true,
+   "desc": "Port 7 Open Drain Control Register              00H"
+  },
+  "ODP8": {
+   "addr": 61910,
+   "sreg": 235,
+   "space": "E",
+   "bit": true,
+   "desc": "Port 8 Open Drain Control Register              00H"
+  },
+  "ONES": {
+   "addr": 65310,
+   "sreg": 143,
+   "space": "S",
+   "bit": false,
+   "desc": "Constant Value 1’s Register (read only)"
+  },
+  "P0H": {
+   "addr": 65282,
+   "sreg": 129,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 0 High Reg. (Upper half of PORT0)          00H"
+  },
+  "P0L": {
+   "addr": 65280,
+   "sreg": 128,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 0 Low Reg. (Lower half of PORT0)           00H"
+  },
+  "P1H": {
+   "addr": 65286,
+   "sreg": 131,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 1 High Reg. (Upper half of PORT1)          00H"
+  },
+  "P1L": {
+   "addr": 65284,
+   "sreg": 130,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 1 Low Reg. (Lower half of PORT1)           00H"
+  },
+  "P2": {
+   "addr": 65472,
+   "sreg": 224,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 2 Register"
+  },
+  "P3": {
+   "addr": 65476,
+   "sreg": 226,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 3 Register"
+  },
+  "P4": {
+   "addr": 65480,
+   "sreg": 228,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 4 Register (8 bits)                        00H"
+  },
+  "P5": {
+   "addr": 65442,
+   "sreg": 209,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 5 Register (read only)"
+  },
+  "P5DIDIS": {
+   "addr": 65444,
+   "sreg": 210,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 5 Digital Input Disable Register"
+  },
+  "P6": {
+   "addr": 65484,
+   "sreg": 230,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 6 Register (8 bits)                        00H"
+  },
+  "P7": {
+   "addr": 65488,
+   "sreg": 232,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 7 Register (8 bits)                        00H"
+  },
+  "P8": {
+   "addr": 65492,
+   "sreg": 234,
+   "space": "S",
+   "bit": true,
+   "desc": "Port 8 Register (8 bits)                        00H"
+  },
+  "PECC0": {
+   "addr": 65216,
+   "sreg": 96,
+   "space": "S",
+   "bit": false,
+   "desc": "PEC Channel 0 Control Register"
+  },
+  "PECC1": {
+   "addr": 65218,
+   "sreg": 97,
+   "space": "S",
+   "bit": false,
+   "desc": "PEC Channel 1 Control Register"
+  },
+  "PECC2": {
+   "addr": 65220,
+   "sreg": 98,
+   "space": "S",
+   "bit": false,
+   "desc": "PEC Channel 2 Control Register"
+  },
+  "PECC3": {
+   "addr": 65222,
+   "sreg": 99,
+   "space": "S",
+   "bit": false,
+   "desc": "PEC Channel 3 Control Register"
+  },
+  "PECC4": {
+   "addr": 65224,
+   "sreg": 100,
+   "space": "S",
+   "bit": false,
+   "desc": "PEC Channel 4 Control Register"
+  },
+  "PECC5": {
+   "addr": 65226,
+   "sreg": 101,
+   "space": "S",
+   "bit": false,
+   "desc": "PEC Channel 5 Control Register"
+  },
+  "PECC6": {
+   "addr": 65228,
+   "sreg": 102,
+   "space": "S",
+   "bit": false,
+   "desc": "PEC Channel 6 Control Register"
+  },
+  "PECC7": {
+   "addr": 65230,
+   "sreg": 103,
+   "space": "S",
+   "bit": false,
+   "desc": "PEC Channel 7 Control Register"
+  },
+  "PICON": {
+   "addr": 61892,
+   "sreg": 226,
+   "space": "E",
+   "bit": true,
+   "desc": "Port Input Threshold Control Register"
+  },
+  "PDCR": {
+   "addr": 61610,
+   "sreg": 85,
+   "space": "E",
+   "bit": false,
+   "desc": "Pin Driver Control Register"
+  },
+  "PP0": {
+   "addr": 61496,
+   "sreg": 28,
+   "space": "E",
+   "bit": false,
+   "desc": "PWM Module Period Register 0"
+  },
+  "PP1": {
+   "addr": 61498,
+   "sreg": 29,
+   "space": "E",
+   "bit": false,
+   "desc": "PWM Module Period Register 1"
+  },
+  "PP2": {
+   "addr": 61500,
+   "sreg": 30,
+   "space": "E",
+   "bit": false,
+   "desc": "PWM Module Period Register 2"
+  },
+  "PP3": {
+   "addr": 61502,
+   "sreg": 31,
+   "space": "E",
+   "bit": false,
+   "desc": "PWM Module Period Register 3"
+  },
+  "PSW": {
+   "addr": 65296,
+   "sreg": 136,
+   "space": "S",
+   "bit": true,
+   "desc": "CPU Program Status Word"
+  },
+  "PT0": {
+   "addr": 61488,
+   "sreg": 24,
+   "space": "E",
+   "bit": false,
+   "desc": "PWM Module Up/Down Counter 0"
+  },
+  "PT1": {
+   "addr": 61490,
+   "sreg": 25,
+   "space": "E",
+   "bit": false,
+   "desc": "PWM Module Up/Down Counter 1"
+  },
+  "PT2": {
+   "addr": 61492,
+   "sreg": 26,
+   "space": "E",
+   "bit": false,
+   "desc": "PWM Module Up/Down Counter 2"
+  },
+  "PT3": {
+   "addr": 61494,
+   "sreg": 27,
+   "space": "E",
+   "bit": false,
+   "desc": "PWM Module Up/Down Counter 3"
+  },
+  "PW0": {
+   "addr": 65072,
+   "sreg": 24,
+   "space": "S",
+   "bit": false,
+   "desc": "PWM Module Pulse Width Register 0"
+  },
+  "PW1": {
+   "addr": 65074,
+   "sreg": 25,
+   "space": "S",
+   "bit": false,
+   "desc": "PWM Module Pulse Width Register 1"
+  },
+  "PW2": {
+   "addr": 65076,
+   "sreg": 26,
+   "space": "S",
+   "bit": false,
+   "desc": "PWM Module Pulse Width Register 2"
+  },
+  "PW3": {
+   "addr": 65078,
+   "sreg": 27,
+   "space": "S",
+   "bit": false,
+   "desc": "PWM Module Pulse Width Register 3"
+  },
+  "PWMCON0": {
+   "addr": 65328,
+   "sreg": 152,
+   "space": "S",
+   "bit": true,
+   "desc": "PWM Module Control Register 0"
+  },
+  "PWMCON1": {
+   "addr": 65330,
+   "sreg": 153,
+   "space": "S",
+   "bit": true,
+   "desc": "PWM Module Control Register 1"
+  },
+  "PWMIC": {
+   "addr": 61822,
+   "sreg": 191,
+   "space": "E",
+   "bit": true,
+   "desc": "PWM Module Interrupt Control Register"
+  },
+  "RP0H": {
+   "addr": 61704,
+   "sreg": 132,
+   "space": "E",
+   "bit": true,
+   "desc": "System Start-up Config. Reg. (Rd. only)        XXH"
+  },
+  "S0BG": {
+   "addr": 65204,
+   "sreg": 90,
+   "space": "S",
+   "bit": false,
+   "desc": "Serial Channel 0 Baudrate Generator Reload Register"
+  },
+  "S0CON": {
+   "addr": 65456,
+   "sreg": 216,
+   "space": "S",
+   "bit": true,
+   "desc": "Serial Channel 0 Control Register"
+  },
+  "S0EIC": {
+   "addr": 65392,
+   "sreg": 184,
+   "space": "S",
+   "bit": true,
+   "desc": "Serial Chan. 0 Error Interrupt Ctrl. Reg."
+  },
+  "S0RBUF": {
+   "addr": 65202,
+   "sreg": 89,
+   "space": "S",
+   "bit": false,
+   "desc": "Serial Channel 0 Receive Buffer Reg.              XXH (read only)"
+  },
+  "S0RIC": {
+   "addr": 65390,
+   "sreg": 183,
+   "space": "S",
+   "bit": true,
+   "desc": "Serial Channel 0 Receive Interrupt Control Register"
+  },
+  "S0TBIC": {
+   "addr": 61852,
+   "sreg": 206,
+   "space": "E",
+   "bit": true,
+   "desc": "Serial Channel 0 Transmit Buffer Interrupt Control Register"
+  },
+  "S0TBUF": {
+   "addr": 65200,
+   "sreg": 88,
+   "space": "S",
+   "bit": false,
+   "desc": "Serial Channel 0 Transmit Buffer Reg.              00H (write only)"
+  },
+  "S0TIC": {
+   "addr": 65388,
+   "sreg": 182,
+   "space": "S",
+   "bit": true,
+   "desc": "Serial Channel 0 Transmit Interrupt Control Register"
+  },
+  "SP": {
+   "addr": 65042,
+   "sreg": 9,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU System Stack Pointer Register"
+  },
+  "SSCBR": {
+   "addr": 61620,
+   "sreg": 90,
+   "space": "E",
+   "bit": false,
+   "desc": "SSC Baudrate Register"
+  },
+  "SSCCON": {
+   "addr": 65458,
+   "sreg": 217,
+   "space": "S",
+   "bit": true,
+   "desc": "SSC Control Register"
+  },
+  "SSCEIC": {
+   "addr": 65398,
+   "sreg": 187,
+   "space": "S",
+   "bit": true,
+   "desc": "SSC Error Interrupt Control Register"
+  },
+  "SSCRB": {
+   "addr": 61618,
+   "sreg": 89,
+   "space": "E",
+   "bit": false,
+   "desc": "SSC Receive Buffer"
+  },
+  "SSCRIC": {
+   "addr": 65396,
+   "sreg": 186,
+   "space": "S",
+   "bit": true,
+   "desc": "SSC Receive Interrupt Control Register"
+  },
+  "SSCTB": {
+   "addr": 61616,
+   "sreg": 88,
+   "space": "E",
+   "bit": false,
+   "desc": "SSC Transmit Buffer"
+  },
+  "SSCTIC": {
+   "addr": 65394,
+   "sreg": 185,
+   "space": "S",
+   "bit": true,
+   "desc": "SSC Transmit Interrupt Control Register"
+  },
+  "STKOV": {
+   "addr": 65044,
+   "sreg": 10,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Stack Overflow Pointer Register"
+  },
+  "STKUN": {
+   "addr": 65046,
+   "sreg": 11,
+   "space": "S",
+   "bit": false,
+   "desc": "CPU Stack Underflow Pointer Register 1)"
+  },
+  "SYSCON": {
+   "addr": 65298,
+   "sreg": 137,
+   "space": "S",
+   "bit": true,
+   "desc": "CPU System Configuration Register            0xx0H"
+  },
+  "T0": {
+   "addr": 65104,
+   "sreg": 40,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Timer 0 Register"
+  },
+  "T01CON": {
+   "addr": 65360,
+   "sreg": 168,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Timer 0 and Timer 1 Ctrl. Reg."
+  },
+  "T0IC": {
+   "addr": 65436,
+   "sreg": 206,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Timer 0 Interrupt Ctrl. Reg."
+  },
+  "T0REL": {
+   "addr": 65108,
+   "sreg": 42,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Timer 0 Reload Register"
+  },
+  "T1": {
+   "addr": 65106,
+   "sreg": 41,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Timer 1 Register"
+  },
+  "T1IC": {
+   "addr": 65438,
+   "sreg": 207,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Timer 1 Interrupt Ctrl. Reg."
+  },
+  "T1REL": {
+   "addr": 65110,
+   "sreg": 43,
+   "space": "S",
+   "bit": false,
+   "desc": "CAPCOM Timer 1 Reload Register"
+  },
+  "T2": {
+   "addr": 65088,
+   "sreg": 32,
+   "space": "S",
+   "bit": false,
+   "desc": "GPT1 Timer 2 Register"
+  },
+  "T2CON": {
+   "addr": 65344,
+   "sreg": 160,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT1 Timer 2 Control Register"
+  },
+  "T2IC": {
+   "addr": 65376,
+   "sreg": 176,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT1 Timer 2 Interrupt Control Register"
+  },
+  "T3": {
+   "addr": 65090,
+   "sreg": 33,
+   "space": "S",
+   "bit": false,
+   "desc": "GPT1 Timer 3 Register"
+  },
+  "T3CON": {
+   "addr": 65346,
+   "sreg": 161,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT1 Timer 3 Control Register"
+  },
+  "T3IC": {
+   "addr": 65378,
+   "sreg": 177,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT1 Timer 3 Interrupt Control Register"
+  },
+  "T4": {
+   "addr": 65092,
+   "sreg": 34,
+   "space": "S",
+   "bit": false,
+   "desc": "GPT1 Timer 4 Register"
+  },
+  "T4CON": {
+   "addr": 65348,
+   "sreg": 162,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT1 Timer 4 Control Register"
+  },
+  "T4IC": {
+   "addr": 65380,
+   "sreg": 178,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT1 Timer 4 Interrupt Control Register"
+  },
+  "T5": {
+   "addr": 65094,
+   "sreg": 35,
+   "space": "S",
+   "bit": false,
+   "desc": "GPT2 Timer 5 Register"
+  },
+  "T5CON": {
+   "addr": 65350,
+   "sreg": 163,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT2 Timer 5 Control Register"
+  },
+  "T5IC": {
+   "addr": 65382,
+   "sreg": 179,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT2 Timer 5 Interrupt Control Register"
+  },
+  "T6": {
+   "addr": 65096,
+   "sreg": 36,
+   "space": "S",
+   "bit": false,
+   "desc": "GPT2 Timer 6 Register"
+  },
+  "T6CON": {
+   "addr": 65352,
+   "sreg": 164,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT2 Timer 6 Control Register"
+  },
+  "T6IC": {
+   "addr": 65384,
+   "sreg": 180,
+   "space": "S",
+   "bit": true,
+   "desc": "GPT2 Timer 6 Interrupt Control Register"
+  },
+  "T7": {
+   "addr": 61520,
+   "sreg": 40,
+   "space": "E",
+   "bit": false,
+   "desc": "CAPCOM Timer 7 Register"
+  },
+  "T78CON": {
+   "addr": 65312,
+   "sreg": 144,
+   "space": "S",
+   "bit": true,
+   "desc": "CAPCOM Timer 7 and 8 Ctrl. Reg."
+  },
+  "T7IC": {
+   "addr": 61818,
+   "sreg": 190,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Timer 7 Interrupt Ctrl. Reg."
+  },
+  "T7REL": {
+   "addr": 61524,
+   "sreg": 42,
+   "space": "E",
+   "bit": false,
+   "desc": "CAPCOM Timer 7 Reload Register"
+  },
+  "T8": {
+   "addr": 61522,
+   "sreg": 41,
+   "space": "E",
+   "bit": false,
+   "desc": "CAPCOM Timer 8 Register"
+  },
+  "T8IC": {
+   "addr": 61820,
+   "sreg": 191,
+   "space": "E",
+   "bit": true,
+   "desc": "CAPCOM Timer 8 Interrupt Ctrl. Reg."
+  },
+  "T8REL": {
+   "addr": 61526,
+   "sreg": 43,
+   "space": "E",
+   "bit": false,
+   "desc": "CAPCOM Timer 8 Reload Register"
+  },
+  "TFR": {
+   "addr": 65452,
+   "sreg": 214,
+   "space": "S",
+   "bit": true,
+   "desc": "Trap Flag Register"
+  },
+  "WDT": {
+   "addr": 65198,
+   "sreg": 87,
+   "space": "S",
+   "bit": false,
+   "desc": "Watchdog Timer Register (read only) 2)"
+  },
+  "WDTCON": {
+   "addr": 65454,
+   "sreg": 215,
+   "space": "S",
+   "bit": false,
+   "desc": "Watchdog Timer Control Register"
+  },
+  "XP0IC": {
+   "addr": 61830,
+   "sreg": 195,
+   "space": "E",
+   "bit": true,
+   "desc": "CAN1 Module Interrupt Control Register"
+  },
+  "XP1IC": {
+   "addr": 61838,
+   "sreg": 199,
+   "space": "E",
+   "bit": true,
+   "desc": "Unassigned Interrupt Control Register"
+  },
+  "XP2IC": {
+   "addr": 61846,
+   "sreg": 203,
+   "space": "E",
+   "bit": true,
+   "desc": "Unassigned Interrupt Control Register"
+  },
+  "XP3IC": {
+   "addr": 61854,
+   "sreg": 207,
+   "space": "E",
+   "bit": true,
+   "desc": "PLL/OWD Interrupt Control Register"
+  },
+  "ZEROS": {
+   "addr": 65308,
+   "sreg": 142,
+   "space": "S",
+   "bit": true,
+   "desc": "Constant Value 0’s Register (read only)"
+  }
+ }
+}

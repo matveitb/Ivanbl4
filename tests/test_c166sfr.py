@@ -32,6 +32,15 @@ def main():
     check(c166sfr.short_reg(0x9368) is None, "внешний адрес короткой формы не имеет")
 
     check(c166sfr.name(0xFE00) == "DPP0", "0xFE00 это DPP0")
+    # карта теперь из даташита, а не по памяти
+    check(len(c166sfr.BY_ADDR) >= 200,
+          "регистров из даташита: %d" % len(c166sfr.BY_ADDR))
+    check(c166sfr.name(0xFF1C) == "ZEROS",
+          "ZEROS 0xFF1C -- найден по коду, подтверждён даташитом")
+    check(c166sfr.name(0xF0A0) == "ADDAT2", "ESFR разобраны: 0xF0A0 это ADDAT2")
+    check(len(c166sfr.DATASHEET_DISCREPANCIES) == 2,
+          "расхождений в самом даташите выписано: %d (T7IC, T8IC)"
+          % len(c166sfr.DATASHEET_DISCREPANCIES))
     check(c166sfr.name(0xFEA0) == "ADDAT", "0xFEA0 это ADDAT")
     check("внутреннее ОЗУ" in c166sfr.area(0xF7B2),
           "0xF7B2 лежит во внутреннем ОЗУ")
