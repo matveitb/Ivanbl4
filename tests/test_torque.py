@@ -102,6 +102,25 @@ def main():
     check(dv[0] < dv[peak] and dv[-1] < dv[peak],
           "ETALAM: падает в обе стороны от максимума")
 
+    # -- сквозная проверка: собранная модель обязана дать максимум момента
+    #    там же, где он у мотора по паспорту. Это проверяет разом все карты,
+    #    их оси и масштабы: ошибись в любом -- максимум уедет.
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import torque as tq
+    rpm, rl, mi, drpm, drl, ds, vrpm, vrl = tq.load_all(fw)
+    rows = []
+    for n in range(800, 6600, 100):
+        r = tq.interp(vrpm, vrl, n)
+        m = tq.grid2(rpm, rl, mi, n, r)
+        d = tq.grid2(drpm, drl, ds, n, r)
+        rows.append((n, m - d))
+    peak = max(rows, key=lambda t: t[1])
+    check(abs(peak[0] - 4500) <= 300,
+          "максимум момента по модели на %d об/мин, паспорт 4500 -- "
+          "расхождение %d" % (peak[0], abs(peak[0] - 4500)))
+    check(40 <= peak[1] <= 80,
+          "чистый момент в максимуме %.1f %% от опорного" % peak[1])
+
     print()
     if fails:
         print("ПРОВАЛЕНО: %d" % len(fails))
