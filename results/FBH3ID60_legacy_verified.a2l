@@ -291,6 +291,18 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.00152588
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p0234375_0_napolneniya
+      "scale 0.0234375"
+      RAT_FUNC "%.3f" "% napolneniya"
+      COEFFS 0 1 0 0 0 0.0234375
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p001525878906_0_otopornogomo
+      "scale 0.00152588"
+      RAT_FUNC "%.3f" "% ot opornogo momenta"
+      COEFFS 0 1 0 0 0 0.001525878906
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_n0p75_0_KV
       "scale -0.75"
       RAT_FUNC "%.3f" "KV"
@@ -313,12 +325,6 @@ ASAP2_VERSION 1 51
       "scale 7.8125e-06"
       RAT_FUNC "%.3f" "(kg/h)/(1/min)/%"
       COEFFS 0 1 0 0 0 7.8125e-06
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_0p0234375_0_napolneniya
-      "scale 0.0234375"
-      RAT_FUNC "%.3f" "% napolneniya"
-      COEFFS 0 1 0 0 0 0.0234375
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p0078125_0_mnozhitel
@@ -4279,6 +4285,63 @@ ASAP2_VERSION 1 51
         0
         255
         FIX_AXIS_PAR_DIST 0 1 256
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMIRL
+      "podtverzhdena | trebuemoe napolnenie iz trebuemogo momenta: oboroty x moment v % daet napolnenie v %"
+      CURVE
+      0x14BF8
+      RL_GRID_UWORD
+      0
+      CM_0p0234375_0_napolneniya
+      -0
+      1535.98
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        192
+        0
+        191
+        FIX_AXIS_PAR_DIST 0 1 192
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMDS
+      "podtverzhdena | moment mehanicheskih poter: oboroty x napolnenie"
+      CURVE
+      0x15142
+      RL_GRID_UWORD
+      0
+      CM_0p001525878906_0_otopornogomo
+      -0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        120
+        0
+        119
+        FIX_AXIS_PAR_DIST 0 1 120
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ETALAM_1
+      "podtverzhdena | KPD po sostavu smesi: moment v zavisimosti ot lyambdy"
+      CURVE
+      0x1051F
+      RL_GRID_UBYTE
+      0
+      CM_0p5_0
+      -0
+      127.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
