@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import re
 
 TYPE_U = {1: "UBYTE", 2: "UWORD"}
@@ -251,6 +252,35 @@ def main(argv=None) -> int:
     # Профиль накопил находки, которых нет в maps.json: контур детонации,
     # адсорбер, плёночная модель, моментная модель, блок катализатора.
     # Берём из него всё, у чего есть адрес и имя, кроме уже выданного.
+    #
+    # Оговорка про имена. Автоматический сканер даёт безымянные MAP_x_y_n.
+    # Если профиль знает настоящее имя Bosch по тому же адресу -- побеждает
+    # профиль: MAP_122_11580_6 и RLNOT это одно и то же, и держать в A2L
+    # первое вместо второго было бы потерей.
+    named = set()
+
+    def _named(node):
+        if isinstance(node, dict):
+            a, nm = node.get("addr"), node.get("name")
+            if isinstance(a, str) and a.startswith("0x") and nm \
+                    and not nm.startswith("MAP_"):
+                try:
+                    named.add(int(a, 16))
+                except ValueError:
+                    pass
+            for v in node.values():
+                _named(v)
+        elif isinstance(node, list):
+            for v in node:
+                _named(v)
+
+    _named(profile)
+    before = len(maps)
+    maps = [m for m in maps
+            if not (m["addr"] in named and str(m.get("name", "")).startswith("MAP_"))]
+    if before != len(maps):
+        print("  безымянных карт заменено именами из профиля: %d"
+              % (before - len(maps)), file=sys.stderr)
     done_addr = {m["addr"] for m in maps}
     extra = []
 

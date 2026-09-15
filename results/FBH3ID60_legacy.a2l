@@ -16220,6 +16220,25 @@ ASAP2_VERSION 1 51
       25.5
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC RLNOT
+      "veroyatnaya | Podmena napolneniya pri otkaze. Imenno etot mehanizm sposoben derzhat nevernoe napolnenie skolko ugodno dolgo, v otlichie ot oshibki prognoza, zhivuschey 2-5 ciklov."
+      CURVE
+      0x11580
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KLAF
       "podtverzhdena | funkciya istecheniya Sen-Venana dlya drosselya"
       CURVE

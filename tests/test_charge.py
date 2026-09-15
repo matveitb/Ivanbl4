@@ -122,6 +122,27 @@ def main():
               "сдвиг KFMSNWDK совпал со сдвигом KLAF: +%d"
               % (H - 0x15370))
 
+    # KUMSRL: формула Bosch из Funktionsrahmen -- KUMSRL = V / 2578.
+    # Проверяем, что мой вывод из плотности воздуха ей эквивалентен.
+    fr = 1.0 / 2578
+    mine = 1.293 * 30 / 1e5
+    check(abs(fr - mine) / fr < 0.001,
+          "формула ФР V/2578 = %.6g совпала с выводом из плотности %.6g"
+          % (fr, mine))
+    check(abs(raw * KUMSRL_F * 2578 - 1.594) / 1.594 < 0.01,
+          "объём по формуле ФР: %.4f л" % (raw * KUMSRL_F * 2578))
+
+    # RLNOT -- подстановочное наполнение при отказе
+    sub = cc.get("substitution")
+    if sub:
+        a = int(sub["addr"], 16)
+        got = [fw[a + i] * sub["factor"] for i in range(sub["n"])]
+        check(got == sub["values"], "RLNOT на 0x%05X: %s" % (a, got))
+        check(all(got[i] < got[i + 1] for i in range(len(got) - 1)),
+              "RLNOT растёт по оборотам -- форма аварийной кривой")
+        # вплотную к подтверждённому блоку адаптации, без разрыва
+        check(a == 0x1157F + 1, "RLNOT начинается сразу за MSLG")
+
     # ширина из метки типа пересчёта
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import damos

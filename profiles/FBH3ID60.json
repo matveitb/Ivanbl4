@@ -3575,7 +3575,45 @@
    "KFRLW -- наполнение от угла дросселя (12x12)",
    "KFURL -- пересчёт давления во впуске в наполнение (14x10)",
    "WDKUGDN -- угол дросселя для 95 % максимального наполнения (12 точек)"
-  ]
+  ],
+  "formula_fr": "rlroh = (mshfm + mste) / (KUMSRL * nmot)  -- Bosch ME7.3 Funktionsrahmen, %BGMSZS. mshfm -- расход с ДМРВ, mste -- поток через адсорбер, nmot -- обороты. Совпадает с тем, что выведено из дизассемблера (0x843A08) и из физики.",
+  "kumsrl_formula_fr": "KUMSRL = VH [dm3] / 2578 (ФР, стр. по KUMSRL). Мой вывод из плотности воздуха давал V*1.293*30/1e5 = V*3.879e-4, а 1/2578 = 3.8790e-4 -- совпадение до четвёртого знака.",
+  "substitution": {
+   "note": "Подмена наполнения при отказе. Именно этот механизм способен держать неверное наполнение сколько угодно долго, в отличие от ошибки прогноза, живущей 2-5 циклов.",
+   "fr": "RLNOT -- limp-home relative air charge rl in case of E DK and E LM (ошибка дросселя или расходомера). Переключение реализовано в %BGMSZS.",
+   "name": "RLNOT",
+   "addr": "0x11580",
+   "n": 6,
+   "width": 1,
+   "factor": 0.75,
+   "unit": "%",
+   "confidence": "вероятная",
+   "values": [
+    4.5,
+    15.0,
+    22.5,
+    37.5,
+    56.25,
+    75.0
+   ],
+   "evidence": [
+    "px5ns03d 0x11105 + 1147 = 0x11580 -- сдвиг доказан на соседнем блоке адаптации воздуха (0x1157A..0x1157F), разрыва между ними нет",
+    "шесть точек монотонно растут по оборотам -- форма аварийной кривой",
+    "одинакова во всех тринадцати прошивках FBH3ID60",
+    "px5ns03d той же формы: 4.5 11.25 15 22.5 28.5 37.5"
+   ],
+   "why_it_matters": "При газе в пол реальное наполнение около 85 %. RLNOT в полосе 2000-2700 даёт 22..37 %. Уход туда -- это резкая потеря топливоподачи и момента, то есть провал.",
+   "no_warning_light": "ФР: Fault lamp control -- 2 trps after (E lm & Z lm). Лампа загорается только после двух поездок, значит кратковременная подмена проходит без чека.",
+   "how_to_check": "tools/expect_maf.py: снять лог расхода на провале. Ниже 75 % от расчётного -- версия живая."
+  },
+  "fr_names": {
+   "KFPU": "pulsation characteristic map -- Коррекция пульсаций потока в CTP",
+   "KFPUSU": "pulsation map at active variable intake system -- Коррекция пульсаций 2",
+   "KFKHFM": "HFM-correction characteristic map -- Коррекция характеристики ДМРВ",
+   "PUKANS": "correction of pulsation depending on intake air temperature",
+   "RLNOTN": "relative air charge when main and limp home signal error, by rpm",
+   "note": "Имена получены из Bosch ME7.3 Funktionsrahmen. В px5ns03d.dam их нет -- значит наш дамос от урезанной сборки, и эти карты надо искать по коду."
+  }
  },
  "saint_venant": {
   "name": "KLAF",
