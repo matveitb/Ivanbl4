@@ -192,7 +192,13 @@ def _fmt_operand(name: str, f: dict, addr: int, length: int) -> str:
     if name == "ShortMemAddrB":
         return _short_mem(f["reg"], True)
     if name in ("LongMemAddrW", "LongMemAddrB"):
-        return "0x%04x" % f["mem"]
+        addr = f["mem"]
+        try:
+            import c166sfr
+            nm = c166sfr.name(addr)
+        except ImportError:
+            nm = None
+        return nm if nm else "0x%04x" % addr
     if name in ("DataImmW", "DataImmB"):
         return "#0x%x" % f["data16"]
     if name in ("data4", "data3", "irang2", "mask8", "trap7"):

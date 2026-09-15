@@ -23,11 +23,33 @@ import c166dis  # noqa: E402
 CASES = os.path.join(ROOT, "tests", "c166_cases")
 
 
+def _sfr_back():
+    """Имя регистра -> его адрес, чтобы сравнивать с эталоном Ghidra."""
+    try:
+        import c166sfr
+    except ImportError:
+        return {}
+    return {n.lower(): "0x%04x" % a for a, (n, _g, _d) in c166sfr.BY_ADDR.items()}
+
+
+_BACK = _sfr_back()
+
+
 def norm(s: str) -> str:
-    """Привести к сравнимому виду: без лишних пробелов, запятая без пробела."""
+    """
+    Привести к сравнимому виду: без лишних пробелов, запятая без пробела.
+
+    Отдельно: наш дизассемблер подставляет имена регистров (ZEROS, MDL,
+    ADCON), а эталон Ghidra печатает голые адреса. Это улучшение, а не
+    расхождение, поэтому имена разворачиваются обратно в адреса -- иначе
+    тест наказывал бы за добавленную разметку.
+    """
     s = s.strip().lower()
     s = re.sub(r'\s*,\s*', ',', s)
     s = re.sub(r'\s+', ' ', s)
+    if _BACK:
+        s = re.sub(r'\b([a-z]\w*)\b',
+                   lambda m: _BACK.get(m.group(1), m.group(1)), s)
     return s
 
 
