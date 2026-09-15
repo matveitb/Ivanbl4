@@ -16239,6 +16239,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFMSNWDK
+      "veroyatnaya | bazovyy rashod cherez drossel, vhod wdkba (ugol) i pspvdk (otnoshenie davleniy)"
+      CURVE
+      0x15694
+      RL_GRID_UWORD
+      0
+      CM_0p1_0_kgh
+      -0
+      6553.5
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        96
+        0
+        95
+        FIX_AXIS_PAR_DIST 0 1 96
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
   /end MODULE
 
 /end PROJECT

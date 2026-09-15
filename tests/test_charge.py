@@ -96,6 +96,32 @@ def main():
         check(a - 0x15460 == sv["region_shift"],
               "сдвиг области 0x15xxx = +%d" % sv["region_shift"])
 
+    # KFMSNWDK: заголовок Bosch, оси внутри карты
+    tam = prof.get("throttle_air_model", {})
+    kf = next((i for i in tam.get("items", []) if i["name"] == "KFMSNWDK"), None)
+    if kf:
+        H = int(kf["header"], 16)
+        nx = int.from_bytes(fw[H:H + 2], "little")
+        ny = int.from_bytes(fw[H + 2:H + 4], "little")
+        check((nx, ny) == (kf["nx"], kf["ny"]),
+              "заголовок 0x%05X даёт %dx%d" % (H, nx, ny))
+        d = int(kf["data"], 16)
+        check(d == H + 4 + nx * 2 + ny * 2,
+              "данные начинаются сразу за осями: 0x%05X" % d)
+        # физика: расход обязан расти по отношению давлений в каждом столбце
+        def cell(r, c):
+            a = d + (r * ny + c) * 2
+            return int.from_bytes(fw[a:a + 2], "little")
+        mono = all(cell(r, c) <= cell(r + 1, c)
+                   for r in range(nx - 1) for c in range(ny))
+        check(mono, "расход растёт по отношению давлений во всех столбцах")
+        check(max(cell(r, c) for r in range(nx) for c in range(ny)) * 0.1 < 6554,
+              "значения в допуске дамоса 0..6554 кг/ч")
+        # тот же сдвиг области, что у KLAF
+        check(H - 0x15370 == prof["saint_venant"]["region_shift"],
+              "сдвиг KFMSNWDK совпал со сдвигом KLAF: +%d"
+              % (H - 0x15370))
+
     # ширина из метки типа пересчёта
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import damos
