@@ -3756,10 +3756,7 @@
    }
   ],
   "not_found": [
-   "KFMSNWDK -- база расхода по дросселю (6x16)",
-   "KFRLW -- наполнение от угла дросселя (12x12)",
-   "KFURL -- пересчёт давления во впуске в наполнение (14x10)",
-   "WDKUGDN -- угол дросселя для 95 % максимального наполнения (12 точек)"
+   "KFURL -- пересчёт давления во впуске в наполнение (14x10). Тракт по ДМРВ, а KFURL нужна для расчёта по давлению. Возможно, в этой сборке её нет вовсе, как нет фазовых вариантов KFPUNW/KFPUSUNW (обе оказались нейтральными). Не проверено."
   ],
   "formula_fr": "rlroh = (mshfm + mste) / (KUMSRL * nmot)  -- Bosch ME7.3 Funktionsrahmen, %BGMSZS. mshfm -- расход с ДМРВ, mste -- поток через адсорбер, nmot -- обороты. Совпадает с тем, что выведено из дизассемблера (0x843A08) и из физики.",
   "kumsrl_formula_fr": "KUMSRL = VH [dm3] / 2578 (ФР, стр. по KUMSRL). Мой вывод из плотности воздуха давал V*1.293*30/1e5 = V*3.879e-4, а 1/2578 = 3.8790e-4 -- совпадение до четвёртого знака.",
@@ -3798,7 +3795,8 @@
    "PUKANS": "correction of pulsation depending on intake air temperature",
    "RLNOTN": "relative air charge when main and limp home signal error, by rpm",
    "note": "Имена получены из Bosch ME7.3 Funktionsrahmen. В px5ns03d.dam их нет -- значит наш дамос от урезанной сборки, и эти карты надо искать по коду."
-  }
+  },
+  "found_since": "KFMSNWDK 0x15664, KFRLW 0x1AC76, WDKUGDN 0x15B40 -- все три найдены, список ненайденного был протухшим"
  },
  "saint_venant": {
   "name": "KLAF",
