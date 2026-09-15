@@ -172,7 +172,13 @@ def _short_mem(reg: int, byte: bool) -> str:
         n = reg & 0xF
         return ("RL%d" % (n // 2)) if byte and n % 2 == 0 else \
                ("RH%d" % (n // 2)) if byte else ("r%d" % n)
-    return "0x%04x" % (0xFE00 + 2 * reg)
+    addr = 0xFE00 + 2 * reg
+    try:
+        import c166sfr
+        nm = c166sfr.name(addr)
+    except ImportError:
+        nm = None
+    return nm if nm else "0x%04x" % addr
 
 
 def _fmt_operand(name: str, f: dict, addr: int, length: int) -> str:
