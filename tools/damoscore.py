@@ -297,7 +297,7 @@ def main(argv=None) -> int:
     ap.add_argument("--out")
     a = ap.parse_args(argv)
 
-    refs = {int(k, 16) for k in json.load(open(a.refs))}
+    refs = {int(k, 16) for k in json.load(open(a.refs, encoding="utf-8"))}
     fw = open(a.firmware, "rb").read()
     have = known_addrs(a.profile) if os.path.exists(a.profile) else set()
     files = collect(a.target)

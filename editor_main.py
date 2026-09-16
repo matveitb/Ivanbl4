@@ -31,24 +31,50 @@ def selftest() -> int:
     import shutil
 
     fails = []
-    # В оконной сборке под Windows stdout нет вовсе -- print() там валится
-    # с AttributeError на None. Печать поэтому защищена, а настоящий ответ
-    # даёт код возврата: он доходит до сборочной машины при любом раскладе.
+    checks = [0]
+
+    # Печать под Windows -- отдельная история. В оконной сборке stdout нет
+    # вовсе, а в консольной кодировка консоли может не принять кириллицу, и
+    # print падает с UnicodeEncodeError. Первый раз я просто заглушил
+    # исключение -- и получил на сборочной машине ЗЕЛЁНЫЙ ШАГ С ПУСТЫМ
+    # ВЫВОДОМ: проверки прошли, а доказательств этого никаких. Зелёная
+    # галочка, которая ничего не значит, хуже красной.
+    #
+    # Поэтому: сперва честно перенастраиваем поток на utf-8 с заменой
+    # непечатаемого, а в самом конце печатаем итог ЛАТИНИЦЕЙ -- эта строка
+    # пройдёт через любую кодировку, и сборка проверяет именно её.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:                                       # noqa: BLE001
+        pass
+
     def say(msg):
         try:
-            print(msg)
+            print(msg, flush=True)
         except Exception:                                   # noqa: BLE001
-            pass
+            try:
+                sys.stdout.buffer.write(
+                    (msg + "\n").encode("utf-8", "replace"))
+                sys.stdout.buffer.flush()
+            except Exception:                               # noqa: BLE001
+                pass
 
     def check(cond, msg):
+        checks[0] += 1
         say(("OK   " if cond else "ОШИБКА ") + msg)
         if not cond:
             fails.append(msg)
 
+    def verdict(code):
+        """Итог латиницей: эта строка переживёт любую кодировку консоли."""
+        say("SELFTEST RESULT: %s checks=%d fails=%d"
+            % ("PASS" if code == 0 else "FAIL", checks[0], len(fails)))
+        return code
+
     a2l_path = paths.bundled("results", "FBH3ID60_legacy.a2l")
     check(os.path.exists(a2l_path), "описание внутри сборки: %s" % a2l_path)
     if not os.path.exists(a2l_path):
-        return 1
+        return verdict(1)
 
     fw = None
     for cand in (sys.argv[2] if len(sys.argv) > 2 else "",
@@ -58,8 +84,10 @@ def selftest() -> int:
             break
     if not fw:
         say("ПРОПУЩЕНО: прошивка не передана и в сборку не вложена")
-        say("  запуск: РедакторКалибровок --selftest путь\\к\\прошивке.bin")
-        return 0 if not fails else 1
+        say("  запуск: CalibrationEditor --selftest путь\\к\\прошивке.bin")
+        # Пропуск -- НЕ успех: сборка не проверена, и говорить обратное
+        # нельзя. Сборочная машина прошивку передаёт всегда.
+        return verdict(1)
 
     tmp = tempfile.mkdtemp(prefix="selftest")
     work = os.path.join(tmp, "work.bin")
@@ -121,9 +149,9 @@ def selftest() -> int:
     say("")
     if fails:
         say("САМОПРОВЕРКА ПРОВАЛЕНА: %d" % len(fails))
-        return 1
+        return verdict(1)
     say("САМОПРОВЕРКА ПРОЙДЕНА")
-    return 0
+    return verdict(0)
 
 
 if __name__ == "__main__":
