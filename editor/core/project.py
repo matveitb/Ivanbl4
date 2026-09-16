@@ -63,6 +63,25 @@ def _titles() -> dict:
     return out
 
 
+def _load_ru(a2l_path: str) -> dict:
+    """
+    Русские названия карт из файла рядом с описанием.
+
+    Сам A2L делается ASCII-only ради старых версий WinOLS, и кириллица в
+    нём превращается в транслит: «Osnovnaya karta ugla operezheniya
+    zazhiganiya» читать невозможно. Поэтому названия лежат отдельным
+    файлом в UTF-8. Нет его -- ничего страшного, покажем имена Bosch как
+    есть; чужой A2L его и не принесёт.
+    """
+    path = os.path.splitext(a2l_path)[0] + ".ru.json"
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+        return {k: v for k, v in d.items() if isinstance(v, str) and v}
+    except Exception:                                       # noqa: BLE001
+        return {}
+
+
 @dataclass
 class TreeNode:
     title: str
@@ -88,6 +107,7 @@ class Project:
     fix_checksums: bool = True
     csum_table: int = -1
     group_mode: str = "auto"        # auto -- из описания, user -- своя
+    ru: dict = field(default_factory=dict)   # имя в A2L -> русское название
     _overlaps: dict = None          # считается лениво, при первом спросе
 
     # -- открытие --------------------------------------------------------
@@ -101,6 +121,7 @@ class Project:
                 buf=bytearray(data), original=data, am=am)
         p.layouts = geometry.resolve_all(a2l, data, am)
         p.csum_table = saving.find_table(data)
+        p.ru = _load_ru(a2l_path)
         p.load_project_file()
         return p
 
@@ -195,7 +216,10 @@ class Project:
         out = []
         for name in sorted(self.layouts):
             ch = self.a2l.characteristics.get(name)
-            hay = name.lower() + " " + (ch.desc.lower() if ch else "")
+            # ищем и по русскому названию: набирать «зажиган» естественнее,
+            # чем помнить, что карта зовётся KFZW
+            hay = " ".join((name, self.ru.get(name, ""),
+                            ch.desc if ch else "")).lower()
             if t in hay:
                 out.append(name)
         return out
@@ -228,6 +252,17 @@ class Project:
         if old in self.user_groups and new and new != old:
             self.user_groups = {(new if k == old else k): v
                                 for k, v in self.user_groups.items()}
+
+    def title(self, name: str) -> str:
+        """
+        Как карта подписывается в окне: «Русское название (ИМЯ)».
+
+        Имя Bosch остаётся на виду всегда -- по нему ищут в дамосах, по
+        нему разговаривают, и прятать его за переводом нельзя. Русское
+        название идёт впереди просто потому, что читается быстрее.
+        """
+        ru = self.ru.get(name)
+        return "%s (%s)" % (ru, name) if ru else name
 
     def desc(self, name: str) -> str:
         ch = self.a2l.characteristics.get(name)

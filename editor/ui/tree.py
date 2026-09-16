@@ -27,13 +27,19 @@ class MapTree(QtWidgets.QWidget):
         self._changed: set = set()
 
         self.search = QtWidgets.QLineEdit()
-        self.search.setPlaceholderText("поиск по имени и описанию")
+        self.search.setPlaceholderText(
+            "поиск: по-русски, по имени Bosch или по описанию")
         self.search.setClearButtonEnabled(True)
         self.search.textChanged.connect(self._rebuild)
 
         self.tree = QtWidgets.QTreeWidget()
         self.tree.setHeaderLabels(["Карта", "Размер"])
-        self.tree.setColumnWidth(0, 230)
+        self.tree.setColumnWidth(0, 300)
+        # Обрезаем СЕРЕДИНУ, а не хвост. Подпись у нас вида «Русское имя
+        # (KFZW)», и имя Bosch стоит в конце -- именно по нему ищут в
+        # дамосах и о нём разговаривают. Обычная обрезка съедала бы ровно
+        # его, оставляя бесполезное «Основная карта угла опережения за...».
+        self.tree.setTextElideMode(QtCore.Qt.TextElideMode.ElideMiddle)
         self.tree.setSelectionMode(
             QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.tree.itemSelectionChanged.connect(self._on_select)
@@ -71,10 +77,11 @@ class MapTree(QtWidgets.QWidget):
     def _leaf(self, name: str) -> QtWidgets.QTreeWidgetItem:
         L = self.project.layouts[name]
         size = "%dx%d" % (L.nx, L.ny) if L.cells > 1 else "-"
-        node = QtWidgets.QTreeWidgetItem([name, size])
+        node = QtWidgets.QTreeWidgetItem([self.project.title(name), size])
         node.setData(0, ROLE_MAP, name)
         tip = ("%s\nданные 0x%05X, %s%d, множитель %g %s\n%s"
-               % (name, L.data_off, "s" if L.signed else "u",
+               % (self.project.title(name), L.data_off,
+                  "s" if L.signed else "u",
                   L.width * 8, L.factor, L.unit, self.project.desc(name)))
         over = self.project.overlaps(name)
         if over:

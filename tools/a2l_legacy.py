@@ -22,8 +22,9 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
+import os
 import re
+import sys
 
 TYPE_U = {1: "UBYTE", 2: "UWORD"}
 TYPE_S = {1: "SBYTE", 2: "SWORD"}
@@ -175,6 +176,43 @@ WEIGHT = {
 # Профиль -- это то, что подтверждено чтением кода в этом проекте, а опись
 # собрана выравниванием чужого дамоса. При прочих равных профиль весомее.
 WEIGHT_PROFILE = 5
+
+
+CYR = re.compile("[А-Яа-яЁё]")
+
+
+def short_ru(text: str, limit: int = 58) -> str:
+    """
+    Короткое русское название из описания.
+
+    В самом A2L описания лежат транслитом -- файл делается ASCII-only ради
+    старых версий WinOLS, и кириллице там взяться неоткуда. А в профиле и
+    описи текст русский, и первая фраза почти всегда и есть название:
+    «Основная карта угла опережения зажигания. Столбцы = нагрузка...».
+    Берём её, остальное отбрасываем.
+
+    Возвращает пустую строку, если русского текста нет: подписывать карту
+    транслитом хуже, чем не подписывать вовсе.
+    """
+    if not text or not CYR.search(text):
+        return ""
+    head = re.split(r"[.;]|\s--\s", text.strip(), maxsplit=1)[0].strip()
+    head = re.sub(r"\s+", " ", head)
+    # Двоеточие отрезаем, только если до него уже сказано достаточно.
+    # «требуемое наполнение из требуемого момента: обороты x момент» --
+    # название слева, разметка осей справа, режем. А «кодовое слово:
+    # адаптация расхода включена» слева не значит ничего, оставляем целиком.
+    if ":" in head:
+        left = head.split(":", 1)[0].strip()
+        if len(left) >= 25:
+            head = left
+    if not CYR.search(head):
+        return ""
+    head = head[0].upper() + head[1:]
+    if len(head) > limit:
+        cut = head[:limit].rsplit(" ", 1)[0]
+        head = (cut or head[:limit]).rstrip(",: ") + "..."
+    return head
 
 
 def resolve_overlaps(chars, meta):
@@ -333,6 +371,7 @@ def main(argv=None) -> int:
     axis_objs: list[str] = []
     chars: list[str] = []
     meta: list[dict] = []          # то же, что chars, но пригодное для разбора
+    ru_names: dict[str, str] = {}  # имя в A2L -> короткое русское название
 
     # --- объекты осей -------------------------------------------------
     for an, a in AXES.items():
@@ -463,6 +502,9 @@ def main(argv=None) -> int:
             '    /end CHARACTERISTIC\n'
             % (nm, comment(cmt), "MAP" if is3d else "CURVE", m["addr"], rl, cm,
                plo, phi, descr))
+        ru = short_ru(m.get("note") or "")
+        if ru:
+            ru_names[nm] = ru
         meta.append(dict(name=nm, start=m.get("data_addr") or m["addr"],
                          size=m["nx"] * max(1, m["ny"]) * dw,
                          weight=WEIGHT.get(m.get("confidence"), 0),
@@ -754,6 +796,9 @@ def main(argv=None) -> int:
                      '      %s\n      0\n      %s\n      %.6g\n      %.6g%s\n'
                      '    /end CHARACTERISTIC\n'
                      % (nm, comment(cmt), kind, e["addr"], rl, cm, lo, hi, descr))
+        ru = short_ru(e["desc"] or "")
+        if ru:
+            ru_names[nm] = ru
         meta.append(dict(name=nm, start=e["addr"], size=cnt * w,
                          weight=WEIGHT_PROFILE
                          if e["conf"] == "подтверждена" else WEIGHT_PROFILE - 1,
@@ -817,7 +862,21 @@ def main(argv=None) -> int:
     data = body.encode("ascii", errors="replace")
     open(args.out, "wb").write(data)
 
+    # Русские названия -- отдельным файлом рядом с A2L.
+    #
+    # В сам A2L их не положить: он ASCII-only ради старых версий WinOLS, и
+    # кириллица там превратится в транслит. А подпись «Osnovnaya karta ugla
+    # operezheniya zazhiganiya» читать невозможно. Поэтому имена живут
+    # рядом в UTF-8: наш редактор их подхватывает, чужие разборщики просто
+    # не замечают лишний файл.
+    ru_out = os.path.splitext(args.out)[0] + ".ru.json"
+    ru_names = {k: v for k, v in ru_names.items() if k in kept}
+    with open(ru_out, "w", encoding="utf-8") as fh:
+        json.dump(ru_names, fh, ensure_ascii=False, indent=1, sort_keys=True)
+
     print("Записано: %s" % args.out)
+    print("  русские названия: %s (%d карт)"
+          % (os.path.basename(ru_out), len(ru_names)))
     if image is None:
         print("  ОСИ И ПЕРЕКРЫТИЯ НЕ ПРОВЕРЕНЫ: образ не передан (--firmware)",
               file=sys.stderr)

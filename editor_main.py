@@ -100,6 +100,12 @@ def selftest() -> int:
 
     p = proj.Project.open(a2l_path, work)
     check(len(p.layouts) > 700, "описание разобрано: карт %d" % len(p.layouts))
+    # Русские названия лежат ОТДЕЛЬНЫМ файлом рядом с A2L. В сборке он
+    # оказывается там только если его туда положили -- проверяем, иначе
+    # соберётся .exe, где всё подписано по-бошевски, и заметит это человек.
+    check(len(p.ru) > 40 and "(" in p.title("KFZW"),
+          "русские названия на месте: %d, KFZW -> %s"
+          % (len(p.ru), p.title("KFZW")))
     check(p.csum_table >= 0,
           "таблица сумм найдена: 0x%X" % p.csum_table)
 

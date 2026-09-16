@@ -28,6 +28,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import compare as C                                         # noqa: E402
 
+ROLE_NAME = QtCore.Qt.ItemDataRole.UserRole + 3
+
 MODES = [("значения этой", "this"),
          ("значения второй", "other"),
          ("разница", "delta")]
@@ -72,7 +74,7 @@ class DiffPanel(QtWidgets.QWidget):
             QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.setEditTriggers(
             QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.table.setColumnWidth(0, 150)
+        self.table.setColumnWidth(0, 230)
         self.table.setColumnWidth(1, 60)
         self.table.setColumnWidth(2, 120)
         self.table.itemSelectionChanged.connect(self._on_pick)
@@ -135,13 +137,17 @@ class DiffPanel(QtWidgets.QWidget):
         r = self.result
         self.table.setRowCount(len(r.maps))
         for i, d in enumerate(r.maps):
-            cells = [d.name,
+            cells = [self.project.title(d.name),
                      "%d/%d" % (d.changed, d.total),
                      "%+.3g .. %+.3g" % (d.dmin, d.dmax)
                      if d.dmin != d.dmax else "%+.3g" % d.dmin,
                      d.unit]
             for j, txt in enumerate(cells):
                 it = QtWidgets.QTableWidgetItem(txt)
+                if not j:
+                    # настоящее имя держим отдельно: по подписи карту уже
+                    # не найти, а щелчок обязан открыть именно её
+                    it.setData(ROLE_NAME, d.name)
                 if j:
                     it.setTextAlignment(
                         QtCore.Qt.AlignmentFlag.AlignRight
@@ -164,7 +170,7 @@ class DiffPanel(QtWidgets.QWidget):
             return
         it = self.table.item(min(rows), 0)
         if it:
-            self.picked.emit(it.text())
+            self.picked.emit(it.data(ROLE_NAME) or it.text())
 
     def changed_cells(self, name: str) -> set:
         """Какие ячейки этой карты отличаются -- для подсветки в таблице."""

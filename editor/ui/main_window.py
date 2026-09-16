@@ -417,7 +417,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.surface.set_map(self.project, name)
         self._apply_compare()
         L = self.project.layout(name)
-        bits = ["<b>%s</b>" % name,
+        bits = ["<b>%s</b>" % self.project.title(name),
                 "%s %dx%d" % (L.ctype, L.nx, L.ny),
                 "данные 0x%05X" % L.data_off,
                 "%s%d" % ("знаковый " if L.signed else "беззнаковый ",
