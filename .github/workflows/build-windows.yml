@@ -14,6 +14,11 @@ on:
     branches: ["**"]
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Метка релиза"
+        default: "v1.0"
+        required: false
 
 jobs:
   build:
@@ -87,11 +92,22 @@ jobs:
           path: dist/CalibrationEditor.exe
           if-no-files-found: error
 
+      # Релиз делается и по тегу, и по ручному запуску.
+      #
+      # Ручной запуск здесь не прихоть: окружение, из которого идёт
+      # разработка, пускает пуш только в рабочую ветку, и тег оттуда не
+      # отправить. А без релиза .exe достаётся только через артефакты
+      # Actions -- а те всегда завёрнуты в zip, требуют входа в GitHub и
+      # протухают через 90 дней. Имя тега задано явно, action создаст его
+      # сам на том коммите, с которого запущен.
       - name: Прикрепить к релизу
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: >-
+          startsWith(github.ref, 'refs/tags/v') ||
+          github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
-          name: Редактор калибровок ${{ github.ref_name }}
+          tag_name: ${{ inputs.tag || 'v1.0' }}
+          name: Редактор калибровок ${{ inputs.tag || 'v1.0' }}
           files: dist/CalibrationEditor.exe
           body: |
             Редактор калибровок Bosch M7.9.7 (Kia Spectra 1.6, FBH3ID60).
