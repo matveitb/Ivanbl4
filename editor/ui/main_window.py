@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import project as proj                                      # noqa: E402
 import saving                                               # noqa: E402
+from diffview import DiffPanel                              # noqa: E402
 from grid import MapGrid                                    # noqa: E402
 from plot2d import Curve2D                                  # noqa: E402
 from plot3d import Surface3D                                # noqa: E402
@@ -43,6 +44,18 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.tree = MapTree()
         self.tree.selected.connect(self.open_map)
+
+        # Сравнение -- соседняя вкладка того же места, где дерево, а не
+        # отдельное окно: список изменённых карт это тот же список карт,
+        # только короче, и открывается он в ту же таблицу.
+        self.diff = DiffPanel()
+        self.diff.picked.connect(self.open_map)
+        self.diff.mode_changed.connect(self._diff_mode)
+        self.diff.cleared.connect(self._diff_off)
+
+        self.left = QtWidgets.QTabWidget()
+        self.left.addTab(self.tree, "Карты")
+        self.left.addTab(self.diff, "Сравнение")
 
         self.grid = MapGrid()
         self.grid.edited.connect(self._after_edit)
@@ -86,7 +99,7 @@ class MainWindow(QtWidgets.QMainWindow):
         rl.addWidget(self.info)
 
         split = QtWidgets.QSplitter()
-        split.addWidget(self.tree)
+        split.addWidget(self.left)
         split.addWidget(right)
         split.setStretchFactor(0, 0)
         split.setStretchFactor(1, 1)
@@ -110,6 +123,8 @@ class MainWindow(QtWidgets.QMainWindow):
                                       triggered=self.ask_open)
         self.act_bin = QtGui.QAction("Сменить прошивку...", self,
                                      triggered=self.ask_bin)
+        self.act_diff = QtGui.QAction("Сравнить с прошивкой...", self,
+                                      triggered=self.ask_diff)
         self.act_save = QtGui.QAction("Сохранить", self, shortcut=S.Save,
                                       triggered=self.save)
         self.act_save_as = QtGui.QAction("Сохранить как...", self,
@@ -129,7 +144,8 @@ class MainWindow(QtWidgets.QMainWindow):
                                        triggered=self._toggle_plots)
         self.act_quit = QtGui.QAction("Выход", self, shortcut=S.Quit,
                                       triggered=self.close)
-        for a in (self.act_save, self.act_save_as, self.act_bin):
+        for a in (self.act_save, self.act_save_as, self.act_bin,
+                  self.act_diff):
             a.setEnabled(False)
 
     def _build_toolbar(self) -> None:
@@ -180,6 +196,7 @@ class MainWindow(QtWidgets.QMainWindow):
         m = self.menuBar().addMenu("Файл")
         m.addAction(self.act_open)
         m.addAction(self.act_bin)
+        m.addAction(self.act_diff)
         m.addSeparator()
         m.addAction(self.act_save)
         m.addAction(self.act_save_as)
@@ -223,6 +240,32 @@ class MainWindow(QtWidgets.QMainWindow):
             self.grid.setColumnCount(0)
             self._update_title()
 
+    def ask_diff(self) -> None:
+        self.left.setCurrentWidget(self.diff)
+        self.diff.ask_file()
+
+    def _diff_mode(self, mode: str) -> None:
+        """Переключили показ при сравнении -- перерисовать таблицу."""
+        self._apply_compare(mode)
+        self.statusBar().showMessage("Сравнение: в таблице " + {
+            "this": "значения этой прошивки",
+            "other": "значения второй прошивки, правка запрещена",
+            "delta": "разница (вторая минус эта), правка запрещена",
+        }[mode])
+
+    def _diff_off(self) -> None:
+        self.grid.set_compare(b"", "this", ())
+        self.curve.set_compare(b"")
+        self.statusBar().showMessage("Сравнение закрыто")
+
+    def _apply_compare(self, mode: str = "") -> None:
+        mode = mode or self.diff.mode.currentData() or "this"
+        if not self.diff.other or not self.grid.map_name:
+            return
+        self.grid.set_compare(self.diff.other, mode,
+                              self.diff.changed_cells(self.grid.map_name))
+        self.curve.set_compare(self.diff.other)
+
     def load(self, a2l_path: str, bin_path: str) -> None:
         try:
             self.project = proj.Project.open(a2l_path, bin_path)
@@ -234,7 +277,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.settings.setValue("last_bin", bin_path)
         self.chk_csum.setChecked(self.project.fix_checksums)
         self.tree.set_project(self.project)
-        for a in (self.act_save, self.act_save_as, self.act_bin):
+        self.diff.set_project(self.project)
+        for a in (self.act_save, self.act_save_as, self.act_bin,
+                  self.act_diff):
             a.setEnabled(True)
         self._update_title()
         t = self.project.csum_table
@@ -281,6 +326,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.grid.set_map(self.project, name)
         self.curve.set_map(self.project, name)
         self.surface.set_map(self.project, name)
+        self._apply_compare()
         L = self.project.layout(name)
         bits = ["<b>%s</b>" % name,
                 "%s %dx%d" % (L.ctype, L.nx, L.ny),

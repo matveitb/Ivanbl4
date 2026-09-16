@@ -14,8 +14,14 @@
    числе набранная с клавиатуры.
 
 3. ИЗМЕНЁННЫЕ ЯЧЕЙКИ ВИДНО. Отличие от исходного образа помечается
-   рамкой и жирным -- при переносе правок это единственный способ не
-   потерять, что уже сделано.
+   подчёркиванием, а отличие от второй прошивки при сравнении -- рамкой.
+   При переносе правок это единственный способ не потерять, что уже
+   сделано.
+
+4. В РЕЖИМЕ СРАВНЕНИЯ ВСЕГДА ПОДПИСАНО, ЧЬИ ЧИСЛА ПОКАЗАНЫ. Таблица
+   умеет показывать значения этой прошивки, второй или разницу. Правка
+   разрешена только в первом случае: править файл, глядя на чужие числа,
+   -- верный способ испортить не то.
 """
 
 from __future__ import annotations
@@ -30,6 +36,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import edits                                                # noqa: E402
 import mapaccess as M                                       # noqa: E402
 import palette                                              # noqa: E402
+
+ROLE_DIFF = QtCore.Qt.ItemDataRole.UserRole + 2
 
 
 class CellPainter(QtWidgets.QStyledItemDelegate):
@@ -48,12 +56,19 @@ class CellPainter(QtWidgets.QStyledItemDelegate):
 
     def paint(self, painter, option, index):
         sel = bool(option.state & QtWidgets.QStyle.StateFlag.State_Selected)
+        diff = bool(index.data(ROLE_DIFF))
         opt = QtWidgets.QStyleOptionViewItem(option)
         self.initStyleOption(opt, index)
         # снимаем штатную закраску выделения -- рисуем своё
         opt.state &= ~QtWidgets.QStyle.StateFlag.State_Selected
         QtWidgets.QApplication.style().drawControl(
             QtWidgets.QStyle.ControlElement.CE_ItemViewItem, opt, painter)
+        if diff:
+            r = option.rect.adjusted(1, 1, -2, -2)
+            painter.save()
+            painter.setPen(QtGui.QPen(QtGui.QColor(150, 20, 20), 2))
+            painter.drawRect(r)
+            painter.restore()
         if sel:
             r = option.rect.adjusted(0, 0, -1, -1)
             painter.save()
@@ -77,6 +92,9 @@ class MapGrid(QtWidgets.QTableWidget):
         self._loading = False
         self.shading = True
         self.digits = 2
+        self.other = b""            # вторая прошивка при сравнении
+        self.mode = "this"          # this | other | delta
+        self.diff_cells: set = set()
         self.setSelectionMode(
             QtWidgets.QAbstractItemView.SelectionMode.ContiguousSelection)
         self.setAlternatingRowColors(False)
@@ -96,14 +114,30 @@ class MapGrid(QtWidgets.QTableWidget):
         self.lay = project.layout(name)
         self.refresh()
 
+    def set_compare(self, other: bytes, mode: str, cells) -> None:
+        """Вторая прошивка, что показывать и какие ячейки обвести."""
+        self.other = other or b""
+        self.mode = mode if self.other else "this"
+        self.diff_cells = set(cells or ())
+        self.refresh()
+
     def refresh(self) -> None:
         if self.lay is None:
             return
         L, buf = self.lay, self.project.buf
-        vals = M.read_phys(buf, L)
+        mine = M.read_phys(buf, L)
         xs, ys = M.axes(buf, L)
-        lo, hi = palette.span(vals)
         orig = self.project.original
+
+        theirs = M.read_phys(self.other, L) if self.other else None
+        comparing = bool(self.other) and self.mode != "this"
+        if comparing:
+            vals = theirs if self.mode == "other" else \
+                [[theirs[r][c] - mine[r][c] for c in range(L.nx)]
+                 for r in range(L.ny)]
+        else:
+            vals = mine
+        lo, hi = palette.span(vals)
 
         self._loading = True
         self.clear()
@@ -114,7 +148,9 @@ class MapGrid(QtWidgets.QTableWidget):
         self.setVerticalHeaderLabels(
             [self._axis_label(ys, r) for r in range(L.ny)])
 
-        ro = not L.editable
+        # править можно только свои числа: правка при показе чужих или
+        # разницы -- верный способ записать не то и не туда
+        ro = (not L.editable) or comparing
         for r in range(L.ny):
             for c in range(L.nx):
                 v = vals[r][c]
@@ -130,6 +166,13 @@ class MapGrid(QtWidgets.QTableWidget):
                     f.setBold(True)
                     f.setUnderline(True)
                     it.setFont(f)
+                if (r, c) in self.diff_cells:
+                    it.setData(ROLE_DIFF, True)
+                    it.setToolTip("эта: %g\nвторая: %g\nразница: %+g"
+                                  % (mine[r][c],
+                                     theirs[r][c] if theirs else 0.0,
+                                     (theirs[r][c] - mine[r][c])
+                                     if theirs else 0.0))
                 if ro:
                     it.setFlags(it.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable)
                 self.setItem(r, c, it)
@@ -194,6 +237,15 @@ class MapGrid(QtWidgets.QTableWidget):
         """Операция над выделением. Возвращает сообщение для строки состояния."""
         if self.lay is None or not self.lay.editable:
             return "карта только для чтения"
+        # Запрет на правку в режиме сравнения снимался только с ячеек
+        # (ItemIsEditable), а кнопки полосы инструментов шли мимо него и
+        # прекрасно правили файл, пока на экране были чужие числа.
+        # Поймано проверкой; теперь запрет один на оба пути.
+        if self.other and self.mode != "this":
+            return ("на экране %s -- правка запрещена, вернитесь к "
+                    "значениям этой прошивки"
+                    % ("значения второй прошивки" if self.mode == "other"
+                       else "разница"))
         sel = self.selection()
         if not sel:
             return "ничего не выделено"
@@ -224,6 +276,9 @@ class MapGrid(QtWidgets.QTableWidget):
 
     def _on_item_changed(self, it: QtWidgets.QTableWidgetItem) -> None:
         if self._loading or self.lay is None:
+            return
+        if self.other and self.mode != "this":
+            self.refresh()
             return
         txt = it.text().replace(",", ".").strip()
         try:

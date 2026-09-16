@@ -175,6 +175,56 @@ def main():
     w.surface.mouseDoubleClickEvent(None)
     check(shot(w.surface) == was, "двойной щелчок вернул исходный вид")
 
+    # -- сравнение прошивок -------------------------------------------------
+    other = os.path.join(ROOT, "firmware", "FBH3ID60 e2 tun csok v2___.bin")
+    if os.path.exists(other):
+        w.diff.compare_with(other)
+        names = w.diff.changed_names()
+        check({"KFZW", "KFZW2", "KFZWOP", "KFLBTS"} <= names,
+              "в списке изменённых знакомые карты: изменилось %d карт"
+              % len(names))
+        check(w.diff.table.rowCount() == len(w.diff.result.maps),
+              "список заполнен: строк %d" % w.diff.table.rowCount())
+        check("вне известных карт" in w.diff.head.text(),
+              "про изменения вне размеченного сказано прямо, а не умолчано")
+
+        w.open_map("KFZW")
+        LK = w.project.layout("KFZW")
+        marked = w.grid.diff_cells
+        check(len(marked) == next(d.changed for d in w.diff.result.maps
+                                  if d.name == "KFZW"),
+              "обведённых ячеек столько же, сколько изменённых: %d"
+              % len(marked))
+
+        # показ чужих чисел и разницы -- и запрет правки в этих режимах
+        mine = float(w.grid.item(8, 5).text())
+        w.diff.mode.setCurrentIndex(1)                       # значения второй
+        theirs = float(w.grid.item(8, 5).text())
+        w.diff.mode.setCurrentIndex(2)                       # разница
+        delta = float(w.grid.item(8, 5).text())
+        check(abs((theirs - mine) - delta) < 5e-3,
+              "разница сходится: %g - %g = %g" % (theirs, mine, delta))
+
+        guard = bytes(w.project.buf)
+        w.value.setValue(5.0)
+        w.grid.clearSelection()
+        w.grid.item(8, 5).setSelected(True)
+        w.run_op("+")
+        check(bytes(w.project.buf) == guard,
+              "правка при показе чужих чисел отклонена: %s"
+              % w.statusBar().currentMessage())
+
+        w.diff.mode.setCurrentIndex(0)                       # обратно свои
+        check(abs(float(w.grid.item(8, 5).text()) - mine) < 5e-3,
+              "вернулись к своим числам: %g" % mine)
+        check(w.curve.other, "кривая знает про вторую прошивку")
+
+        w.diff.clear()
+        check(not w.grid.diff_cells and not w.curve.other,
+              "закрытие сравнения убрало и обводку, и пунктир")
+    else:
+        print("     (второй прошивки нет на месте -- сравнение не проверено)")
+
     # ни одна карта не роняет рисовалки
     bad = []
     for name in w.project.layouts:

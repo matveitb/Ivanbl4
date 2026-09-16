@@ -65,6 +65,7 @@ class Curve2D(QtWidgets.QWidget):
         self.name = ""
         self.lay = None
         self.row = 0
+        self.other = b""            # вторая прошивка при сравнении
         self.setMinimumHeight(140)
         self.setMouseTracking(True)
         self._hover = None
@@ -80,6 +81,10 @@ class Curve2D(QtWidgets.QWidget):
         if self.lay is not None and 0 <= row < self.lay.ny and row != self.row:
             self.row = row
             self.update()
+
+    def set_compare(self, other: bytes) -> None:
+        self.other = other or b""
+        self.update()
 
     def refresh(self) -> None:
         self.update()
@@ -107,7 +112,9 @@ class Curve2D(QtWidgets.QWidget):
         xs = list(xs[:L.nx]) or [0.0]
         if len(set(xs)) < len(xs):
             xs = [float(i) for i in range(L.nx)]
-        vlo, vhi = palette.span(vals)
+        both = vals + ([M.read_phys(self.other, L)[self.row]]
+                       if self.other else [])
+        vlo, vhi = palette.span(both)
         pad = (vhi - vlo) * 0.06 or 1.0
         vlo, vhi = vlo - pad, vhi + pad
         xlo, xhi = min(xs), max(xs)
@@ -155,6 +162,17 @@ class Curve2D(QtWidgets.QWidget):
             p.setPen(QtGui.QPen(c, 1.2))
             self._poly(p, xs, vals[r], px, py)
 
+        # при сравнении та же строка второй прошивки идёт пунктиром:
+        # две кривые рядом показывают правку нагляднее любой таблицы
+        if self.other:
+            try:
+                other_row = M.read_phys(self.other, L)[self.row]
+                p.setPen(QtGui.QPen(QtGui.QColor(70, 70, 70), 1.6,
+                                    QtCore.Qt.PenStyle.DashLine))
+                self._poly(p, xs, other_row, px, py)
+            except Exception:                               # noqa: BLE001
+                pass
+
         c = palette.heat(self.row / max(1, ny - 1))
         p.setPen(QtGui.QPen(c.darker(120), 2.4))
         self._poly(p, xs, vals[self.row], px, py)
@@ -168,6 +186,8 @@ class Curve2D(QtWidgets.QWidget):
             label += "   строка %g" % ys[self.row]
         if L.unit:
             label += "   [%s]" % L.unit
+        if self.other:
+            label += "   (пунктир -- вторая прошивка)"
         p.setPen(TEXT)
         f.setBold(True)
         p.setFont(f)
