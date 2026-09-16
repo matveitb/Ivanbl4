@@ -155,8 +155,10 @@ class MainWindow(QtWidgets.QMainWindow):
                                        triggered=self._toggle_plots)
         self.act_quit = QtGui.QAction("Выход", self, shortcut=S.Quit,
                                       triggered=self.close)
+        # Отмена и повтор гасятся вместе с остальным: пока прошивка не
+        # открыта, отменять нечего, и живые кнопки просто врут.
         for a in (self.act_save, self.act_save_as, self.act_bin,
-                  self.act_diff):
+                  self.act_diff, self.act_undo, self.act_redo):
             a.setEnabled(False)
 
     def _build_toolbar(self) -> None:
