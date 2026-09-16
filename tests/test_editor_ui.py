@@ -1,0 +1,156 @@
+#!/usr/bin/env python3
+"""
+Проверка окна без экрана.
+
+Qt умеет работать на платформе offscreen -- окно создаётся, виджеты
+наполняются, сигналы ходят, просто ничего не рисуется на дисплее. Этого
+достаточно, чтобы проверить главное: дерево наполнилось, таблица совпала
+с тем, что показывает командная строка, кнопка правки действительно
+меняет буфер, а отмена возвращает его побайтово.
+
+Если PySide6 не установлен, проверка не считается провалом: ядро
+редактора от Qt не зависит, и остальные проверки идут своим ходом.
+Ставится он одной строкой: pip install -r requirements-editor.txt
+"""
+
+import os
+import shutil
+import sys
+import tempfile
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+sys.path.insert(0, ROOT)
+sys.path.insert(0, os.path.join(ROOT, "editor", "a2l"))
+sys.path.insert(0, os.path.join(ROOT, "editor", "core"))
+sys.path.insert(0, os.path.join(ROOT, "editor", "ui"))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+
+A2L = os.path.join(ROOT, "results", "FBH3ID60_legacy.a2l")
+FW = os.path.join(ROOT, "firmware", "FBH3ID60_stok.bin")
+
+fails = []
+
+
+def check(cond, msg):
+    print(("OK   " if cond else "ОШИБКА ") + msg)
+    if not cond:
+        fails.append(msg)
+
+
+def main():
+    try:
+        from PySide6 import QtWidgets
+    except ImportError as exc:
+        print("ПРОПУЩЕНО: PySide6 не установлен (%s)" % exc)
+        print("  поставить: pip install -r requirements-editor.txt")
+        return 0
+
+    from main_window import MainWindow, ORG, APP
+
+    tmp = tempfile.mkdtemp(prefix="ktpui")
+    work = os.path.join(tmp, "work.bin")
+    shutil.copy(FW, work)
+
+    app = QtWidgets.QApplication([sys.argv[0]])
+    app.setOrganizationName(ORG)
+    app.setApplicationName(APP)
+
+    w = MainWindow(work, A2L)
+    check(w.project is not None and len(w.project.layouts) == 858,
+          "окно открыло прошивку и описание: карт %d"
+          % len(w.project.layouts))
+    check(w.tree.tree.topLevelItemCount() == 24,
+          "в дереве групп: %d" % w.tree.tree.topLevelItemCount())
+
+    # -- таблица совпадает с ядром ---------------------------------------
+    import mapaccess as M
+    w.open_map("KFZWOP")
+    g = w.grid
+    L = w.project.layout("KFZWOP")
+    check((g.rowCount(), g.columnCount()) == (L.ny, L.nx),
+          "размер таблицы %dx%d совпал с раскладкой"
+          % (g.rowCount(), g.columnCount()))
+    vals = M.read_phys(w.project.buf, L)
+    same = all(abs(float(g.item(r, c).text()) - vals[r][c]) < 5e-3
+               for r in range(L.ny) for c in range(L.nx))
+    check(same, "каждая ячейка на экране совпала со значением в буфере")
+
+    xs, ys = M.axes(w.project.buf, L)
+    check(g.horizontalHeaderItem(0).text() == "%d" % round(xs[0])
+          and g.verticalHeaderItem(0).text() == "%d" % round(ys[0]),
+          "заголовки взяты с осей: X от %g, Y от %g" % (xs[0], ys[0]))
+
+    # -- поиск переключает дерево в плоский список ------------------------
+    w.tree.search.setText("KFZW")
+    top = w.tree.tree.topLevelItem(0)
+    check(w.tree.tree.topLevelItemCount() == 1 and top.childCount() > 1,
+          "поиск дал плоский список из %d карт" % top.childCount())
+    w.tree.search.clear()
+    check(w.tree.tree.topLevelItemCount() == 24, "после очистки дерево вернулось")
+
+    # -- кнопка правки меняет буфер и отменяется --------------------------
+    snapshot = bytes(w.project.buf)
+    g.clearSelection()
+    for r in range(3, 6):
+        for c in range(2, 5):
+            g.item(r, c).setSelected(True)
+    w.value.setValue(1.5)
+    w.run_op("+")
+    check("ячеек изменено 9" in w.statusBar().currentMessage(),
+          "кнопка «+» отчиталась: %s" % w.statusBar().currentMessage())
+    check(bytes(w.project.buf) != snapshot, "буфер действительно изменился")
+    check(w.windowTitle().startswith("* "),
+          "в заголовке окна появилась звёздочка: %s" % w.windowTitle())
+
+    shown = float(g.item(3, 2).text())
+    check(abs(shown - M.read_phys(w.project.buf, L)[3][2]) < 5e-3,
+          "после правки на экране то, что легло в буфер: %g" % shown)
+
+    w.undo()
+    check(bytes(w.project.buf) == snapshot,
+          "отмена из окна вернула образ побайтово")
+    check(not w.windowTitle().startswith("* "), "звёздочка ушла")
+
+    # -- ввод с клавиатуры идёт через историю -----------------------------
+    g.item(0, 0).setText("14.3")
+    check(g.item(0, 0).text() == "14.25",
+          "набранное 14.3 показано как легло: %s" % g.item(0, 0).text())
+    check(w.project.history.can_undo, "набранное с клавиатуры попало в историю")
+    w.undo()
+    check(bytes(w.project.buf) == snapshot, "и тоже отменилось начисто")
+
+    # -- нечисловой ввод не портит ячейку ---------------------------------
+    was = g.item(1, 1).text()
+    g.item(1, 1).setText("ерунда")
+    check(g.item(1, 1).text() == was,
+          "нечисловой ввод отброшен, в ячейке осталось %s" % was)
+    check(bytes(w.project.buf) == snapshot, "и буфер не тронут")
+
+    # -- карта только для чтения не правится -------------------------------
+    ro = next((n for n, lay in w.project.layouts.items() if not lay.editable),
+              "")
+    if ro:
+        w.tree.select_map(ro)
+        w.open_map(ro)
+        w.run_op("+")
+        check(bytes(w.project.buf) == snapshot,
+              "карта «%s» только для чтения -- правка отклонена: %s"
+              % (ro, w.statusBar().currentMessage()))
+    else:
+        print("     (в этом A2L карт только для чтения нет -- "
+              "проверять нечего)")
+
+    shutil.rmtree(tmp, ignore_errors=True)
+
+    print()
+    if fails:
+        print("ПРОВАЛЕНО: %d" % len(fails))
+        return 1
+    print("ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

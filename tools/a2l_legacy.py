@@ -124,6 +124,46 @@ def cm_block(factor: float, offset: float, unit: str) -> str:
             '    /end COMPU_METHOD\n' % (name, factor, dec, u, offset, factor))
 
 
+# Названия разделов профиля по-русски: ключи в JSON английские, а в дереве
+# редактора и WinOLS человек должен видеть контур, а не имя поля.
+SECTION_TITLES = {
+    "cyclic_charge": "Цикловое наполнение",
+    "torque_model": "Моментная модель",
+    "knock_control": "Контур детонации",
+    "fuel_path": "Топливоподача",
+    "fuel_trim_curves": "Коррекции топливоподачи",
+    "fuel_path_unchanged": "Топливоподача, неизменное",
+    "transient_fuel": "Переходные режимы, плёнка",
+    "full_load_lambda": "Лямбда полной нагрузки",
+    "alpha_map_KFLF": "Карта альфа KFLF",
+    "second_lambda": "Второй датчик кислорода",
+    "lambda_cat_diag_block": "Диагностика катализатора",
+    "canister_purge": "Адсорбер",
+    "cpv_diagnostics_block": "Диагностика адсорбера",
+    "overrun_fuel_cut": "Отсечка на принудительном холостом",
+    "max_charge_at_wot": "Наполнение на полной нагрузке",
+    "immobilizer": "Иммобилайзер",
+    "flag_tables": "Таблицы флагов",
+    "scalars": "Одиночные величины",
+    "axis_blocks": "Оси",
+    "axes_resolved_from_code": "Оси, восстановленные по коду",
+    "code_facts": "Найденное по коду",
+    "other_regions": "Прочие области",
+    "checksum": "Контрольные суммы",
+    "identification": "Идентификация",
+    "flash": "Флеш",
+    "hfm_path": "Воздушный тракт, ДМРВ",
+    "throttle_air_model": "Дроссель, модель воздуха",
+    "saint_venant": "Сен-Венан, расход через дроссель",
+    "maps": "Карты из описи",
+    "scanner": "Найдено сканером",
+    "scanner:подтверждена": "Сканер: подтверждённые",
+    "scanner:вероятная": "Сканер: вероятные",
+    "scanner:сомнительная": "Сканер: сомнительные",
+    "scanner:неоднозначная": "Сканер: неоднозначные",
+}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="A2L для старых версий WinOLS")
     ap.add_argument("--maps", required=True)
@@ -140,6 +180,36 @@ def main(argv=None) -> int:
     if args.min_confidence == "verified":
         maps = [m for m in maps if m.get("confidence") == "подтверждена"]
     maps = sorted(maps, key=lambda m: m["addr"])
+
+    # --- разделы профиля -> группы --------------------------------------
+    # Группа в ASAP2 -- это стандартный блок GROUP, и дерево по нему
+    # строит не только наш редактор, но и WinOLS. Раздел верхнего уровня
+    # профиля берём как группу, а принадлежность запоминаем ПО АДРЕСУ:
+    # тогда карта, пришедшая из maps.json (KFZW, KFMIRL), тоже попадёт в
+    # свой контур, а не в общую кучу "найдено сканером".
+    sec_of_addr: dict[int, str] = {}
+
+    def _sections(node, section):
+        if isinstance(node, dict):
+            a = node.get("addr")
+            if isinstance(a, str) and a.startswith("0x"):
+                try:
+                    sec_of_addr.setdefault(int(a, 16), section)
+                except ValueError:
+                    pass
+            for v in node.values():
+                _sections(v, section)
+        elif isinstance(node, list):
+            for v in node:
+                _sections(v, section)
+
+    for _sec, _node in profile.items():
+        _sections(_node, _sec)
+
+    groups: dict[str, list[str]] = {}
+
+    def in_group(section: str, name: str) -> None:
+        groups.setdefault(section, []).append(name)
 
     used: set = set()
     layouts: dict[str, str] = {}
@@ -174,6 +244,10 @@ def main(argv=None) -> int:
     # --- карты ---------------------------------------------------------
     for m in maps:
         nm = ident(m.get("name") or ("MAP_%05X" % m["addr"]), used)
+        # Карта, которой профиль не знает, идёт в группу по достоверности:
+        # шестьсот безымянных находок одной кучей -- это не дерево.
+        in_group(sec_of_addr.get(m["addr"])
+                 or ("scanner:" + (m.get("confidence") or "прочее")), nm)
         is3d = m["kind"] == "3d" and m["ny"] > 1
         dw, aw = m["data_width"], m.get("axis_width", 1)
         signed = bool(m.get("signed"))
@@ -289,7 +363,7 @@ def main(argv=None) -> int:
     done_addr = {m["addr"] for m in maps}
     extra = []
 
-    def collect(node):
+    def collect(node, section):
         if isinstance(node, dict):
             a, nm = node.get("addr"), node.get("name")
             if isinstance(a, str) and a.startswith("0x") and nm:
@@ -306,19 +380,21 @@ def main(argv=None) -> int:
                                       offset=node.get("offset") or 0.0,
                                       unit=node.get("unit", ""),
                                       desc=node.get("desc") or node.get("note", ""),
-                                      conf=node.get("confidence", "")))
+                                      conf=node.get("confidence", ""),
+                                      section=section))
             for v in node.values():
-                collect(v)
+                collect(v, section)
         elif isinstance(node, list):
             for v in node:
-                collect(v)
+                collect(v, section)
 
+    # Обходим профиль ПО РАЗДЕЛАМ, а не целиком: раздел верхнего уровня --
+    # это и есть естественная группа ("моментная модель", "воздушный
+    # тракт"), и запомнить её надо в тот момент, когда мы в неё спускаемся.
+    for _sec, _node in profile.items():
+        collect(_node, _sec)
     if args.min_confidence == "verified":
-        keep = ("подтверждена",)
-        collect(profile)
-        extra = [e for e in extra if e["conf"] in keep]
-    else:
-        collect(profile)
+        extra = [e for e in extra if e["conf"] == "подтверждена"]
     for e in extra:
         # у карт ширина ячейки лежит в width, а не в числе столбцов
         w = e["width"] if e["width"] in (1, 2) else 1
@@ -337,6 +413,7 @@ def main(argv=None) -> int:
         if lo > hi:
             lo, hi = hi, lo
         nm = ident(e["name"], used)
+        in_group(sec_of_addr.get(e["addr"]) or e["section"], nm)
         cmt = (e["conf"] + " | " if e["conf"] else "") + e["desc"]
         if cnt > 1:
             descr = ('\n      /begin AXIS_DESCR FIX_AXIS\n        NO_INPUT_QUANTITY\n'
@@ -349,6 +426,28 @@ def main(argv=None) -> int:
                      '      %s\n      0\n      %s\n      %.6g\n      %.6g%s\n'
                      '    /end CHARACTERISTIC\n'
                      % (nm, comment(cmt), kind, e["addr"], rl, cm, lo, hi, descr))
+
+    # --- группы ---------------------------------------------------------
+    group_objs: list[str] = []
+    sub_names: list[str] = []
+    for sec in sorted(groups, key=lambda k: (-len(groups[k]), k)):
+        names = groups[sec]
+        if not names:
+            continue
+        gname = ident("G_" + translit(sec), used)
+        sub_names.append(gname)
+        refs = "\n".join("        " + n for n in names)
+        group_objs.append(
+            '\n    /begin GROUP %s\n      "%s"\n'
+            '      /begin REF_CHARACTERISTIC\n%s\n      /end REF_CHARACTERISTIC\n'
+            '    /end GROUP\n'
+            % (gname, comment(SECTION_TITLES.get(sec, sec)), refs))
+    if group_objs:
+        subs = "\n".join("        " + n for n in sub_names)
+        group_objs.insert(0,
+            '\n    /begin GROUP G_ALL\n      "Все карты"\n      ROOT\n'
+            '      /begin SUB_GROUP\n%s\n      /end SUB_GROUP\n'
+            '    /end GROUP\n' % subs)
 
     head = ('ASAP2_VERSION 1 51\n\n/begin PROJECT %s "Bosch M7.9.7 C167"\n\n'
             '  /begin HEADER "Kia Spectra 1.6 %s"\n    VERSION "1.0"\n  /end HEADER\n\n'
@@ -371,6 +470,8 @@ def main(argv=None) -> int:
         body += b
     for c in chars:
         body += c
+    for g in group_objs:
+        body += g
     body += tail
 
     body = body.replace("\r\n", "\n").replace("\n", "\r\n")
@@ -378,8 +479,9 @@ def main(argv=None) -> int:
     open(args.out, "wb").write(data)
 
     print("Записано: %s" % args.out)
-    print("  карт: %d, осей: %d, раскладок: %d, пересчётов: %d"
-          % (len(chars), len(axis_objs), len(layouts), len(compus) + 1))
+    print("  карт: %d, осей: %d, раскладок: %d, пересчётов: %d, групп: %d"
+          % (len(chars), len(axis_objs), len(layouts), len(compus) + 1,
+             max(0, len(group_objs) - 1)))
     print("  ASAP2 1.51, только ASCII, переводы строк CRLF, размер %d байт" % len(data))
     return 0
 

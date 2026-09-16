@@ -16491,6 +16491,1039 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin GROUP G_ALL
+      "??? ?????"
+      ROOT
+      /begin SUB_GROUP
+        G_scanner_veroyatnaya
+        G_scanner_podtverzhdena
+        G_lambda_cat_diag_block
+        G_knock_control
+        G_canister_purge
+        G_scanner_somnitelnaya
+        G_scanner_neodnoznachnaya
+        G_overrun_fuel_cut
+        G_torque_model
+        G_second_lambda
+        G_cyclic_charge
+        G_maps
+        G_hfm_path
+        G_scalars
+        G_transient_fuel
+        G_axes_resolved_from_code
+        G_full_load_lambda
+        G_throttle_air_model
+        G_axis_blocks
+        G_fuel_path
+        G_fuel_path_unchanged
+        G_max_charge_at_wot
+        G_other_regions
+        G_saint_venant
+      /end SUB_GROUP
+    /end GROUP
+
+    /begin GROUP G_scanner_veroyatnaya
+      "Skaner: veroyatnye"
+      /begin REF_CHARACTERISTIC
+        SNG06LLSB
+        NARASTG
+        RLMNN
+        RLMNSAN
+        KFMIRED
+        FSWALUV
+        FUGKUE
+        ZDSH1GS
+        ZDSHGS
+        MAP_056_10D9A_6
+        SNS06LLSB
+        ZNSMST
+        DMLLRIMXN
+        DMLLRLMNN
+        DMLLRLMXN
+        DMLLRMNN
+        DMLLRMXN
+        DVNG
+        DVNGV
+        FDDN
+        GFDLDN
+        IVDN
+        IVDNDTE
+        PVDN
+        PVLDN
+        PVLDNV
+        SDN06LLSB
+        SNS206LLSB
+        TVFSAM
+        TVFSAMR
+        TVFSEM
+        TVFSEMR
+        UEVERG
+        ZKMDWAM
+        FZN0
+        FZN1
+        FZN2
+        FZN3
+        FZN4
+        FZN5
+        FZN6
+        FZN7
+        FZNWN0
+        FZNWN1
+        FZNWN2
+        FZNWN3
+        FZNWN4
+        FZNWN5
+        FZNWN6
+        FZNWN7
+        KFWHSTT
+        KFWKSTN
+        FWSTAS2
+        LZFUER
+        WKRLZOF
+        WDKNLN
+        FHSTT
+        MAP_115_112C2_14
+        MAP_117_113A3_14x14
+        TKOAMXN
+        TKOEMNN
+        MAP_120_11567_8
+        FVRMDYN
+        MAP_123_11595_8
+        MAP_124_115EC_7
+        MAP_125_115FB_7
+        FAGRH
+        MAP_127_11616_8
+        MAP_128_11673_6
+        MAP_129_1168B_6
+        MAP_130_11698_12
+        MAP_131_116B2_6x6
+        MAP_132_116E5_4
+        MAP_134_11986_5x6
+        MAP_137_11A1A_6
+        MAP_139_11A40_10x10
+        FFTEV6
+        FFTFRAO
+        FFTFRAU
+        FFTFRST
+        FFTGE
+        FFTHSH
+        FFTHSHE
+        FFTHSV
+        FFTHSVE
+        FFTKAT
+        FFTKOSE
+        FFTKPE
+        MAP_152_11AD4_16x12
+        DLURMIN
+        ANALUN
+        MAP_160_11F22_8
+        KFLURB2
+        LURKTM
+        LURMIN1
+        LURMIN2
+        LURMIN3
+        KFKSWF
+        MAP_171_124D4_6
+        MAP_172_128BD_21
+        SAN12ESUW
+        SNM16OPUW
+        MAP_175_14915_6
+        NDFILOG
+        TVKUPHS
+        TVKUPRS
+        DETANN
+        DETAPN
+        MAP_181_14998_10
+        MAP_182_149B8_10
+        MAP_183_149D8_10
+        MAP_184_14A11_10
+        SRL11OPUW
+        DMLWWKMK
+        KLDMLWSDO
+        KLMKLWSD
+        MAP_189_14BC5_12
+        MAP_190_14BFB_5
+        MAP_191_14C2D_4
+        MAP_192_14C45_4
+        MAP_193_14C5D_4
+        MAP_194_14C75_4
+        MAP_195_14C8D_4
+        MAP_196_14CA5_4
+        MAP_197_14CBD_4
+        MAP_198_14CD5_4
+        MAP_199_14CED_4
+        MAP_200_14D05_4
+        MAP_201_14D1D_4
+        MAP_202_14D35_4
+        MAP_203_14D4D_4
+        MAP_204_14D65_4
+        SRL03MFUW
+        MAP_208_14F60_8
+        MAP_209_14F7F_6
+        MAP_211_14FF7_5
+        MAP_212_15005_6
+        DMLLNGV
+        MAP_217_15137_6
+        DMDNSM_0_A
+        ZMDNSM_0_A
+        MDSM_0_A
+        MAP_221_15261_6
+        MAP_222_15281_6
+        MAP_223_152A1_6x7
+        MAP_224_15311_7
+        MAP_225_15331_7
+        MAP_226_15362_8x24
+        MAP_227_15528_12
+        MAP_228_15559_16
+        WDKUGDN
+        ZKMSDK
+        ZKPVDK
+        KLSIS
+        MSNLLSP
+        TLRVAMW
+        LALIUSRH
+        RLSALUN_0_A
+        NGALU_0_A
+        NGKRWN
+        AZKELDYN_0_A
+        MAP_247_15BCB_7
+        MAP_248_15C2D_7
+        FNSSM_0_A
+        WFRL
+        KLLAMFA_0_A
+        FVERZDYN
+        TATEMSN
+        KLAFTE
+        MAP_261_15F88_12
+        CDCAAA
+        CDCAGRF
+        CDCAGRL
+        CDCAGRV
+        CDCAHC
+        CDCBM
+        CDCDK
+        CDCDUMMY
+        CDCEGFE
+        CDCEV1
+        CDCEV2
+        CDCEV3
+        CDCEV4
+        CDCEV5
+        CDCEV6
+        CDCFRAO
+        CDCFRAU
+        CDCFRST
+        CDCGE
+        CDCHSH
+        CDCHSHE
+        CDCHSV
+        CDCHSVE
+        CDCKAT
+        CDCKOSE
+        CDCKPE
+        CDCKRNT
+        CDCKROF
+        CDCKRTP
+        CDCKS1
+        CDCKS2
+        CDCKS3
+        CDCKS4
+        CDCLASH
+        CDCLATP
+        CDCLATV
+        CDCLLR
+        CDCLM
+        CDCLSH
+        CDCLSV
+        CDCLUEA
+        MAP_303_1611B_4
+        CDCMD01
+        CDCMD02
+        CDCMD03
+        CDCMFA
+        CDCMFB
+        MAP_309_16156_5
+        CDCPH
+        CDCPUA
+        CDCRKAT
+        CDCRKAZ
+        CDCSGROM
+        CDCSWE
+        CDCTA
+        CDCTES
+        CDCTEVE
+        CDCTHM
+        CDCTM
+        CDCUB
+        CDCVFZ
+        CDCZOE
+        CDCZSE
+        CDCZZZ
+        GRID_326_1637C_16x7
+        FLRAG
+        FLRAWG
+        FLRHG
+        FRARAG
+        FRARAWG
+        FRARHG
+        DFAUWKN
+        DFAWKN
+        ZFAUWKN
+        ZFAWKN
+        WPHN
+        DZWSPM
+        NWECVTM
+        TVSATM
+        NFSM
+        NLLM
+        LIMXDNS
+        LIMXVDNS
+        LISTM
+        MAP_394_1854A_5
+        MAP_395_1856E_8
+        MAP_399_18613_10x8
+        WDKHKN
+        MAP_407_18768_6
+        MAP_409_1879A_6
+        ATMABKA
+        ATMABKK
+        FATMRML
+        KATMEXML
+        KLATMLAE
+        KLATMZWE
+        MAP_422_188CA_5
+        KFRI2
+        MAP_432_18ABF_8
+        RLLRUN
+        KFUSHK
+        PLRHML
+        RLLRHON
+        RLLRHUN
+        ZLRHML
+        DTVKAML
+        DTVKAML2
+        FKAXAVKAT
+        BTRKHTMS
+        FTMLAKH
+        MAP_446_18BBA_4
+        NFSKHM
+        FMDKHFH
+        FMDKHTM
+        MAP_452_18C2A_8
+        MAP_453_18C7C_8
+        MAP_454_18CCE_4
+        MAP_456_18CE9_8
+        MAP_458_18D3B_8
+        LMSTMOT
+        KEMLN
+        SENZZYL
+        KE1N
+        KE2N
+        KE3N
+        KE4N
+        KE5N
+        KE6N
+        KE7N
+        KE8N
+        RKRMX1N
+        RKRMX2N
+        DWKRMSN
+        KRAL1N
+        KRAL2N
+        MAP_476_18E8E_4
+        KRDWSN
+        KRFKN
+        KRMXN
+        KRNLZAR
+        KRVFN
+        MAP_482_18F3D_4
+        LKRN
+        MAP_484_18F61_4
+        MAP_485_18F71_4
+        MAP_486_18FA2_4
+        MAP_487_18FB2_4
+        WDKSLN
+        MAP_489_18FD6_4
+        SNM08GKUB
+        MAP_493_19081_8
+        WEAN
+        WEEM
+        WEEMRFAN
+        WEESTM
+        ZZWEETM
+        FSTHO
+        FNSA
+        FNSHO
+        SZANSSM2
+        LASWLTM
+        KFABAK
+        KFAVAK
+        KFBAKL
+        MAP_512_193E0_9
+        ZBALM
+        ZVALM
+        LAMLGMTM
+        WDKARN
+        FMRFAZTE
+        FBZFRAT
+        MAP_521_196F8_5
+        MAP_523_19719_8
+        MAP_525_1976E_6
+        MAP_526_1977E_5
+        MAP_527_1979E_6
+        MAP_533_198B4_5
+        MAP_537_19950_14
+        DTLRTML
+        TMLRTMS
+        MAP_541_19A2F_20
+        TWLRTMS
+        MAP_543_19A6B_20
+        MAP_544_19AAC_4
+        LURKH
+        AINTKAN
+        SLX06TMUW
+        SML07TMUW
+        SRL04DYUB
+        KIFZGAG
+        KIFZGAWG
+        KIFZGHG
+        MKLWON
+        MKLWOWKN
+        MKLWSAN
+        MKLWUN
+        MKLWUWKN
+        MAP_561_1A692_12
+        MAP_565_1A84A_6
+        MAP_566_1A88A_6
+        MAP_568_1A945_4
+        MAP_569_1A965_4
+        FPVMXN
+        MAP_572_1AA3A_4
+        MAP_573_1AB22_4
+        MAP_574_1AC8F_6
+        MAP_575_1ADDB_5
+        MAP_576_1AEC3_6
+        MAP_577_1AF14_6
+        MAP_578_1B0C2_5
+        KFURL3SU
+        KFURLSU
+        DEVTMAGR
+        DPUPVDK
+        FKDISA
+        MAP_585_1B497_8
+        MAP_587_1B5E1_6
+        MAP_588_1B612_5
+        PAGAVML
+        NMOTNGAS
+        KFWMABG
+        KFWMKAT
+        STS06TMUW
+        ZATMAML
+        ZATMKML
+        ZATMRML
+        THSHKTK
+        THSVKTA
+        KFFRMIN
+        MAP_602_1B8C0_5
+        MAP_603_1B91F_5
+        LAMKAML
+        LAMKAML2
+        MAP_608_1B9EC_4
+        KLDYMNT
+        UDKSNO
+        UDKSNU
+        MRFAVW
+        MAP_614_1BC7A_8
+        RKBAUM
+        RKVAUM
+        ZMRFABN
+        KFFRAT
+        ZKFRAOA
+        ZKFRAUA
+        ZKRKAZA
+        MAP_623_1BD71_5
+        KLKESUKFS
+        KLKESUKKO
+        FRLFSDP
+        KFETATE
+        KFDTMTE
+        KFDTMTR
+        KLDTMRS
+        DFPSLBIT
+        LURBRL8
+        FKKVS
+        CL30LINE
+        CL31LINE
+        CL32LINE
+        CL33LINE
+        CL34LINE
+        CL35LINE
+        CL36LINE
+        CL37LINE
+        CL38LINE
+        CL39LINE
+        LNXQTM
+        TNLSGM
+        ZKTABTU
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_scanner_podtverzhdena
+      "Skaner: podtverzhdennye"
+      /begin REF_CHARACTERISTIC
+        SGA08MDUB
+        SML05DKUB
+        SML05LKUB
+        SML08LHUB
+        SNM06LLUB
+        SNM07LRUB
+        SNM08DMUB
+        SNM08LHUB
+        SNM08__UB
+        SNM10FEUB
+        SNM12ESUB
+        SNM16CIUB
+        SNM24ZUUB
+        SQM05TEUB
+        SRL06LHUB
+        SRL06LRUB
+        SRL08DMUB
+        SRL12ESUB
+        SRL16ZUUB
+        STM12ESUB
+        KFMPED
+        ETALAM
+        NMAXPRL
+        NMXDAEF
+        ZINMAXRL
+        SBF02MFSB
+        FKODASH
+        FVDASHM
+        KFMIDSH0
+        KFMIDSH1
+        KFMIDSH2
+        KFMIDSH3
+        FSZTM
+        KFSZT
+        KLMDLOAD2
+        FABMDWA
+        KFWKSTT
+        KFAGRS
+        SUA08FEUB
+        KFDLURZ
+        KFLURM1
+        KFFWK_0_A
+        KFZWMNST
+        KFZWWLNM
+        KFWK_0_A
+        MDST
+        FNSTABNV
+        LLSPMSN
+        KFMSNTAG
+        KFDYES_0_A
+        TVUB
+        TVCO
+        DMSTES
+        AGREDRLS
+        MSNTATE
+        NNSTA
+        NSTNM
+        SDK10TEUB
+        SEZ06TMUB
+        SFR05TEUB
+        SGA06MFUB
+        SML06TEUB
+        SML06TMUB
+        SNM06LHUB
+        SNM06MFUB
+        SNM10TEUB
+        SNM16KRUB
+        SRL04KRUB
+        ST107TMUB
+        ST307TMUB
+        STA06ESUB
+        STM04__UB
+        STM05SAUB
+        STM05TMUB
+        STM06LLUB
+        STM06__UB
+        STM08DMUB
+        STM08LEUB
+        STM09ESUB
+        STS12ESUB
+        STW06MDUB
+        RLVMXN
+        RLVSMXN
+        KFDMDFA
+        KFDMDFAS
+        KFDMDFAU
+        KFZMDFA
+        KFZMDFAS
+        KFZMDFAU
+        REDZEM
+        DNEVTMOD
+        DNLBZ
+        FNSSTM
+        NSLPP
+        NSLPPFS
+        NTANS
+        DMDKOE
+        KFMDKO
+        EVTMODO
+        FDVANS
+        FWFTBRTA
+        FZPUSA
+        WDKHKDN
+        WPUAVLN
+        WPUAVLSN
+        KFFTAGRV
+        KFFTDAG
+        KFSU
+        KFSU2
+        TVSUM
+        KFATMLA
+        KFATMZW
+        KFTATM
+        FRINH1
+        KFTPKOR
+        FFRITMS
+        KFRI
+        KFRP
+        KFFTV
+        FNSKHLL
+        KFNLLKHM
+        MLSUS
+        KFEKWTMP
+        KFLMSKH
+        KFWEE
+        KFWEEK
+        WEESTN
+        KFFWL
+        FUKNSTM
+        KFTKONS
+        KFFTEAX
+        KFTATX
+        KFTEVP
+        KFTVTEV
+        KFDETATE
+        KFMDDAGR
+        KFIDTHM
+        KFDMDARO
+        KFDMDARU
+        KFDZWKG
+        KFZWNWSUE
+        KFZWWLTM
+        KFPSDMX
+        FPVMXN2
+        KFRLW
+        KFZKPUA
+        ATMTANS
+        FKHLA
+        FKHMD
+        KLESUKKO
+        FQTEPT
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_lambda_cat_diag_block
+      "Diagnostika katalizatora"
+      /begin REF_CHARACTERISTIC
+        TSTEAA
+        TVLRHMN
+        TVLRHMX
+        ANZDYNSH
+        CWDLSAHK
+        TABGSTG
+        TFRMB
+        TLLASH
+        TSALASH
+        TUSCHUB
+        TUSHSMIN
+        TUSSA
+        USHLEAN
+        USHRICH
+        USHSTGMX
+        USHSTSOLL
+        USSCHUB
+        CWGGLSV
+        ADKATNF
+        AHKATMN
+        AHKATS
+        AHKATSB
+        AHKTMXT
+        APEKTDX
+        AVKATFS
+        CDKATLK
+        DKATCW
+        DRLKTDP
+        DRLKTDPT
+        FALRKTD
+        FALRKTT
+        KATBFMNT
+        KATBFN
+        KATBFNM
+        KATBFNP
+        KATBFSX
+        KATBSG
+        KATBSH
+        KATBSHG
+        NDKTSOT
+        NDKTSUT
+        NKTDX
+        RLDKTOT
+        RLDKTUT
+        TMAXKAT
+        TMINKAT
+        TMNKATT
+        TMSUKTD
+        TWDKATST
+        TWKTDLP
+        ZDKATAD
+        ZDKATAF
+        ZDKATSH
+        ZDKTBD
+        ZDKTBF
+        ZKTDRL
+        PHLSNVMN
+        TABGMSVU
+        TMASO
+        TMNEB
+        TMSV
+        TMSVA
+        TRSA
+        TUSEINV
+        PHLSNHMN
+        THHA
+        THHA2
+        THHAWU
+        THSHA
+        THVA
+        THVA2
+        THVAWU
+        TMOHSMN
+        TREHS
+        TVHSH
+        TVHSV
+        TVHSVMX
+        UBHS
+        UHSN
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_knock_control
+      "Kontur detonacii"
+      /begin REF_CHARACTERISTIC
+        DKROKMX
+        FKEFMC
+        FKELDY
+        FKENDY
+        FKRFTPFMC
+        KRFTP1
+        KRFTP2
+        KRFTP3
+        KRKFKS
+        KRVST
+        REFINI
+        KRDWA
+        KRDWKLA
+        KRDWSA
+        KRLMDY
+        KRNMDY
+        KSZA
+        DYADS
+        DYAFVS
+        DYAVF
+        FKELDYA
+        PZWKRA
+        TMDYNA
+        CWDKRNT
+        CWDKROF
+        DKROKU
+        KRFHT
+        UDKRGOFS
+        CWDKRTP
+        UDKRTP
+        NDSVL
+        QDPSLL
+        RLDSVL
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_canister_purge
+      "Adsorber"
+      /begin REF_CHARACTERISTIC
+        GRID_528_197BC_10x10
+        KFQTE
+        ZBTEML
+        TATELL
+        TMSNOGA
+        TMTE
+        FRHB
+        FTEADAB
+        FTEADMX
+        FTEFHB
+        FTEHB
+        FUMRBRK
+        KHCTEMN
+        KHCTEMX
+        DNDTEO
+        DNDTEU
+        ETAZWTEN
+        FKADPMN
+        IMSDTEVA
+        TC6TECI
+        TC6TECL
+        TC6TECNL
+        TC6TECP
+        TC6TECRF
+        TC6TECRM
+        TC6TECT
+        TTEVAZ
+        TVDTEB
+        TVDTEE
+        TVDTEVP
+        TVDTEVZ
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_scanner_somnitelnaya
+      "Skaner: somnitelnye"
+      /begin REF_CHARACTERISTIC
+        KFDMDN1
+        KFDMUP
+        KFAGRI
+        KFAGRP
+        KFLUAR2
+        KFLUARZ
+        KFDLUR2
+        KFLURB1
+        KFLURBZ
+        KFTADMS
+        KFTVSA
+        KFRP2
+        KFRTV
+        KFRTV2
+        KFMAKR
+        KFLASWLR
+        KFFDLBTS
+        KFDYESOF
+        KFTEKA
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_scanner_neodnoznachnaya
+      "Skaner: neodnoznachnye"
+      /begin REF_CHARACTERISTIC
+        PLRHAV
+        FWSTAA1
+        FWSTAB1
+        FWSTAB2
+        FWSTAB3
+        FWSTAS1
+        TLRZWTMS
+        LALIUSH
+        FLRFKATE
+        ZLASOHML
+        KFRINH
+        FQTEVA
+        KDLASHKI
+        ZKRKATA
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_overrun_fuel_cut
+      "Otsechka na prinuditelnom holostom"
+      /begin REF_CHARACTERISTIC
+        KSZWE
+        CWSAWE
+        DNSAH
+        DNSAL
+        DNSATIP
+        DNSLL
+        DNVSA
+        DNWEELLS
+        DNWEK
+        DVSA
+        ENSAKHG
+        TKATSA
+        VSAA
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_torque_model
+      "Momentnaya model"
+      /begin REF_CHARACTERISTIC
+        ETADZW
+        DZWETA
+        KFMIOP
+        KFETAZW_1
+        KFMIRL
+        KFMDS
+        MDIMX
+        CWMDAPP
+        ETALAM_1
+        MDLF1
+        MDLF2
+        MDLFE1
+        MDLFE2
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_second_lambda
+      "Vtoroy datchik kisloroda"
+      /begin REF_CHARACTERISTIC
+        KFDLUR1
+        CLAHSH
+        CLAKAT
+        CLALASH
+        CLALSH
+        CLAFRAO
+        CLAFRAU
+        CLAHSV
+        CLALATP
+        CLALATV
+        CLARKAT
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_cyclic_charge
+      "Ciklovoe napolnenie"
+      /begin REF_CHARACTERISTIC
+        MAP_122_11580_6
+        KUMSRL
+        CWFKMSDKA
+        KIMSALL
+        MSALLMN
+        MSALLMX
+        MSLG
+        RLNOT
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_maps
+      "Karty iz opisi"
+      /begin REF_CHARACTERISTIC
+        KFETAZW
+        KFETAZWN
+        KFZWOP
+        KFZWMS
+        KFZW
+        KFZW2
+        KFZWMN
+        KFLBTS
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_hfm_path
+      "Vozdushnyy trakt, DMRV"
+      /begin REF_CHARACTERISTIC
+        GRID_116_112DF_4x49
+        KFPU
+        KFPUSU
+        KFPUSUNW
+        KFKHFM
+        PUKANS
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_scalars
+      "Odinochnye velichiny"
+      /begin REF_CHARACTERISTIC
+        DNMAXH
+        NMAX
+        NMAXDV
+        NMXDKPU
+        TNMAXDV
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_transient_fuel
+      "Perehodnye rezhimy, plenka"
+      /begin REF_CHARACTERISTIC
+        SNM07ESUB
+        KFABAK_1
+        KFAVAK_1
+        KFBAKL_1
+        KFVAKL
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_axes_resolved_from_code
+      "Osi, vosstanovlennye po kodu"
+      /begin REF_CHARACTERISTIC
+        SNM16OPUB
+        SNM16ZUUB
+        SRL12ZUUB
+        SRL11OPUW_1
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_full_load_lambda
+      "Lyambda polnoy nagruzki"
+      /begin REF_CHARACTERISTIC
+        SNM16GKUB
+        SRL12GKUB
+        KFFDLBTS__kandidat
+        TVLBTS
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_throttle_air_model
+      "Drossel, model vozduha"
+      /begin REF_CHARACTERISTIC
+        SNM12FEUB
+        KFMSNWDK
+        WDKUGDN_1
+        KFRLW_1
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_axis_blocks
+      "Osi"
+      /begin REF_CHARACTERISTIC
+        SNM05DKUB
+        SKS06ESUB
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_fuel_path
+      "Toplivopodacha"
+      /begin REF_CHARACTERISTIC
+        KFLF
+        FRKAP
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_fuel_path_unchanged
+      "Toplivopodacha, neizmennoe"
+      /begin REF_CHARACTERISTIC
+        KRKTE
+        TEMIN
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_max_charge_at_wot
+      "Napolnenie na polnoy nagruzke"
+      /begin REF_CHARACTERISTIC
+        RLVMXN_1
+        RLVSMXN_1
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_other_regions
+      "Prochie oblasti"
+      /begin REF_CHARACTERISTIC
+        DIAG_FLAGS
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_saint_venant
+      "Sen-Venan, rashod cherez drossel"
+      /begin REF_CHARACTERISTIC
+        KLAF
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
   /end MODULE
 
 /end PROJECT
