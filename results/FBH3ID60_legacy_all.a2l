@@ -998,7 +998,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNG06LLSB
-      "podtverzhdena damos-veroyatno addr 0x10085 | Datapoint distribution, speed gradient, 6 datapoints"
+      "adres podtverzhden damos-veroyatno addr 0x10085 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x85 @0x834C6C | Datapoint distribution, speed gradient, 6 datapoints"
       CURVE
       0x10085
       RL_GRID_UBYTE
@@ -1416,7 +1416,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC NARASTG
-      "podtverzhdena damos-veroyatno addr 0x101E9 | RPM threshold in higher gear for AR active"
+      "adres podtverzhden damos-veroyatno addr 0x101E9 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x1e8] @0x83A9C6 | RPM threshold in higher gear for AR active"
       CURVE
       0x101E9
       RL_GRID_UBYTE
@@ -1512,7 +1512,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ETADZW
-      "podtverzhdena damos-veroyatno addr 0x104D3 | ignition efficiency depending on delta ignition angle"
+      "adres podtverzhden damos-veroyatno addr 0x104D3 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x4d3] @0x83B5A6 | ignition efficiency depending on delta ignition angle"
       CURVE
       0x104D3
       RL_GRID_UBYTE
@@ -1634,7 +1634,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC RLMNN
-      "podtverzhdena damos-veroyatno addr 0x1060D | characteristic minimum charge"
+      "adres podtverzhden damos-veroyatno addr 0x1060D | IMYA NE PODTVERZHDENO, adres: kod: add DPP0, #0x60d @0x82DF2A | characteristic minimum charge"
       CURVE
       0x1060D
       RL_GRID_UBYTE
@@ -1653,7 +1653,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC RLMNSAN
-      "podtverzhdena damos-veroyatno addr 0x10617 | characteristic minimum charge in overrun"
+      "adres podtverzhden damos-veroyatno addr 0x10617 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x617 @0x83C2E0 | characteristic minimum charge in overrun"
       CURVE
       0x10617
       RL_GRID_UBYTE
@@ -1672,7 +1672,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFMIRED
-      "podtverzhdena damos-veroyatno addr 0x10622 | Map of decreasing control torque for VMAX control"
+      "adres podtverzhden damos-veroyatno addr 0x10622 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x622 @0x83C3D2 | Map of decreasing control torque for VMAX control"
       MAP
       0x10622
       RL_GRID_UBYTE
@@ -1718,7 +1718,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FSWALUV
-      "podtverzhdena damos-veroyatno addr 0x10631 | rough road detection threshold = f (vehicle speed)"
+      "adres podtverzhden damos-veroyatno addr 0x10631 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x630 @0x83C672 | rough road detection threshold = f (vehicle speed)"
       CURVE
       0x10631
       RL_GRID_UBYTE
@@ -1737,7 +1737,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FUGKUE
-      "podtverzhdena damos-veroyatno addr 0x10639 | Gear box ratio detection"
+      "adres podtverzhden damos-veroyatno addr 0x10639 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x639] @0x83C9AA | Gear box ratio detection"
       CURVE
       0x10639
       RL_GRID_UBYTE
@@ -1902,7 +1902,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZDSH1GS
-      "podtverzhdena damos-veroyatno addr 0x1085C | time constant for dash pot decay speed (geardependent)"
+      "adres podtverzhden damos-veroyatno addr 0x1085C | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x85c] @0x83CC08 | time constant for dash pot decay speed (geardependent)"
       CURVE
       0x1085C
       RL_GRID_UBYTE
@@ -1921,7 +1921,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZDSHGS
-      "podtverzhdena damos-veroyatno addr 0x10862 | time constant for dash pot decay speed (geardependent)"
+      "adres podtverzhden damos-veroyatno addr 0x10862 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x862] @0x83CBC8 | time constant for dash pot decay speed (geardependent)"
       CURVE
       0x10862
       RL_GRID_UBYTE
@@ -1940,7 +1940,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DZWETA
-      "podtverzhdena damos-veroyatno addr 0x1086C | delta ignition angle from efficiency"
+      "adres podtverzhden damos-veroyatno addr 0x1086C | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x86c] @0x83DA96 | delta ignition angle from efficiency"
       CURVE
       0x1086C
       RL_GRID_SBYTE
@@ -2104,7 +2104,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNS06LLSB
-      "podtverzhdena damos-veroyatno addr 0x10F01 | Datapoint distribution, set-speed deviation, 06 datapoints., idle-speed control."
+      "adres podtverzhden damos-veroyatno addr 0x10F01 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf01 @0x83F1DE | Datapoint distribution, set-speed deviation, 06 datapoints., idle-speed control."
       CURVE
       0x10F01
       RL_GRID_UBYTE
@@ -2123,7 +2123,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZNSMST
-      "podtverzhdena damos-veroyatno addr 0x10F14 | time constant for decay of reference speed at start"
+      "adres podtverzhden damos-veroyatno addr 0x10F14 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf14 @0x83ED6C | time constant for decay of reference speed at start"
       CURVE
       0x10F14
       RL_GRID_UBYTE
@@ -2142,7 +2142,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DMLLRIMXN
-      "podtverzhdena damos-veroyatno addr 0x10F1B | Safety concept: upper limit for dmllri"
+      "adres podtverzhden damos-veroyatno addr 0x10F1B | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf1b @0x83F85E | Safety concept: upper limit for dmllri"
       CURVE
       0x10F1B
       RL_GRID_UBYTE
@@ -2161,7 +2161,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DMLLRLMNN
-      "podtverzhdena damos-veroyatno addr 0x10F21 | Lower limit for dmllrl"
+      "adres podtverzhden damos-veroyatno addr 0x10F21 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf21 @0x83F9C8 | Lower limit for dmllrl"
       CURVE
       0x10F21
       RL_GRID_SBYTE
@@ -2180,7 +2180,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DMLLRLMXN
-      "podtverzhdena damos-veroyatno addr 0x10F27 | Safety concept: upper limit for dmllrl"
+      "adres podtverzhden damos-veroyatno addr 0x10F27 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf27 @0x83F9AA | Safety concept: upper limit for dmllrl"
       CURVE
       0x10F27
       RL_GRID_UBYTE
@@ -2199,7 +2199,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DMLLRMNN
-      "podtverzhdena damos-veroyatno addr 0x10F2D | Lower limit for dmllr_w"
+      "adres podtverzhden damos-veroyatno addr 0x10F2D | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf2d @0x83F368 | Lower limit for dmllr_w"
       CURVE
       0x10F2D
       RL_GRID_SBYTE
@@ -2218,7 +2218,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DMLLRMXN
-      "podtverzhdena damos-veroyatno addr 0x10F33 | Safety concept: upper limit for dmllr"
+      "adres podtverzhden damos-veroyatno addr 0x10F33 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf33 @0x83F356 | Safety concept: upper limit for dmllr"
       CURVE
       0x10F33
       RL_GRID_UBYTE
@@ -2237,7 +2237,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DVNG
-      "podtverzhdena damos-veroyatno addr 0x10F3B | LLR: D-gain depending of ngfil for vehicle at rest"
+      "adres podtverzhden damos-veroyatno addr 0x10F3B | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf3b @0x83F398 | LLR: D-gain depending of ngfil for vehicle at rest"
       CURVE
       0x10F3B
       RL_GRID_SBYTE
@@ -2256,7 +2256,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DVNGV
-      "podtverzhdena damos-veroyatno addr 0x10F41 | LLR: D-gain depending of ngfil for vehicle rolling"
+      "adres podtverzhden damos-veroyatno addr 0x10F41 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf41 @0x83F386 | LLR: D-gain depending of ngfil for vehicle rolling"
       CURVE
       0x10F41
       RL_GRID_SBYTE
@@ -2275,7 +2275,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FDDN
-      "podtverzhdena damos-veroyatno addr 0x10F47 | LLR: weightning factor for D-amplification"
+      "adres podtverzhden damos-veroyatno addr 0x10F47 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf47 @0x83F3A8 | LLR: weightning factor for D-amplification"
       CURVE
       0x10F47
       RL_GRID_UBYTE
@@ -2294,7 +2294,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC GFDLDN
-      "podtverzhdena damos-veroyatno addr 0x10F4E | LLR: weightning factor for D-amplification on the air path"
+      "adres podtverzhden damos-veroyatno addr 0x10F4E | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf4e @0x83F8B4 | LLR: weightning factor for D-amplification on the air path"
       CURVE
       0x10F4E
       RL_GRID_UBYTE
@@ -2313,7 +2313,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC IVDN
-      "podtverzhdena damos-veroyatno addr 0x10F54 | LLR: I-gain for vehicle at rest"
+      "adres podtverzhden damos-veroyatno addr 0x10F54 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf54 @0x83F6DA | LLR: I-gain for vehicle at rest"
       CURVE
       0x10F54
       RL_GRID_UBYTE
@@ -2332,7 +2332,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC IVDNDTE
-      "podtverzhdena damos-veroyatno addr 0x10F5A | LLR: I-gain at DTEV"
+      "adres podtverzhden damos-veroyatno addr 0x10F5A | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf5a @0x83F6AC | LLR: I-gain at DTEV"
       CURVE
       0x10F5A
       RL_GRID_UBYTE
@@ -2351,7 +2351,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC PVDN
-      "podtverzhdena damos-veroyatno addr 0x10F71 | LLR: P-gain for vehicle at rest"
+      "adres podtverzhden damos-veroyatno addr 0x10F71 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf71 @0x83F296 | LLR: P-gain for vehicle at rest"
       CURVE
       0x10F71
       RL_GRID_UBYTE
@@ -2370,7 +2370,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC PVLDN
-      "podtverzhdena damos-veroyatno addr 0x10F83 | LLR: P-gain for vehicle at rest (air path)"
+      "adres podtverzhden damos-veroyatno addr 0x10F83 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf83 @0x83F938 | LLR: P-gain for vehicle at rest (air path)"
       CURVE
       0x10F83
       RL_GRID_UBYTE
@@ -2389,7 +2389,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC PVLDNV
-      "podtverzhdena damos-veroyatno addr 0x10F89 | LLR: P-gain for vehicle at rest (air path)"
+      "adres podtverzhden damos-veroyatno addr 0x10F89 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf89 @0x83F90E | LLR: P-gain for vehicle at rest (air path)"
       CURVE
       0x10F89
       RL_GRID_UBYTE
@@ -2408,7 +2408,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SDN06LLSB
-      "podtverzhdena damos-veroyatno addr 0x10F8F | 10 Sst."
+      "adres podtverzhden damos-veroyatno addr 0x10F8F | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf8f @0x83F266 | 10 Sst."
       CURVE
       0x10F8F
       RL_GRID_UBYTE
@@ -2427,7 +2427,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNS206LLSB
-      "podtverzhdena damos-veroyatno addr 0x10F96"
+      "adres podtverzhden damos-veroyatno addr 0x10F96 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf96 @0x83F5BC"
       CURVE
       0x10F96
       RL_GRID_UBYTE
@@ -2484,7 +2484,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TVFSAM
-      "podtverzhdena damos-veroyatno addr 0x10FC9 | Delay time after DRIVE-position switch off"
+      "adres podtverzhden damos-veroyatno addr 0x10FC9 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfc9 @0x8407D8 | Delay time after DRIVE-position switch off"
       CURVE
       0x10FC9
       RL_GRID_UBYTE
@@ -2503,7 +2503,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TVFSAMR
-      "podtverzhdena damos-veroyatno addr 0x10FCF | delay time after DRIVE-position switch off (Reverse)"
+      "adres podtverzhden damos-veroyatno addr 0x10FCF | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfcf @0x8407F8 | delay time after DRIVE-position switch off (Reverse)"
       CURVE
       0x10FCF
       RL_GRID_UBYTE
@@ -2522,7 +2522,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TVFSEM
-      "podtverzhdena damos-veroyatno addr 0x10FD5 | delay time after DRIVE-position switch on"
+      "adres podtverzhden damos-veroyatno addr 0x10FD5 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfd5 @0x8407E8 | delay time after DRIVE-position switch on"
       CURVE
       0x10FD5
       RL_GRID_UBYTE
@@ -2541,7 +2541,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TVFSEMR
-      "podtverzhdena damos-veroyatno addr 0x10FDB | delay time after DRIVE-position switch on (Reverse)"
+      "adres podtverzhden damos-veroyatno addr 0x10FDB | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfdb @0x840808 | delay time after DRIVE-position switch on (Reverse)"
       CURVE
       0x10FDB
       RL_GRID_UBYTE
@@ -2560,7 +2560,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC UEVERG
-      "podtverzhdena damos-veroyatno addr 0x10FE2 | Gear ratio depending of the gear"
+      "adres podtverzhden damos-veroyatno addr 0x10FE2 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0xfe2] @0x8404FA | Gear ratio depending of the gear"
       CURVE
       0x10FE2
       RL_GRID_UBYTE
@@ -2579,7 +2579,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZKMDWAM
-      "podtverzhdena damos-veroyatno addr 0x10FF0 | Time constant for converter torque change"
+      "adres podtverzhden damos-veroyatno addr 0x10FF0 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xff0 @0x840770 | Time constant for converter torque change"
       CURVE
       0x10FF0
       RL_GRID_UBYTE
@@ -2598,7 +2598,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZN0
-      "podtverzhdena damos-veroyatno addr 0x10FF8 | Cylinder individual factor at neutral camshaft position EV 1"
+      "adres podtverzhden damos-veroyatno addr 0x10FF8 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xff8 @0x8429F6 | Cylinder individual factor at neutral camshaft position EV 1"
       CURVE
       0x10FF8
       RL_GRID_UBYTE
@@ -2617,7 +2617,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZN1
-      "podtverzhdena damos-veroyatno addr 0x11008 | Cylinder individual factor at neutral camshaft position EV 1"
+      "adres podtverzhden damos-veroyatno addr 0x11008 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1008 @0x842A18 | Cylinder individual factor at neutral camshaft position EV 1"
       CURVE
       0x11008
       RL_GRID_UBYTE
@@ -2636,7 +2636,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZN2
-      "podtverzhdena damos-veroyatno addr 0x11018 | Cylinder individual factor at neutral camshaft position EV 2"
+      "adres podtverzhden damos-veroyatno addr 0x11018 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1018 @0x842A3A | Cylinder individual factor at neutral camshaft position EV 2"
       CURVE
       0x11018
       RL_GRID_UBYTE
@@ -2655,7 +2655,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZN3
-      "podtverzhdena damos-veroyatno addr 0x11028 | Cylinder individual factor at neutral camshaft position EV 3"
+      "adres podtverzhden damos-veroyatno addr 0x11028 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1028 @0x842A5C | Cylinder individual factor at neutral camshaft position EV 3"
       CURVE
       0x11028
       RL_GRID_UBYTE
@@ -2674,7 +2674,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZN4
-      "podtverzhdena damos-veroyatno addr 0x11038 | Cylinder individual factor at neutral camshaft position EV 4"
+      "adres podtverzhden damos-veroyatno addr 0x11038 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1038 @0x851692 | Cylinder individual factor at neutral camshaft position EV 4"
       CURVE
       0x11038
       RL_GRID_UBYTE
@@ -2750,7 +2750,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZNWN0
-      "podtverzhdena damos-veroyatno addr 0x11078 | Cylinder individual factor at active camshaft position EV 1"
+      "adres podtverzhden damos-veroyatno addr 0x11078 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1078 @0x8429E8 | Cylinder individual factor at active camshaft position EV 1"
       CURVE
       0x11078
       RL_GRID_UBYTE
@@ -2769,7 +2769,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZNWN1
-      "podtverzhdena damos-veroyatno addr 0x11088 | Cylinder individual factor at active camshaft position EV 1"
+      "adres podtverzhden damos-veroyatno addr 0x11088 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1088 @0x842A0A | Cylinder individual factor at active camshaft position EV 1"
       CURVE
       0x11088
       RL_GRID_UBYTE
@@ -2788,7 +2788,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZNWN2
-      "podtverzhdena damos-veroyatno addr 0x11098 | Cylinder individual factor at active camshaft position EV 2"
+      "adres podtverzhden damos-veroyatno addr 0x11098 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1098 @0x842A2C | Cylinder individual factor at active camshaft position EV 2"
       CURVE
       0x11098
       RL_GRID_UBYTE
@@ -2807,7 +2807,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FZNWN3
-      "podtverzhdena damos-veroyatno addr 0x110A8 | Cylinder individual factor at active camshaft position EV 3"
+      "adres podtverzhden damos-veroyatno addr 0x110A8 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x10a8 @0x842A4E | Cylinder individual factor at active camshaft position EV 3"
       CURVE
       0x110A8
       RL_GRID_UBYTE
@@ -2872,7 +2872,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_115_112C2_14
-      "podtverzhdena mapscan addr 0x112C2"
+      "adres podtverzhden mapscan addr 0x112C2 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x12c1 @0x842B94"
       CURVE
       0x112C2
       RL_2D_A8_UBYTE
@@ -2917,7 +2917,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_120_11567_8
-      "podtverzhdena mapscan addr 0x11567"
+      "adres podtverzhden mapscan addr 0x11567 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1567 @0x842BFE"
       CURVE
       0x11567
       RL_2D_A8_UBYTE
@@ -2935,7 +2935,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_122_11580_6
-      "podtverzhdena mapscan addr 0x11580"
+      "adres podtverzhden mapscan addr 0x11580 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1580 @0x843740"
       CURVE
       0x11580
       RL_2D_A8_UBYTE
@@ -2953,7 +2953,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_123_11595_8
-      "podtverzhdena mapscan addr 0x11595"
+      "adres podtverzhden mapscan addr 0x11595 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1595 @0x845110"
       CURVE
       0x11595
       RL_2D_A8_UBYTE
@@ -2971,7 +2971,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_124_115EC_7
-      "podtverzhdena mapscan addr 0x115EC"
+      "adres podtverzhden mapscan addr 0x115EC | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x15ec @0x84AD12"
       CURVE
       0x115EC
       RL_2D_A8_UBYTE
@@ -3026,7 +3026,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_127_11616_8
-      "podtverzhdena mapscan addr 0x11616"
+      "adres podtverzhden mapscan addr 0x11616 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1616 @0x84C188"
       CURVE
       0x11616
       RL_2D_A8_UBYTE
@@ -3044,7 +3044,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_128_11673_6
-      "podtverzhdena mapscan addr 0x11673"
+      "adres podtverzhden mapscan addr 0x11673 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1673 @0x850670"
       CURVE
       0x11673
       RL_2D_A8_UBYTE
@@ -3062,7 +3062,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_129_1168B_6
-      "podtverzhdena mapscan addr 0x1168B"
+      "adres podtverzhden mapscan addr 0x1168B | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x168b @0x85199E"
       CURVE
       0x1168B
       RL_2D_A8_UBYTE
@@ -3080,7 +3080,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_130_11698_12
-      "podtverzhdena mapscan addr 0x11698"
+      "adres podtverzhden mapscan addr 0x11698 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1698 @0x851A20"
       CURVE
       0x11698
       RL_2D_A8_UBYTE
@@ -3098,7 +3098,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_131_116B2_6x6
-      "podtverzhdena mapscan addr 0x116B2"
+      "adres podtverzhden mapscan addr 0x116B2 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x16b2 @0x8519AC"
       MAP
       0x116B2
       RL_3D_A8_UBYTE
@@ -3123,7 +3123,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_132_116E5_4
-      "podtverzhdena mapscan addr 0x116E5"
+      "adres podtverzhden mapscan addr 0x116E5 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x16e4 @0x851A3E"
       CURVE
       0x116E5
       RL_2D_A8_UBYTE
@@ -3168,7 +3168,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_134_11986_5x6
-      "podtverzhdena mapscan addr 0x11986"
+      "adres podtverzhden mapscan addr 0x11986 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1985 @0x855EC2"
       MAP
       0x11986
       RL_3D_A8_UBYTE
@@ -3220,7 +3220,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFAGRP
-      "podtverzhdena damos-somnitelno addr 0x119E3 | P component map of EGR controller"
+      "adres podtverzhden damos-somnitelno addr 0x119E3 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x19e2 @0x856920 | P component map of EGR controller"
       MAP
       0x119E3
       RL_GRID_UBYTE
@@ -3247,7 +3247,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_137_11A1A_6
-      "podtverzhdena mapscan addr 0x11A1A"
+      "adres podtverzhden mapscan addr 0x11A1A | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1a1a @0x8572A2"
       CURVE
       0x11A1A
       RL_2D_A8_UBYTE
@@ -3284,7 +3284,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_139_11A40_10x10
-      "podtverzhdena mapscan addr 0x11A40"
+      "adres podtverzhden mapscan addr 0x11A40 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1a40 @0x858D00"
       MAP
       0x11A40
       RL_3D_A8_UBYTE
@@ -3309,7 +3309,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTEV6
-      "podtverzhdena damos-veroyatno addr 0x11ABB | freeze frame table: injector power stage 6"
+      "adres podtverzhden damos-veroyatno addr 0x11ABB | IMYA NE PODTVERZHDENO, adres: kod: movbz r4, 0x1abb @0x859B1E | freeze frame table: injector power stage 6"
       CURVE
       0x11ABB
       RL_GRID_UBYTE
@@ -3328,7 +3328,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTFRAO
-      "podtverzhdena damos-veroyatno addr 0x11ABD | freeze frame table: FRAO mixture adaptation"
+      "adres podtverzhden damos-veroyatno addr 0x11ABD | IMYA NE PODTVERZHDENO, adres: kod: movbz r13, 0x1abd @0x859DB4 | freeze frame table: FRAO mixture adaptation"
       CURVE
       0x11ABD
       RL_GRID_UBYTE
@@ -3347,7 +3347,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTFRAU
-      "podtverzhdena damos-veroyatno addr 0x11ABF | freeze frame table: FRAU mixture adaptation"
+      "adres podtverzhden damos-veroyatno addr 0x11ABF | IMYA NE PODTVERZHDENO, adres: kod: movbz r13, 0x1abf @0x859D2A | freeze frame table: FRAU mixture adaptation"
       CURVE
       0x11ABF
       RL_GRID_UBYTE
@@ -3366,7 +3366,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTFRST
-      "podtverzhdena damos-veroyatno addr 0x11AC1 | freeze frame table: deviation of lambda loop control"
+      "adres podtverzhden damos-veroyatno addr 0x11AC1 | IMYA NE PODTVERZHDENO, adres: kod: movbz r13, 0x1ac1 @0x859D86 | freeze frame table: deviation of lambda loop control"
       CURVE
       0x11AC1
       RL_GRID_UBYTE
@@ -3385,7 +3385,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTGE
-      "podtverzhdena damos-veroyatno addr 0x11AC3 | freeze frame table: transmission intervention"
+      "adres podtverzhden damos-veroyatno addr 0x11AC3 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1ac2 @0x859F5E | freeze frame table: transmission intervention"
       CURVE
       0x11AC3
       RL_GRID_UBYTE
@@ -3404,7 +3404,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTHSH
-      "podtverzhdena damos-veroyatno addr 0x11AC5 | Table of ambient condition for heating O2-sensor post cat"
+      "adres podtverzhden damos-veroyatno addr 0x11AC5 | IMYA NE PODTVERZHDENO, adres: kod: cmpb RL3, 0x1ac5 @0x86175C | Table of ambient condition for heating O2-sensor post cat"
       CURVE
       0x11AC5
       RL_GRID_UBYTE
@@ -3423,7 +3423,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTHSHE
-      "podtverzhdena damos-veroyatno addr 0x11AC7 | Table of environmental cond.for output stage heating lambda sens. downstr.of cat"
+      "adres podtverzhden damos-veroyatno addr 0x11AC7 | IMYA NE PODTVERZHDENO, adres: kod: movb RL4, 0x1ac7 @0x8615BE | Table of environmental cond.for output stage heating lambda sens. downstr.of cat"
       CURVE
       0x11AC7
       RL_GRID_UBYTE
@@ -3442,7 +3442,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTHSV
-      "podtverzhdena damos-veroyatno addr 0x11AC9 | Table of ambient condition for heating O2-sensor pre cat"
+      "adres podtverzhden damos-veroyatno addr 0x11AC9 | IMYA NE PODTVERZHDENO, adres: kod: cmpb RL4, 0x1ac9 @0x861740 | Table of ambient condition for heating O2-sensor pre cat"
       CURVE
       0x11AC9
       RL_GRID_UBYTE
@@ -3461,7 +3461,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTHSVE
-      "podtverzhdena damos-veroyatno addr 0x11ACB | Freeze frame table: 02 Sensor Heater power stage"
+      "adres podtverzhden damos-veroyatno addr 0x11ACB | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1acb @0x859F74 | Freeze frame table: 02 Sensor Heater power stage"
       CURVE
       0x11ACB
       RL_GRID_UBYTE
@@ -3480,7 +3480,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTKAT
-      "podtverzhdena damos-veroyatno addr 0x11ACD | Freeze frame table: catalyst"
+      "adres podtverzhden damos-veroyatno addr 0x11ACD | IMYA NE PODTVERZHDENO, adres: kod: cmpb RL1, 0x1acd @0x861778 | Freeze frame table: catalyst"
       CURVE
       0x11ACD
       RL_GRID_UBYTE
@@ -3499,7 +3499,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTKOSE
-      "podtverzhdena damos-veroyatno addr 0x11ACF | Freeze frame table: A/C compressor control power stage"
+      "adres podtverzhden damos-veroyatno addr 0x11ACF | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, 0x1acf @0x8641EC | Freeze frame table: A/C compressor control power stage"
       CURVE
       0x11ACF
       RL_GRID_UBYTE
@@ -3518,7 +3518,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FFTKPE
-      "podtverzhdena damos-veroyatno addr 0x11AD1 | Freeze frame table: fuel pump relay power stage"
+      "adres podtverzhden damos-veroyatno addr 0x11AD1 | IMYA NE PODTVERZHDENO, adres: kod: movb RL4, 0x1ad1 @0x866212 | Freeze frame table: fuel pump relay power stage"
       CURVE
       0x11AD1
       RL_GRID_UBYTE
@@ -3537,7 +3537,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_152_11AD4_16x12
-      "podtverzhdena mapscan addr 0x11AD4"
+      "adres podtverzhden mapscan addr 0x11AD4 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1ad4 @0x859F38"
       MAP
       0x11AD4
       RL_3D_A8_UWORD
@@ -3689,7 +3689,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ANALUN
-      "podtverzhdena damos-veroyatno addr 0x11E91 | number of combustions for deactivation after detected misfire"
+      "adres podtverzhden damos-veroyatno addr 0x11E91 | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x1e90 @0x869A04 | number of combustions for deactivation after detected misfire"
       CURVE
       0x11E91
       RL_GRID_UBYTE
@@ -3708,7 +3708,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_160_11F22_8
-      "podtverzhdena mapscan addr 0x11F22"
+      "adres podtverzhden mapscan addr 0x11F22 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1f22 @0x86630E"
       CURVE
       0x11F22
       RL_2D_A8_UBYTE
@@ -3964,7 +3964,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_171_124D4_6
-      "podtverzhdena mapscan addr 0x124D4"
+      "adres podtverzhden mapscan addr 0x124D4 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x24d3 @0x868944"
       CURVE
       0x124D4
       RL_2D_A8_UBYTE
@@ -3982,7 +3982,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_172_128BD_21
-      "podtverzhdena mapscan addr 0x128BD"
+      "adres podtverzhden mapscan addr 0x128BD | IMYA NE PODTVERZHDENO, adres: kod: add r4, #0x28e8 @0x84CA72"
       CURVE
       0x128BD
       RL_2D_A16_UWORD
@@ -4019,7 +4019,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM16OPUW_148D2
-      "podtverzhdena damos-veroyatno addr 0x148D2 | set point distribution engine speed"
+      "adres podtverzhden damos-veroyatno addr 0x148D2 | IMYA NE PODTVERZHDENO, adres: kod: mov r8, [r4+#0x48d2] @0x8330C6 | set point distribution engine speed"
       CURVE
       0x148D2
       RL_GRID_UBYTE
@@ -4056,7 +4056,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC NDFILOG
-      "podtverzhdena damos-veroyatno addr 0x14934 | Threshold for filter output ndfil"
+      "adres podtverzhden damos-veroyatno addr 0x14934 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x4934] @0x836344 | Threshold for filter output ndfil"
       CURVE
       0x14934
       RL_GRID_UBYTE
@@ -4187,7 +4187,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_183_149D8_10
-      "podtverzhdena mapscan addr 0x149D8"
+      "adres podtverzhden mapscan addr 0x149D8 | IMYA NE PODTVERZHDENO, adres: kod: mov r14, #0x49e3 @0x83B654"
       CURVE
       0x149D8
       RL_2D_A8_UWORD
@@ -4223,7 +4223,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL03MFUW
-      "podtverzhdena damos-veroyatno addr 0x14D78"
+      "adres podtverzhden damos-veroyatno addr 0x14D78 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x4d78 @0x83C3B2"
       CURVE
       0x14D78
       RL_GRID_UBYTE
@@ -4359,7 +4359,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_211_14FF7_5
-      "podtverzhdena mapscan addr 0x14FF7"
+      "adres podtverzhden mapscan addr 0x14FF7 | IMYA NE PODTVERZHDENO, adres: kod: mov r13, #0x4ff7 @0x83E4B8"
       CURVE
       0x14FF7
       RL_2D_A8_UBYTE
@@ -4479,7 +4479,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_221_15261_6
-      "podtverzhdena mapscan addr 0x15261"
+      "adres podtverzhden mapscan addr 0x15261 | IMYA NE PODTVERZHDENO, adres: kod: mov r15, [r4+#0x5260] @0x842C36"
       CURVE
       0x15261
       RL_2D_A16_UWORD
@@ -4803,7 +4803,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WFRL
-      "podtverzhdena damos-veroyatno addr 0x15DEA | fuel wall hang.up"
+      "adres podtverzhden damos-veroyatno addr 0x15DEA | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x5dea @0x84B8DA | fuel wall hang.up"
       CURVE
       0x15DEA
       RL_GRID_UWORD
@@ -4982,7 +4982,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KLAFTE
-      "podtverzhdena damos-veroyatno addr 0x15F4C | characteristic of Saint-Venant of purge control valve an line AKF-TEV"
+      "adres podtverzhden damos-veroyatno addr 0x15F4C | IMYA NE PODTVERZHDENO, adres: kod: mov r12, [r5+#0x5f4c] @0x8506BE | characteristic of Saint-Venant of purge control valve an line AKF-TEV"
       CURVE
       0x15F4C
       RL_GRID_UWORD
@@ -5020,7 +5020,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_261_15F88_12
-      "podtverzhdena mapscan addr 0x15F88"
+      "adres podtverzhden mapscan addr 0x15F88 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x5f88 @0x85182E"
       CURVE
       0x15F88
       RL_2D_A16_UWORD
@@ -5152,7 +5152,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC CDCDK
-      "podtverzhdena damos-veroyatno addr 0x16001 | code word CARB: throttle position sensor"
+      "adres podtverzhden damos-veroyatno addr 0x16001 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x6000 @0x831D08 | code word CARB: throttle position sensor"
       CURVE
       0x16001
       RL_GRID_UBYTE
@@ -5760,7 +5760,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC CDCLSH
-      "podtverzhdena damos-veroyatno addr 0x16101 | code word CARB: lambda sensor downstream catalyst"
+      "adres podtverzhden damos-veroyatno addr 0x16101 | IMYA NE PODTVERZHDENO, adres: kod: mov r13, [r2+#0x6100] @0x85219C | code word CARB: lambda sensor downstream catalyst"
       CURVE
       0x16101
       RL_GRID_UBYTE
@@ -5930,7 +5930,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_309_16156_5
-      "podtverzhdena mapscan addr 0x16156"
+      "adres podtverzhden mapscan addr 0x16156 | IMYA NE PODTVERZHDENO, adres: kod: mov r14, #0x615c @0x85502A"
       CURVE
       0x16156
       RL_2D_A8_UWORD
@@ -6081,7 +6081,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC CDCTES
-      "podtverzhdena damos-veroyatno addr 0x161A1 | code word CARB: canister purge system"
+      "adres podtverzhden damos-veroyatno addr 0x161A1 | IMYA NE PODTVERZHDENO, adres: kod: mov r13, #0x61a1 @0x8564E0 | code word CARB: canister purge system"
       CURVE
       0x161A1
       RL_GRID_UBYTE
@@ -6100,7 +6100,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC CDCTEVE
-      "podtverzhdena damos-veroyatno addr 0x161A9 | code word CARB: canister purge valve power stage"
+      "adres podtverzhden damos-veroyatno addr 0x161A9 | IMYA NE PODTVERZHDENO, adres: kod: mov r13, #0x61a8 @0x83E582 | code word CARB: canister purge valve power stage"
       CURVE
       0x161A9
       RL_GRID_UBYTE
@@ -6849,7 +6849,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FLRAG
-      "podtverzhdena damos-veroyatno addr 0x18291 | amplification of load controller at AT"
+      "adres podtverzhden damos-veroyatno addr 0x18291 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x290] @0x83AD0C | amplification of load controller at AT"
       CURVE
       0x18291
       RL_GRID_UBYTE
@@ -6868,7 +6868,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FLRAWG
-      "podtverzhdena damos-veroyatno addr 0x18297 | amplification of load controller"
+      "adres podtverzhden damos-veroyatno addr 0x18297 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x296] @0x83ADB4 | amplification of load controller"
       CURVE
       0x18297
       RL_GRID_UBYTE
@@ -6887,7 +6887,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FLRHG
-      "podtverzhdena damos-veroyatno addr 0x1829D | amplification of load controller"
+      "adres podtverzhden damos-veroyatno addr 0x1829D | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x29c] @0x83AC60 | amplification of load controller"
       CURVE
       0x1829D
       RL_GRID_UBYTE
@@ -6906,7 +6906,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FRARAG
-      "podtverzhdena damos-veroyatno addr 0x182A3 | amplification factor at AT"
+      "adres podtverzhden damos-veroyatno addr 0x182A3 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x2a2] @0x83AD42 | amplification factor at AT"
       CURVE
       0x182A3
       RL_GRID_UBYTE
@@ -6925,7 +6925,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FRARAWG
-      "podtverzhdena damos-veroyatno addr 0x182A9 | amplification factor"
+      "adres podtverzhden damos-veroyatno addr 0x182A9 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0x2a8] @0x83ADEA | amplification factor"
       CURVE
       0x182A9
       RL_GRID_UBYTE
@@ -6944,7 +6944,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FRARHG
-      "podtverzhdena damos-veroyatno addr 0x182AF | amplification factor"
+      "adres podtverzhden damos-veroyatno addr 0x182AF | IMYA NE PODTVERZHDENO, adres: kod: mov ADCON, #0x2af @0x832662 | amplification factor"
       CURVE
       0x182AF
       RL_GRID_UBYTE
@@ -7001,7 +7001,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DFAUWKN
-      "podtverzhdena damos-veroyatno addr 0x182E6 | Damping ratio for filtering torque on a low clutch torque and op. lockup clutch"
+      "adres podtverzhden damos-veroyatno addr 0x182E6 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x2e6 @0x83BBE8 | Damping ratio for filtering torque on a low clutch torque and op. lockup clutch"
       CURVE
       0x182E6
       RL_GRID_UBYTE
@@ -7020,7 +7020,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DFAWKN
-      "podtverzhdena damos-veroyatno addr 0x182EC | Damping ratio for filtering torque on an openned lockup clutch"
+      "adres podtverzhden damos-veroyatno addr 0x182EC | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x2ec @0x83BC1E | Damping ratio for filtering torque on an openned lockup clutch"
       CURVE
       0x182EC
       RL_GRID_UBYTE
@@ -7201,7 +7201,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZFAUWKN
-      "podtverzhdena damos-veroyatno addr 0x183D0 | lower time constant value for filt. torque on openned lockup clutch"
+      "adres podtverzhden damos-veroyatno addr 0x183D0 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x3d0 @0x83BC5E | lower time constant value for filt. torque on openned lockup clutch"
       CURVE
       0x183D0
       RL_GRID_UBYTE
@@ -7220,7 +7220,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZFAWKN
-      "podtverzhdena damos-veroyatno addr 0x183D6 | time constant for filtering motor torque on openned lockup clutch"
+      "adres podtverzhden damos-veroyatno addr 0x183D6 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x3d6 @0x83BC94 | time constant for filtering motor torque on openned lockup clutch"
       CURVE
       0x183D6
       RL_GRID_UBYTE
@@ -7258,7 +7258,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WPHN
-      "podtverzhdena damos-veroyatno addr 0x183EB | phase correction"
+      "adres podtverzhden damos-veroyatno addr 0x183EB | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x3eb @0x83DA00 | phase correction"
       CURVE
       0x183EB
       RL_GRID_SBYTE
@@ -7277,7 +7277,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DZWSPM
-      "podtverzhdena damos-veroyatno addr 0x183F3 | delta latest ignition angle relative to engine temperature"
+      "adres podtverzhden damos-veroyatno addr 0x183F3 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x3f3 @0x83E370 | delta latest ignition angle relative to engine temperature"
       CURVE
       0x183F3
       RL_GRID_SBYTE
@@ -7296,7 +7296,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFTVSA
-      "podtverzhdena damos-somnitelno addr 0x18449 | Retard time for overrun fuel cut-off"
+      "adres podtverzhden damos-somnitelno addr 0x18449 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x449 @0x83E6D0 | Retard time for overrun fuel cut-off"
       MAP
       0x18449
       RL_GRID_UBYTE
@@ -7323,7 +7323,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC NWECVTM
-      "podtverzhdena damos-veroyatno addr 0x18471 | Fuel restart-speed at CVT"
+      "adres podtverzhden damos-veroyatno addr 0x18471 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x471 @0x83E6AE | Fuel restart-speed at CVT"
       CURVE
       0x18471
       RL_GRID_UBYTE
@@ -7342,7 +7342,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TVSATM
-      "podtverzhdena damos-veroyatno addr 0x18476 | delay time after cranking for fuel cut off"
+      "adres podtverzhden damos-veroyatno addr 0x18476 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x476 @0x83E69A | delay time after cranking for fuel cut off"
       CURVE
       0x18476
       RL_GRID_UBYTE
@@ -7418,7 +7418,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC NFSM
-      "podtverzhdena damos-veroyatno addr 0x184AA | desired engine speed DRIVE-position switch on"
+      "adres podtverzhden damos-veroyatno addr 0x184AA | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x4aa @0x83ED0C | desired engine speed DRIVE-position switch on"
       CURVE
       0x184AA
       RL_GRID_UBYTE
@@ -7437,7 +7437,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC NLLM
-      "podtverzhdena damos-veroyatno addr 0x184B0 | desired engine speed"
+      "adres podtverzhden damos-veroyatno addr 0x184B0 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x4b0 @0x83ECF8 | desired engine speed"
       CURVE
       0x184B0
       RL_GRID_UBYTE
@@ -7513,7 +7513,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC LIMXDNS
-      "podtverzhdena damos-veroyatno addr 0x184D9 | upper integrator limit for standing car"
+      "adres podtverzhden damos-veroyatno addr 0x184D9 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x4d9 @0x83F5F4 | upper integrator limit for standing car"
       CURVE
       0x184D9
       RL_GRID_UBYTE
@@ -7532,7 +7532,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC LIMXVDNS
-      "podtverzhdena damos-veroyatno addr 0x184DF | upper integrator limit for rolling car"
+      "adres podtverzhden damos-veroyatno addr 0x184DF | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x4df @0x83F5DC | upper integrator limit for rolling car"
       CURVE
       0x184DF
       RL_GRID_UBYTE
@@ -7551,7 +7551,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC LISTM
-      "podtverzhdena damos-veroyatno addr 0x184E5 | value of idle speed control integrator during start"
+      "adres podtverzhden damos-veroyatno addr 0x184E5 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x4e5 @0x83F482 | value of idle speed control integrator during start"
       CURVE
       0x184E5
       RL_GRID_UBYTE
@@ -7709,7 +7709,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_399_18613_10x8
-      "podtverzhdena mapscan addr 0x18613"
+      "adres podtverzhden mapscan addr 0x18613 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x613 @0x843E08"
       MAP
       0x18613
       RL_3D_A8_UBYTE
@@ -7772,7 +7772,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WDKHKN
-      "podtverzhdena damos-veroyatno addr 0x186A2 | Low threshold throttle plate for altitude adaptation"
+      "adres podtverzhden damos-veroyatno addr 0x186A2 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x6a1 @0x84468A | Low threshold throttle plate for altitude adaptation"
       CURVE
       0x186A2
       RL_GRID_UBYTE
@@ -7883,7 +7883,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_407_18768_6
-      "podtverzhdena mapscan addr 0x18768"
+      "adres podtverzhden mapscan addr 0x18768 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x767 @0x8454B0"
       CURVE
       0x18768
       RL_2D_A8_UBYTE
@@ -7928,7 +7928,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_409_1879A_6
-      "podtverzhdena mapscan addr 0x1879A"
+      "adres podtverzhden mapscan addr 0x1879A | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x799 @0x8454C4"
       CURVE
       0x1879A
       RL_2D_A8_UBYTE
@@ -7992,7 +7992,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ATMABKA
-      "podtverzhdena damos-veroyatno addr 0x187E2 | factor reduction of exhaust gas temperature = f(soak time)"
+      "adres podtverzhden damos-veroyatno addr 0x187E2 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x7e2 @0x845E20 | factor reduction of exhaust gas temperature = f(soak time)"
       CURVE
       0x187E2
       RL_GRID_UBYTE
@@ -8011,7 +8011,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ATMABKK
-      "podtverzhdena damos-veroyatno addr 0x187E8 | factor reduction for catalyst temperature = f(soak time)"
+      "adres podtverzhden damos-veroyatno addr 0x187E8 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x7e8 @0x845E8C | factor reduction for catalyst temperature = f(soak time)"
       CURVE
       0x187E8
       RL_GRID_UBYTE
@@ -8030,7 +8030,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FATMRML
-      "podtverzhdena damos-veroyatno addr 0x187EF | divide factor exhaust-/exhaust-pipe temperature"
+      "adres podtverzhden damos-veroyatno addr 0x187EF | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x7ef @0x845B92 | divide factor exhaust-/exhaust-pipe temperature"
       CURVE
       0x187EF
       RL_GRID_UBYTE
@@ -8049,7 +8049,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KATMEXML
-      "podtverzhdena damos-veroyatno addr 0x187F9 | Temperature of the exotherme in the catalyst tkatm"
+      "adres podtverzhden damos-veroyatno addr 0x187F9 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x7f9 @0x845CAA | Temperature of the exotherme in the catalyst tkatm"
       CURVE
       0x187F9
       RL_GRID_SBYTE
@@ -8149,7 +8149,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KLATMLAE
-      "podtverzhdena damos-veroyatno addr 0x1889A | Temperature of the exotherme decrease during enrichment"
+      "adres podtverzhden damos-veroyatno addr 0x1889A | IMYA NE PODTVERZHDENO, adres: kod: add DPP0, #0x89a @0x860AA6 | Temperature of the exotherme decrease during enrichment"
       CURVE
       0x1889A
       RL_GRID_UBYTE
@@ -8168,7 +8168,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KLATMZWE
-      "podtverzhdena damos-veroyatno addr 0x188A0 | Temperature of the exotherme decrease in cat during ignition retard tkatm"
+      "adres podtverzhden damos-veroyatno addr 0x188A0 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x8a0 @0x845C7A | Temperature of the exotherme decrease in cat during ignition retard tkatm"
       CURVE
       0x188A0
       RL_GRID_UBYTE
@@ -8206,7 +8206,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_422_188CA_5
-      "podtverzhdena mapscan addr 0x188CA"
+      "adres podtverzhden mapscan addr 0x188CA | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x8ca @0x847560"
       CURVE
       0x188CA
       RL_2D_A8_UBYTE
@@ -8477,7 +8477,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC RLLRUN
-      "podtverzhdena damos-veroyatno addr 0x18AD2 | char.line above nmot,lower rL control limit for controller in front of catalyst"
+      "adres podtverzhden damos-veroyatno addr 0x18AD2 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xad1 @0x84B798 | char.line above nmot,lower rL control limit for controller in front of catalyst"
       CURVE
       0x18AD2
       RL_GRID_UBYTE
@@ -8645,7 +8645,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DTVKAML2
-      "podtverzhdena damos-veroyatno addr 0x18B57 | delta-tv for cat oxygen neutralization (air mass dependent) bank2"
+      "adres podtverzhden damos-veroyatno addr 0x18B57 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xb56 @0x84C13E | delta-tv for cat oxygen neutralization (air mass dependent) bank2"
       CURVE
       0x18B57
       RL_GRID_SBYTE
@@ -8721,7 +8721,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FTMLAKH
-      "podtverzhdena damos-veroyatno addr 0x18BB0 | tmot-correction of lambda-weighting at catalyst heating"
+      "adres podtverzhden damos-veroyatno addr 0x18BB0 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xbaf @0x84D4D8 | tmot-correction of lambda-weighting at catalyst heating"
       CURVE
       0x18BB0
       RL_GRID_UBYTE
@@ -8740,7 +8740,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_446_18BBA_4
-      "podtverzhdena mapscan addr 0x18BBA"
+      "adres podtverzhden mapscan addr 0x18BBA | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xbb9 @0x84D3F8"
       CURVE
       0x18BBA
       RL_2D_A16_UBYTE
@@ -8804,7 +8804,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC NFSKHM
-      "podtverzhdena damos-veroyatno addr 0x18C01 | LL nominal speed with driving graduations and catalyzer heating"
+      "adres podtverzhden damos-veroyatno addr 0x18C01 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xc01 @0x84D3B2 | LL nominal speed with driving graduations and catalyzer heating"
       CURVE
       0x18C01
       RL_GRID_UBYTE
@@ -8823,7 +8823,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FMDKHFH
-      "podtverzhdena damos-veroyatno addr 0x18C10 | altitude correction of torque reserve for catalyst heating"
+      "adres podtverzhden damos-veroyatno addr 0x18C10 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xc0f @0x84D762 | altitude correction of torque reserve for catalyst heating"
       CURVE
       0x18C10
       RL_GRID_UBYTE
@@ -8842,7 +8842,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FMDKHTM
-      "podtverzhdena damos-veroyatno addr 0x18C19 | tmot-correction of torque reserve for catalyst heating"
+      "adres podtverzhden damos-veroyatno addr 0x18C19 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xc18 @0x84D776 | tmot-correction of torque reserve for catalyst heating"
       CURVE
       0x18C19
       RL_GRID_UBYTE
@@ -8897,7 +8897,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_454_18CCE_4
-      "podtverzhdena mapscan addr 0x18CCE"
+      "adres podtverzhden mapscan addr 0x18CCE | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xccd @0x84D6D4"
       CURVE
       0x18CCE
       RL_2D_A8_UBYTE
@@ -8942,7 +8942,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_456_18CE9_8
-      "podtverzhdena mapscan addr 0x18CE9"
+      "adres podtverzhden mapscan addr 0x18CE9 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xce8 @0x84D972"
       CURVE
       0x18CE9
       RL_2D_A8_UBYTE
@@ -8987,7 +8987,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_458_18D3B_8
-      "podtverzhdena mapscan addr 0x18D3B"
+      "adres podtverzhden mapscan addr 0x18D3B | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xd3a @0x84D93C"
       CURVE
       0x18D3B
       RL_2D_A8_UBYTE
@@ -9070,7 +9070,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SENZZYL
-      "podtverzhdena damos-veroyatno addr 0x18DB0 | knock sensor for sw-cylinder counter 0-7"
+      "adres podtverzhden damos-veroyatno addr 0x18DB0 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xdaf @0x84DCD0 | knock sensor for sw-cylinder counter 0-7"
       CURVE
       0x18DB0
       RL_GRID_UBYTE
@@ -9279,7 +9279,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DWKRMSN
-      "podtverzhdena damos-veroyatno addr 0x18E5D | delta ignition angle knock control distance from mean retarding"
+      "adres podtverzhden damos-veroyatno addr 0x18E5D | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xe5d @0x84E464 | delta ignition angle knock control distance from mean retarding"
       CURVE
       0x18E5D
       RL_GRID_SBYTE
@@ -9298,7 +9298,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KRAL1N
-      "podtverzhdena damos-veroyatno addr 0x18E6D | load range for adaption maps 1"
+      "adres podtverzhden damos-veroyatno addr 0x18E6D | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xe6d @0x84E478 | load range for adaption maps 1"
       CURVE
       0x18E6D
       RL_GRID_UBYTE
@@ -9317,7 +9317,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KRAL2N
-      "podtverzhdena damos-veroyatno addr 0x18E7D | load range dor adaption maps 2"
+      "adres podtverzhden damos-veroyatno addr 0x18E7D | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xe7d @0x84E48C | load range dor adaption maps 2"
       CURVE
       0x18E7D
       RL_GRID_UBYTE
@@ -9336,7 +9336,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_476_18E8E_4
-      "podtverzhdena mapscan addr 0x18E8E"
+      "adres podtverzhden mapscan addr 0x18E8E | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xe8d @0x84E3D8"
       CURVE
       0x18E8E
       RL_2D_A16_UBYTE
@@ -9373,7 +9373,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KRFKN
-      "podtverzhdena damos-veroyatno addr 0x18F05 | retard step knock occurrence"
+      "adres podtverzhden damos-veroyatno addr 0x18F05 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf05 @0x84EE9E | retard step knock occurrence"
       CURVE
       0x18F05
       RL_GRID_SBYTE
@@ -9392,7 +9392,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KRMXN
-      "podtverzhdena damos-veroyatno addr 0x18F15 | maximum retard adjustment"
+      "adres podtverzhden damos-veroyatno addr 0x18F15 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf15 @0x84EE62 | maximum retard adjustment"
       CURVE
       0x18F15
       RL_GRID_SBYTE
@@ -9411,7 +9411,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KRNLZAR
-      "podtverzhdena damos-veroyatno addr 0x18F25 | cylinder individual rpm limit for lead by leading cylinder"
+      "adres podtverzhden damos-veroyatno addr 0x18F25 | IMYA NE PODTVERZHDENO, adres: kod: movb RL5, [r4+#0xf25] @0x84EA90 | cylinder individual rpm limit for lead by leading cylinder"
       CURVE
       0x18F25
       RL_GRID_UBYTE
@@ -9430,7 +9430,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KRVFN
-      "podtverzhdena damos-veroyatno addr 0x18F2D | number of firings/cyl. or time for ignition advancing"
+      "adres podtverzhden damos-veroyatno addr 0x18F2D | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf2d @0x83F368 | number of firings/cyl. or time for ignition advancing"
       CURVE
       0x18F2D
       RL_GRID_UBYTE
@@ -9449,7 +9449,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_482_18F3D_4
-      "podtverzhdena mapscan addr 0x18F3D"
+      "adres podtverzhden mapscan addr 0x18F3D | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf3d @0x84EE8A"
       CURVE
       0x18F3D
       RL_2D_A8_UWORD
@@ -9467,7 +9467,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC LKRN
-      "podtverzhdena damos-veroyatno addr 0x18F4D | load-signal threshold knock control"
+      "adres podtverzhden damos-veroyatno addr 0x18F4D | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf4d @0x84EE4E | load-signal threshold knock control"
       CURVE
       0x18F4D
       RL_GRID_UBYTE
@@ -9504,7 +9504,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_485_18F71_4
-      "podtverzhdena mapscan addr 0x18F71"
+      "adres podtverzhden mapscan addr 0x18F71 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf71 @0x83F296"
       CURVE
       0x18F71
       RL_2D_A8_UBYTE
@@ -9522,7 +9522,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_486_18FA2_4
-      "podtverzhdena mapscan addr 0x18FA2"
+      "adres podtverzhden mapscan addr 0x18FA2 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfa2 @0x8402EA"
       CURVE
       0x18FA2
       RL_2D_A8_UBYTE
@@ -9558,7 +9558,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WDKSLN
-      "podtverzhdena damos-veroyatno addr 0x18FCB | Throttle valve angle threshold for idle detection"
+      "adres podtverzhden damos-veroyatno addr 0x18FCB | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfca @0x8506E0 | Throttle valve angle threshold for idle detection"
       CURVE
       0x18FCB
       RL_GRID_UBYTE
@@ -9577,7 +9577,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_489_18FD6_4
-      "podtverzhdena mapscan addr 0x18FD6"
+      "adres podtverzhden mapscan addr 0x18FD6 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfdb @0x840808"
       CURVE
       0x18FD6
       RL_2D_A8_UBYTE
@@ -9649,7 +9649,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM08GKUB
-      "podtverzhdena damos-veroyatno addr 0x19078 | Datapoint distribution mixture control 8 nmot datapoints"
+      "adres podtverzhden damos-veroyatno addr 0x19078 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1078 @0x8429E8 | Datapoint distribution mixture control 8 nmot datapoints"
       CURVE
       0x19078
       RL_GRID_UBYTE
@@ -9668,7 +9668,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_493_19081_8
-      "podtverzhdena mapscan addr 0x19081"
+      "adres podtverzhden mapscan addr 0x19081 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1081 @0x8515DE"
       CURVE
       0x19081
       RL_2D_A8_UBYTE
@@ -9686,7 +9686,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WEAN
-      "podtverzhdena damos-veroyatno addr 0x19093 | angle injection break off"
+      "adres podtverzhden damos-veroyatno addr 0x19093 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1093 @0x8516F2 | angle injection break off"
       CURVE
       0x19093
       RL_GRID_UBYTE
@@ -9705,7 +9705,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WEEM
-      "podtverzhdena damos-veroyatno addr 0x1909B | correction of prestorage angle"
+      "adres podtverzhden damos-veroyatno addr 0x1909B | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x109b @0x8516AA | correction of prestorage angle"
       CURVE
       0x1909B
       RL_GRID_UBYTE
@@ -9724,7 +9724,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WEEMRFAN
-      "podtverzhdena damos-veroyatno addr 0x190A3 | end of injection angle at max relative driver request"
+      "adres podtverzhden damos-veroyatno addr 0x190A3 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x10a3 @0x851640 | end of injection angle at max relative driver request"
       CURVE
       0x190A3
       RL_GRID_UBYTE
@@ -9743,7 +9743,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WEESTM
-      "podtverzhdena damos-veroyatno addr 0x190AB | correction of pretiming of injection during start"
+      "adres podtverzhden damos-veroyatno addr 0x190AB | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x10ab @0x8516D8 | correction of pretiming of injection during start"
       CURVE
       0x190AB
       RL_GRID_UBYTE
@@ -9781,7 +9781,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ZZWEETM
-      "podtverzhdena damos-veroyatno addr 0x190BD | Switchover threshold pattern angle"
+      "adres podtverzhden damos-veroyatno addr 0x190BD | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x10bc @0x8515F6 | Switchover threshold pattern angle"
       CURVE
       0x190BD
       RL_GRID_UBYTE
@@ -9827,7 +9827,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FSTHO
-      "podtverzhdena damos-veroyatno addr 0x191AD | weighting of factor start"
+      "adres podtverzhden damos-veroyatno addr 0x191AD | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x11ac @0x851A5A | weighting of factor start"
       CURVE
       0x191AD
       RL_GRID_UBYTE
@@ -9846,7 +9846,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FNSA
-      "podtverzhdena damos-veroyatno addr 0x191B5 | after start increase"
+      "adres podtverzhden damos-veroyatno addr 0x191B5 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x11b5 @0x851CFC | after start increase"
       CURVE
       0x191B5
       RL_GRID_UBYTE
@@ -9865,7 +9865,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FNSHO
-      "podtverzhdena damos-veroyatno addr 0x191BC | weighting of afterstart enrichment"
+      "adres podtverzhden damos-veroyatno addr 0x191BC | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x11bb @0x851D9C | weighting of afterstart enrichment"
       CURVE
       0x191BC
       RL_GRID_UBYTE
@@ -10076,7 +10076,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_512_193E0_9
-      "podtverzhdena mapscan addr 0x193E0"
+      "adres podtverzhden mapscan addr 0x193E0 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x13e0 @0x85235C"
       CURVE
       0x193E0
       RL_2D_A8_UBYTE
@@ -10121,7 +10121,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_521_196F8_5
-      "podtverzhdena mapscan addr 0x196F8"
+      "adres podtverzhden mapscan addr 0x196F8 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x16fe @0x851A0C"
       CURVE
       0x196F8
       RL_2D_A8_UBYTE
@@ -10158,7 +10158,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_523_19719_8
-      "podtverzhdena mapscan addr 0x19719"
+      "adres podtverzhden mapscan addr 0x19719 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1718 @0x8568A2"
       CURVE
       0x19719
       RL_2D_A8_UBYTE
@@ -10203,7 +10203,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_525_1976E_6
-      "podtverzhdena mapscan addr 0x1976E"
+      "adres podtverzhden mapscan addr 0x1976E | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x176e @0x857654"
       CURVE
       0x1976E
       RL_2D_A8_UBYTE
@@ -10239,7 +10239,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_527_1979E_6
-      "podtverzhdena mapscan addr 0x1979E"
+      "adres podtverzhden mapscan addr 0x1979E | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x179e @0x85741E"
       CURVE
       0x1979E
       RL_2D_A8_UBYTE
@@ -10257,7 +10257,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC GRID_528_197BC_10x10
-      "podtverzhdena gridscan addr 0x197BC"
+      "adres podtverzhden gridscan addr 0x197BC | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x17bc @0x8574EE"
       MAP
       0x197BC
       RL_GRID_UBYTE
@@ -10384,7 +10384,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_533_198B4_5
-      "podtverzhdena mapscan addr 0x198B4"
+      "adres podtverzhden mapscan addr 0x198B4 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x18b4 @0x857944"
       CURVE
       0x198B4
       RL_2D_A8_UWORD
@@ -10483,7 +10483,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_537_19950_14
-      "podtverzhdena mapscan addr 0x19950"
+      "adres podtverzhden mapscan addr 0x19950 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1950 @0x858182"
       CURVE
       0x19950
       RL_2D_A8_UBYTE
@@ -10528,7 +10528,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DTLRTML
-      "podtverzhdena damos-veroyatno addr 0x19A1B | proportion factor to decrease waiting time up to tmot-threshold for closed loop"
+      "adres podtverzhden damos-veroyatno addr 0x19A1B | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1a1a @0x8572A2 | proportion factor to decrease waiting time up to tmot-threshold for closed loop"
       CURVE
       0x19A1B
       RL_GRID_UBYTE
@@ -10547,7 +10547,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TMLRTMS
-      "podtverzhdena damos-veroyatno addr 0x19A26 | engine temp. threshold for lambda control depending on cranking temp. tmst"
+      "adres podtverzhden damos-veroyatno addr 0x19A26 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1a25 @0x8604D6 | engine temp. threshold for lambda control depending on cranking temp. tmst"
       CURVE
       0x19A26
       RL_GRID_SBYTE
@@ -10566,7 +10566,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_541_19A2F_20
-      "podtverzhdena mapscan addr 0x19A2F"
+      "adres podtverzhden mapscan addr 0x19A2F | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1a2f @0x860424"
       CURVE
       0x19A2F
       RL_2D_A8_UBYTE
@@ -10584,7 +10584,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TWLRTMS
-      "podtverzhdena damos-veroyatno addr 0x19A5A | waiting time up to check engine temp. signal exceeding threshold for closed loop"
+      "adres podtverzhden damos-veroyatno addr 0x19A5A | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1a59 @0x860534 | waiting time up to check engine temp. signal exceeding threshold for closed loop"
       CURVE
       0x19A5A
       RL_GRID_UBYTE
@@ -10603,7 +10603,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_543_19A6B_20
-      "podtverzhdena mapscan addr 0x19A6B"
+      "adres podtverzhden mapscan addr 0x19A6B | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1a6b @0x860EC2"
       CURVE
       0x19A6B
       RL_2D_A8_UBYTE
@@ -10621,7 +10621,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_544_19AAC_4
-      "podtverzhdena mapscan addr 0x19AAC"
+      "adres podtverzhden mapscan addr 0x19AAC | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1aab @0x8616A0"
       CURVE
       0x19AAC
       RL_2D_A8_UBYTE
@@ -10666,7 +10666,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC LURKH
-      "podtverzhdena damos-veroyatno addr 0x19AD3 | dmrkh-depen. engine roughness reference correction value, during cat heating"
+      "adres podtverzhden damos-veroyatno addr 0x19AD3 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1ad2 @0x8666FA | dmrkh-depen. engine roughness reference correction value, during cat heating"
       CURVE
       0x19AD3
       RL_GRID_UBYTE
@@ -10685,7 +10685,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC AINTKAN
-      "podtverzhdena damos-veroyatno addr 0x19ADB | number of interval misfire frequency at which ti- cutoff"
+      "adres podtverzhden damos-veroyatno addr 0x19ADB | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1adb @0x868828 | number of interval misfire frequency at which ti- cutoff"
       CURVE
       0x19ADB
       RL_GRID_UBYTE
@@ -10704,7 +10704,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SLX06TMUW
-      "podtverzhdena damos-veroyatno addr 0x19BE6 | lamsbg dependet basic point (number 6)"
+      "adres podtverzhden damos-veroyatno addr 0x19BE6 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1be6 @0x834F66 | lamsbg dependet basic point (number 6)"
       CURVE
       0x19BE6
       RL_GRID_UBYTE
@@ -10723,7 +10723,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SML07TMUW
-      "podtverzhdena damos-veroyatno addr 0x19BF4 | ml dependet basic point (number 7)"
+      "adres podtverzhden damos-veroyatno addr 0x19BF4 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1bf4 @0x834F4E | ml dependet basic point (number 7)"
       CURVE
       0x19BF4
       RL_GRID_UBYTE
@@ -10742,7 +10742,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL04DYUB
-      "podtverzhdena damos-veroyatno addr 0x19C04 | basepoint distribution of rl, 4 basepoints"
+      "adres podtverzhden damos-veroyatno addr 0x19C04 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1c04 @0x834B2C | basepoint distribution of rl, 4 basepoints"
       CURVE
       0x19C04
       RL_GRID_UBYTE
@@ -10872,7 +10872,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MKLWON
-      "podtverzhdena damos-veroyatno addr 0x1A652 | upper clutch torque threshold for antijerking function"
+      "adres podtverzhden damos-veroyatno addr 0x1A652 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x2652 @0x83BB30 | upper clutch torque threshold for antijerking function"
       CURVE
       0x1A652
       RL_GRID_SBYTE
@@ -10891,7 +10891,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MKLWOWKN
-      "podtverzhdena damos-veroyatno addr 0x1A65E | upper clutch torque threshold for antijerking on an openned lockup clutch"
+      "adres podtverzhden damos-veroyatno addr 0x1A65E | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x265e @0x83BB12 | upper clutch torque threshold for antijerking on an openned lockup clutch"
       CURVE
       0x1A65E
       RL_GRID_SBYTE
@@ -10910,7 +10910,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MKLWSAN
-      "podtverzhdena damos-veroyatno addr 0x1A66A | lower clutch torque threshold for antijerking on fuell cutoff restart"
+      "adres podtverzhden damos-veroyatno addr 0x1A66A | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x266a @0x83BB80 | lower clutch torque threshold for antijerking on fuell cutoff restart"
       CURVE
       0x1A66A
       RL_GRID_SBYTE
@@ -10929,7 +10929,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MKLWUN
-      "podtverzhdena damos-veroyatno addr 0x1A676 | lower clutch torque threshold for antijerking"
+      "adres podtverzhden damos-veroyatno addr 0x1A676 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x2676 @0x83BB9E | lower clutch torque threshold for antijerking"
       CURVE
       0x1A676
       RL_GRID_SBYTE
@@ -10948,7 +10948,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MKLWUWKN
-      "podtverzhdena damos-veroyatno addr 0x1A682 | lower clutch torque threshold for antijerking on an openned lockup clutch"
+      "adres podtverzhden damos-veroyatno addr 0x1A682 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x2682 @0x83BB5A | lower clutch torque threshold for antijerking on an openned lockup clutch"
       CURVE
       0x1A682
       RL_GRID_SBYTE
@@ -10967,7 +10967,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_561_1A692_12
-      "podtverzhdena mapscan addr 0x1A692"
+      "adres podtverzhden mapscan addr 0x1A692 | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x269f @0x83E348"
       CURVE
       0x1A692
       RL_2D_A8_UWORD
@@ -11066,7 +11066,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_565_1A84A_6
-      "podtverzhdena mapscan addr 0x1A84A"
+      "adres podtverzhden mapscan addr 0x1A84A | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x2851 @0x83E50E"
       CURVE
       0x1A84A
       RL_2D_A8_UWORD
@@ -11084,7 +11084,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_566_1A88A_6
-      "podtverzhdena mapscan addr 0x1A88A"
+      "adres podtverzhden mapscan addr 0x1A88A | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x2891 @0x840358"
       CURVE
       0x1A88A
       RL_2D_A8_UWORD
@@ -11257,7 +11257,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_575_1ADDB_5
-      "podtverzhdena mapscan addr 0x1ADDB"
+      "adres podtverzhden mapscan addr 0x1ADDB | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x2de6 @0x84428C"
       CURVE
       0x1ADDB
       RL_2D_A16_UWORD
@@ -11275,7 +11275,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_576_1AEC3_6
-      "podtverzhdena mapscan addr 0x1AEC3"
+      "adres podtverzhden mapscan addr 0x1AEC3 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x2ec2 @0x84519C"
       CURVE
       0x1AEC3
       RL_2D_A8_UBYTE
@@ -11293,7 +11293,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_577_1AF14_6
-      "podtverzhdena mapscan addr 0x1AF14"
+      "adres podtverzhden mapscan addr 0x1AF14 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x2f14 @0x845476"
       CURVE
       0x1AF14
       RL_2D_A16_UWORD
@@ -11467,7 +11467,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_585_1B497_8
-      "podtverzhdena mapscan addr 0x1B497"
+      "adres podtverzhden mapscan addr 0x1B497 | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x34a8 @0x851CB2"
       CURVE
       0x1B497
       RL_2D_A16_UBYTE
@@ -11512,7 +11512,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_587_1B5E1_6
-      "podtverzhdena mapscan addr 0x1B5E1"
+      "adres podtverzhden mapscan addr 0x1B5E1 | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x35e8 @0x8548B4"
       CURVE
       0x1B5E1
       RL_2D_A8_UWORD
@@ -11530,7 +11530,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_588_1B612_5
-      "podtverzhdena mapscan addr 0x1B612"
+      "adres podtverzhden mapscan addr 0x1B612 | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x3618 @0x8548E8"
       CURVE
       0x1B612
       RL_2D_A8_UWORD
@@ -11819,7 +11819,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_602_1B8C0_5
-      "podtverzhdena mapscan addr 0x1B8C0"
+      "adres podtverzhden mapscan addr 0x1B8C0 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x38c0 @0x8574BA"
       CURVE
       0x1B8C0
       RL_2D_A8_UBYTE
@@ -11837,7 +11837,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_603_1B91F_5
-      "podtverzhdena mapscan addr 0x1B91F"
+      "adres podtverzhden mapscan addr 0x1B91F | IMYA NE PODTVERZHDENO, adres: kod: mov r4, #0x3925 @0x85748A"
       CURVE
       0x1B91F
       RL_2D_A8_UBYTE
@@ -11931,7 +11931,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC MAP_608_1B9EC_4
-      "podtverzhdena mapscan addr 0x1B9EC"
+      "adres podtverzhden mapscan addr 0x1B9EC | IMYA NE PODTVERZHDENO, adres: kod: mov r13, #0x39ec @0x860A7C"
       CURVE
       0x1B9EC
       RL_2D_A8_UBYTE
@@ -15285,8 +15285,9 @@ ASAP2_VERSION 1 51
       "??? ?????"
       ROOT
       /begin SUB_GROUP
-        G_scanner_podtverzhdena
         G_scanner_veroyatnaya
+        G_scanner_adres_podtverzhden
+        G_scanner_podtverzhdena
         G_lambda_cat_diag_block
         G_knock_control
         G_canister_purge
@@ -15309,351 +15310,6 @@ ASAP2_VERSION 1 51
         G_other_regions
         G_saint_venant
       /end SUB_GROUP
-    /end GROUP
-
-    /begin GROUP G_scanner_podtverzhdena
-      "Skaner: podtverzhdennye"
-      /begin REF_CHARACTERISTIC
-        SGA08MDUB
-        SML05DKUB
-        SML05LKUB
-        SML08LHUB
-        SNG06LLSB
-        SNM06LLUB
-        SNM07LRUB
-        SNM08DMUB
-        SNM08LHUB
-        SNM08__UB
-        SNM10FEUB
-        SNM12ESUB
-        SNM16CIUB
-        SNM24ZUUB
-        SQM05TEUB
-        SRL06LHUB
-        SRL06LRUB
-        SRL08DMUB
-        SRL12ESUB
-        SRL16ZUUB
-        STM12ESUB
-        NARASTG
-        KFMPED
-        ETALAM_10515
-        NMAXPRL
-        NMXDAEF
-        ZINMAXRL
-        RLMNN
-        RLMNSAN
-        KFMIRED
-        SBF02MFSB
-        FSWALUV
-        FUGKUE
-        FKODASH
-        FVDASHM
-        KFMIDSH0
-        KFMIDSH1
-        KFMIDSH2
-        KFMIDSH3
-        ZDSH1GS
-        ZDSHGS
-        FSZTM
-        KFSZT
-        SNS06LLSB
-        ZNSMST
-        DMLLRIMXN
-        DMLLRLMNN
-        DMLLRLMXN
-        DMLLRMNN
-        DMLLRMXN
-        DVNG
-        DVNGV
-        FDDN
-        GFDLDN
-        IVDN
-        IVDNDTE
-        PVDN
-        PVLDN
-        PVLDNV
-        SDN06LLSB
-        SNS206LLSB
-        KLMDLOAD2
-        FABMDWA
-        TVFSAM
-        TVFSAMR
-        TVFSEM
-        TVFSEMR
-        UEVERG
-        ZKMDWAM
-        FZN0
-        FZN1
-        FZN2
-        FZN3
-        FZN4
-        FZNWN0
-        FZNWN1
-        FZNWN2
-        FZNWN3
-        KFWKSTT
-        MAP_115_112C2_14
-        MAP_120_11567_8
-        MAP_123_11595_8
-        MAP_124_115EC_7
-        MAP_127_11616_8
-        MAP_128_11673_6
-        MAP_129_1168B_6
-        MAP_130_11698_12
-        MAP_131_116B2_6x6
-        MAP_132_116E5_4
-        KFAGRS
-        MAP_134_11986_5x6
-        KFAGRP
-        MAP_137_11A1A_6
-        SUA08FEUB
-        MAP_139_11A40_10x10
-        FFTEV6
-        FFTFRAO
-        FFTFRAU
-        FFTFRST
-        FFTGE
-        FFTHSH
-        FFTHSHE
-        FFTHSV
-        FFTHSVE
-        FFTKAT
-        FFTKOSE
-        FFTKPE
-        MAP_152_11AD4_16x12
-        KFDLURZ
-        ANALUN
-        MAP_160_11F22_8
-        KFLURM1
-        KFFWK_0_A
-        MAP_171_124D4_6
-        MAP_172_128BD_21
-        SNM16OPUW_148D2
-        NDFILOG
-        MAP_183_149D8_10
-        SRL03MFUW
-        KFZWMNST
-        KFZWWLNM
-        MAP_211_14FF7_5
-        KFWK_0_A
-        MDST
-        FNSTABNV
-        MAP_221_15261_6
-        LLSPMSN
-        KFMSNTAG
-        KFDYES_0_A
-        WFRL
-        TVUB
-        TVCO
-        DMSTES
-        AGREDRLS
-        KLAFTE
-        MSNTATE
-        MAP_261_15F88_12
-        CDCDK
-        CDCLSH
-        MAP_309_16156_5
-        CDCTES
-        CDCTEVE
-        NNSTA
-        NSTNM
-        SDK10TEUB
-        SEZ06TMUB
-        SFR05TEUB
-        SGA06MFUB
-        SML06TEUB
-        SML06TMUB
-        SNM06LHUB
-        SNM06MFUB
-        SNM10TEUB
-        SNM16KRUB
-        SRL04KRUB
-        ST107TMUB
-        ST307TMUB
-        STA06ESUB
-        STM04__UB
-        STM05SAUB
-        STM05TMUB
-        STM06LLUB
-        STM06__UB
-        STM08DMUB
-        STM08LEUB
-        STM09ESUB
-        STS12ESUB
-        STW06MDUB
-        FLRAG
-        FLRAWG
-        FLRHG
-        FRARAG
-        FRARAWG
-        FRARHG
-        RLVMXN_182B7
-        RLVSMXN_182CE
-        DFAUWKN
-        DFAWKN
-        KFDMDFA
-        KFDMDFAS
-        KFDMDFAU
-        KFZMDFA
-        KFZMDFAS
-        KFZMDFAU
-        ZFAUWKN
-        ZFAWKN
-        REDZEM
-        WPHN
-        DZWSPM
-        KFTVSA
-        NWECVTM
-        TVSATM
-        DNEVTMOD
-        DNLBZ
-        FNSSTM
-        NFSM
-        NLLM
-        NSLPP
-        NSLPPFS
-        NTANS
-        LIMXDNS
-        LIMXVDNS
-        LISTM
-        DMDKOE
-        KFMDKO
-        EVTMODO
-        FDVANS
-        FWFTBRTA
-        MAP_399_18613_10x8
-        FZPUSA
-        WDKHKDN
-        WDKHKN
-        WPUAVLN
-        WPUAVLSN
-        KFFTAGRV
-        KFFTDAG
-        MAP_407_18768_6
-        KFSU
-        MAP_409_1879A_6
-        KFSU2
-        TVSUM
-        ATMABKA
-        ATMABKK
-        FATMRML
-        KATMEXML
-        KFATMLA
-        KFATMZW
-        KFTATM
-        KLATMLAE
-        KLATMZWE
-        FRINH1
-        MAP_422_188CA_5
-        KFTPKOR
-        FFRITMS
-        KFRI
-        KFRP
-        RLLRUN
-        KFFTV
-        DTVKAML2
-        FNSKHLL
-        FTMLAKH
-        MAP_446_18BBA_4
-        KFNLLKHM
-        MLSUS
-        NFSKHM
-        FMDKHFH
-        FMDKHTM
-        MAP_454_18CCE_4
-        KFEKWTMP
-        MAP_456_18CE9_8
-        KFLMSKH
-        MAP_458_18D3B_8
-        SENZZYL
-        DWKRMSN
-        KRAL1N
-        KRAL2N
-        MAP_476_18E8E_4
-        KRFKN
-        KRMXN
-        KRNLZAR
-        KRVFN
-        MAP_482_18F3D_4
-        LKRN
-        MAP_485_18F71_4
-        MAP_486_18FA2_4
-        WDKSLN
-        MAP_489_18FD6_4
-        KFWEE
-        KFWEEK
-        SNM08GKUB
-        MAP_493_19081_8
-        WEAN
-        WEEM
-        WEEMRFAN
-        WEESTM
-        WEESTN
-        ZZWEETM
-        FSTHO
-        FNSA
-        FNSHO
-        KFFWL
-        FUKNSTM
-        MAP_512_193E0_9
-        MAP_521_196F8_5
-        MAP_523_19719_8
-        KFTKONS
-        MAP_525_1976E_6
-        MAP_527_1979E_6
-        KFFTEAX
-        KFTATX
-        MAP_533_198B4_5
-        KFTEVP
-        KFTVTEV
-        KFDETATE
-        MAP_537_19950_14
-        KFMDDAGR
-        DTLRTML
-        TMLRTMS
-        MAP_541_19A2F_20
-        TWLRTMS
-        MAP_543_19A6B_20
-        MAP_544_19AAC_4
-        KFIDTHM
-        LURKH
-        AINTKAN
-        SLX06TMUW
-        SML07TMUW
-        SRL04DYUB
-        KFDMDARO
-        KFDMDARU
-        MKLWON
-        MKLWOWKN
-        MKLWSAN
-        MKLWUN
-        MKLWUWKN
-        MAP_561_1A692_12
-        KFDZWKG
-        KFZWNWSUE
-        KFZWWLTM
-        MAP_565_1A84A_6
-        MAP_566_1A88A_6
-        KFPSDMX
-        FPVMXN2
-        MAP_575_1ADDB_5
-        MAP_576_1AEC3_6
-        MAP_577_1AF14_6
-        KFRLW_1B3F3
-        MAP_585_1B497_8
-        KFZKPUA
-        MAP_587_1B5E1_6
-        MAP_588_1B612_5
-        ATMTANS
-        MAP_602_1B8C0_5
-        MAP_603_1B91F_5
-        FKHLA
-        FKHMD
-        MAP_608_1B9EC_4
-        KLESUKKO
-        FQTEPT
-      /end REF_CHARACTERISTIC
     /end GROUP
 
     /begin GROUP G_scanner_veroyatnaya
@@ -15859,6 +15515,357 @@ ASAP2_VERSION 1 51
         LNXQTM
         TNLSGM
         ZKTABTU
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_scanner_adres_podtverzhden
+      "scanner:adres podtverzhden"
+      /begin REF_CHARACTERISTIC
+        SNG06LLSB
+        NARASTG
+        RLMNN
+        RLMNSAN
+        KFMIRED
+        FSWALUV
+        FUGKUE
+        ZDSH1GS
+        ZDSHGS
+        SNS06LLSB
+        ZNSMST
+        DMLLRIMXN
+        DMLLRLMNN
+        DMLLRLMXN
+        DMLLRMNN
+        DMLLRMXN
+        DVNG
+        DVNGV
+        FDDN
+        GFDLDN
+        IVDN
+        IVDNDTE
+        PVDN
+        PVLDN
+        PVLDNV
+        SDN06LLSB
+        SNS206LLSB
+        TVFSAM
+        TVFSAMR
+        TVFSEM
+        TVFSEMR
+        UEVERG
+        ZKMDWAM
+        FZN0
+        FZN1
+        FZN2
+        FZN3
+        FZN4
+        FZNWN0
+        FZNWN1
+        FZNWN2
+        FZNWN3
+        MAP_115_112C2_14
+        MAP_120_11567_8
+        MAP_123_11595_8
+        MAP_124_115EC_7
+        MAP_127_11616_8
+        MAP_128_11673_6
+        MAP_129_1168B_6
+        MAP_130_11698_12
+        MAP_131_116B2_6x6
+        MAP_132_116E5_4
+        MAP_134_11986_5x6
+        KFAGRP
+        MAP_137_11A1A_6
+        MAP_139_11A40_10x10
+        FFTEV6
+        FFTFRAO
+        FFTFRAU
+        FFTFRST
+        FFTGE
+        FFTHSH
+        FFTHSHE
+        FFTHSV
+        FFTHSVE
+        FFTKAT
+        FFTKOSE
+        FFTKPE
+        MAP_152_11AD4_16x12
+        ANALUN
+        MAP_160_11F22_8
+        MAP_171_124D4_6
+        MAP_172_128BD_21
+        SNM16OPUW_148D2
+        NDFILOG
+        MAP_183_149D8_10
+        SRL03MFUW
+        MAP_211_14FF7_5
+        MAP_221_15261_6
+        WFRL
+        KLAFTE
+        MAP_261_15F88_12
+        CDCDK
+        CDCLSH
+        MAP_309_16156_5
+        CDCTES
+        CDCTEVE
+        FLRAG
+        FLRAWG
+        FLRHG
+        FRARAG
+        FRARAWG
+        FRARHG
+        DFAUWKN
+        DFAWKN
+        ZFAUWKN
+        ZFAWKN
+        WPHN
+        DZWSPM
+        KFTVSA
+        NWECVTM
+        TVSATM
+        NFSM
+        NLLM
+        LIMXDNS
+        LIMXVDNS
+        LISTM
+        MAP_399_18613_10x8
+        WDKHKN
+        MAP_407_18768_6
+        MAP_409_1879A_6
+        ATMABKA
+        ATMABKK
+        FATMRML
+        KATMEXML
+        KLATMLAE
+        KLATMZWE
+        MAP_422_188CA_5
+        RLLRUN
+        DTVKAML2
+        FTMLAKH
+        MAP_446_18BBA_4
+        NFSKHM
+        FMDKHFH
+        FMDKHTM
+        MAP_454_18CCE_4
+        MAP_456_18CE9_8
+        MAP_458_18D3B_8
+        SENZZYL
+        DWKRMSN
+        KRAL1N
+        KRAL2N
+        MAP_476_18E8E_4
+        KRFKN
+        KRMXN
+        KRNLZAR
+        KRVFN
+        MAP_482_18F3D_4
+        LKRN
+        MAP_485_18F71_4
+        MAP_486_18FA2_4
+        WDKSLN
+        MAP_489_18FD6_4
+        SNM08GKUB
+        MAP_493_19081_8
+        WEAN
+        WEEM
+        WEEMRFAN
+        WEESTM
+        ZZWEETM
+        FSTHO
+        FNSA
+        FNSHO
+        MAP_512_193E0_9
+        MAP_521_196F8_5
+        MAP_523_19719_8
+        MAP_525_1976E_6
+        MAP_527_1979E_6
+        MAP_533_198B4_5
+        MAP_537_19950_14
+        DTLRTML
+        TMLRTMS
+        MAP_541_19A2F_20
+        TWLRTMS
+        MAP_543_19A6B_20
+        MAP_544_19AAC_4
+        LURKH
+        AINTKAN
+        SLX06TMUW
+        SML07TMUW
+        SRL04DYUB
+        MKLWON
+        MKLWOWKN
+        MKLWSAN
+        MKLWUN
+        MKLWUWKN
+        MAP_561_1A692_12
+        MAP_565_1A84A_6
+        MAP_566_1A88A_6
+        MAP_575_1ADDB_5
+        MAP_576_1AEC3_6
+        MAP_577_1AF14_6
+        MAP_585_1B497_8
+        MAP_587_1B5E1_6
+        MAP_588_1B612_5
+        MAP_602_1B8C0_5
+        MAP_603_1B91F_5
+        MAP_608_1B9EC_4
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_scanner_podtverzhdena
+      "Skaner: podtverzhdennye"
+      /begin REF_CHARACTERISTIC
+        SGA08MDUB
+        SML05DKUB
+        SML05LKUB
+        SML08LHUB
+        SNM06LLUB
+        SNM07LRUB
+        SNM08DMUB
+        SNM08LHUB
+        SNM08__UB
+        SNM10FEUB
+        SNM12ESUB
+        SNM16CIUB
+        SNM24ZUUB
+        SQM05TEUB
+        SRL06LHUB
+        SRL06LRUB
+        SRL08DMUB
+        SRL12ESUB
+        SRL16ZUUB
+        STM12ESUB
+        KFMPED
+        ETALAM_10515
+        NMAXPRL
+        NMXDAEF
+        ZINMAXRL
+        SBF02MFSB
+        FKODASH
+        FVDASHM
+        KFMIDSH0
+        KFMIDSH1
+        KFMIDSH2
+        KFMIDSH3
+        FSZTM
+        KFSZT
+        KLMDLOAD2
+        FABMDWA
+        KFWKSTT
+        KFAGRS
+        SUA08FEUB
+        KFDLURZ
+        KFLURM1
+        KFFWK_0_A
+        KFZWMNST
+        KFZWWLNM
+        KFWK_0_A
+        MDST
+        FNSTABNV
+        LLSPMSN
+        KFMSNTAG
+        KFDYES_0_A
+        TVUB
+        TVCO
+        DMSTES
+        AGREDRLS
+        MSNTATE
+        NNSTA
+        NSTNM
+        SDK10TEUB
+        SEZ06TMUB
+        SFR05TEUB
+        SGA06MFUB
+        SML06TEUB
+        SML06TMUB
+        SNM06LHUB
+        SNM06MFUB
+        SNM10TEUB
+        SNM16KRUB
+        SRL04KRUB
+        ST107TMUB
+        ST307TMUB
+        STA06ESUB
+        STM04__UB
+        STM05SAUB
+        STM05TMUB
+        STM06LLUB
+        STM06__UB
+        STM08DMUB
+        STM08LEUB
+        STM09ESUB
+        STS12ESUB
+        STW06MDUB
+        RLVMXN_182B7
+        RLVSMXN_182CE
+        KFDMDFA
+        KFDMDFAS
+        KFDMDFAU
+        KFZMDFA
+        KFZMDFAS
+        KFZMDFAU
+        REDZEM
+        DNEVTMOD
+        DNLBZ
+        FNSSTM
+        NSLPP
+        NSLPPFS
+        NTANS
+        DMDKOE
+        KFMDKO
+        EVTMODO
+        FDVANS
+        FWFTBRTA
+        FZPUSA
+        WDKHKDN
+        WPUAVLN
+        WPUAVLSN
+        KFFTAGRV
+        KFFTDAG
+        KFSU
+        KFSU2
+        TVSUM
+        KFATMLA
+        KFATMZW
+        KFTATM
+        FRINH1
+        KFTPKOR
+        FFRITMS
+        KFRI
+        KFRP
+        KFFTV
+        FNSKHLL
+        KFNLLKHM
+        MLSUS
+        KFEKWTMP
+        KFLMSKH
+        KFWEE
+        KFWEEK
+        WEESTN
+        KFFWL
+        FUKNSTM
+        KFTKONS
+        KFFTEAX
+        KFTATX
+        KFTEVP
+        KFTVTEV
+        KFDETATE
+        KFMDDAGR
+        KFIDTHM
+        KFDMDARO
+        KFDMDARU
+        KFDZWKG
+        KFZWNWSUE
+        KFZWWLTM
+        KFPSDMX
+        FPVMXN2
+        KFRLW_1B3F3
+        KFZKPUA
+        ATMTANS
+        FKHLA
+        FKHMD
+        KLESUKKO
+        FQTEPT
       /end REF_CHARACTERISTIC
     /end GROUP
 

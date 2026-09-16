@@ -179,9 +179,12 @@ WEIGHT_PROFILE = 5
 
 
 try:
-    from ru_names import ru_name
+    from ru_names import axis_name as axis_ru, ru_name
 except Exception:                                           # noqa: BLE001
     def ru_name(name, note="", points=None):                # noqa: D103
+        return ""
+
+    def axis_ru(name, points=None):                         # noqa: D103
         return ""
 
 CYR = re.compile("[А-Яа-яЁё]")
@@ -319,7 +322,8 @@ def main(argv=None) -> int:
     maps = json.load(open(args.maps, encoding="utf-8"))["maps"]
     profile = json.load(open(args.profile, encoding="utf-8")) if args.profile else {}
     if args.min_confidence == "verified":
-        maps = [m for m in maps if m.get("confidence") == "подтверждена"]
+        maps = [m for m in maps if m.get("confidence")
+                in ("подтверждена", "адрес подтверждён")]
     maps = sorted(maps, key=lambda m: m["addr"])
 
     # --- разделы профиля -> группы --------------------------------------
@@ -510,6 +514,8 @@ def main(argv=None) -> int:
                           '        0\n        %d\n      /end AXIS_DESCR' % (npts, amax))
 
         cmt = "%s %s addr 0x%X" % (m.get("confidence", ""), m.get("source", ""), m["addr"])
+        if m.get("addr_confirmed") and m.get("confidence") != "подтверждена":
+            cmt += " | ИМЯ НЕ ПОДТВЕРЖДЕНО, адрес: " + m["addr_confirmed"]
         if m.get("note"):
             cmt += " | " + m["note"]
         chars.append(
@@ -522,8 +528,15 @@ def main(argv=None) -> int:
         # Пословный перевод английских описаний выброшен: он давал
         # «P составляющая карта рециркуляция регулятор» -- выглядит
         # осмысленно и тем обманывает.
-        ru = (ru_name(m.get("name") or "", m.get("note") or "", m.get("nx"))
-              or short_ru(m.get("note") or ""))
+        # Русское название даём, только если ИМЕНИ можно верить. У карт с
+        # оценкой «адрес подтверждён» имя -- догадка выравнивания, и
+        # подписать такую карту по-русски значит выдать догадку за знание.
+        # Исключение -- оси: их название выводится из структуры самого
+        # имени и сверяется с числом точек в карте, то есть проверяется.
+        trusted = m.get("confidence") == "подтверждена"
+        ru = ru_name(m.get("name") or "", m.get("note") or "", m.get("nx")) \
+            if trusted else axis_ru(m.get("name") or "", m.get("nx"))
+        ru = ru or (short_ru(m.get("note") or "") if trusted else "")
         if ru:
             ru_names[nm] = ru
         meta.append(dict(name=nm, start=m.get("data_addr") or m["addr"],
@@ -648,8 +661,14 @@ def main(argv=None) -> int:
     # тракт"), и запомнить её надо в тот момент, когда мы в неё спускаемся.
     for _sec, _node in profile.items():
         collect(_node, _sec)
+    # «Проверенное» -- это и подтверждённые, и те, у кого код доказал
+    # АДРЕС. Вторые тоже настоящие таблицы, просто имя у них из
+    # выравнивания чужого дамоса и доверия не заслуживает. Выбрасывать их
+    # незачем: карта есть, править её можно, а вот верить подписи нельзя,
+    # и это видно по имени.
     if args.min_confidence == "verified":
-        extra = [e for e in extra if e["conf"] == "подтверждена"]
+        extra = [e for e in extra
+                 if e["conf"] in ("подтверждена", "адрес подтверждён")]
     axis_src: dict[str, tuple] = {}
     # адрес описанной вручную оси -> её имя, чтобы не плодить двойников
     by_addr = {a["addr"]: an for an, a in AXES.items()}

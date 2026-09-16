@@ -121,7 +121,7 @@
    "data_width": 1,
    "end": 65675,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Datapoint distribution, speed gradient, 6 datapoints",
    "score": 0.5,
    "refs": 0,
@@ -135,7 +135,7 @@
    "damos_addr": 65668,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x85 @0x834C6C"
+   "addr_confirmed": "код: mov r12, #0x85 @0x834C6C"
   },
   {
    "name": "SNM05DKUB",
@@ -716,7 +716,7 @@
    "data_width": 1,
    "end": 66031,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "RPM threshold in higher gear for AR active",
    "score": 0.5,
    "refs": 0,
@@ -730,7 +730,7 @@
    "damos_addr": 66024,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x1e8] @0x83A9C6"
+   "addr_confirmed": "код: movb RL5, [r4+#0x1e8] @0x83A9C6"
   },
   {
    "name": "KFETAZW",
@@ -815,7 +815,7 @@
    "data_width": 1,
    "end": 66836,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "ignition efficiency depending on delta ignition angle",
    "score": 0.5,
    "refs": 0,
@@ -829,7 +829,7 @@
    "damos_addr": 66770,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x4d3] @0x83B5A6"
+   "addr_confirmed": "код: movb RL5, [r4+#0x4d3] @0x83B5A6"
   },
   {
    "name": "ETALAM",
@@ -973,7 +973,7 @@
    "data_width": 1,
    "end": 67095,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "characteristic minimum charge",
    "score": 0.5,
    "refs": 0,
@@ -987,7 +987,7 @@
    "damos_addr": 67084,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: add DPP0, #0x60d @0x82DF2A"
+   "addr_confirmed": "код: add DPP0, #0x60d @0x82DF2A"
   },
   {
    "name": "RLMNSAN",
@@ -1001,7 +1001,7 @@
    "data_width": 1,
    "end": 67105,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "characteristic minimum charge in overrun",
    "score": 0.5,
    "refs": 0,
@@ -1015,7 +1015,7 @@
    "damos_addr": 67094,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x617 @0x83C2E0"
+   "addr_confirmed": "код: mov r12, #0x617 @0x83C2E0"
   },
   {
    "name": "KFMIRED",
@@ -1029,7 +1029,7 @@
    "data_width": 1,
    "end": 67112,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Map of decreasing control torque for VMAX control",
    "score": 0.5,
    "refs": 0,
@@ -1043,7 +1043,7 @@
    "damos_addr": 67105,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x622 @0x83C3D2"
+   "addr_confirmed": "код: mov r12, #0x622 @0x83C3D2"
   },
   {
    "name": "SBF02MFSB",
@@ -1084,7 +1084,7 @@
    "data_width": 1,
    "end": 67125,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "rough road detection threshold = f (vehicle speed)",
    "score": 0.5,
    "refs": 0,
@@ -1098,7 +1098,7 @@
    "damos_addr": 67119,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x630 @0x83C672"
+   "addr_confirmed": "код: mov r12, #0x630 @0x83C672"
   },
   {
    "name": "FUGKUE",
@@ -1112,7 +1112,7 @@
    "data_width": 1,
    "end": 67384,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Gear box ratio detection",
    "score": 0.5,
    "refs": 0,
@@ -1126,7 +1126,7 @@
    "damos_addr": 67128,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x639] @0x83C9AA"
+   "addr_confirmed": "код: movb RL5, [r4+#0x639] @0x83C9AA"
   },
   {
    "name": "FKODASH",
@@ -1302,7 +1302,7 @@
    "data_width": 1,
    "end": 67682,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "time constant for dash pot decay speed (geardependent)",
    "score": 0.5,
    "refs": 0,
@@ -1316,7 +1316,7 @@
    "damos_addr": 67675,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x85c] @0x83CC08"
+   "addr_confirmed": "код: movb RL5, [r4+#0x85c] @0x83CC08"
   },
   {
    "name": "ZDSHGS",
@@ -1330,7 +1330,7 @@
    "data_width": 1,
    "end": 67688,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "time constant for dash pot decay speed (geardependent)",
    "score": 0.5,
    "refs": 0,
@@ -1344,7 +1344,7 @@
    "damos_addr": 67681,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x862] @0x83CBC8"
+   "addr_confirmed": "код: movb RL5, [r4+#0x862] @0x83CBC8"
   },
   {
    "name": "DZWETA",
@@ -1358,7 +1358,7 @@
    "data_width": 1,
    "end": 67893,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "delta ignition angle from efficiency",
    "score": 0.5,
    "refs": 0,
@@ -1372,7 +1372,7 @@
    "damos_addr": 67691,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x86c] @0x83DA96"
+   "addr_confirmed": "код: movb RL5, [r4+#0x86c] @0x83DA96"
   },
   {
    "name": "KFZWMS",
@@ -1525,7 +1525,7 @@
    "data_width": 1,
    "end": 69383,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Datapoint distribution, set-speed deviation, 06 datapoints., idle-speed control.",
    "score": 0.5,
    "refs": 0,
@@ -1539,7 +1539,7 @@
    "damos_addr": 69376,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf01 @0x83F1DE"
+   "addr_confirmed": "код: mov r12, #0xf01 @0x83F1DE"
   },
   {
    "name": "ZNSMST",
@@ -1553,7 +1553,7 @@
    "data_width": 1,
    "end": 69402,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "time constant for decay of reference speed at start",
    "score": 0.5,
    "refs": 0,
@@ -1567,7 +1567,7 @@
    "damos_addr": 69395,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf14 @0x83ED6C"
+   "addr_confirmed": "код: mov r12, #0xf14 @0x83ED6C"
   },
   {
    "name": "DMLLRIMXN",
@@ -1581,7 +1581,7 @@
    "data_width": 1,
    "end": 69409,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Safety concept: upper limit for dmllri",
    "score": 0.5,
    "refs": 0,
@@ -1595,7 +1595,7 @@
    "damos_addr": 69402,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf1b @0x83F85E"
+   "addr_confirmed": "код: mov r12, #0xf1b @0x83F85E"
   },
   {
    "name": "DMLLRLMNN",
@@ -1609,7 +1609,7 @@
    "data_width": 1,
    "end": 69415,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Lower limit for dmllrl",
    "score": 0.5,
    "refs": 0,
@@ -1623,7 +1623,7 @@
    "damos_addr": 69408,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf21 @0x83F9C8"
+   "addr_confirmed": "код: mov r12, #0xf21 @0x83F9C8"
   },
   {
    "name": "DMLLRLMXN",
@@ -1637,7 +1637,7 @@
    "data_width": 1,
    "end": 69421,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Safety concept: upper limit for dmllrl",
    "score": 0.5,
    "refs": 0,
@@ -1651,7 +1651,7 @@
    "damos_addr": 69414,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf27 @0x83F9AA"
+   "addr_confirmed": "код: mov r12, #0xf27 @0x83F9AA"
   },
   {
    "name": "DMLLRMNN",
@@ -1665,7 +1665,7 @@
    "data_width": 1,
    "end": 69427,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Lower limit for dmllr_w",
    "score": 0.5,
    "refs": 0,
@@ -1679,7 +1679,7 @@
    "damos_addr": 69420,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf2d @0x83F368"
+   "addr_confirmed": "код: mov r12, #0xf2d @0x83F368"
   },
   {
    "name": "DMLLRMXN",
@@ -1693,7 +1693,7 @@
    "data_width": 1,
    "end": 69433,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Safety concept: upper limit for dmllr",
    "score": 0.5,
    "refs": 0,
@@ -1707,7 +1707,7 @@
    "damos_addr": 69426,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf33 @0x83F356"
+   "addr_confirmed": "код: mov r12, #0xf33 @0x83F356"
   },
   {
    "name": "DVNG",
@@ -1721,7 +1721,7 @@
    "data_width": 1,
    "end": 69441,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: D-gain depending of ngfil for vehicle at rest",
    "score": 0.5,
    "refs": 0,
@@ -1735,7 +1735,7 @@
    "damos_addr": 69434,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf3b @0x83F398"
+   "addr_confirmed": "код: mov r12, #0xf3b @0x83F398"
   },
   {
    "name": "DVNGV",
@@ -1749,7 +1749,7 @@
    "data_width": 1,
    "end": 69447,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: D-gain depending of ngfil for vehicle rolling",
    "score": 0.5,
    "refs": 0,
@@ -1763,7 +1763,7 @@
    "damos_addr": 69440,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf41 @0x83F386"
+   "addr_confirmed": "код: mov r12, #0xf41 @0x83F386"
   },
   {
    "name": "FDDN",
@@ -1777,7 +1777,7 @@
    "data_width": 1,
    "end": 69453,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: weightning factor for D-amplification",
    "score": 0.5,
    "refs": 0,
@@ -1791,7 +1791,7 @@
    "damos_addr": 69446,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf47 @0x83F3A8"
+   "addr_confirmed": "код: mov r12, #0xf47 @0x83F3A8"
   },
   {
    "name": "GFDLDN",
@@ -1805,7 +1805,7 @@
    "data_width": 1,
    "end": 69460,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: weightning factor for D-amplification on the air path",
    "score": 0.5,
    "refs": 0,
@@ -1819,7 +1819,7 @@
    "damos_addr": 69453,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf4e @0x83F8B4"
+   "addr_confirmed": "код: mov r12, #0xf4e @0x83F8B4"
   },
   {
    "name": "IVDN",
@@ -1833,7 +1833,7 @@
    "data_width": 1,
    "end": 69466,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: I-gain for vehicle at rest",
    "score": 0.5,
    "refs": 0,
@@ -1847,7 +1847,7 @@
    "damos_addr": 69459,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf54 @0x83F6DA"
+   "addr_confirmed": "код: mov r12, #0xf54 @0x83F6DA"
   },
   {
    "name": "IVDNDTE",
@@ -1861,7 +1861,7 @@
    "data_width": 1,
    "end": 69472,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: I-gain at DTEV",
    "score": 0.5,
    "refs": 0,
@@ -1875,7 +1875,7 @@
    "damos_addr": 69465,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf5a @0x83F6AC"
+   "addr_confirmed": "код: mov r12, #0xf5a @0x83F6AC"
   },
   {
    "name": "PVDN",
@@ -1889,7 +1889,7 @@
    "data_width": 1,
    "end": 69495,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: P-gain for vehicle at rest",
    "score": 0.5,
    "refs": 0,
@@ -1903,7 +1903,7 @@
    "damos_addr": 69488,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf71 @0x83F296"
+   "addr_confirmed": "код: mov r12, #0xf71 @0x83F296"
   },
   {
    "name": "PVLDN",
@@ -1917,7 +1917,7 @@
    "data_width": 1,
    "end": 69513,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: P-gain for vehicle at rest (air path)",
    "score": 0.5,
    "refs": 0,
@@ -1931,7 +1931,7 @@
    "damos_addr": 69506,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf83 @0x83F938"
+   "addr_confirmed": "код: mov r12, #0xf83 @0x83F938"
   },
   {
    "name": "PVLDNV",
@@ -1945,7 +1945,7 @@
    "data_width": 1,
    "end": 69519,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LLR: P-gain for vehicle at rest (air path)",
    "score": 0.5,
    "refs": 0,
@@ -1959,7 +1959,7 @@
    "damos_addr": 69512,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf89 @0x83F90E"
+   "addr_confirmed": "код: mov r12, #0xf89 @0x83F90E"
   },
   {
    "name": "SDN06LLSB",
@@ -1973,7 +1973,7 @@
    "data_width": 1,
    "end": 69525,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "10 Sst.",
    "score": 0.5,
    "refs": 0,
@@ -1987,7 +1987,7 @@
    "damos_addr": 69518,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf8f @0x83F266"
+   "addr_confirmed": "код: mov r12, #0xf8f @0x83F266"
   },
   {
    "name": "SNS206LLSB",
@@ -2001,7 +2001,7 @@
    "data_width": 1,
    "end": 69532,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5,
    "refs": 0,
@@ -2015,7 +2015,7 @@
    "damos_addr": 69525,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf96 @0x83F5BC"
+   "addr_confirmed": "код: mov r12, #0xf96 @0x83F5BC"
   },
   {
    "name": "KLMDLOAD2",
@@ -2083,7 +2083,7 @@
    "data_width": 1,
    "end": 69583,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Delay time after DRIVE-position switch off",
    "score": 0.5,
    "refs": 0,
@@ -2097,7 +2097,7 @@
    "damos_addr": 69576,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xfc9 @0x8407D8"
+   "addr_confirmed": "код: mov r12, #0xfc9 @0x8407D8"
   },
   {
    "name": "TVFSAMR",
@@ -2111,7 +2111,7 @@
    "data_width": 1,
    "end": 69589,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "delay time after DRIVE-position switch off (Reverse)",
    "score": 0.5,
    "refs": 0,
@@ -2125,7 +2125,7 @@
    "damos_addr": 69582,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xfcf @0x8407F8"
+   "addr_confirmed": "код: mov r12, #0xfcf @0x8407F8"
   },
   {
    "name": "TVFSEM",
@@ -2139,7 +2139,7 @@
    "data_width": 1,
    "end": 69595,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "delay time after DRIVE-position switch on",
    "score": 0.5,
    "refs": 0,
@@ -2153,7 +2153,7 @@
    "damos_addr": 69588,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xfd5 @0x8407E8"
+   "addr_confirmed": "код: mov r12, #0xfd5 @0x8407E8"
   },
   {
    "name": "TVFSEMR",
@@ -2167,7 +2167,7 @@
    "data_width": 1,
    "end": 69601,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "delay time after DRIVE-position switch on (Reverse)",
    "score": 0.5,
    "refs": 0,
@@ -2181,7 +2181,7 @@
    "damos_addr": 69594,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xfdb @0x840808"
+   "addr_confirmed": "код: mov r12, #0xfdb @0x840808"
   },
   {
    "name": "UEVERG",
@@ -2195,7 +2195,7 @@
    "data_width": 1,
    "end": 69616,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Gear ratio depending of the gear",
    "score": 0.5,
    "refs": 0,
@@ -2209,7 +2209,7 @@
    "damos_addr": 69601,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0xfe2] @0x8404FA"
+   "addr_confirmed": "код: movb RL5, [r4+#0xfe2] @0x8404FA"
   },
   {
    "name": "ZKMDWAM",
@@ -2223,7 +2223,7 @@
    "data_width": 1,
    "end": 69622,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Time constant for converter torque change",
    "score": 0.5,
    "refs": 0,
@@ -2237,7 +2237,7 @@
    "damos_addr": 69615,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xff0 @0x840770"
+   "addr_confirmed": "код: mov r12, #0xff0 @0x840770"
   },
   {
    "name": "FZN0",
@@ -2251,7 +2251,7 @@
    "data_width": 1,
    "end": 69640,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at neutral camshaft position EV 1",
    "score": 0.5,
    "refs": 0,
@@ -2265,7 +2265,7 @@
    "damos_addr": 69623,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xff8 @0x8429F6"
+   "addr_confirmed": "код: mov r12, #0xff8 @0x8429F6"
   },
   {
    "name": "FZN1",
@@ -2279,7 +2279,7 @@
    "data_width": 1,
    "end": 69656,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at neutral camshaft position EV 1",
    "score": 0.5,
    "refs": 0,
@@ -2293,7 +2293,7 @@
    "damos_addr": 69639,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1008 @0x842A18"
+   "addr_confirmed": "код: mov r12, #0x1008 @0x842A18"
   },
   {
    "name": "FZN2",
@@ -2307,7 +2307,7 @@
    "data_width": 1,
    "end": 69672,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at neutral camshaft position EV 2",
    "score": 0.5,
    "refs": 0,
@@ -2321,7 +2321,7 @@
    "damos_addr": 69655,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1018 @0x842A3A"
+   "addr_confirmed": "код: mov r12, #0x1018 @0x842A3A"
   },
   {
    "name": "FZN3",
@@ -2335,7 +2335,7 @@
    "data_width": 1,
    "end": 69688,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at neutral camshaft position EV 3",
    "score": 0.5,
    "refs": 0,
@@ -2349,7 +2349,7 @@
    "damos_addr": 69671,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1028 @0x842A5C"
+   "addr_confirmed": "код: mov r12, #0x1028 @0x842A5C"
   },
   {
    "name": "FZN4",
@@ -2363,7 +2363,7 @@
    "data_width": 1,
    "end": 69704,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at neutral camshaft position EV 4",
    "score": 0.5,
    "refs": 0,
@@ -2377,7 +2377,7 @@
    "damos_addr": 69687,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1038 @0x851692"
+   "addr_confirmed": "код: mov r12, #0x1038 @0x851692"
   },
   {
    "name": "FZN5",
@@ -2472,7 +2472,7 @@
    "data_width": 1,
    "end": 69768,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at active camshaft position EV 1",
    "score": 0.5,
    "refs": 0,
@@ -2486,7 +2486,7 @@
    "damos_addr": 69751,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1078 @0x8429E8"
+   "addr_confirmed": "код: mov r12, #0x1078 @0x8429E8"
   },
   {
    "name": "FZNWN1",
@@ -2500,7 +2500,7 @@
    "data_width": 1,
    "end": 69784,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at active camshaft position EV 1",
    "score": 0.5,
    "refs": 0,
@@ -2514,7 +2514,7 @@
    "damos_addr": 69767,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1088 @0x842A0A"
+   "addr_confirmed": "код: mov r12, #0x1088 @0x842A0A"
   },
   {
    "name": "FZNWN2",
@@ -2528,7 +2528,7 @@
    "data_width": 1,
    "end": 69800,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at active camshaft position EV 2",
    "score": 0.5,
    "refs": 0,
@@ -2542,7 +2542,7 @@
    "damos_addr": 69783,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1098 @0x842A2C"
+   "addr_confirmed": "код: mov r12, #0x1098 @0x842A2C"
   },
   {
    "name": "FZNWN3",
@@ -2556,7 +2556,7 @@
    "data_width": 1,
    "end": 69816,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Cylinder individual factor at active camshaft position EV 3",
    "score": 0.5,
    "refs": 0,
@@ -2570,7 +2570,7 @@
    "damos_addr": 69799,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x10a8 @0x842A4E"
+   "addr_confirmed": "код: mov r12, #0x10a8 @0x842A4E"
   },
   {
    "name": "FZNWN4",
@@ -3124,13 +3124,13 @@
    "data_width": 1,
    "end": 70367,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6602269056847546,
    "refs": 0,
    "dmin": 0,
    "dmax": 129,
-   "confirmed_by": "код: mov r12, #0x12c1 @0x842B94"
+   "addr_confirmed": "код: mov r12, #0x12c1 @0x842B94"
   },
   {
    "name": "GRID_116_112DF_4x49",
@@ -3163,13 +3163,13 @@
    "data_width": 2,
    "end": 70985,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.7361965045572242,
    "refs": 1,
    "dmin": 3328,
    "dmax": 65213,
-   "confirmed_by": "код: mov r12, #0x13a3 @0x842BAA"
+   "addr_confirmed": "код: mov r12, #0x13a3 @0x842BAA"
   },
   {
    "name": "TKOAMXN",
@@ -3237,13 +3237,13 @@
    "data_width": 1,
    "end": 71032,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.577222850678733,
    "refs": 2,
    "dmin": 115,
    "dmax": 141,
-   "confirmed_by": "код: mov r12, #0x1567 @0x842BFE"
+   "addr_confirmed": "код: mov r12, #0x1567 @0x842BFE"
   },
   {
    "name": "FVRMDYN",
@@ -3284,13 +3284,13 @@
    "data_width": 1,
    "end": 71053,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5799707244008715,
    "refs": 2,
    "dmin": 60,
    "dmax": 87,
-   "confirmed_by": "код: mov r12, #0x1580 @0x843740"
+   "addr_confirmed": "код: mov r12, #0x1580 @0x843740"
   },
   {
    "name": "MAP_123_11595_8",
@@ -3304,13 +3304,13 @@
    "data_width": 1,
    "end": 71078,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6553897404032035,
    "refs": 1,
    "dmin": 68,
    "dmax": 139,
-   "confirmed_by": "код: mov r12, #0x1595 @0x845110"
+   "addr_confirmed": "код: mov r12, #0x1595 @0x845110"
   },
   {
    "name": "MAP_124_115EC_7",
@@ -3324,13 +3324,13 @@
    "data_width": 1,
    "end": 71163,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5680103704217537,
    "refs": 1,
    "dmin": 6,
    "dmax": 59,
-   "confirmed_by": "код: mov r12, #0x15ec @0x84AD12"
+   "addr_confirmed": "код: mov r12, #0x15ec @0x84AD12"
   },
   {
    "name": "MAP_125_115FB_7",
@@ -3390,13 +3390,13 @@
    "data_width": 1,
    "end": 71207,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5263009461426492,
    "refs": 5,
    "dmin": 26,
    "dmax": 255,
-   "confirmed_by": "код: mov r12, #0x1616 @0x84C188"
+   "addr_confirmed": "код: mov r12, #0x1616 @0x84C188"
   },
   {
    "name": "MAP_128_11673_6",
@@ -3410,13 +3410,13 @@
    "data_width": 1,
    "end": 71296,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6115894607843138,
    "refs": 6,
    "dmin": 15,
    "dmax": 90,
-   "confirmed_by": "код: mov r12, #0x1673 @0x850670"
+   "addr_confirmed": "код: mov r12, #0x1673 @0x850670"
   },
   {
    "name": "MAP_129_1168B_6",
@@ -3430,13 +3430,13 @@
    "data_width": 1,
    "end": 71320,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5521384803921568,
    "refs": 1,
    "dmin": 4,
    "dmax": 16,
-   "confirmed_by": "код: mov r12, #0x168b @0x85199E"
+   "addr_confirmed": "код: mov r12, #0x168b @0x85199E"
   },
   {
    "name": "MAP_130_11698_12",
@@ -3450,13 +3450,13 @@
    "data_width": 1,
    "end": 71345,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.7029464285714285,
    "refs": 2,
    "dmin": 4,
    "dmax": 123,
-   "confirmed_by": "код: mov r12, #0x1698 @0x851A20"
+   "addr_confirmed": "код: mov r12, #0x1698 @0x851A20"
   },
   {
    "name": "MAP_131_116B2_6x6",
@@ -3470,13 +3470,13 @@
    "data_width": 1,
    "end": 71396,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.7522266819571864,
    "refs": 1,
    "dmin": 19,
    "dmax": 128,
-   "confirmed_by": "код: mov r12, #0x16b2 @0x8519AC"
+   "addr_confirmed": "код: mov r12, #0x16b2 @0x8519AC"
   },
   {
    "name": "MAP_132_116E5_4",
@@ -3490,13 +3490,13 @@
    "data_width": 1,
    "end": 71406,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6125735294117647,
    "refs": 0,
    "dmin": 4,
    "dmax": 20,
-   "confirmed_by": "код: mov r12, #0x16e4 @0x851A3E"
+   "addr_confirmed": "код: mov r12, #0x16e4 @0x851A3E"
   },
   {
    "name": "KFAGRS",
@@ -3537,13 +3537,13 @@
    "data_width": 1,
    "end": 72113,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.7078125,
    "refs": 1,
    "dmin": 0,
    "dmax": 144,
-   "confirmed_by": "код: mov r12, #0x1985 @0x855EC2"
+   "addr_confirmed": "код: mov r12, #0x1985 @0x855EC2"
   },
   {
    "name": "KFAGRI",
@@ -3584,7 +3584,7 @@
    "data_width": 1,
    "end": 72212,
    "source": "damos-сомнительно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "P component map of EGR controller",
    "score": 0.5,
    "refs": 0,
@@ -3598,7 +3598,7 @@
    "damos_addr": 71754,
    "how": "выравнивание",
    "verify": "не сходится",
-   "confirmed_by": "код: mov r12, #0x19e2 @0x856920"
+   "addr_confirmed": "код: mov r12, #0x19e2 @0x856920"
   },
   {
    "name": "MAP_137_11A1A_6",
@@ -3612,13 +3612,13 @@
    "data_width": 1,
    "end": 72231,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5667043067226891,
    "refs": 26,
    "dmin": 77,
    "dmax": 154,
-   "confirmed_by": "код: mov r12, #0x1a1a @0x8572A2"
+   "addr_confirmed": "код: mov r12, #0x1a1a @0x8572A2"
   },
   {
    "name": "SUA08FEUB",
@@ -3659,13 +3659,13 @@
    "data_width": 1,
    "end": 72378,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.832041015625,
    "refs": 32,
    "dmin": 0,
    "dmax": 128,
-   "confirmed_by": "код: mov r12, #0x1a40 @0x858D00"
+   "addr_confirmed": "код: mov r12, #0x1a40 @0x858D00"
   },
   {
    "name": "FFTEV6",
@@ -3679,7 +3679,7 @@
    "data_width": 1,
    "end": 72381,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "freeze frame table: injector power stage 6",
    "score": 0.5,
    "refs": 0,
@@ -3693,7 +3693,7 @@
    "damos_addr": 71970,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movbz r4, 0x1abb @0x859B1E"
+   "addr_confirmed": "код: movbz r4, 0x1abb @0x859B1E"
   },
   {
    "name": "FFTFRAO",
@@ -3707,7 +3707,7 @@
    "data_width": 1,
    "end": 72383,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "freeze frame table: FRAO mixture adaptation",
    "score": 0.5,
    "refs": 0,
@@ -3721,7 +3721,7 @@
    "damos_addr": 71972,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movbz r13, 0x1abd @0x859DB4"
+   "addr_confirmed": "код: movbz r13, 0x1abd @0x859DB4"
   },
   {
    "name": "FFTFRAU",
@@ -3735,7 +3735,7 @@
    "data_width": 1,
    "end": 72385,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "freeze frame table: FRAU mixture adaptation",
    "score": 0.5,
    "refs": 0,
@@ -3749,7 +3749,7 @@
    "damos_addr": 71974,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movbz r13, 0x1abf @0x859D2A"
+   "addr_confirmed": "код: movbz r13, 0x1abf @0x859D2A"
   },
   {
    "name": "FFTFRST",
@@ -3763,7 +3763,7 @@
    "data_width": 1,
    "end": 72387,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "freeze frame table: deviation of lambda loop control",
    "score": 0.5,
    "refs": 0,
@@ -3777,7 +3777,7 @@
    "damos_addr": 71976,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movbz r13, 0x1ac1 @0x859D86"
+   "addr_confirmed": "код: movbz r13, 0x1ac1 @0x859D86"
   },
   {
    "name": "FFTGE",
@@ -3791,7 +3791,7 @@
    "data_width": 1,
    "end": 72389,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "freeze frame table: transmission intervention",
    "score": 0.5,
    "refs": 0,
@@ -3805,7 +3805,7 @@
    "damos_addr": 71978,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1ac2 @0x859F5E"
+   "addr_confirmed": "код: mov r12, #0x1ac2 @0x859F5E"
   },
   {
    "name": "FFTHSH",
@@ -3819,7 +3819,7 @@
    "data_width": 1,
    "end": 72391,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Table of ambient condition for heating O2-sensor post cat",
    "score": 0.5,
    "refs": 0,
@@ -3833,7 +3833,7 @@
    "damos_addr": 71980,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: cmpb RL3, 0x1ac5 @0x86175C"
+   "addr_confirmed": "код: cmpb RL3, 0x1ac5 @0x86175C"
   },
   {
    "name": "FFTHSHE",
@@ -3847,7 +3847,7 @@
    "data_width": 1,
    "end": 72393,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Table of environmental cond.for output stage heating lambda sens. downstr.of cat",
    "score": 0.5,
    "refs": 0,
@@ -3861,7 +3861,7 @@
    "damos_addr": 71982,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL4, 0x1ac7 @0x8615BE"
+   "addr_confirmed": "код: movb RL4, 0x1ac7 @0x8615BE"
   },
   {
    "name": "FFTHSV",
@@ -3875,7 +3875,7 @@
    "data_width": 1,
    "end": 72395,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Table of ambient condition for heating O2-sensor pre cat",
    "score": 0.5,
    "refs": 0,
@@ -3889,7 +3889,7 @@
    "damos_addr": 71984,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: cmpb RL4, 0x1ac9 @0x861740"
+   "addr_confirmed": "код: cmpb RL4, 0x1ac9 @0x861740"
   },
   {
    "name": "FFTHSVE",
@@ -3903,7 +3903,7 @@
    "data_width": 1,
    "end": 72397,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Freeze frame table: 02 Sensor Heater power stage",
    "score": 0.5,
    "refs": 0,
@@ -3917,7 +3917,7 @@
    "damos_addr": 71986,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1acb @0x859F74"
+   "addr_confirmed": "код: mov r12, #0x1acb @0x859F74"
   },
   {
    "name": "FFTKAT",
@@ -3931,7 +3931,7 @@
    "data_width": 1,
    "end": 72399,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Freeze frame table: catalyst",
    "score": 0.5,
    "refs": 0,
@@ -3945,7 +3945,7 @@
    "damos_addr": 71988,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: cmpb RL1, 0x1acd @0x861778"
+   "addr_confirmed": "код: cmpb RL1, 0x1acd @0x861778"
   },
   {
    "name": "FFTKOSE",
@@ -3959,7 +3959,7 @@
    "data_width": 1,
    "end": 72401,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Freeze frame table: A/C compressor control power stage",
    "score": 0.5,
    "refs": 0,
@@ -3973,7 +3973,7 @@
    "damos_addr": 71990,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, 0x1acf @0x8641EC"
+   "addr_confirmed": "код: movb RL5, 0x1acf @0x8641EC"
   },
   {
    "name": "FFTKPE",
@@ -3987,7 +3987,7 @@
    "data_width": 1,
    "end": 72403,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Freeze frame table: fuel pump relay power stage",
    "score": 0.5,
    "refs": 0,
@@ -4001,7 +4001,7 @@
    "damos_addr": 71992,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL4, 0x1ad1 @0x866212"
+   "addr_confirmed": "код: movb RL4, 0x1ad1 @0x866212"
   },
   {
    "name": "MAP_152_11AD4_16x12",
@@ -4015,13 +4015,13 @@
    "data_width": 2,
    "end": 72818,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.8446722626561123,
    "refs": 2,
    "dmin": 0,
    "dmax": 65483,
-   "confirmed_by": "код: mov r12, #0x1ad4 @0x859F38"
+   "addr_confirmed": "код: mov r12, #0x1ad4 @0x859F38"
   },
   {
    "name": "KFLUAR2",
@@ -4197,7 +4197,7 @@
    "data_width": 1,
    "end": 73369,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "number of combustions for deactivation after detected misfire",
    "score": 0.5,
    "refs": 0,
@@ -4211,7 +4211,7 @@
    "damos_addr": 72952,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r4, #0x1e90 @0x869A04"
+   "addr_confirmed": "код: mov r4, #0x1e90 @0x869A04"
   },
   {
    "name": "MAP_160_11F22_8",
@@ -4225,13 +4225,13 @@
    "data_width": 1,
    "end": 73523,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6741243961352656,
    "refs": 13,
    "dmin": 8,
    "dmax": 146,
-   "confirmed_by": "код: mov r12, #0x1f22 @0x86630E"
+   "addr_confirmed": "код: mov r12, #0x1f22 @0x86630E"
   },
   {
    "name": "KFLURB1",
@@ -4515,13 +4515,13 @@
    "data_width": 1,
    "end": 74977,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6870165937996819,
    "refs": 21,
    "dmin": 33,
    "dmax": 107,
-   "confirmed_by": "код: mov r12, #0x24d3 @0x868944"
+   "addr_confirmed": "код: mov r12, #0x24d3 @0x868944"
   },
   {
    "name": "MAP_172_128BD_21",
@@ -4535,13 +4535,13 @@
    "data_width": 2,
    "end": 76050,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5383005000327661,
    "refs": 1,
    "dmin": 0,
    "dmax": 56220,
-   "confirmed_by": "код: add r4, #0x28e8 @0x84CA72"
+   "addr_confirmed": "код: add r4, #0x28e8 @0x84CA72"
   },
   {
    "name": "SAN12ESUW",
@@ -4582,7 +4582,7 @@
    "data_width": 1,
    "end": 84194,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "set point distribution engine speed",
    "score": 0.5,
    "refs": 0,
@@ -4596,7 +4596,7 @@
    "damos_addr": 84156,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r8, [r4+#0x48d2] @0x8330C6"
+   "addr_confirmed": "код: mov r8, [r4+#0x48d2] @0x8330C6"
   },
   {
    "name": "MAP_175_14915_6",
@@ -4629,7 +4629,7 @@
    "data_width": 1,
    "end": 84282,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Threshold for filter output ndfil",
    "score": 0.5,
    "refs": 0,
@@ -4643,7 +4643,7 @@
    "damos_addr": 84254,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x4934] @0x836344"
+   "addr_confirmed": "код: movb RL5, [r4+#0x4934] @0x836344"
   },
   {
    "name": "TVKUPHS",
@@ -4803,13 +4803,13 @@
    "data_width": 2,
    "end": 84471,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5727079849498328,
    "refs": 1,
    "dmin": 0,
    "dmax": 32890,
-   "confirmed_by": "код: mov r14, #0x49e3 @0x83B654"
+   "addr_confirmed": "код: mov r14, #0x49e3 @0x83B654"
   },
   {
    "name": "MAP_184_14A11_10",
@@ -4823,13 +4823,13 @@
    "data_width": 2,
    "end": 84538,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.713742320907955,
    "refs": 0,
    "dmin": 3932,
    "dmax": 30343,
-   "confirmed_by": "код: mov r12, #0x4a10 @0x83B29C"
+   "addr_confirmed": "код: mov r12, #0x4a10 @0x83B29C"
   },
   {
    "name": "SRL11OPUW",
@@ -5255,7 +5255,7 @@
    "data_width": 1,
    "end": 85371,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5,
    "refs": 0,
@@ -5269,7 +5269,7 @@
    "damos_addr": 85282,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x4d78 @0x83C3B2"
+   "addr_confirmed": "код: mov r12, #0x4d78 @0x83C3B2"
   },
   {
    "name": "KFZWMN",
@@ -5397,13 +5397,13 @@
    "data_width": 1,
    "end": 86018,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6383180147058823,
    "refs": 1,
    "dmin": 0,
    "dmax": 8,
-   "confirmed_by": "код: mov r13, #0x4ff7 @0x83E4B8"
+   "addr_confirmed": "код: mov r13, #0x4ff7 @0x83E4B8"
   },
   {
    "name": "MAP_212_15005_6",
@@ -5644,13 +5644,13 @@
    "data_width": 2,
    "end": 86650,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5939232220336959,
    "refs": 0,
    "dmin": 1688,
    "dmax": 1711,
-   "confirmed_by": "код: mov r15, [r4+#0x5260] @0x842C36"
+   "addr_confirmed": "код: mov r15, [r4+#0x5260] @0x842C36"
   },
   {
    "name": "MAP_222_15281_6",
@@ -6348,7 +6348,7 @@
    "data_width": 2,
    "end": 89630,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "fuel wall hang.up",
    "score": 0.5,
    "refs": 0,
@@ -6362,7 +6362,7 @@
    "damos_addr": 89582,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x5dea @0x84B8DA"
+   "addr_confirmed": "код: mov r12, #0x5dea @0x84B8DA"
   },
   {
    "name": "TVUB",
@@ -6592,7 +6592,7 @@
    "data_width": 2,
    "end": 89960,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "characteristic of Saint-Venant of purge control valve an line AKF-TEV",
    "score": 0.5,
    "refs": 0,
@@ -6606,7 +6606,7 @@
    "damos_addr": 89900,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, [r5+#0x5f4c] @0x8506BE"
+   "addr_confirmed": "код: mov r12, [r5+#0x5f4c] @0x8506BE"
   },
   {
    "name": "MSNTATE",
@@ -6647,13 +6647,13 @@
    "data_width": 2,
    "end": 90041,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.693125,
    "refs": 2,
    "dmin": 1024,
    "dmax": 46080,
-   "confirmed_by": "код: mov r12, #0x5f88 @0x85182E"
+   "addr_confirmed": "код: mov r12, #0x5f88 @0x85182E"
   },
   {
    "name": "CDCAAA",
@@ -6829,7 +6829,7 @@
    "data_width": 1,
    "end": 90117,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "code word CARB: throttle position sensor",
    "score": 0.5,
    "refs": 0,
@@ -6843,7 +6843,7 @@
    "damos_addr": 90194,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x6000 @0x831D08"
+   "addr_confirmed": "код: mov r12, #0x6000 @0x831D08"
   },
   {
    "name": "CDCDUMMY",
@@ -7694,7 +7694,7 @@
    "data_width": 1,
    "end": 90373,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "code word CARB: lambda sensor downstream catalyst",
    "score": 0.5,
    "refs": 0,
@@ -7708,7 +7708,7 @@
    "damos_addr": 90450,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r13, [r2+#0x6100] @0x85219C"
+   "addr_confirmed": "код: mov r13, [r2+#0x6100] @0x85219C"
   },
   {
    "name": "CDCLSV",
@@ -7930,13 +7930,13 @@
    "data_width": 2,
    "end": 90470,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5109327144514547,
    "refs": 1,
    "dmin": 207,
    "dmax": 713,
-   "confirmed_by": "код: mov r14, #0x615c @0x85502A"
+   "addr_confirmed": "код: mov r14, #0x615c @0x85502A"
   },
   {
    "name": "CDCPH",
@@ -8139,7 +8139,7 @@
    "data_width": 1,
    "end": 90533,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "code word CARB: canister purge system",
    "score": 0.5,
    "refs": 0,
@@ -8153,7 +8153,7 @@
    "damos_addr": 90610,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r13, #0x61a1 @0x8564E0"
+   "addr_confirmed": "код: mov r13, #0x61a1 @0x8564E0"
   },
   {
    "name": "CDCTEVE",
@@ -8167,7 +8167,7 @@
    "data_width": 1,
    "end": 90541,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "code word CARB: canister purge valve power stage",
    "score": 0.5,
    "refs": 0,
@@ -8181,7 +8181,7 @@
    "damos_addr": 90618,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r13, #0x61a8 @0x83E582"
+   "addr_confirmed": "код: mov r13, #0x61a8 @0x83E582"
   },
   {
    "name": "CDCTHM",
@@ -9213,7 +9213,7 @@
    "data_width": 1,
    "end": 98967,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "amplification of load controller at AT",
    "score": 0.5,
    "refs": 0,
@@ -9227,7 +9227,7 @@
    "damos_addr": 98960,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x290] @0x83AD0C"
+   "addr_confirmed": "код: movb RL5, [r4+#0x290] @0x83AD0C"
   },
   {
    "name": "FLRAWG",
@@ -9241,7 +9241,7 @@
    "data_width": 1,
    "end": 98973,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "amplification of load controller",
    "score": 0.5,
    "refs": 0,
@@ -9255,7 +9255,7 @@
    "damos_addr": 98966,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x296] @0x83ADB4"
+   "addr_confirmed": "код: movb RL5, [r4+#0x296] @0x83ADB4"
   },
   {
    "name": "FLRHG",
@@ -9269,7 +9269,7 @@
    "data_width": 1,
    "end": 98979,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "amplification of load controller",
    "score": 0.5,
    "refs": 0,
@@ -9283,7 +9283,7 @@
    "damos_addr": 98972,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x29c] @0x83AC60"
+   "addr_confirmed": "код: movb RL5, [r4+#0x29c] @0x83AC60"
   },
   {
    "name": "FRARAG",
@@ -9297,7 +9297,7 @@
    "data_width": 1,
    "end": 98985,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "amplification factor at AT",
    "score": 0.5,
    "refs": 0,
@@ -9311,7 +9311,7 @@
    "damos_addr": 98978,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x2a2] @0x83AD42"
+   "addr_confirmed": "код: movb RL5, [r4+#0x2a2] @0x83AD42"
   },
   {
    "name": "FRARAWG",
@@ -9325,7 +9325,7 @@
    "data_width": 1,
    "end": 98991,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "amplification factor",
    "score": 0.5,
    "refs": 0,
@@ -9339,7 +9339,7 @@
    "damos_addr": 98984,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0x2a8] @0x83ADEA"
+   "addr_confirmed": "код: movb RL5, [r4+#0x2a8] @0x83ADEA"
   },
   {
    "name": "FRARHG",
@@ -9353,7 +9353,7 @@
    "data_width": 1,
    "end": 98997,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "amplification factor",
    "score": 0.5,
    "refs": 0,
@@ -9367,7 +9367,7 @@
    "damos_addr": 98990,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov ADCON, #0x2af @0x832662"
+   "addr_confirmed": "код: mov ADCON, #0x2af @0x832662"
   },
   {
    "name": "RLVMXN",
@@ -9435,7 +9435,7 @@
    "data_width": 1,
    "end": 99052,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Damping ratio for filtering torque on a low clutch torque and op. lockup clutch",
    "score": 0.5,
    "refs": 0,
@@ -9449,7 +9449,7 @@
    "damos_addr": 99045,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x2e6 @0x83BBE8"
+   "addr_confirmed": "код: mov r12, #0x2e6 @0x83BBE8"
   },
   {
    "name": "DFAWKN",
@@ -9463,7 +9463,7 @@
    "data_width": 1,
    "end": 99058,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Damping ratio for filtering torque on an openned lockup clutch",
    "score": 0.5,
    "refs": 0,
@@ -9477,7 +9477,7 @@
    "damos_addr": 99051,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x2ec @0x83BC1E"
+   "addr_confirmed": "код: mov r12, #0x2ec @0x83BC1E"
   },
   {
    "name": "KFDMDFA",
@@ -9653,7 +9653,7 @@
    "data_width": 1,
    "end": 99286,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "lower time constant value for filt. torque on openned lockup clutch",
    "score": 0.5,
    "refs": 0,
@@ -9667,7 +9667,7 @@
    "damos_addr": 99279,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x3d0 @0x83BC5E"
+   "addr_confirmed": "код: mov r12, #0x3d0 @0x83BC5E"
   },
   {
    "name": "ZFAWKN",
@@ -9681,7 +9681,7 @@
    "data_width": 1,
    "end": 99292,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "time constant for filtering motor torque on openned lockup clutch",
    "score": 0.5,
    "refs": 0,
@@ -9695,7 +9695,7 @@
    "damos_addr": 99285,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x3d6 @0x83BC94"
+   "addr_confirmed": "код: mov r12, #0x3d6 @0x83BC94"
   },
   {
    "name": "REDZEM",
@@ -9736,7 +9736,7 @@
    "data_width": 1,
    "end": 99315,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "phase correction",
    "score": 0.5,
    "refs": 0,
@@ -9750,7 +9750,7 @@
    "damos_addr": 99306,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x3eb @0x83DA00"
+   "addr_confirmed": "код: mov r12, #0x3eb @0x83DA00"
   },
   {
    "name": "DZWSPM",
@@ -9764,7 +9764,7 @@
    "data_width": 1,
    "end": 99321,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "delta latest ignition angle relative to engine temperature",
    "score": 0.5,
    "refs": 0,
@@ -9778,7 +9778,7 @@
    "damos_addr": 99314,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x3f3 @0x83E370"
+   "addr_confirmed": "код: mov r12, #0x3f3 @0x83E370"
   },
   {
    "name": "KFTVSA",
@@ -9792,7 +9792,7 @@
    "data_width": 1,
    "end": 99441,
    "source": "damos-сомнительно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Retard time for overrun fuel cut-off",
    "score": 0.5,
    "refs": 0,
@@ -9806,7 +9806,7 @@
    "damos_addr": 99400,
    "how": "выравнивание",
    "verify": "не сходится",
-   "confirmed_by": "код: mov r12, #0x449 @0x83E6D0"
+   "addr_confirmed": "код: mov r12, #0x449 @0x83E6D0"
   },
   {
    "name": "NWECVTM",
@@ -9820,7 +9820,7 @@
    "data_width": 1,
    "end": 99446,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Fuel restart-speed at CVT",
    "score": 0.5,
    "refs": 0,
@@ -9834,7 +9834,7 @@
    "damos_addr": 99440,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x471 @0x83E6AE"
+   "addr_confirmed": "код: mov r12, #0x471 @0x83E6AE"
   },
   {
    "name": "TVSATM",
@@ -9848,7 +9848,7 @@
    "data_width": 1,
    "end": 99451,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "delay time after cranking for fuel cut off",
    "score": 0.5,
    "refs": 0,
@@ -9862,7 +9862,7 @@
    "damos_addr": 99445,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x476 @0x83E69A"
+   "addr_confirmed": "код: mov r12, #0x476 @0x83E69A"
   },
   {
    "name": "DNEVTMOD",
@@ -9957,7 +9957,7 @@
    "data_width": 1,
    "end": 99504,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "desired engine speed DRIVE-position switch on",
    "score": 0.5,
    "refs": 0,
@@ -9971,7 +9971,7 @@
    "damos_addr": 99497,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x4aa @0x83ED0C"
+   "addr_confirmed": "код: mov r12, #0x4aa @0x83ED0C"
   },
   {
    "name": "NLLM",
@@ -9985,7 +9985,7 @@
    "data_width": 1,
    "end": 99510,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "desired engine speed",
    "score": 0.5,
    "refs": 0,
@@ -9999,7 +9999,7 @@
    "damos_addr": 99503,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x4b0 @0x83ECF8"
+   "addr_confirmed": "код: mov r12, #0x4b0 @0x83ECF8"
   },
   {
    "name": "NSLPP",
@@ -10094,7 +10094,7 @@
    "data_width": 1,
    "end": 99551,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "upper integrator limit for standing car",
    "score": 0.5,
    "refs": 0,
@@ -10108,7 +10108,7 @@
    "damos_addr": 99544,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x4d9 @0x83F5F4"
+   "addr_confirmed": "код: mov r12, #0x4d9 @0x83F5F4"
   },
   {
    "name": "LIMXVDNS",
@@ -10122,7 +10122,7 @@
    "data_width": 1,
    "end": 99557,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "upper integrator limit for rolling car",
    "score": 0.5,
    "refs": 0,
@@ -10136,7 +10136,7 @@
    "damos_addr": 99550,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x4df @0x83F5DC"
+   "addr_confirmed": "код: mov r12, #0x4df @0x83F5DC"
   },
   {
    "name": "LISTM",
@@ -10150,7 +10150,7 @@
    "data_width": 1,
    "end": 99563,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "value of idle speed control integrator during start",
    "score": 0.5,
    "refs": 0,
@@ -10164,7 +10164,7 @@
    "damos_addr": 99556,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x4e5 @0x83F482"
+   "addr_confirmed": "код: mov r12, #0x4e5 @0x83F482"
   },
   {
    "name": "DMDKOE",
@@ -10351,13 +10351,13 @@
    "data_width": 1,
    "end": 99959,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6671069075210179,
    "refs": 11,
    "dmin": 23,
    "dmax": 186,
-   "confirmed_by": "код: mov r12, #0x613 @0x843E08"
+   "addr_confirmed": "код: mov r12, #0x613 @0x843E08"
   },
   {
    "name": "FZPUSA",
@@ -10425,7 +10425,7 @@
    "data_width": 1,
    "end": 100008,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Low threshold throttle plate for altitude adaptation",
    "score": 0.5,
    "refs": 0,
@@ -10439,7 +10439,7 @@
    "damos_addr": 99994,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x6a1 @0x84468A"
+   "addr_confirmed": "код: mov r12, #0x6a1 @0x84468A"
   },
   {
    "name": "WPUAVLN",
@@ -10561,13 +10561,13 @@
    "data_width": 1,
    "end": 100213,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6943933823529411,
    "refs": 0,
    "dmin": 0,
    "dmax": 55,
-   "confirmed_by": "код: mov r12, #0x767 @0x8454B0"
+   "addr_confirmed": "код: mov r12, #0x767 @0x8454B0"
   },
   {
    "name": "KFSU",
@@ -10608,13 +10608,13 @@
    "data_width": 1,
    "end": 100263,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6943933823529411,
    "refs": 0,
    "dmin": 0,
    "dmax": 55,
-   "confirmed_by": "код: mov r12, #0x799 @0x8454C4"
+   "addr_confirmed": "код: mov r12, #0x799 @0x8454C4"
   },
   {
    "name": "KFSU2",
@@ -10682,7 +10682,7 @@
    "data_width": 1,
    "end": 100328,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "factor reduction of exhaust gas temperature = f(soak time)",
    "score": 0.5,
    "refs": 0,
@@ -10696,7 +10696,7 @@
    "damos_addr": 100315,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x7e2 @0x845E20"
+   "addr_confirmed": "код: mov r12, #0x7e2 @0x845E20"
   },
   {
    "name": "ATMABKK",
@@ -10710,7 +10710,7 @@
    "data_width": 1,
    "end": 100334,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "factor reduction for catalyst temperature = f(soak time)",
    "score": 0.5,
    "refs": 0,
@@ -10724,7 +10724,7 @@
    "damos_addr": 100321,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x7e8 @0x845E8C"
+   "addr_confirmed": "код: mov r12, #0x7e8 @0x845E8C"
   },
   {
    "name": "FATMRML",
@@ -10738,7 +10738,7 @@
    "data_width": 1,
    "end": 100342,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "divide factor exhaust-/exhaust-pipe temperature",
    "score": 0.5,
    "refs": 0,
@@ -10752,7 +10752,7 @@
    "damos_addr": 100328,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x7ef @0x845B92"
+   "addr_confirmed": "код: mov r12, #0x7ef @0x845B92"
   },
   {
    "name": "KATMEXML",
@@ -10766,7 +10766,7 @@
    "data_width": 1,
    "end": 100352,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Temperature of the exotherme in the catalyst tkatm",
    "score": 0.5,
    "refs": 0,
@@ -10780,7 +10780,7 @@
    "damos_addr": 100338,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x7f9 @0x845CAA"
+   "addr_confirmed": "код: mov r12, #0x7f9 @0x845CAA"
   },
   {
    "name": "KFATMLA",
@@ -10875,7 +10875,7 @@
    "data_width": 1,
    "end": 100512,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Temperature of the exotherme decrease during enrichment",
    "score": 0.5,
    "refs": 0,
@@ -10889,7 +10889,7 @@
    "damos_addr": 100499,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: add DPP0, #0x89a @0x860AA6"
+   "addr_confirmed": "код: add DPP0, #0x89a @0x860AA6"
   },
   {
    "name": "KLATMZWE",
@@ -10903,7 +10903,7 @@
    "data_width": 1,
    "end": 100518,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Temperature of the exotherme decrease in cat during ignition retard tkatm",
    "score": 0.5,
    "refs": 0,
@@ -10917,7 +10917,7 @@
    "damos_addr": 100505,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x8a0 @0x845C7A"
+   "addr_confirmed": "код: mov r12, #0x8a0 @0x845C7A"
   },
   {
    "name": "FRINH1",
@@ -10958,13 +10958,13 @@
    "data_width": 1,
    "end": 100565,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.7001072303921568,
    "refs": 3,
    "dmin": 20,
    "dmax": 100,
-   "confirmed_by": "код: mov r12, #0x8ca @0x847560"
+   "addr_confirmed": "код: mov r12, #0x8ca @0x847560"
   },
   {
    "name": "KFRINH",
@@ -11240,7 +11240,7 @@
    "data_width": 1,
    "end": 101082,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "char.line above nmot,lower rL control limit for controller in front of catalyst",
    "score": 0.5,
    "refs": 0,
@@ -11254,7 +11254,7 @@
    "damos_addr": 101047,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xad1 @0x84B798"
+   "addr_confirmed": "код: mov r12, #0xad1 @0x84B798"
   },
   {
    "name": "KFFTV",
@@ -11457,7 +11457,7 @@
    "data_width": 1,
    "end": 101212,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "delta-tv for cat oxygen neutralization (air mass dependent) bank2",
    "score": 0.5,
    "refs": 0,
@@ -11471,7 +11471,7 @@
    "damos_addr": 101181,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xb56 @0x84C13E"
+   "addr_confirmed": "код: mov r12, #0xb56 @0x84C13E"
   },
   {
    "name": "FKAXAVKAT",
@@ -11566,7 +11566,7 @@
    "data_width": 1,
    "end": 101300,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "tmot-correction of lambda-weighting at catalyst heating",
    "score": 0.5,
    "refs": 0,
@@ -11580,7 +11580,7 @@
    "damos_addr": 101233,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xbaf @0x84D4D8"
+   "addr_confirmed": "код: mov r12, #0xbaf @0x84D4D8"
   },
   {
    "name": "MAP_446_18BBA_4",
@@ -11594,13 +11594,13 @@
    "data_width": 1,
    "end": 101319,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6634191176470589,
    "refs": 0,
    "dmin": 10,
    "dmax": 40,
-   "confirmed_by": "код: mov r12, #0xbb9 @0x84D3F8"
+   "addr_confirmed": "код: mov r12, #0xbb9 @0x84D3F8"
   },
   {
    "name": "KFNLLKHM",
@@ -11668,7 +11668,7 @@
    "data_width": 1,
    "end": 101381,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "LL nominal speed with driving graduations and catalyzer heating",
    "score": 0.5,
    "refs": 0,
@@ -11682,7 +11682,7 @@
    "damos_addr": 101315,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xc01 @0x84D3B2"
+   "addr_confirmed": "код: mov r12, #0xc01 @0x84D3B2"
   },
   {
    "name": "FMDKHFH",
@@ -11696,7 +11696,7 @@
    "data_width": 1,
    "end": 101396,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "altitude correction of torque reserve for catalyst heating",
    "score": 0.5,
    "refs": 0,
@@ -11710,7 +11710,7 @@
    "damos_addr": 101329,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xc0f @0x84D762"
+   "addr_confirmed": "код: mov r12, #0xc0f @0x84D762"
   },
   {
    "name": "FMDKHTM",
@@ -11724,7 +11724,7 @@
    "data_width": 1,
    "end": 101409,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "tmot-correction of torque reserve for catalyst heating",
    "score": 0.5,
    "refs": 0,
@@ -11738,7 +11738,7 @@
    "damos_addr": 101338,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xc18 @0x84D776"
+   "addr_confirmed": "код: mov r12, #0xc18 @0x84D776"
   },
   {
    "name": "MAP_452_18C2A_8",
@@ -11790,13 +11790,13 @@
    "data_width": 1,
    "end": 101591,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.673125,
    "refs": 0,
    "dmin": 0,
    "dmax": 250,
-   "confirmed_by": "код: mov r12, #0xccd @0x84D6D4"
+   "addr_confirmed": "код: mov r12, #0xccd @0x84D6D4"
   },
   {
    "name": "KFEKWTMP",
@@ -11837,13 +11837,13 @@
    "data_width": 1,
    "end": 101626,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.7050595238095237,
    "refs": 0,
    "dmin": 40,
    "dmax": 145,
-   "confirmed_by": "код: mov r12, #0xce8 @0x84D972"
+   "addr_confirmed": "код: mov r12, #0xce8 @0x84D972"
   },
   {
    "name": "KFLMSKH",
@@ -11884,13 +11884,13 @@
    "data_width": 1,
    "end": 101708,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6803984184914842,
    "refs": 0,
    "dmin": 13,
    "dmax": 150,
-   "confirmed_by": "код: mov r12, #0xd3a @0x84D93C"
+   "addr_confirmed": "код: mov r12, #0xd3a @0x84D93C"
   },
   {
    "name": "LMSTMOT",
@@ -11985,7 +11985,7 @@
    "data_width": 1,
    "end": 101816,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "knock sensor for sw-cylinder counter 0-7",
    "score": 0.5,
    "refs": 0,
@@ -11999,7 +11999,7 @@
    "damos_addr": 101828,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xdaf @0x84DCD0"
+   "addr_confirmed": "код: mov r12, #0xdaf @0x84DCD0"
   },
   {
    "name": "KE1N",
@@ -12283,7 +12283,7 @@
    "data_width": 1,
    "end": 101997,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "delta ignition angle knock control distance from mean retarding",
    "score": 0.5,
    "refs": 0,
@@ -12297,7 +12297,7 @@
    "damos_addr": 102001,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xe5d @0x84E464"
+   "addr_confirmed": "код: mov r12, #0xe5d @0x84E464"
   },
   {
    "name": "KRAL1N",
@@ -12311,7 +12311,7 @@
    "data_width": 1,
    "end": 102013,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "load range for adaption maps 1",
    "score": 0.5,
    "refs": 0,
@@ -12325,7 +12325,7 @@
    "damos_addr": 102017,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xe6d @0x84E478"
+   "addr_confirmed": "код: mov r12, #0xe6d @0x84E478"
   },
   {
    "name": "KRAL2N",
@@ -12339,7 +12339,7 @@
    "data_width": 1,
    "end": 102029,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "load range dor adaption maps 2",
    "score": 0.5,
    "refs": 0,
@@ -12353,7 +12353,7 @@
    "damos_addr": 102033,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xe7d @0x84E48C"
+   "addr_confirmed": "код: mov r12, #0xe7d @0x84E48C"
   },
   {
    "name": "MAP_476_18E8E_4",
@@ -12367,13 +12367,13 @@
    "data_width": 1,
    "end": 102043,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5540073529411764,
    "refs": 32,
    "dmin": 15,
    "dmax": 37,
-   "confirmed_by": "код: mov r12, #0xe8d @0x84E3D8"
+   "addr_confirmed": "код: mov r12, #0xe8d @0x84E3D8"
   },
   {
    "name": "KRDWSN",
@@ -12414,7 +12414,7 @@
    "data_width": 1,
    "end": 102165,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "retard step knock occurrence",
    "score": 0.5,
    "refs": 0,
@@ -12428,7 +12428,7 @@
    "damos_addr": 102087,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf05 @0x84EE9E"
+   "addr_confirmed": "код: mov r12, #0xf05 @0x84EE9E"
   },
   {
    "name": "KRMXN",
@@ -12442,7 +12442,7 @@
    "data_width": 1,
    "end": 102181,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "maximum retard adjustment",
    "score": 0.5,
    "refs": 0,
@@ -12456,7 +12456,7 @@
    "damos_addr": 102103,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf15 @0x84EE62"
+   "addr_confirmed": "код: mov r12, #0xf15 @0x84EE62"
   },
   {
    "name": "KRNLZAR",
@@ -12470,7 +12470,7 @@
    "data_width": 1,
    "end": 102189,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "cylinder individual rpm limit for lead by leading cylinder",
    "score": 0.5,
    "refs": 0,
@@ -12484,7 +12484,7 @@
    "damos_addr": 102119,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: movb RL5, [r4+#0xf25] @0x84EA90"
+   "addr_confirmed": "код: movb RL5, [r4+#0xf25] @0x84EA90"
   },
   {
    "name": "KRVFN",
@@ -12498,7 +12498,7 @@
    "data_width": 1,
    "end": 102205,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "number of firings/cyl. or time for ignition advancing",
    "score": 0.5,
    "refs": 0,
@@ -12512,7 +12512,7 @@
    "damos_addr": 102127,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf2d @0x83F368"
+   "addr_confirmed": "код: mov r12, #0xf2d @0x83F368"
   },
   {
    "name": "MAP_482_18F3D_4",
@@ -12526,13 +12526,13 @@
    "data_width": 2,
    "end": 102218,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6563602941176471,
    "refs": 5,
    "dmin": 7192,
    "dmax": 13360,
-   "confirmed_by": "код: mov r12, #0xf3d @0x84EE8A"
+   "addr_confirmed": "код: mov r12, #0xf3d @0x84EE8A"
   },
   {
    "name": "LKRN",
@@ -12546,7 +12546,7 @@
    "data_width": 1,
    "end": 102237,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "load-signal threshold knock control",
    "score": 0.5,
    "refs": 0,
@@ -12560,7 +12560,7 @@
    "damos_addr": 102159,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xf4d @0x84EE4E"
+   "addr_confirmed": "код: mov r12, #0xf4d @0x84EE4E"
   },
   {
    "name": "MAP_484_18F61_4",
@@ -12593,13 +12593,13 @@
    "data_width": 1,
    "end": 102266,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6351838235294118,
    "refs": 0,
    "dmin": 10,
    "dmax": 16,
-   "confirmed_by": "код: mov r12, #0xf71 @0x83F296"
+   "addr_confirmed": "код: mov r12, #0xf71 @0x83F296"
   },
   {
    "name": "MAP_486_18FA2_4",
@@ -12613,13 +12613,13 @@
    "data_width": 1,
    "end": 102315,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6351838235294118,
    "refs": 4,
    "dmin": 10,
    "dmax": 16,
-   "confirmed_by": "код: mov r12, #0xfa2 @0x8402EA"
+   "addr_confirmed": "код: mov r12, #0xfa2 @0x8402EA"
   },
   {
    "name": "MAP_487_18FB2_4",
@@ -12652,7 +12652,7 @@
    "data_width": 1,
    "end": 102353,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Throttle valve angle threshold for idle detection",
    "score": 0.5,
    "refs": 0,
@@ -12666,7 +12666,7 @@
    "damos_addr": 102284,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0xfca @0x8506E0"
+   "addr_confirmed": "код: mov r12, #0xfca @0x8506E0"
   },
   {
    "name": "MAP_489_18FD6_4",
@@ -12680,13 +12680,13 @@
    "data_width": 1,
    "end": 102367,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6314217032967032,
    "refs": 7,
    "dmin": 75,
    "dmax": 166,
-   "confirmed_by": "код: mov r12, #0xfdb @0x840808"
+   "addr_confirmed": "код: mov r12, #0xfdb @0x840808"
   },
   {
    "name": "KFWEE",
@@ -12754,7 +12754,7 @@
    "data_width": 1,
    "end": 102528,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Datapoint distribution mixture control 8 nmot datapoints",
    "score": 0.5,
    "refs": 0,
@@ -12768,7 +12768,7 @@
    "damos_addr": 102458,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1078 @0x8429E8"
+   "addr_confirmed": "код: mov r12, #0x1078 @0x8429E8"
   },
   {
    "name": "MAP_493_19081_8",
@@ -12782,13 +12782,13 @@
    "data_width": 1,
    "end": 102546,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6980285234899328,
    "refs": 6,
    "dmin": 8,
    "dmax": 157,
-   "confirmed_by": "код: mov r12, #0x1081 @0x8515DE"
+   "addr_confirmed": "код: mov r12, #0x1081 @0x8515DE"
   },
   {
    "name": "WEAN",
@@ -12802,7 +12802,7 @@
    "data_width": 1,
    "end": 102555,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "angle injection break off",
    "score": 0.5,
    "refs": 0,
@@ -12816,7 +12816,7 @@
    "damos_addr": 102485,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1093 @0x8516F2"
+   "addr_confirmed": "код: mov r12, #0x1093 @0x8516F2"
   },
   {
    "name": "WEEM",
@@ -12830,7 +12830,7 @@
    "data_width": 1,
    "end": 102563,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "correction of prestorage angle",
    "score": 0.5,
    "refs": 0,
@@ -12844,7 +12844,7 @@
    "damos_addr": 102493,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x109b @0x8516AA"
+   "addr_confirmed": "код: mov r12, #0x109b @0x8516AA"
   },
   {
    "name": "WEEMRFAN",
@@ -12858,7 +12858,7 @@
    "data_width": 1,
    "end": 102571,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "end of injection angle at max relative driver request",
    "score": 0.5,
    "refs": 0,
@@ -12872,7 +12872,7 @@
    "damos_addr": 102501,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x10a3 @0x851640"
+   "addr_confirmed": "код: mov r12, #0x10a3 @0x851640"
   },
   {
    "name": "WEESTM",
@@ -12886,7 +12886,7 @@
    "data_width": 1,
    "end": 102579,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "correction of pretiming of injection during start",
    "score": 0.5,
    "refs": 0,
@@ -12900,7 +12900,7 @@
    "damos_addr": 102509,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x10ab @0x8516D8"
+   "addr_confirmed": "код: mov r12, #0x10ab @0x8516D8"
   },
   {
    "name": "WEESTN",
@@ -12941,7 +12941,7 @@
    "data_width": 1,
    "end": 102597,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "Switchover threshold pattern angle",
    "score": 0.5,
    "refs": 0,
@@ -12955,7 +12955,7 @@
    "damos_addr": 102526,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x10bc @0x8515F6"
+   "addr_confirmed": "код: mov r12, #0x10bc @0x8515F6"
   },
   {
    "name": "KFLF",
@@ -12996,7 +12996,7 @@
    "data_width": 1,
    "end": 102833,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "weighting of factor start",
    "score": 0.5,
    "refs": 0,
@@ -13010,7 +13010,7 @@
    "damos_addr": 102766,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x11ac @0x851A5A"
+   "addr_confirmed": "код: mov r12, #0x11ac @0x851A5A"
   },
   {
    "name": "FNSA",
@@ -13024,7 +13024,7 @@
    "data_width": 1,
    "end": 102843,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "after start increase",
    "score": 0.5,
    "refs": 0,
@@ -13038,7 +13038,7 @@
    "damos_addr": 102775,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x11b5 @0x851CFC"
+   "addr_confirmed": "код: mov r12, #0x11b5 @0x851CFC"
   },
   {
    "name": "FNSHO",
@@ -13052,7 +13052,7 @@
    "data_width": 1,
    "end": 102848,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "weighting of afterstart enrichment",
    "score": 0.5,
    "refs": 0,
@@ -13066,7 +13066,7 @@
    "damos_addr": 102781,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x11bb @0x851D9C"
+   "addr_confirmed": "код: mov r12, #0x11bb @0x851D9C"
   },
   {
    "name": "SZANSSM2",
@@ -13296,13 +13296,13 @@
    "data_width": 1,
    "end": 103411,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.641030724789916,
    "refs": 4,
    "dmin": 64,
    "dmax": 128,
-   "confirmed_by": "код: mov r12, #0x13e0 @0x85235C"
+   "addr_confirmed": "код: mov r12, #0x13e0 @0x85235C"
   },
   {
    "name": "ZBALM",
@@ -13527,13 +13527,13 @@
    "data_width": 1,
    "end": 104195,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6524356617647059,
    "refs": 15,
    "dmin": 35,
    "dmax": 55,
-   "confirmed_by": "код: mov r12, #0x16fe @0x851A0C"
+   "addr_confirmed": "код: mov r12, #0x16fe @0x851A0C"
   },
   {
    "name": "FQTEVA",
@@ -13574,13 +13574,13 @@
    "data_width": 1,
    "end": 104234,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6351715686274509,
    "refs": 0,
    "dmin": 24,
    "dmax": 211,
-   "confirmed_by": "код: mov r12, #0x1718 @0x8568A2"
+   "addr_confirmed": "код: mov r12, #0x1718 @0x8568A2"
   },
   {
    "name": "KFTKONS",
@@ -13621,13 +13621,13 @@
    "data_width": 1,
    "end": 104315,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.617530637254902,
    "refs": 2,
    "dmin": 0,
    "dmax": 255,
-   "confirmed_by": "код: mov r12, #0x176e @0x857654"
+   "addr_confirmed": "код: mov r12, #0x176e @0x857654"
   },
   {
    "name": "MAP_526_1977E_5",
@@ -13660,13 +13660,13 @@
    "data_width": 1,
    "end": 104363,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6904017857142857,
    "refs": 2,
    "dmin": 16,
    "dmax": 128,
-   "confirmed_by": "код: mov r12, #0x179e @0x85741E"
+   "addr_confirmed": "код: mov r12, #0x179e @0x85741E"
   },
   {
    "name": "GRID_528_197BC_10x10",
@@ -13680,13 +13680,13 @@
    "data_width": 1,
    "end": 104480,
    "source": "gridscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.9966666666666667,
    "refs": 0,
    "dmin": 2,
    "dmax": 5,
-   "confirmed_by": "код: mov r12, #0x17bc @0x8574EE"
+   "addr_confirmed": "код: mov r12, #0x17bc @0x8574EE"
   },
   {
    "name": "KFFTEAX",
@@ -13808,13 +13808,13 @@
    "data_width": 2,
    "end": 104644,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6498315449422394,
    "refs": 3,
    "dmin": 100,
    "dmax": 65254,
-   "confirmed_by": "код: mov r12, #0x18b4 @0x857944"
+   "addr_confirmed": "код: mov r12, #0x18b4 @0x857944"
   },
   {
    "name": "KFTEVP",
@@ -13909,13 +13909,13 @@
    "data_width": 1,
    "end": 104813,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5933558006535948,
    "refs": 1,
    "dmin": 0,
    "dmax": 255,
-   "confirmed_by": "код: mov r12, #0x1950 @0x858182"
+   "addr_confirmed": "код: mov r12, #0x1950 @0x858182"
   },
   {
    "name": "KFMDDAGR",
@@ -13956,7 +13956,7 @@
    "data_width": 1,
    "end": 104994,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "proportion factor to decrease waiting time up to tmot-threshold for closed loop",
    "score": 0.5,
    "refs": 0,
@@ -13970,7 +13970,7 @@
    "damos_addr": 104786,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1a1a @0x8572A2"
+   "addr_confirmed": "код: mov r12, #0x1a1a @0x8572A2"
   },
   {
    "name": "TMLRTMS",
@@ -13984,7 +13984,7 @@
    "data_width": 1,
    "end": 105002,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "engine temp. threshold for lambda control depending on cranking temp. tmst",
    "score": 0.5,
    "refs": 0,
@@ -13998,7 +13998,7 @@
    "damos_addr": 104809,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1a25 @0x8604D6"
+   "addr_confirmed": "код: mov r12, #0x1a25 @0x8604D6"
   },
   {
    "name": "MAP_541_19A2F_20",
@@ -14012,13 +14012,13 @@
    "data_width": 1,
    "end": 105048,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.7080324074074074,
    "refs": 5,
    "dmin": 11,
    "dmax": 251,
-   "confirmed_by": "код: mov r12, #0x1a2f @0x860424"
+   "addr_confirmed": "код: mov r12, #0x1a2f @0x860424"
   },
   {
    "name": "TWLRTMS",
@@ -14032,7 +14032,7 @@
    "data_width": 1,
    "end": 105054,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "waiting time up to check engine temp. signal exceeding threshold for closed loop",
    "score": 0.5,
    "refs": 0,
@@ -14046,7 +14046,7 @@
    "damos_addr": 104861,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1a59 @0x860534"
+   "addr_confirmed": "код: mov r12, #0x1a59 @0x860534"
   },
   {
    "name": "MAP_543_19A6B_20",
@@ -14060,13 +14060,13 @@
    "data_width": 1,
    "end": 105108,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.730349680432645,
    "refs": 1,
    "dmin": 11,
    "dmax": 237,
-   "confirmed_by": "код: mov r12, #0x1a6b @0x860EC2"
+   "addr_confirmed": "код: mov r12, #0x1a6b @0x860EC2"
   },
   {
    "name": "MAP_544_19AAC_4",
@@ -14080,13 +14080,13 @@
    "data_width": 1,
    "end": 105141,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5556274108003857,
    "refs": 3,
    "dmin": 57,
    "dmax": 118,
-   "confirmed_by": "код: mov r12, #0x1aab @0x8616A0"
+   "addr_confirmed": "код: mov r12, #0x1aab @0x8616A0"
   },
   {
    "name": "KFIDTHM",
@@ -14127,7 +14127,7 @@
    "data_width": 1,
    "end": 105175,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "dmrkh-depen. engine roughness reference correction value, during cat heating",
    "score": 0.5,
    "refs": 0,
@@ -14141,7 +14141,7 @@
    "damos_addr": 104982,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1ad2 @0x8666FA"
+   "addr_confirmed": "код: mov r12, #0x1ad2 @0x8666FA"
   },
   {
    "name": "AINTKAN",
@@ -14155,7 +14155,7 @@
    "data_width": 1,
    "end": 105187,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "number of interval misfire frequency at which ti- cutoff",
    "score": 0.5,
    "refs": 0,
@@ -14169,7 +14169,7 @@
    "damos_addr": 104991,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1adb @0x868828"
+   "addr_confirmed": "код: mov r12, #0x1adb @0x868828"
   },
   {
    "name": "SLX06TMUW",
@@ -14183,7 +14183,7 @@
    "data_width": 1,
    "end": 105452,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "lamsbg dependet basic point (number 6)",
    "score": 0.5,
    "refs": 0,
@@ -14197,7 +14197,7 @@
    "damos_addr": 105258,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1be6 @0x834F66"
+   "addr_confirmed": "код: mov r12, #0x1be6 @0x834F66"
   },
   {
    "name": "SML07TMUW",
@@ -14211,7 +14211,7 @@
    "data_width": 1,
    "end": 105467,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "ml dependet basic point (number 7)",
    "score": 0.5,
    "refs": 0,
@@ -14225,7 +14225,7 @@
    "damos_addr": 105272,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1bf4 @0x834F4E"
+   "addr_confirmed": "код: mov r12, #0x1bf4 @0x834F4E"
   },
   {
    "name": "SRL04DYUB",
@@ -14239,7 +14239,7 @@
    "data_width": 1,
    "end": 105480,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "basepoint distribution of rl, 4 basepoints",
    "score": 0.5,
    "refs": 0,
@@ -14253,7 +14253,7 @@
    "damos_addr": 105288,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x1c04 @0x834B2C"
+   "addr_confirmed": "код: mov r12, #0x1c04 @0x834B2C"
   },
   {
    "name": "KFDMDARO",
@@ -14402,7 +14402,7 @@
    "data_width": 1,
    "end": 108120,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "upper clutch torque threshold for antijerking function",
    "score": 0.5,
    "refs": 0,
@@ -14416,7 +14416,7 @@
    "damos_addr": 107926,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x2652 @0x83BB30"
+   "addr_confirmed": "код: mov r12, #0x2652 @0x83BB30"
   },
   {
    "name": "MKLWOWKN",
@@ -14430,7 +14430,7 @@
    "data_width": 1,
    "end": 108132,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "upper clutch torque threshold for antijerking on an openned lockup clutch",
    "score": 0.5,
    "refs": 0,
@@ -14444,7 +14444,7 @@
    "damos_addr": 107938,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x265e @0x83BB12"
+   "addr_confirmed": "код: mov r12, #0x265e @0x83BB12"
   },
   {
    "name": "MKLWSAN",
@@ -14458,7 +14458,7 @@
    "data_width": 1,
    "end": 108144,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "lower clutch torque threshold for antijerking on fuell cutoff restart",
    "score": 0.5,
    "refs": 0,
@@ -14472,7 +14472,7 @@
    "damos_addr": 107950,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x266a @0x83BB80"
+   "addr_confirmed": "код: mov r12, #0x266a @0x83BB80"
   },
   {
    "name": "MKLWUN",
@@ -14486,7 +14486,7 @@
    "data_width": 1,
    "end": 108156,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "lower clutch torque threshold for antijerking",
    "score": 0.5,
    "refs": 0,
@@ -14500,7 +14500,7 @@
    "damos_addr": 107962,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x2676 @0x83BB9E"
+   "addr_confirmed": "код: mov r12, #0x2676 @0x83BB9E"
   },
   {
    "name": "MKLWUWKN",
@@ -14514,7 +14514,7 @@
    "data_width": 1,
    "end": 108168,
    "source": "damos-вероятно",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "lower clutch torque threshold for antijerking on an openned lockup clutch",
    "score": 0.5,
    "refs": 0,
@@ -14528,7 +14528,7 @@
    "damos_addr": 107974,
    "how": "выравнивание",
    "verify": "нечего проверять",
-   "confirmed_by": "код: mov r12, #0x2682 @0x83BB5A"
+   "addr_confirmed": "код: mov r12, #0x2682 @0x83BB5A"
   },
   {
    "name": "MAP_561_1A692_12",
@@ -14542,13 +14542,13 @@
    "data_width": 2,
    "end": 108215,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6023274780188019,
    "refs": 1,
    "dmin": 5,
    "dmax": 32874,
-   "confirmed_by": "код: mov r4, #0x269f @0x83E348"
+   "addr_confirmed": "код: mov r4, #0x269f @0x83E348"
   },
   {
    "name": "KFDZWKG",
@@ -14643,13 +14643,13 @@
    "data_width": 2,
    "end": 108637,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5894015556533463,
    "refs": 8,
    "dmin": 0,
    "dmax": 26701,
-   "confirmed_by": "код: mov r4, #0x2851 @0x83E50E"
+   "addr_confirmed": "код: mov r4, #0x2851 @0x83E50E"
   },
   {
    "name": "MAP_566_1A88A_6",
@@ -14663,13 +14663,13 @@
    "data_width": 2,
    "end": 108701,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5708386621608872,
    "refs": 5,
    "dmin": 0,
    "dmax": 13100,
-   "confirmed_by": "код: mov r4, #0x2891 @0x840358"
+   "addr_confirmed": "код: mov r4, #0x2891 @0x840358"
   },
   {
    "name": "KFPSDMX",
@@ -14859,13 +14859,13 @@
    "data_width": 2,
    "end": 110064,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6391370924638675,
    "refs": 0,
    "dmin": 2800,
    "dmax": 12000,
-   "confirmed_by": "код: mov r4, #0x2de6 @0x84428C"
+   "addr_confirmed": "код: mov r4, #0x2de6 @0x84428C"
   },
   {
    "name": "MAP_576_1AEC3_6",
@@ -14879,13 +14879,13 @@
    "data_width": 1,
    "end": 110288,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6563541666666667,
    "refs": 0,
    "dmin": 0,
    "dmax": 150,
-   "confirmed_by": "код: mov r12, #0x2ec2 @0x84519C"
+   "addr_confirmed": "код: mov r12, #0x2ec2 @0x84519C"
   },
   {
    "name": "MAP_577_1AF14_6",
@@ -14899,13 +14899,13 @@
    "data_width": 2,
    "end": 110381,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.7182291666666666,
    "refs": 0,
    "dmin": 33280,
    "dmax": 64000,
-   "confirmed_by": "код: mov r12, #0x2f14 @0x845476"
+   "addr_confirmed": "код: mov r12, #0x2f14 @0x845476"
   },
   {
    "name": "MAP_578_1B0C2_5",
@@ -15100,13 +15100,13 @@
    "data_width": 1,
    "end": 111792,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6827825670498084,
    "refs": 0,
    "dmin": 23,
    "dmax": 197,
-   "confirmed_by": "код: mov r4, #0x34a8 @0x851CB2"
+   "addr_confirmed": "код: mov r4, #0x34a8 @0x851CB2"
   },
   {
    "name": "KFZKPUA",
@@ -15147,13 +15147,13 @@
    "data_width": 2,
    "end": 112116,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.47767147335587934,
    "refs": 0,
    "dmin": 5,
    "dmax": 9805,
-   "confirmed_by": "код: mov r4, #0x35e8 @0x8548B4"
+   "addr_confirmed": "код: mov r4, #0x35e8 @0x8548B4"
   },
   {
    "name": "MAP_588_1B612_5",
@@ -15167,13 +15167,13 @@
    "data_width": 2,
    "end": 112162,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.4181469843468945,
    "refs": 0,
    "dmin": 52,
    "dmax": 170,
-   "confirmed_by": "код: mov r4, #0x3618 @0x8548E8"
+   "addr_confirmed": "код: mov r4, #0x3618 @0x8548E8"
   },
   {
    "name": "PAGAVML",
@@ -15538,13 +15538,13 @@
    "data_width": 1,
    "end": 112843,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.5448539624183006,
    "refs": 2,
    "dmin": 0,
    "dmax": 255,
-   "confirmed_by": "код: mov r12, #0x38c0 @0x8574BA"
+   "addr_confirmed": "код: mov r12, #0x38c0 @0x8574BA"
   },
   {
    "name": "MAP_603_1B91F_5",
@@ -15558,13 +15558,13 @@
    "data_width": 1,
    "end": 112938,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6280729166666666,
    "refs": 1,
    "dmin": 13,
    "dmax": 133,
-   "confirmed_by": "код: mov r4, #0x3925 @0x85748A"
+   "addr_confirmed": "код: mov r4, #0x3925 @0x85748A"
   },
   {
    "name": "LAMKAML",
@@ -15686,13 +15686,13 @@
    "data_width": 1,
    "end": 113141,
    "source": "mapscan",
-   "confidence": "подтверждена",
+   "confidence": "адрес подтверждён",
    "note": "",
    "score": 0.6940542035398231,
    "refs": 0,
    "dmin": 24,
    "dmax": 137,
-   "confirmed_by": "код: mov r13, #0x39ec @0x860A7C"
+   "addr_confirmed": "код: mov r13, #0x39ec @0x860A7C"
   },
   {
    "name": "KFDYESOF",
