@@ -44,6 +44,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.tree = MapTree()
         self.tree.selected.connect(self.open_map)
+        self.tree.groups_changed.connect(self._groups_changed)
 
         # Сравнение -- соседняя вкладка того же места, где дерево, а не
         # отдельное окно: список изменённых карт это тот же список карт,
@@ -139,6 +140,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.act_shade = QtGui.QAction("Заливка по значению", self,
                                        checkable=True, checked=True,
                                        triggered=self._toggle_shading)
+        self.act_group_auto = QtGui.QAction(
+            "Группировка из описания", self, checkable=True, checked=True,
+            triggered=lambda: self._set_group_mode("auto"))
+        self.act_group_user = QtGui.QAction(
+            "Своя группировка", self, checkable=True,
+            triggered=lambda: self._set_group_mode("user"))
+        g = QtGui.QActionGroup(self)
+        g.addAction(self.act_group_auto)
+        g.addAction(self.act_group_user)
         self.act_plots = QtGui.QAction("Графики", self, checkable=True,
                                        checked=True,
                                        triggered=self._toggle_plots)
@@ -195,6 +205,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def _build_menu(self) -> None:
         m = self.menuBar().addMenu("Файл")
         m.addAction(self.act_open)
+        self.menu_recent = m.addMenu("Недавние")
+        self._fill_recent()
         m.addAction(self.act_bin)
         m.addAction(self.act_diff)
         m.addSeparator()
@@ -212,6 +224,9 @@ class MainWindow(QtWidgets.QMainWindow):
         m = self.menuBar().addMenu("Вид")
         m.addAction(self.act_shade)
         m.addAction(self.act_plots)
+        m.addSeparator()
+        m.addAction(self.act_group_auto)
+        m.addAction(self.act_group_user)
 
     # -- открытие и сохранение -------------------------------------------
 
@@ -239,6 +254,59 @@ class MainWindow(QtWidgets.QMainWindow):
             self.grid.setRowCount(0)
             self.grid.setColumnCount(0)
             self._update_title()
+
+    # -- недавние файлы ---------------------------------------------------
+
+    def _recent(self) -> list:
+        raw = self.settings.value("recent") or []
+        if isinstance(raw, str):
+            raw = [raw]
+        out = []
+        for item in raw:
+            pair = item.split("|", 1)
+            if len(pair) == 2 and all(os.path.exists(x) for x in pair):
+                out.append((pair[0], pair[1]))
+        return out
+
+    def _remember(self, a2l: str, binp: str) -> None:
+        items = [(a2l, binp)] + [p for p in self._recent() if p != (a2l, binp)]
+        self.settings.setValue("recent",
+                               ["%s|%s" % p for p in items[:8]])
+        self._fill_recent()
+
+    def _fill_recent(self) -> None:
+        self.menu_recent.clear()
+        items = self._recent()
+        if not items:
+            act = self.menu_recent.addAction("пусто")
+            act.setEnabled(False)
+            return
+        for a2l, binp in items:
+            title = "%s  —  %s" % (os.path.basename(binp),
+                                   os.path.basename(a2l))
+            self.menu_recent.addAction(
+                title, lambda _=False, a=a2l, b=binp: self.load(a, b))
+
+    # -- группировка ------------------------------------------------------
+
+    def _set_group_mode(self, mode: str) -> None:
+        if not self.project:
+            return
+        self.project.group_mode = mode
+        self.project.save_project_file()
+        self.tree.set_project(self.project)
+        self.tree.mark_changed(self.project.changed_maps())
+        self.statusBar().showMessage(
+            "Группировка: " + ("своя" if mode == "user" else "из описания"))
+
+    def _groups_changed(self) -> None:
+        self.tree.mark_changed(self.project.changed_maps())
+        n = sum(len(v) for v in self.project.user_groups.values())
+        self.statusBar().showMessage(
+            "Своих групп: %d, в них карт: %d%s"
+            % (len(self.project.user_groups), n,
+               "" if self.project.group_mode == "user"
+               else "  (показать: Вид -> Своя группировка)"))
 
     def ask_diff(self) -> None:
         self.left.setCurrentWidget(self.diff)
@@ -275,7 +343,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.settings.setValue("last_dir", os.path.dirname(bin_path))
         self.settings.setValue("last_a2l", a2l_path)
         self.settings.setValue("last_bin", bin_path)
+        self._remember(a2l_path, bin_path)
         self.chk_csum.setChecked(self.project.fix_checksums)
+        (self.act_group_user if self.project.group_mode == "user"
+         else self.act_group_auto).setChecked(True)
         self.tree.set_project(self.project)
         self.diff.set_project(self.project)
         for a in (self.act_save, self.act_save_as, self.act_bin,

@@ -6,14 +6,19 @@
 ни про то, откуда взялось дерево. Всё это здесь, и то же самое доступно
 из командной строки -- иначе проверять пришлось бы мышью.
 
-Про дерево. Источников группировки три, и берутся они по очереди:
+Про дерево. Группировок две, и переключаются они явно, а не сами:
 
-1. СВОИ ГРУППЫ из файла проекта (*.ktp) -- то, что человек собрал руками.
-2. БЛОКИ GROUP из A2L -- стандарт ASAP2; наш генератор их теперь пишет,
-   и чужие файлы их тоже приносят.
-3. ПО ПЕРВЫМ БУКВАМ ИМЕНИ -- запасной случай для A2L без групп. Bosch
-   именует по приставкам (KF... -- карта, KL... -- кривая, ...), так что
-   даже такое дерево лучше плоского списка на восемьсот строк.
+* ИЗ ОПИСАНИЯ -- блоки GROUP из A2L (стандарт ASAP2; наш генератор их
+  пишет, чужие файлы приносят свои). Если групп нет, раскладываем ПО
+  ПЕРВЫМ БУКВАМ ИМЕНИ: Bosch именует по приставкам (KF... -- карта,
+  KL... -- кривая), и даже такое дерево лучше плоского списка на
+  восемьсот строк.
+* СВОЯ -- то, что человек собрал руками; живёт в файле проекта (*.ktp).
+
+Раньше своя группировка просто перебивала описание, стоило завести одну
+группу. Это неверно: собрав папку "над чем работаю", человек терял
+разбивку по контурам целиком. Теперь режим переключается в меню "Вид", и
+своя группировка ничего не прячет, пока её не выбрали.
 
 Заголовки групп в A2L записаны транслитом: файл делается ASCII-only ради
 старых версий WinOLS. Здесь они переводятся обратно по таблице
@@ -82,6 +87,7 @@ class Project:
     user_groups: dict = field(default_factory=dict)     # заголовок -> [имена]
     fix_checksums: bool = True
     csum_table: int = -1
+    group_mode: str = "auto"        # auto -- из описания, user -- своя
 
     # -- открытие --------------------------------------------------------
 
@@ -115,15 +121,14 @@ class Project:
         titles = _titles()
         known = set(self.layouts)
 
-        if self.user_groups:
+        if self.group_mode == "user":
             for title, names in self.user_groups.items():
-                kept = [n for n in names if n in known]
-                if kept:
-                    root.children.append(TreeNode(title, kept))
+                root.children.append(
+                    TreeNode(title, [n for n in names if n in known]))
             placed = {n for c in root.children for n in c.maps}
             rest = sorted(known - placed)
             if rest:
-                root.children.append(TreeNode("Остальное", rest))
+                root.children.append(TreeNode("Вне своих групп", rest))
             return root
 
         groups = [g for g in self.a2l.groups.values() if not g.root]
@@ -164,6 +169,35 @@ class Project:
             if t in hay:
                 out.append(name)
         return out
+
+    # -- свои группы -----------------------------------------------------
+
+    def add_to_group(self, title: str, names) -> None:
+        """
+        Положить карты в свою группу. Карта может лежать только в одной:
+        иначе «сколько всего карт» перестаёт сходиться, а перекладывание
+        из группы в группу превращается в поиск, где ещё она осталась.
+        """
+        names = [n for n in names if n in self.layouts]
+        for other, lst in self.user_groups.items():
+            if other != title:
+                self.user_groups[other] = [n for n in lst if n not in names]
+        cur = self.user_groups.setdefault(title, [])
+        cur.extend(n for n in names if n not in cur)
+
+    def remove_from_group(self, title: str, names) -> None:
+        if title in self.user_groups:
+            names = set(names)
+            self.user_groups[title] = [n for n in self.user_groups[title]
+                                       if n not in names]
+
+    def drop_group(self, title: str) -> None:
+        self.user_groups.pop(title, None)
+
+    def rename_group(self, old: str, new: str) -> None:
+        if old in self.user_groups and new and new != old:
+            self.user_groups = {(new if k == old else k): v
+                                for k, v in self.user_groups.items()}
 
     def desc(self, name: str) -> str:
         ch = self.a2l.characteristics.get(name)
@@ -225,12 +259,15 @@ class Project:
                             (d.get("groups") or {}).items()}
         if "fix_checksums" in d:
             self.fix_checksums = bool(d["fix_checksums"])
+        if d.get("group_mode") in ("auto", "user"):
+            self.group_mode = d["group_mode"]
         if d.get("a2l") and not os.path.exists(self.a2l_path):
             self.a2l_path = d["a2l"]
         return True
 
     def save_project_file(self) -> None:
         d = {"a2l": self.a2l_path, "bin": os.path.basename(self.bin_path),
-             "groups": self.user_groups, "fix_checksums": self.fix_checksums}
+             "groups": self.user_groups, "fix_checksums": self.fix_checksums,
+             "group_mode": self.group_mode}
         with open(self.project_path, "w", encoding="utf-8") as fh:
             json.dump(d, fh, ensure_ascii=False, indent=2)

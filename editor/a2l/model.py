@@ -106,6 +106,7 @@ class RecordLayout:
     axis_y_dtype: str = ""
     no_axis_x_dtype: str = ""
     no_axis_y_dtype: str = ""
+    pos: dict = field(default_factory=dict)   # элемент -> его позиция
 
     @classmethod
     def from_block(cls, b: Block) -> "RecordLayout":
@@ -122,7 +123,27 @@ class RecordLayout:
             p = b.kv(key, 2)
             if p:
                 setattr(rl, attr, p[1])
+                rl.pos[key] = _i(p[0], 0)
         return rl
+
+    def order(self) -> list:
+        """
+        Элементы блока в том порядке, в каком они лежат в файле.
+
+        Порядок задан числами позиций в самой раскладке, а не тем, в каком
+        порядке строки написаны, и не тем, что X принято писать раньше Y.
+        Это не педантизм: у карт Bosch с осями внутри блока первой в файле
+        идёт ось СТРОК, то есть Y, и раскладка это честно объявляет. Читать
+        X первым потому, что он называется X, значит прочитать карту
+        транспонированной -- на квадратной это незаметно, на 16x12 губительно.
+        """
+        items = []
+        for key, which in (("NO_AXIS_PTS_X", "nx"), ("NO_AXIS_PTS_Y", "ny"),
+                           ("AXIS_PTS_X", "ax"), ("AXIS_PTS_Y", "ay")):
+            if self.pos.get(key):
+                items.append((self.pos[key], key, which))
+        items.sort()
+        return [(key, which) for _p, key, which in items]
 
     @property
     def has_inline_axes(self) -> bool:

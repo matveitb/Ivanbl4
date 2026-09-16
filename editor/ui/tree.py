@@ -19,6 +19,7 @@ ROLE_MAP = QtCore.Qt.ItemDataRole.UserRole + 1
 class MapTree(QtWidgets.QWidget):
 
     selected = QtCore.Signal(str)
+    groups_changed = QtCore.Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -33,7 +34,12 @@ class MapTree(QtWidgets.QWidget):
         self.tree = QtWidgets.QTreeWidget()
         self.tree.setHeaderLabels(["Карта", "Размер"])
         self.tree.setColumnWidth(0, 230)
+        self.tree.setSelectionMode(
+            QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.tree.itemSelectionChanged.connect(self._on_select)
+        self.tree.setContextMenuPolicy(
+            QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.tree.customContextMenuRequested.connect(self._menu)
 
         lay = QtWidgets.QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
@@ -107,6 +113,82 @@ class MapTree(QtWidgets.QWidget):
         name = items[0].data(0, ROLE_MAP)
         if name:
             self.selected.emit(name)
+
+    # -- свои группы ------------------------------------------------------
+
+    def picked_maps(self) -> list:
+        """Выделенные карты. Щелчок по заголовку берёт всю группу."""
+        out = []
+        for node in self.tree.selectedItems():
+            name = node.data(0, ROLE_MAP)
+            if name:
+                out.append(name)
+            else:
+                out.extend(node.child(i).data(0, ROLE_MAP)
+                           for i in range(node.childCount()))
+        return [n for n in dict.fromkeys(out) if n]
+
+    def _menu(self, pos) -> None:
+        if self.project is None:
+            return
+        names = self.picked_maps()
+        if not names:
+            return
+        m = QtWidgets.QMenu(self)
+        what = ("«%s»" % names[0]) if len(names) == 1 else "%d карт" % len(names)
+        sub = m.addMenu("Положить %s в свою группу" % what)
+        for title in sorted(self.project.user_groups):
+            sub.addAction(title, lambda _=False, t=title:
+                          self._add(t, names))
+        if self.project.user_groups:
+            sub.addSeparator()
+        sub.addAction("Новая группа...", lambda: self._add_new(names))
+
+        node = self.tree.itemAt(pos)
+        group_title = None
+        if node is not None and node.data(0, ROLE_MAP) is None:
+            group_title = node.text(0)
+        elif node is not None and node.parent() is not None:
+            group_title = node.parent().text(0)
+        if group_title in self.project.user_groups:
+            m.addAction("Убрать из «%s»" % group_title,
+                        lambda: self._remove(group_title, names))
+            m.addSeparator()
+            m.addAction("Переименовать группу «%s»..." % group_title,
+                        lambda: self._rename(group_title))
+            m.addAction("Удалить группу «%s»" % group_title,
+                        lambda: self._drop(group_title))
+        m.exec(self.tree.viewport().mapToGlobal(pos))
+
+    def _add(self, title: str, names) -> None:
+        self.project.add_to_group(title, names)
+        self._after_group_change()
+
+    def _add_new(self, names) -> None:
+        title, ok = QtWidgets.QInputDialog.getText(
+            self, "Новая группа", "Название:")
+        if ok and title.strip():
+            self._add(title.strip(), names)
+
+    def _remove(self, title: str, names) -> None:
+        self.project.remove_from_group(title, names)
+        self._after_group_change()
+
+    def _rename(self, title: str) -> None:
+        new, ok = QtWidgets.QInputDialog.getText(
+            self, "Переименовать группу", "Название:", text=title)
+        if ok and new.strip():
+            self.project.rename_group(title, new.strip())
+            self._after_group_change()
+
+    def _drop(self, title: str) -> None:
+        self.project.drop_group(title)
+        self._after_group_change()
+
+    def _after_group_change(self) -> None:
+        self.project.save_project_file()
+        self._rebuild()
+        self.groups_changed.emit()
 
     def select_map(self, name: str) -> None:
         it = QtWidgets.QTreeWidgetItemIterator(self.tree)

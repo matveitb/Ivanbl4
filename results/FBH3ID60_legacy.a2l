@@ -537,10 +537,22 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.00152588
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_40_0
+      "scale 40"
+      RAT_FUNC "%.1f" ""
+      COEFFS 0 1 0 0 0 40
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p0234375_0_napolneniya
       "scale 0.0234375"
       RAT_FUNC "%.3f" "% napolneniya"
       COEFFS 0 1 0 0 0 0.0234375
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p001525878906_0_momenta
+      "scale 0.00152588"
+      RAT_FUNC "%.3f" "% momenta"
+      COEFFS 0 1 0 0 0 0.001525878906
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p001525878906_0_otopornogomo
@@ -657,6 +669,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.001525878906
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p01219512195_0_ugoldrosselya
+      "scale 0.0121951"
+      RAT_FUNC "%.3f" "ugol drosselya, grad"
+      COEFFS 0 1 0 0 0 0.01219512195
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p0078125_0_mnozhitel
       "scale 0.0078125"
       RAT_FUNC "%.3f" "mnozhitel"
@@ -678,10 +696,10 @@ ASAP2_VERSION 1 51
     /end RECORD_LAYOUT
 
     /begin RECORD_LAYOUT RL_3D_A8_UBYTE
-      NO_AXIS_PTS_X 1 UBYTE
-      NO_AXIS_PTS_Y 2 UBYTE
-      AXIS_PTS_X    3 UBYTE INDEX_INCR DIRECT
-      AXIS_PTS_Y    4 UBYTE INDEX_INCR DIRECT
+      NO_AXIS_PTS_Y 1 UBYTE
+      NO_AXIS_PTS_X 2 UBYTE
+      AXIS_PTS_Y    3 UBYTE INDEX_INCR DIRECT
+      AXIS_PTS_X    4 UBYTE INDEX_INCR DIRECT
       FNC_VALUES    5 UBYTE ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
@@ -702,10 +720,10 @@ ASAP2_VERSION 1 51
     /end RECORD_LAYOUT
 
     /begin RECORD_LAYOUT RL_3D_A8_UWORD
-      NO_AXIS_PTS_X 1 UBYTE
-      NO_AXIS_PTS_Y 2 UBYTE
-      AXIS_PTS_X    3 UBYTE INDEX_INCR DIRECT
-      AXIS_PTS_Y    4 UBYTE INDEX_INCR DIRECT
+      NO_AXIS_PTS_Y 1 UBYTE
+      NO_AXIS_PTS_X 2 UBYTE
+      AXIS_PTS_Y    3 UBYTE INDEX_INCR DIRECT
+      AXIS_PTS_X    4 UBYTE INDEX_INCR DIRECT
       FNC_VALUES    5 UWORD ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
@@ -720,10 +738,10 @@ ASAP2_VERSION 1 51
     /end RECORD_LAYOUT
 
     /begin RECORD_LAYOUT RL_3D_A16_UWORD
-      NO_AXIS_PTS_X 1 UBYTE
-      NO_AXIS_PTS_Y 2 UBYTE
-      AXIS_PTS_X    3 UWORD INDEX_INCR DIRECT
-      AXIS_PTS_Y    4 UWORD INDEX_INCR DIRECT
+      NO_AXIS_PTS_Y 1 UBYTE
+      NO_AXIS_PTS_X 2 UBYTE
+      AXIS_PTS_Y    3 UWORD INDEX_INCR DIRECT
+      AXIS_PTS_X    4 UWORD INDEX_INCR DIRECT
       FNC_VALUES    5 UWORD ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
@@ -735,6 +753,10 @@ ASAP2_VERSION 1 51
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UWORD INDEX_INCR DIRECT
       FNC_VALUES    3 UBYTE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT RL_AXIS_BARE_UWORD
+      AXIS_PTS_X 1 UWORD INDEX_INCR DIRECT
     /end RECORD_LAYOUT
 
     /begin AXIS_PTS SNM16_ZU
@@ -807,6 +829,126 @@ ASAP2_VERSION 1 51
       12
       0
       191.25
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_14B70_X
+      ""
+      0x14B70
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p0234375_0
+      11
+      0
+      1535.98
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_100F2_Y
+      ""
+      0x100F2
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_40_0
+      16
+      0
+      2.6214e+06
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_14BE0_X
+      "% momenta"
+      0x14BE0
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p001525878906_0_momenta
+      12
+      0
+      99.9985
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_14BC0_Y
+      "ob/min"
+      0x14BC0
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p25_0_obmin
+      16
+      0
+      16383.8
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_1512A_X
+      "% napolneniya"
+      0x1512A
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p0234375_0_napolneniya
+      12
+      0
+      1535.98
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_15116_Y
+      "ob/min"
+      0x15116
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p25_0_obmin
+      10
+      0
+      16383.8
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_15688_X
+      "% ugla drosselya"
+      0x15688
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_IDENTITY
+      6
+      0
+      65535
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_15668_Y
+      "pspvdk"
+      0x15668
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_IDENTITY
+      16
+      0
+      65535
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_1AC92_X
+      "ob/min"
+      0x1AC92
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p25_0_obmin
+      12
+      0
+      16383.8
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_1AC7A_Y
+      "ugol drosselya, grad"
+      0x1AC7A
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p01219512195_0_ugoldrosselya
+      12
+      0
+      799.207
     /end AXIS_PTS
 
     /begin CHARACTERISTIC SGA08MDUB
@@ -1418,7 +1560,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC ETALAM
+    /begin CHARACTERISTIC ETALAM_10515
       "podtverzhdena damos addr 0x10515 | Lambda effectiveness"
       CURVE
       0x10515
@@ -3523,14 +3665,14 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        5
+        6
         0
         255
       /end AXIS_DESCR
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        6
+        5
         0
         255
       /end AXIS_DESCR
@@ -3892,14 +4034,14 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        16
+        12
         0
         255
       /end AXIS_DESCR
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        12
+        16
         0
         255
       /end AXIS_DESCR
@@ -4389,7 +4531,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC SNM16OPUW
+    /begin CHARACTERISTIC SNM16OPUW_148D2
       "veroyatnaya damos-veroyatno addr 0x148D2 | set point distribution engine speed"
       CURVE
       0x148D2
@@ -4593,7 +4735,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC SRL11OPUW
+    /begin CHARACTERISTIC SRL11OPUW_14B1A
       "veroyatnaya damos-veroyatno addr 0x14B1A | set point distribution relative charge"
       CURVE
       0x14B1A
@@ -5336,14 +5478,14 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        6
+        7
         0
         65535
       /end AXIS_DESCR
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        7
+        6
         0
         65535
       /end AXIS_DESCR
@@ -5397,14 +5539,14 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        8
+        24
         0
         65535
       /end AXIS_DESCR
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        24
+        8
         0
         65535
       /end AXIS_DESCR
@@ -5446,7 +5588,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC WDKUGDN
+    /begin CHARACTERISTIC WDKUGDN_15672
       "veroyatnaya damos-veroyatno addr 0x15672 | throttle angle necessary for 95 % of the maximum possible air charge"
       CURVE
       0x15672
@@ -8019,7 +8161,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC RLVMXN
+    /begin CHARACTERISTIC RLVMXN_182B7
       "podtverzhdena damos addr 0x182B7 | maximum volumetric flow with open throttle valve"
       CURVE
       0x182B7
@@ -8038,7 +8180,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC RLVSMXN
+    /begin CHARACTERISTIC RLVSMXN_182CE
       "podtverzhdena damos addr 0x182CE | maximum volumetric flow with open throttle valve and SU"
       CURVE
       0x182CE
@@ -8777,14 +8919,14 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        10
+        8
         0
         255
       /end AXIS_DESCR
       /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        8
+        10
         0
         255
       /end AXIS_DESCR
@@ -11051,7 +11193,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFABAK
+    /begin CHARACTERISTIC KFABAK_1931E
       "veroyatnaya damos-veroyatno addr 0x1931E | share factor wall wetting for acceleration enrichment"
       MAP
       0x1931E
@@ -11078,7 +11220,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFAVAK
+    /begin CHARACTERISTIC KFAVAK_1935D
       "veroyatnaya damos-veroyatno addr 0x1935D | share factor wall wetting for deceleration enleanment"
       MAP
       0x1935D
@@ -11105,7 +11247,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFBAKL
+    /begin CHARACTERISTIC KFBAKL_1939C
       "veroyatnaya damos-veroyatno addr 0x1939C | factor accel. enrichment (short- and long-time part)"
       MAP
       0x1939C
@@ -12637,7 +12779,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFRLW
+    /begin CHARACTERISTIC KFRLW_1B3F3
       "podtverzhdena damos-tochno addr 0x1B3F3 | rlw-map from throttle valve angle"
       MAP
       0x1B3F3
@@ -14197,7 +14339,7 @@ ASAP2_VERSION 1 51
 
     /begin CHARACTERISTIC KFFDLBTS__kandidat
       ""
-      CURVE
+      MAP
       0x19576
       RL_GRID_UBYTE
       0
@@ -14207,10 +14349,18 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        192
+        12
         0
-        191
-        FIX_AXIS_PAR_DIST 0 1 192
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -14588,9 +14738,9 @@ ASAP2_VERSION 1 51
       191.25
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFABAK_1
+    /begin CHARACTERISTIC KFABAK
       "dolya plenki dlya obogascheniya na razgone"
-      CURVE
+      MAP
       0x193F3
       RL_GRID_UBYTE
       0
@@ -14600,16 +14750,24 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        63
+        9
         0
-        62
-        FIX_AXIS_PAR_DIST 0 1 63
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFAVAK_1
+    /begin CHARACTERISTIC KFAVAK
       "dolya plenki dlya obedneniya na sbrose"
-      CURVE
+      MAP
       0x19432
       RL_GRID_UBYTE
       0
@@ -14619,16 +14777,24 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        63
+        9
         0
-        62
-        FIX_AXIS_PAR_DIST 0 1 63
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFBAKL_1
+    /begin CHARACTERISTIC KFBAKL
       "faktor obogascheniya na razgone, korotkaya i dlinnaya sostavlyayuschie"
-      CURVE
+      MAP
       0x19471
       RL_GRID_UBYTE
       0
@@ -14638,16 +14804,24 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        63
+        9
         0
-        62
-        FIX_AXIS_PAR_DIST 0 1 63
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFVAKL
       "faktor obedneniya na sbrose"
-      CURVE
+      MAP
       0x194B0
       RL_GRID_UBYTE
       0
@@ -14657,14 +14831,22 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        63
+        9
         0
-        62
-        FIX_AXIS_PAR_DIST 0 1 63
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC RLVMXN_1
+    /begin CHARACTERISTIC RLVMXN
       "podtverzhdena | maks. napolnenie pri otkrytom drossele"
       CURVE
       0x182B6
@@ -14683,7 +14865,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC RLVSMXN_1
+    /begin CHARACTERISTIC RLVSMXN
       "podtverzhdena | to zhe pri pereklyuchennom vpuske (SU)"
       CURVE
       0x182CD
@@ -14704,24 +14886,32 @@ ASAP2_VERSION 1 51
 
     /begin CHARACTERISTIC KFMIOP
       "podtverzhdena |"
-      CURVE
+      MAP
       0x14A10
       RL_GRID_UWORD
       0
       CM_0p00152588_0_otopornogomoment
       -0
       99.9985
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_IDENTITY
-        176
+        CM_0p0234375_0
+        11
         0
-        175
-        FIX_AXIS_PAR_DIST 0 1 176
+        1535.98
+        AXIS_PTS_REF AX_14B70_X
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0
+        16
+        0
+        2.6214e+06
+        AXIS_PTS_REF AX_100F2_Y
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC SRL11OPUW_1
+    /begin CHARACTERISTIC SRL11OPUW
       "ta zhe os, chto u KFZWOP"
       CURVE
       0x14B70
@@ -14742,7 +14932,7 @@ ASAP2_VERSION 1 51
 
     /begin CHARACTERISTIC KFETAZW_1
       "podtverzhdena | karta KPD po uglu"
-      CURVE
+      MAP
       0x10216
       RL_GRID_UBYTE
       0
@@ -14752,48 +14942,72 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        256
+        16
         0
-        255
-        FIX_AXIS_PAR_DIST 0 1 256
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFMIRL
       "podtverzhdena | trebuemoe napolnenie iz trebuemogo momenta: oboroty x moment v % daet napolnenie v %"
-      CURVE
+      MAP
       0x14BF8
       RL_GRID_UWORD
       0
       CM_0p0234375_0_napolneniya
       -0
       1535.98
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_IDENTITY
-        192
+        CM_0p001525878906_0_momenta
+        12
         0
-        191
-        FIX_AXIS_PAR_DIST 0 1 192
+        99.9985
+        AXIS_PTS_REF AX_14BE0_X
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p25_0_obmin
+        16
+        0
+        16383.8
+        AXIS_PTS_REF AX_14BC0_Y
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFMDS
       "podtverzhdena | moment mehanicheskih poter: oboroty x napolnenie"
-      CURVE
+      MAP
       0x15142
       RL_GRID_UWORD
       0
       CM_0p001525878906_0_otopornogomo
       -0
       99.9985
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_IDENTITY
-        120
+        CM_0p0234375_0_napolneniya
+        12
         0
-        119
-        FIX_AXIS_PAR_DIST 0 1 120
+        1535.98
+        AXIS_PTS_REF AX_1512A_X
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p25_0_obmin
+        10
+        0
+        16383.8
+        AXIS_PTS_REF AX_15116_Y
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -14819,7 +15033,7 @@ ASAP2_VERSION 1 51
       255
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC ETALAM_1
+    /begin CHARACTERISTIC ETALAM
       "podtverzhdena | KPD po sostavu smesi: moment v zavisimosti ot lyambdy"
       CURVE
       0x1051F
@@ -16341,24 +16555,32 @@ ASAP2_VERSION 1 51
 
     /begin CHARACTERISTIC KFMSNWDK
       "veroyatnaya | bazovyy rashod cherez drossel, vhod wdkba (ugol) i pspvdk (otnoshenie davleniy)"
-      CURVE
+      MAP
       0x15694
       RL_GRID_UWORD
       0
       CM_0p1_0_kgh
       -0
       6553.5
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        96
+        6
         0
-        95
-        FIX_AXIS_PAR_DIST 0 1 96
+        65535
+        AXIS_PTS_REF AX_15688_X
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        65535
+        AXIS_PTS_REF AX_15668_Y
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC WDKUGDN_1
+    /begin CHARACTERISTIC WDKUGDN
       "podtverzhdena | ugol drosselya, pri kotorom dostigaetsya 95 % maksimalno vozmozhnogo napolneniya"
       CURVE
       0x15B40
@@ -16377,28 +16599,36 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFRLW_1
+    /begin CHARACTERISTIC KFRLW
       "podtverzhdena | rezervnyy signal napolneniya ot ugla drosselya i oborotov (auxiliary load signal). Imenno na nego EBU pereklyuchaetsya, kogda osnovnoy signal po DMRV priznan negodnym -- tot samyy seco"
-      CURVE
+      MAP
       0x1ACAA
       RL_GRID_UWORD
       0
       CM_0p0234375_0_napolneniya
       -0
       1535.98
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_IDENTITY
-        144
+        CM_0p25_0_obmin
+        12
         0
-        143
-        FIX_AXIS_PAR_DIST 0 1 144
+        16383.8
+        AXIS_PTS_REF AX_1AC92_X
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p01219512195_0_ugoldrosselya
+        12
+        0
+        799.207
+        AXIS_PTS_REF AX_1AC7A_Y
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFPU
       "podtverzhdena | korrekciya pulsaciy potoka, oboroty x ugol drosselya"
-      CURVE
+      MAP
       0x114A3
       RL_GRID_UBYTE
       0
@@ -16408,16 +16638,24 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        196
+        14
         0
-        195
-        FIX_AXIS_PAR_DIST 0 1 196
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFPUSU
       "podtverzhdena | to zhe pri izmenyaemoy geometrii vpuska (rezhim 1)"
-      CURVE
+      MAP
       0x111FD
       RL_GRID_UBYTE
       0
@@ -16427,16 +16665,24 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        196
+        14
         0
-        195
-        FIX_AXIS_PAR_DIST 0 1 196
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFPUSUNW
       "podtverzhdena | to zhe pri oboih (rezhim 3) -- vsya v edinicah"
-      CURVE
+      MAP
       0x113C1
       RL_GRID_UBYTE
       0
@@ -16446,16 +16692,24 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        196
+        14
         0
-        195
-        FIX_AXIS_PAR_DIST 0 1 196
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFKHFM
       "podtverzhdena | korrekciya harakteristiki DMRV, oboroty x napolnenie"
-      CURVE
+      MAP
       0x1111B
       RL_GRID_UBYTE
       0
@@ -16465,10 +16719,18 @@ ASAP2_VERSION 1 51
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
-        196
+        14
         0
-        195
-        FIX_AXIS_PAR_DIST 0 1 196
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -16626,7 +16888,7 @@ ASAP2_VERSION 1 51
         MAP_171_124D4_6
         MAP_172_128BD_21
         SAN12ESUW
-        SNM16OPUW
+        SNM16OPUW_148D2
         MAP_175_14915_6
         NDFILOG
         TVKUPHS
@@ -16637,7 +16899,7 @@ ASAP2_VERSION 1 51
         MAP_182_149B8_10
         MAP_183_149D8_10
         MAP_184_14A11_10
-        SRL11OPUW
+        SRL11OPUW_14B1A
         DMLWWKMK
         KLDMLWSDO
         KLMKLWSD
@@ -16675,7 +16937,7 @@ ASAP2_VERSION 1 51
         MAP_226_15362_8x24
         MAP_227_15528_12
         MAP_228_15559_16
-        WDKUGDN
+        WDKUGDN_15672
         ZKMSDK
         ZKPVDK
         KLSIS
@@ -16856,9 +17118,9 @@ ASAP2_VERSION 1 51
         FNSHO
         SZANSSM2
         LASWLTM
-        KFABAK
-        KFAVAK
-        KFBAKL
+        KFABAK_1931E
+        KFAVAK_1935D
+        KFBAKL_1939C
         MAP_512_193E0_9
         ZBALM
         ZVALM
@@ -16992,7 +17254,7 @@ ASAP2_VERSION 1 51
         SRL16ZUUB
         STM12ESUB
         KFMPED
-        ETALAM
+        ETALAM_10515
         NMAXPRL
         NMXDAEF
         ZINMAXRL
@@ -17052,8 +17314,8 @@ ASAP2_VERSION 1 51
         STM09ESUB
         STS12ESUB
         STW06MDUB
-        RLVMXN
-        RLVSMXN
+        RLVMXN_182B7
+        RLVSMXN_182CE
         KFDMDFA
         KFDMDFAS
         KFDMDFAU
@@ -17115,7 +17377,7 @@ ASAP2_VERSION 1 51
         KFZWWLTM
         KFPSDMX
         FPVMXN2
-        KFRLW
+        KFRLW_1B3F3
         KFZKPUA
         ATMTANS
         FKHLA
@@ -17361,7 +17623,7 @@ ASAP2_VERSION 1 51
         KFMDS
         MDIMX
         CWMDAPP
-        ETALAM_1
+        ETALAM
         MDLF1
         MDLF2
         MDLFE1
@@ -17441,9 +17703,9 @@ ASAP2_VERSION 1 51
       "Perehodnye rezhimy, plenka"
       /begin REF_CHARACTERISTIC
         SNM07ESUB
-        KFABAK_1
-        KFAVAK_1
-        KFBAKL_1
+        KFABAK
+        KFAVAK
+        KFBAKL
         KFVAKL
       /end REF_CHARACTERISTIC
     /end GROUP
@@ -17454,7 +17716,7 @@ ASAP2_VERSION 1 51
         SNM16OPUB
         SNM16ZUUB
         SRL12ZUUB
-        SRL11OPUW_1
+        SRL11OPUW
       /end REF_CHARACTERISTIC
     /end GROUP
 
@@ -17473,8 +17735,8 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         SNM12FEUB
         KFMSNWDK
-        WDKUGDN_1
-        KFRLW_1
+        WDKUGDN
+        KFRLW
       /end REF_CHARACTERISTIC
     /end GROUP
 
@@ -17505,8 +17767,8 @@ ASAP2_VERSION 1 51
     /begin GROUP G_max_charge_at_wot
       "Napolnenie na polnoy nagruzke"
       /begin REF_CHARACTERISTIC
-        RLVMXN_1
-        RLVSMXN_1
+        RLVMXN
+        RLVSMXN
       /end REF_CHARACTERISTIC
     /end GROUP
 

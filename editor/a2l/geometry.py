@@ -14,12 +14,18 @@
    Различаем по содержимому раскладки, а не по её имени: имена у разных
    генераторов свои.
 
-2. ЧИСЛО ТОЧЕК В A2L -- ЭТО МАКСИМУМ, А НЕ ФАКТ. Поле в AXIS_DESCR
+2. ПОРЯДОК ЭЛЕМЕНТОВ БЛОКА ЗАДАН ПОЗИЦИЯМИ, А НЕ ИМЕНАМИ. У карт Bosch
+   с осями внутри блока первой в файле лежит ось СТРОК, и раскладка
+   объявляет её первой позицией. Разбирать "сначала X, раз он X" значит
+   прочитать карту транспонированной: на квадратной незаметно, на 16 на
+   12 -- испорченная правка.
+
+3. ЧИСЛО ТОЧЕК В A2L -- ЭТО МАКСИМУМ, А НЕ ФАКТ. Поле в AXIS_DESCR
    называется MaxAxisPoints. Когда оси лежат внутри блока, настоящее
    число точек записано в самом файле (NO_AXIS_PTS_X/Y), и брать надо
    его. Иначе на карте с запасом по размеру поедет всё.
 
-3. АДРЕСА БЫВАЮТ АБСОЛЮТНЫЕ И ФАЙЛОВЫЕ. У нас в A2L лежат файловые
+4. АДРЕСА БЫВАЮТ АБСОЛЮТНЫЕ И ФАЙЛОВЫЕ. У нас в A2L лежат файловые
    смещения (0x10529), а стандартный генератор пишет абсолютные
    (0x810529). Разницу берёт на себя AddressMap, и определяется она не
    догадкой, а подсчётом: какой вариант укладывает больше карт внутрь
@@ -202,31 +208,44 @@ def resolve_ch(a2l: A2lFile, ch: Characteristic, buf: bytes,
     # --- где данные ------------------------------------------------------
     if rl.has_inline_axes and ch.ctype in ("CURVE", "MAP"):
         header_off = base
-        cwx = rl.count_width("x")
-        cwy = rl.count_width("y")
         awx = rl.axis_width("x")
         awy = rl.axis_width("y") if ay else 0
-        # настоящее число точек записано в файле, а в A2L лежит максимум
+        # Идём по элементам блока В ПОРЯДКЕ ИХ ПОЗИЦИЙ. Не в порядке
+        # "сначала X, потом Y": у карт Bosch первой в файле лежит ось
+        # строк, и раскладка объявляет её первой позицией. Порядок разбора
+        # должен идти из раскладки, а не из названий осей.
         pos = base
-        if cwx:
-            got = int.from_bytes(buf[pos:pos + cwx], "little")
-            if 0 < got <= max(nx, 256):
-                nx = got
-            pos += cwx
-        if cwy and ay:
-            got = int.from_bytes(buf[pos:pos + cwy], "little")
-            if 0 < got <= max(ny, 256):
-                ny = got
-            pos += cwy
-        x_src = AxisSource("inline", off=pos, count=nx, width=awx,
-                           signed=False, factor=1.0, offset=0.0)
-        pos += nx * awx
-        if ay:
-            y_src = AxisSource("inline", off=pos, count=ny, width=awy,
-                               signed=False, factor=1.0, offset=0.0)
-            pos += ny * awy
-        else:
-            y_src = AxisSource("index", count=1)
+        x_src = y_src = None
+        for key, which in rl.order():
+            if which == "nx":
+                w = rl.count_width("x")
+                got = int.from_bytes(buf[pos:pos + w], "little")
+                # настоящее число точек записано в файле, а в A2L -- максимум
+                if 0 < got <= max(nx, 256):
+                    nx = got
+                pos += w
+            elif which == "ny":
+                if not ay:
+                    continue
+                w = rl.count_width("y")
+                got = int.from_bytes(buf[pos:pos + w], "little")
+                if 0 < got <= max(ny, 256):
+                    ny = got
+                pos += w
+            elif which == "ax":
+                x_src = AxisSource("inline", off=pos, count=nx, width=awx,
+                                   signed=False, factor=1.0, offset=0.0)
+                pos += nx * awx
+            elif which == "ay":
+                if not ay:
+                    continue
+                y_src = AxisSource("inline", off=pos, count=ny, width=awy,
+                                   signed=False, factor=1.0, offset=0.0)
+                pos += ny * awy
+        if x_src is None:
+            x_src = AxisSource("index", count=nx)
+        if y_src is None:
+            y_src = AxisSource("index", count=1 if not ay else ny)
         # масштаб осей всё равно берём из их AXIS_DESCR
         if ax:
             acm = a2l.compu_of(ax.compu)

@@ -17,8 +17,10 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "editor", "a2l"))
+sys.path.insert(0, os.path.join(ROOT, "editor", "core"))
 
 import geometry        # noqa: E402
+import mapaccess as M  # noqa: E402
 import model           # noqa: E402
 
 A2L = os.path.join(ROOT, "results", "FBH3ID60_legacy.a2l")
@@ -37,7 +39,7 @@ def main():
     a2l = model.load(A2L)
     check(len(a2l.characteristics) > 800,
           "карт разобрано: %d" % len(a2l.characteristics))
-    check(len(a2l.axis_pts) == 6, "осей-объектов: %d" % len(a2l.axis_pts))
+    check(len(a2l.axis_pts) >= 6, "осей-объектов: %d" % len(a2l.axis_pts))
     check(len(a2l.compu) > 100, "пересчётов: %d" % len(a2l.compu))
     check(len(a2l.layouts) >= 13, "раскладок: %d" % len(a2l.layouts))
 
@@ -82,6 +84,30 @@ def main():
     check(E.data_off == E.header_off + 2 + E.nx + E.ny,
           "KFETAZW: данные 0x%05X = заголовок + 2 + %d + %d"
           % (E.data_off, E.nx, E.ny))
+
+    # -- заголовочная карта не должна читаться перевёрнутой
+    #
+    # Первой в блоке лежит ось СТРОК, а не столбцов: подряд в файле идут
+    # значения второй оси. Проверяем на KFMIRL, где ошибка видна сразу --
+    # 16 на 12, а не 12 на 16, и обороты обязаны быть по строкам.
+    R = geometry.resolve(a2l, "KFMIRL", buf, am)
+    check((R.nx, R.ny) == (12, 16), "KFMIRL: %dx%d" % (R.nx, R.ny))
+    check(R.data_off == 0x14BF8, "KFMIRL: данные 0x%05X" % R.data_off)
+    rys = R.y_axis.values(buf)
+    check([round(v) for v in rys[:4]] == [440, 680, 800, 900],
+          "KFMIRL: обороты по строкам, с %s" % [round(v) for v in rys[:4]])
+    rows = M.read_phys(buf, R)
+    check(all(rows[r][c] <= rows[r][c + 1] + 1e-6
+              for r in range(R.ny) for c in range(R.nx - 1)),
+          "KFMIRL: по строке наполнение растёт с требуемым моментом")
+    check(rows[0][0] == 0 and abs(rows[0][-1] - 249.2) < 0.2,
+          "KFMIRL: первая строка от %g до %.1f" % (rows[0][0], rows[0][-1]))
+
+    D = geometry.resolve(a2l, "KFMDS", buf, am)
+    check((D.nx, D.ny) == (12, 10), "KFMDS: %dx%d" % (D.nx, D.ny))
+    dys = D.y_axis.values(buf)
+    check([round(v) for v in dys[:3]] == [680, 800, 1240],
+          "KFMDS: обороты по строкам, с %s" % [round(v) for v in dys[:3]])
 
     # -- кривая с синтетической осью
     C = geometry.resolve(a2l, "SGA08MDUB", buf, am)

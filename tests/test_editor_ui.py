@@ -47,11 +47,19 @@ def main():
         print("  поставить: pip install -r requirements-editor.txt")
         return 0
 
+    from PySide6 import QtCore
     from main_window import MainWindow, ORG, APP
 
     tmp = tempfile.mkdtemp(prefix="ktpui")
     work = os.path.join(tmp, "work.bin")
     shutil.copy(FW, work)
+
+    # Настройки окна (недавние файлы, размеры) уводим во временную папку:
+    # проверка не должна лезть в настоящие настройки пользователя и тем
+    # более менять его список недавних файлов.
+    QtCore.QSettings.setDefaultFormat(QtCore.QSettings.Format.IniFormat)
+    QtCore.QSettings.setPath(QtCore.QSettings.Format.IniFormat,
+                             QtCore.QSettings.Scope.UserScope, tmp)
 
     app = QtWidgets.QApplication([sys.argv[0]])
     app.setOrganizationName(ORG)
@@ -224,6 +232,41 @@ def main():
               "закрытие сравнения убрало и обводку, и пунктир")
     else:
         print("     (второй прошивки нет на месте -- сравнение не проверено)")
+
+    # -- свои группы и режим дерева ----------------------------------------
+    w.tree.tree.clearSelection()
+    w.tree.select_map("KFZWOP")
+    check(w.tree.picked_maps() == ["KFZWOP"],
+          "щелчок по карте даёт её саму")
+    w.tree._add("Работа", ["KFZWOP", "KFZW"])
+    check(w.project.user_groups["Работа"] == ["KFZWOP", "KFZW"],
+          "карты легли в свою группу")
+    check(os.path.exists(w.project.project_path),
+          "файл проекта записан сразу: %s"
+          % os.path.basename(w.project.project_path))
+    check(w.tree.tree.topLevelItemCount() == 24,
+          "пока выбрана группировка из описания, дерево не поменялось")
+
+    w._set_group_mode("user")
+    titles = [w.tree.tree.topLevelItem(i).text(0)
+              for i in range(w.tree.tree.topLevelItemCount())]
+    check(titles == ["Работа", "Вне своих групп"],
+          "в своём режиме дерево из своих групп: %s" % titles)
+    top = w.tree.tree.topLevelItem(0)
+    w.tree.tree.clearSelection()
+    top.setSelected(True)
+    check(w.tree.picked_maps() == ["KFZWOP", "KFZW"],
+          "щелчок по заголовку берёт всю группу")
+    w._set_group_mode("auto")
+    check(w.tree.tree.topLevelItemCount() == 24, "режим вернулся")
+
+    # -- недавние файлы ----------------------------------------------------
+    rec = w._recent()
+    check(rec and rec[0] == (A2L, work),
+          "последняя открытая пара запомнена первой: %s"
+          % (os.path.basename(rec[0][1]) if rec else "пусто"))
+    check(w.menu_recent.actions() and w.menu_recent.actions()[0].isEnabled(),
+          "в меню «Недавние» есть рабочая строка")
 
     # ни одна карта не роняет рисовалки
     bad = []

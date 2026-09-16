@@ -206,6 +206,31 @@ def main(argv=None) -> int:
     for _sec, _node in profile.items():
         _sections(_node, _sec)
 
+    # Где сканер и профиль расходятся в адресе под ОДНИМ именем, имя
+    # достаётся профилю: там находка подтверждена по коду, а у сканера --
+    # выравниванием чужого дамоса. Запись сканера при этом не выбрасывается,
+    # а получает имя с адресом: спор видно, и разрешать его должен человек,
+    # а не генератор молча.
+    prof_named: dict[str, set] = {}
+
+    def _prof_names(node):
+        if isinstance(node, dict):
+            a, nm = node.get("addr"), node.get("name")
+            if isinstance(a, str) and a.startswith("0x") and nm \
+                    and not nm.startswith("MAP_"):
+                try:
+                    prof_named.setdefault(nm, set()).add(int(a, 16))
+                except ValueError:
+                    pass
+            for v in node.values():
+                _prof_names(v)
+        elif isinstance(node, list):
+            for v in node:
+                _prof_names(v)
+
+    _prof_names(profile)
+    disputed: list = []
+
     groups: dict[str, list[str]] = {}
 
     def in_group(section: str, name: str) -> None:
@@ -243,7 +268,12 @@ def main(argv=None) -> int:
 
     # --- карты ---------------------------------------------------------
     for m in maps:
-        nm = ident(m.get("name") or ("MAP_%05X" % m["addr"]), used)
+        raw_name = m.get("name") or ("MAP_%05X" % m["addr"])
+        if raw_name in prof_named and m["addr"] not in prof_named[raw_name]:
+            disputed.append((raw_name, m["addr"],
+                             sorted(prof_named[raw_name])[0]))
+            raw_name = "%s@%05X" % (raw_name, m["addr"])
+        nm = ident(raw_name, used)
         # Карта, которой профиль не знает, идёт в группу по достоверности:
         # шестьсот безымянных находок одной кучей -- это не дерево.
         in_group(sec_of_addr.get(m["addr"])
@@ -262,11 +292,20 @@ def main(argv=None) -> int:
         else:
             rl = "RL_%s_A%d_%s" % ("3D" if is3d else "2D", aw * 8, dtype)
             if is3d:
+                # Порядок в блоке: сперва ось СТРОК, потом ось столбцов.
+                # Проверено по данным: у KFMDS, KFMIRL и четырёх из пяти
+                # прямоугольных заголовочных карт подряд в файле лежат
+                # значения ВТОРОЙ оси, то есть первая -- это строки.
+                # Независимое подтверждение -- tools/torque.py, который
+                # читает KFMDS именно так и даёт максимум момента ровно на
+                # 4500 об/мин, как в паспорте. Писать X первым только
+                # потому, что он называется X, значит объявить карту
+                # транспонированной.
                 layouts.setdefault(rl,
-                    '\n    /begin RECORD_LAYOUT %s\r\n      NO_AXIS_PTS_X 1 UBYTE\r\n'
-                    '      NO_AXIS_PTS_Y 2 UBYTE\r\n'
-                    '      AXIS_PTS_X    3 %s INDEX_INCR DIRECT\r\n'
-                    '      AXIS_PTS_Y    4 %s INDEX_INCR DIRECT\r\n'
+                    '\n    /begin RECORD_LAYOUT %s\r\n      NO_AXIS_PTS_Y 1 UBYTE\r\n'
+                    '      NO_AXIS_PTS_X 2 UBYTE\r\n'
+                    '      AXIS_PTS_Y    3 %s INDEX_INCR DIRECT\r\n'
+                    '      AXIS_PTS_X    4 %s INDEX_INCR DIRECT\r\n'
                     '      FNC_VALUES    5 %s ROW_DIR DIRECT\r\n    /end RECORD_LAYOUT\r\n'
                     % (rl, TYPE_U[aw], TYPE_U[aw], dtype))
             else:
@@ -292,7 +331,11 @@ def main(argv=None) -> int:
         # --- описания осей ---------------------------------------------
         pair = MAP_AXES.get(m.get("name") or "")
         descr = ""
-        for k, npts in ((0, m["nx"]), (1, m["ny"])):
+        # у заголовочных карт первая в файле ось -- это строки (Y), значит
+        # столбцов столько, сколько во второй; см. раскладку выше
+        dims = ((0, m["ny"]), (1, m["nx"])) if (is3d and not bare and not pair) \
+            else ((0, m["nx"]), (1, m["ny"]))
+        for k, npts in dims:
             if k == 1 and not is3d:
                 break
             # у нас ширина = ось Y (столбцы), высота = ось X (строки)
@@ -381,6 +424,10 @@ def main(argv=None) -> int:
                                       unit=node.get("unit", ""),
                                       desc=node.get("desc") or node.get("note", ""),
                                       conf=node.get("confidence", ""),
+                                      signed=bool(node.get("signed")),
+                                      rows=rows, cols=cols,
+                                      ax=node.get("x_axis"),
+                                      ay=node.get("y_axis"),
                                       section=section))
             for v in node.values():
                 collect(v, section)
@@ -395,11 +442,49 @@ def main(argv=None) -> int:
         collect(_node, _sec)
     if args.min_confidence == "verified":
         extra = [e for e in extra if e["conf"] == "подтверждена"]
+    axis_src: dict[str, tuple] = {}
+
+    def axis_obj(src, tag):
+        """
+        Ось профиля -> объект AXIS_PTS без счётчика.
+
+        У профиля записан адрес самих точек, а не начало блока, поэтому
+        раскладка объявляется голой: точки и всё. Число точек берём из
+        профиля -- там оно факт, а не запас.
+        """
+        n = int(src.get("n") or 0)
+        if not n or not str(src.get("addr", "")).startswith("0x"):
+            return None
+        addr = int(src["addr"], 16)
+        aw = int(src.get("width_bytes") or 2)
+        key = "AX_%X_%s" % (addr, tag)
+        if key in used:
+            return key
+        arl = "RL_AXIS_BARE_%s" % TYPE_U[aw]
+        layouts.setdefault(arl,
+            '\n    /begin RECORD_LAYOUT %s\r\n'
+            '      AXIS_PTS_X 1 %s INDEX_INCR DIRECT\r\n'
+            '    /end RECORD_LAYOUT\r\n' % (arl, TYPE_U[aw]))
+        af = src.get("factor") or 1.0
+        acm = cm_name(af, 0.0, src.get("unit", ""))
+        b = cm_block(af, 0.0, src.get("unit", ""))
+        if b:
+            compus.setdefault(acm, b)
+        used.add(key)
+        axis_src[key] = (acm, af * ((1 << (8 * aw)) - 1))
+        axis_objs.append(
+            '\n    /begin AXIS_PTS %s\n      "%s"\n      0x%X\n'
+            '      NO_INPUT_QUANTITY\n      %s\n      0\n      %s\n'
+            '      %d\n      0\n      %.6g\n    /end AXIS_PTS\n'
+            % (key, comment(src.get("unit", "")), addr, arl, acm, n,
+               af * ((1 << (8 * aw)) - 1)))
+        return key
+
     for e in extra:
         # у карт ширина ячейки лежит в width, а не в числе столбцов
         w = e["width"] if e["width"] in (1, 2) else 1
         cnt = e["count"] if e["count"] > 1 else 1
-        dtype = TYPE_U[w]
+        dtype = (TYPE_S if e["signed"] else TYPE_U)[w]
         rl = "RL_GRID_%s" % dtype
         layouts.setdefault(rl,
             '\n    /begin RECORD_LAYOUT %s\r\n      FNC_VALUES 1 %s ROW_DIR DIRECT\r\n'
@@ -408,17 +493,59 @@ def main(argv=None) -> int:
         b = cm_block(e["factor"], e["offset"], e["unit"])
         if b:
             compus.setdefault(cm, b)
-        hi = e["factor"] * ((1 << (8 * w)) - 1) - e["offset"]
-        lo = -e["offset"]
+        span = (1 << (8 * w - 1)) if e["signed"] else ((1 << (8 * w)) - 1)
+        hi = e["factor"] * span - e["offset"]
+        lo = (-e["factor"] * span - e["offset"]) if e["signed"] \
+            else -e["offset"]
         if lo > hi:
             lo, hi = hi, lo
         nm = ident(e["name"], used)
         in_group(sec_of_addr.get(e["addr"]) or e["section"], nm)
         cmt = (e["conf"] + " | " if e["conf"] else "") + e["desc"]
-        if cnt > 1:
-            descr = ('\n      /begin AXIS_DESCR FIX_AXIS\n        NO_INPUT_QUANTITY\n'
-                     '        CM_IDENTITY\n        %d\n        0\n        %d\n'
-                     '        FIX_AXIS_PAR_DIST 0 1 %d\n      /end AXIS_DESCR' % (cnt, cnt - 1, cnt))
+        # Двумерную карту профиля надо и объявлять двумерной, иначе она
+        # разворачивается в ленту: KFMIRL показывалась строкой из 192
+        # значений вместо 16 на 12, и ни таблицей, ни поверхностью
+        # пользоваться было нельзя.
+        #
+        # Про то, какая ось где. В профиле у таких карт записаны x_axis и
+        # y_axis по их адресам в блоке; первый лежит раньше. Подряд в
+        # файле идут значения ВТОРОЙ оси -- значит она и есть столбцы (X
+        # в ASAP2), а первая -- строки. Проверено по данным и сходится с
+        # tools/torque.py, который читает KFMDS так же.
+        ax_ref = axis_obj(e["ay"], "X") if isinstance(e["ay"], dict) else None
+        ay_ref = axis_obj(e["ax"], "Y") if isinstance(e["ax"], dict) else None
+
+        def com(ref, npts):
+            acm, amax = axis_src[ref]
+            return ('\n      /begin AXIS_DESCR COM_AXIS\n'
+                    '        NO_INPUT_QUANTITY\n        %s\n        %d\n'
+                    '        0\n        %.6g\n        AXIS_PTS_REF %s\n'
+                    '      /end AXIS_DESCR' % (acm, npts, amax, ref))
+
+        def fix(npts):
+            return ('\n      /begin AXIS_DESCR FIX_AXIS\n        NO_INPUT_QUANTITY\n'
+                    '        CM_IDENTITY\n        %d\n        0\n        %d\n'
+                    '        FIX_AXIS_PAR_DIST 0 1 %d\n      /end AXIS_DESCR'
+                    % (npts, npts - 1, npts))
+
+        if ax_ref and ay_ref:
+            nx_e = int(e["ay"].get("n") or 1)
+            ny_e = int(e["ax"].get("n") or 1)
+            descr = com(ax_ref, nx_e) + com(ay_ref, ny_e)
+            kind = "MAP"
+            cnt = nx_e * ny_e
+        elif e["rows"] > 1 and e["cols"] > 1:
+            # Осторожно с именами полей: в этом профиле "rows" на деле
+            # означает ЧИСЛО СТОЛБЦОВ. Проверено на трёх картах, у которых
+            # оси известны и ширину можно посчитать независимо: KFMIRL
+            # (rows 12 -- это 12 столбцов на 16 строк), KFMDS (12 на 10),
+            # KFMSNWDK (6 на 16). Брать поле по названию значило бы
+            # объявить все такие карты перевёрнутыми.
+            descr = fix(e["rows"]) + fix(e["cols"])
+            kind = "MAP"
+            cnt = e["rows"] * e["cols"]
+        elif cnt > 1:
+            descr = fix(cnt)
             kind = "CURVE"
         else:
             descr, kind = "", "VALUE"
@@ -479,6 +606,12 @@ def main(argv=None) -> int:
     open(args.out, "wb").write(data)
 
     print("Записано: %s" % args.out)
+    if disputed:
+        print("  СПОРНЫЕ АДРЕСА -- имя оставлено профилю, запись сканера "
+              "переименована в ИМЯ@АДРЕС: %d" % len(disputed), file=sys.stderr)
+        for nm_, scan, prof_a in sorted(disputed):
+            print("    %-12s сканер 0x%05X, профиль 0x%05X"
+                  % (nm_, scan, prof_a), file=sys.stderr)
     print("  карт: %d, осей: %d, раскладок: %d, пересчётов: %d, групп: %d"
           % (len(chars), len(axis_objs), len(layouts), len(compus) + 1,
              max(0, len(group_objs) - 1)))

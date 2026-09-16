@@ -183,15 +183,37 @@ def main():
           "без пересчёта суммы действительно расходятся (%d записей) -- "
           "значит переключатель не декоративный" % bad2)
 
-    # -- файл проекта ------------------------------------------------------
-    p.user_groups = {"Мои карты": ["KFZWOP", "KFZW"]}
+    # -- свои группы и файл проекта ----------------------------------------
+    p.add_to_group("Мои карты", ["KFZWOP", "KFZW"])
+    p.add_to_group("Ещё", ["KFZW", "KFZW2"])
+    check(p.user_groups["Мои карты"] == ["KFZWOP"],
+          "карта живёт ровно в одной своей группе: %s"
+          % p.user_groups["Мои карты"])
+
+    # пока выбрана группировка из описания, своя ничего не прячет
+    kids = [c.title for c in p.tree().children]
+    check("Моментная модель" in kids and "Мои карты" not in kids,
+          "своя группировка не перебивает описание сама собой")
+
+    p.group_mode = "user"
+    kids = [c.title for c in p.tree().children]
+    check(kids == ["Мои карты", "Ещё", "Вне своих групп"],
+          "в своём режиме дерево из своих групп: %s" % kids)
+    check(p.tree().count == len(p.layouts),
+          "и в нём по-прежнему все карты: %d" % p.tree().count)
+
     p.save_project_file()
     p2 = proj.Project.open(A2L, work)
-    check(p2.user_groups.get("Мои карты") == ["KFZWOP", "KFZW"],
-          "своя группировка пережила перезапуск")
-    kids = [c.title for c in p2.tree().children]
-    check(kids == ["Мои карты", "Остальное"],
-          "дерево строится по своим группам: %s" % kids)
+    check(p2.user_groups.get("Ещё") == ["KFZW", "KFZW2"]
+          and p2.group_mode == "user",
+          "своя группировка и режим пережили перезапуск")
+
+    p2.remove_from_group("Ещё", ["KFZW"])
+    p2.drop_group("Мои карты")
+    p2.rename_group("Ещё", "Работа")
+    check(list(p2.user_groups) == ["Работа"]
+          and p2.user_groups["Работа"] == ["KFZW2"],
+          "убрать, удалить и переименовать работают: %s" % p2.user_groups)
 
     shutil.rmtree(tmp, ignore_errors=True)
 
