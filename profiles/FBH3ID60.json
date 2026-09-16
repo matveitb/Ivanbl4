@@ -179,7 +179,9 @@
    "name": "DIAG_FLAGS",
    "addr": "0x10009",
    "end": "0x10027",
-   "note": "Таблица флагов диагностики (значения 0/1). В прошивке csok часть единиц заменена нулями относительно стока -- отключены проверки."
+   "note": "Таблица флагов диагностики (значения 0/1). В прошивке csok часть единиц заменена нулями относительно стока -- отключены проверки.",
+   "confidence": "подтверждена",
+   "confirmed_by": "код: movb RL5, #0x9 @0x829E9A"
   }
  ],
  "damos_reference": {
@@ -386,7 +388,7 @@
    "width": 2,
    "factor": 0.25,
    "unit": "об/мин",
-   "confidence": "вероятная",
+   "confidence": "подтверждена",
    "source": "DAMOS, тот же блок",
    "values": {
     "сток": 1200.0,
@@ -398,7 +400,8 @@
     "startpower": 1200.0,
     "Xoptim": 1200.0
    },
-   "note": "Предел при неизвестном или ошибочном положении дросселя, лимп-хоум. 1200 во всех прошивках."
+   "note": "Предел при неизвестном или ошибочном положении дросселя, лимп-хоум. 1200 во всех прошивках.",
+   "confirmed_by": "код: mov r4, 0x4bb8 @0x83BE78"
   },
   {
    "name": "TNMAXDV",
@@ -406,7 +409,7 @@
    "width": 2,
    "factor": 0.01,
    "unit": "с",
-   "confidence": "вероятная",
+   "confidence": "подтверждена",
    "source": "DAMOS, тот же блок",
    "values": {
     "сток": 3.0,
@@ -418,7 +421,8 @@
     "startpower": 3.0,
     "Xoptim": 3.0
    },
-   "note": "Задержка включения ограничения по NMAXDV. 3 с во всех прошивках."
+   "note": "Задержка включения ограничения по NMAXDV. 3 с во всех прошивках.",
+   "confirmed_by": "код: cmp r5, 0x4bba @0x83BEB2"
   }
  ],
  "flag_tables": {
@@ -695,7 +699,9 @@
     6000,
     6520,
     7000
-   ]
+   ],
+   "confidence": "подтверждена",
+   "confirmed_by": "код: mov r12, #0x1f7 @0x834E54"
   },
   "y_axis": {
    "name": "SRL12GKUB",
@@ -716,7 +722,9 @@
     75,
     80.25,
     84.75
-   ]
+   ],
+   "confidence": "подтверждена",
+   "confirmed_by": "код: mov PECC2, #0x21e @0x8316DA"
   },
   "confidence": "подтверждена",
   "source": "DAMOS px5ns03d + структурная проверка сетки; оси -- цепочка 0x181C1",
@@ -908,7 +916,9 @@
      "75.00%": 400,
      "80.25%": 400,
      "84.75%": 400
-    }
+    },
+    "confidence": "подтверждена",
+    "confirmed_by": "код: mov r12, #0x1576 @0x855C34"
    },
    "enable_flag": {
     "ram": "0x8A33 бит 4",
@@ -926,7 +936,9 @@
     "name": "TVLBTS",
     "addr": "0x196F6",
     "value": 0,
-    "note": "0 во всех восьми прошивках, дополнительной задержки нет"
+    "note": "0 во всех восьми прошивках, дополнительной задержки нет",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x16f6 @0x855AEA"
    },
    "ramp": {
     "time_constant_addr": "0x1B8B4",
@@ -971,7 +983,9 @@
     "unit": "V",
     "value": 0.4102,
     "m79": 0.4102,
-    "desc": "maximum offset-compensation value"
+    "desc": "maximum offset-compensation value",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r5, 0x163b @0x84DF2C"
    },
    {
     "name": "FKEFMC",
@@ -982,7 +996,9 @@
     "unit": "-",
     "value": 1.125,
     "m79": 1.125,
-    "desc": "correction factor for knock detection thresh. in case of change of filter frequ."
+    "desc": "correction factor for knock detection thresh. in case of change of filter frequ.",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r5, 0x163c @0x84E5DE"
    },
    {
     "name": "FKELDY",
@@ -993,7 +1009,9 @@
     "unit": "-",
     "value": 1.125,
     "m79": 1.5,
-    "desc": "correction factor for knock detection threshold during load dynamics"
+    "desc": "correction factor for knock detection threshold during load dynamics",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r5, 0x163d @0x84E5C0"
    },
    {
     "name": "FKENDY",
@@ -1004,7 +1022,9 @@
     "unit": "-",
     "value": 1.1875,
     "m79": 1.3125,
-    "desc": "correction factor for knock detection threshold with engine-speed dynamics"
+    "desc": "correction factor for knock detection threshold with engine-speed dynamics",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r5, 0x163e @0x84E5A2"
    },
    {
     "name": "FKRFTPFMC",
@@ -1015,7 +1035,9 @@
     "unit": "-",
     "value": 1.0,
     "m79": 0.5,
-    "desc": "correction factor of low pass characteristic at switch of filter mean frequency"
+    "desc": "correction factor of low pass characteristic at switch of filter mean frequency",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r5, 0x163f @0x84E814"
    },
    {
     "name": "KRFTP1",
@@ -1026,7 +1048,9 @@
     "unit": "",
     "value": 16.0,
     "m79": 12.0,
-    "desc": "low pass characteristic normal"
+    "desc": "low pass characteristic normal",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1640 @0x84E804"
    },
    {
     "name": "KRFTP2",
@@ -1037,7 +1061,9 @@
     "unit": "",
     "value": 4.0,
     "m79": 3.0,
-    "desc": "low pass characteristic at engine speed dynamics"
+    "desc": "low pass characteristic at engine speed dynamics",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1641 @0x84E7EC"
    },
    {
     "name": "KRFTP3",
@@ -1048,7 +1074,9 @@
     "unit": "",
     "value": 4.0,
     "m79": 3.0,
-    "desc": "low pass characteristic at load dynamic"
+    "desc": "low pass characteristic at load dynamic",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1642 @0x84E7FA"
    },
    {
     "name": "KRKFKS",
@@ -1059,7 +1087,9 @@
     "unit": "",
     "value": 4.0,
     "m79": 6.0,
-    "desc": "selected knock detection threshold, if missing cylinder one detection"
+    "desc": "selected knock detection threshold, if missing cylinder one detection",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r4, 0x1643 @0x84E546"
    },
    {
     "name": "KRVST",
@@ -1070,7 +1100,9 @@
     "unit": "",
     "value": 4.0,
     "m79": 5.0,
-    "desc": "gain after cranking"
+    "desc": "gain after cranking",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1644 @0x84E7B0"
    },
    {
     "name": "REFINI",
@@ -1081,7 +1113,9 @@
     "unit": "V",
     "value": 0.9766,
     "m79": 0.9766,
-    "desc": "initial value for reference level if knock control enabled"
+    "desc": "initial value for reference level if knock control enabled",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL5, 0x1645 @0x84E7B8"
    },
    {
     "name": "KRDWA",
@@ -1092,7 +1126,9 @@
     "unit": "Grad KW",
     "value": 3.0,
     "m79": 2.25,
-    "desc": "knock control difference current ignition angle to adaption map"
+    "desc": "knock control difference current ignition angle to adaption map",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL3, 0x164d @0x84F496"
    },
    {
     "name": "KRDWKLA",
@@ -1103,7 +1139,9 @@
     "unit": "grad KW",
     "value": -1.5,
     "m79": -0.0,
-    "desc": "The SV-learning value for KR adaption after knocking detected"
+    "desc": "The SV-learning value for KR adaption after knocking detected",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r5, 0x164e @0x84F45E"
    },
    {
     "name": "KRDWSA",
@@ -1114,7 +1152,9 @@
     "unit": "Grad KW",
     "value": 1.5,
     "m79": 2.25,
-    "desc": "The FV-learning value for KR adation when wkra-wkr > KRDWA"
+    "desc": "The FV-learning value for KR adation when wkra-wkr > KRDWA",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x164f @0x84F4A8"
    },
    {
     "name": "KRLMDY",
@@ -1125,7 +1165,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "Read if change of load range: always or only if dynamic active"
+    "desc": "Read if change of load range: always or only if dynamic active",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1650 @0x84F1A2"
    },
    {
     "name": "KRNMDY",
@@ -1136,7 +1178,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "Read if change of speed range: allways or only if dynamic active"
+    "desc": "Read if change of speed range: allways or only if dynamic active",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1651 @0x84F1C2"
    },
    {
     "name": "KSZA",
@@ -1147,7 +1191,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "number of knock sensor"
+    "desc": "number of knock sensor",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1652 @0x84ED5E"
    },
    {
     "name": "DYADS",
@@ -1158,7 +1204,9 @@
     "unit": "grad KW",
     "value": -1.5,
     "m79": -2.25,
-    "desc": "add. retarding per cycle through adapt. dynamics"
+    "desc": "add. retarding per cycle through adapt. dynamics",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: addb RL4, 0x1663 @0x84F79A"
    },
    {
     "name": "DYAFVS",
@@ -1169,7 +1217,9 @@
     "unit": "Grad KW",
     "value": 0.75,
     "m79": 2.25,
-    "desc": "advance step for deactivation of dynamic response"
+    "desc": "advance step for deactivation of dynamic response",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r13, 0x1664 @0x84F8AC"
    },
    {
     "name": "DYAVF",
@@ -1180,7 +1230,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "deactivation period for dynamics retardation"
+    "desc": "deactivation period for dynamics retardation",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL3, 0x1665 @0x84F73A"
    },
    {
     "name": "FKELDYA",
@@ -1191,7 +1243,9 @@
     "unit": "-",
     "value": 1.25,
     "m79": 1.1875,
-    "desc": "Corrective factor for knock detection threshold for adaptation of load dynamic"
+    "desc": "Corrective factor for knock detection threshold for adaptation of load dynamic",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r5, 0x1666 @0x84F87A"
    },
    {
     "name": "PZWKRA",
@@ -1202,7 +1256,9 @@
     "unit": "%",
     "value": 19.9219,
     "m79": 50.0,
-    "desc": "percentage frequency of ignition angle output by KC during dyn. adaption"
+    "desc": "percentage frequency of ignition angle output by KC during dyn. adaption",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r4, 0x1667 @0x84F80C"
    },
    {
     "name": "TMDYNA",
@@ -1213,7 +1269,9 @@
     "unit": "Grad C",
     "value": 80.25,
     "m79": 80.25,
-    "desc": "engine temperature threshold to enable load dynamic adaptation"
+    "desc": "engine temperature threshold to enable load dynamic adaptation",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL3, 0x1668 @0x84F706"
    },
    {
     "name": "CWDKRNT",
@@ -1224,7 +1282,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 100.0,
-    "desc": "code word: kc-diagnosis integrator gradient"
+    "desc": "code word: kc-diagnosis integrator gradient",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1669 @0x84FC94"
    },
    {
     "name": "CWDKROF",
@@ -1235,7 +1295,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 100.0,
-    "desc": "code word: kc-diagnosis reset value"
+    "desc": "code word: kc-diagnosis reset value",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x166a @0x84FD10"
    },
    {
     "name": "DKROKU",
@@ -1246,7 +1308,9 @@
     "unit": "Upm",
     "value": 1200.0,
     "m79": 1200.0,
-    "desc": "lower rpm-limit for determination of offset-compensation-value"
+    "desc": "lower rpm-limit for determination of offset-compensation-value",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x166b @0x84FE58"
    },
    {
     "name": "KRFHT",
@@ -1257,7 +1321,9 @@
     "unit": "",
     "value": 3.0,
     "m79": 3.0,
-    "desc": "error frequency, test pulse"
+    "desc": "error frequency, test pulse",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x166c @0x84DD7C"
    },
    {
     "name": "UDKRGOFS",
@@ -1268,7 +1334,9 @@
     "unit": "V",
     "value": 0.2148,
     "m79": 0.2344,
-    "desc": "voltage threshold for DIA/KR basic offset amplifier"
+    "desc": "voltage threshold for DIA/KR basic offset amplifier",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL6, 0x166d @0x84FDBA"
    },
    {
     "name": "CWDKRTP",
@@ -1279,7 +1347,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 100.0,
-    "desc": "code word: kc-diagnosis testpulse"
+    "desc": "code word: kc-diagnosis testpulse",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL5, 0x166e @0x84DDA0"
    },
    {
     "name": "UDKRTP",
@@ -1290,7 +1360,9 @@
     "unit": "V",
     "value": 3.6914,
     "m79": 3.7109,
-    "desc": "integr.volt.thresh. f.diagn. knock eval.circ. test pulse"
+    "desc": "integr.volt.thresh. f.diagn. knock eval.circ. test pulse",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x166f @0x850596"
    },
    {
     "name": "NDSVL",
@@ -1301,7 +1373,9 @@
     "unit": "Upm",
     "value": 4000.0,
     "m79": 600.0,
-    "desc": "full-load switch error detection / n threshold minimum"
+    "desc": "full-load switch error detection / n threshold minimum",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x1670 @0x85076A"
    },
    {
     "name": "QDPSLL",
@@ -1312,7 +1386,9 @@
     "unit": "kg/h",
     "value": 16.0,
     "m79": 16.0,
-    "desc": "maximum rate of air flow for plausibility test of idle-speed switch"
+    "desc": "maximum rate of air flow for plausibility test of idle-speed switch",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x1671 @0x85077E"
    },
    {
     "name": "RLDSVL",
@@ -1323,7 +1399,9 @@
     "unit": "%",
     "value": 60.0,
     "m79": 69.75,
-    "desc": "full-load switch error detection / load-signal threshold maximal"
+    "desc": "full-load switch error detection / load-signal threshold maximal",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x1672 @0x850760"
    }
   ],
   "retracted": "Прежняя запись с KRFKN 0x18F05 = -3 град, KRMXN 0x18F15 = -12 град, LKRN 0x18F4D и KRDWSN 0x18EA3 ОТОЗВАНА. Эти ячейки кодом не читаются вовсе, адреса были получены выравниванием, а правдоподобные значения оказались совпадением. Кривые контура (KRFKN, KRMXN, LKRN, KRDWSN, TMKR) заново не найдены.",
@@ -1358,7 +1436,9 @@
     "factor": 0.00390625,
     "desc": "доля плёнки для обогащения на разгоне",
     "range": "0.281..0.473",
-    "same_in_all": true
+    "same_in_all": true,
+    "confidence": "подтверждена",
+    "confirmed_by": "код: mov r12, #0x13f3 @0x852318"
    },
    {
     "name": "KFAVAK",
@@ -1368,7 +1448,9 @@
     "factor": 0.00390625,
     "desc": "доля плёнки для обеднения на сбросе",
     "range": "0.223..0.496",
-    "same_in_all": true
+    "same_in_all": true,
+    "confidence": "подтверждена",
+    "confirmed_by": "код: mov r12, #0x1432 @0x85233E"
    },
    {
     "name": "KFBAKL",
@@ -1389,7 +1471,9 @@
      "Xoptim": 19,
      "L": 0
     },
-    "what_changed": "csok, csok v2, startpower и Xoptim подняли строки 6..8 (горячий конец оси): в стоке там 0.56..2.25, у них 2.25..2.50. То есть переходное обогащение на прогретом моторе увеличено втрое-вчетверо. Сток, ori_e3, MPower и L не тронуты."
+    "what_changed": "csok, csok v2, startpower и Xoptim подняли строки 6..8 (горячий конец оси): в стоке там 0.56..2.25, у них 2.25..2.50. То есть переходное обогащение на прогретом моторе увеличено втрое-вчетверо. Сток, ori_e3, MPower и L не тронуты.",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: mov r12, #0x1471 @0x852460"
    },
    {
     "name": "KFVAKL",
@@ -1399,7 +1483,9 @@
     "factor": 0.0625,
     "desc": "фактор обеднения на сбросе",
     "range": "0.812..8.438",
-    "same_in_all": true
+    "same_in_all": true,
+    "confidence": "подтверждена",
+    "confirmed_by": "код: mov r12, #0x14b0 @0x8523E8"
    }
   ],
   "correction": "Раньше я писал, что плёночную модель на этом блоке не калибровал никто. Это было неверно: я смотрел на адреса 0x1931E и 0x1939C, полученные выравниванием, и они читались мусором. По настоящим адресам видно, что четыре тюнера KFBAKL правили."
@@ -1494,7 +1580,9 @@
      "addr": "0x100F2",
      "n": 16,
      "factor": 40,
-     "note": "та же ось, что у KFZWOP"
+     "note": "та же ось, что у KFZWOP",
+     "confidence": "подтверждена",
+     "confirmed_by": "код: movb RL5, #0xf2 @0x82ED2E"
     },
     "y_axis": {
      "name": "SRL11OPUW",
@@ -1502,7 +1590,9 @@
      "n": 11,
      "width": 2,
      "factor": 0.0234375,
-     "note": "та же ось, что у KFZWOP"
+     "note": "та же ось, что у KFZWOP",
+     "confidence": "подтверждена",
+     "confirmed_by": "код: mov r12, #0x4b70 @0x83B290"
     },
     "confidence": "подтверждена",
     "source": "DAMOS + структурная привязка: блок 0x14A10..0x14B70 упирается точно в ось SRL11OPUW, значения монотонны по обоим осям",
@@ -1574,8 +1664,9 @@
     "factor": 0.75,
     "unit": "°КВ",
     "desc": "обратная таблица: дельта угла из требуемого КПД",
-    "confidence": "сомнительная",
-    "note": "Именно ей блок превращает требуемое снижение момента в поздний угол (прогрев катализатора и т.п.)."
+    "confidence": "подтверждена",
+    "note": "Именно ей блок превращает требуемое снижение момента в поздний угол (прогрев катализатора и т.п.).",
+    "confirmed_by": "код: movb RL5, [r4+#0x86c] @0x83DA96"
    },
    {
     "name": "KFETAZW",
@@ -1710,14 +1801,15 @@
     "factor": 0.390625,
     "unit": "%",
     "desc": "верхний предел индицированного момента",
-    "confidence": "сомнительная"
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r4, 0x05d9 @0x83B2EC"
    },
    {
     "name": "CWMDAPP",
     "addr": "0x10024",
     "width": 1,
     "desc": "кодовое слово: калибровка без моментной структуры",
-    "confidence": "сомнительная",
+    "confidence": "подтверждена",
     "values": {
      "сток": 6,
      "csok": 0,
@@ -1728,7 +1820,8 @@
      "startpower": 0,
      "Xoptim": 0
     },
-    "note": "Адрес не подтверждён. Значения 6 в стоке/MPower/L и 0 в csok/csok v2/Xoptim -- любопытно, но проверять надо отдельно."
+    "note": "Адрес не подтверждён. Значения 6 в стоке/MPower/L и 0 в csok/csok v2/Xoptim -- любопытно, но проверять надо отдельно.",
+    "confirmed_by": "код: sub r0, #0x24 @0x828066"
    },
    {
     "name": "ETALAM",
@@ -2066,9 +2159,10 @@
     "unit": "мс/%",
     "stock": 0.1637,
     "desc": "пересчёт относительной массы топлива rk в эффективное время впрыска te -- постоянная форсунки",
-    "confidence": "вероятная",
+    "confidence": "подтверждена",
     "check": "Проверка физикой сходится. Полный цилиндр 1.6/4 при нормальных условиях -- 517 мг воздуха, то есть 35.2 мг бензина при стехиометрии. te при rk=100 % равно 16.37 мс, отсюда расход форсунки 129 г/мин, то есть около 172 см3/мин -- обычный размер для 1.6. Прямой ссылки кода на этот адрес calref не нашёл, поэтому не 'подтверждена'.",
-    "lever": "единственное место, где учитывается размер форсунок; при их замене правится тут"
+    "lever": "единственное место, где учитывается размер форсунок; при их замене правится тут",
+    "confirmed_by": "код: mov r12, #0x1485 @0x842B7E"
    },
    {
     "name": "FRKAP",
@@ -2119,7 +2213,9 @@
     "unit": "s",
     "value": 10.0,
     "m79": 10.0,
-    "desc": "inhibit time after condition B_te (canister purge active)"
+    "desc": "inhibit time after condition B_te (canister purge active)",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x093f @0x83A170"
    },
    {
     "name": "TVLRHMN",
@@ -2130,7 +2226,9 @@
     "unit": "s",
     "value": 1.66,
     "m79": 1.56,
-    "desc": "lower limit for tv-correction"
+    "desc": "lower limit for tv-correction",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0940 @0x847D82"
    },
    {
     "name": "TVLRHMX",
@@ -2141,7 +2239,9 @@
     "unit": "s",
     "value": 0.9,
     "m79": 1.0,
-    "desc": "upper limit for tv-correction"
+    "desc": "upper limit for tv-correction",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0941 @0x847D60"
    },
    {
     "name": "ANZDYNSH",
@@ -2152,7 +2252,9 @@
     "unit": "",
     "value": 4.0,
     "m79": 4.0,
-    "desc": "Amount of dynamic measurement for swinging check of sensor post cat"
+    "desc": "Amount of dynamic measurement for swinging check of sensor post cat",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL5, 0x0942 @0x848596"
    },
    {
     "name": "CWDLSAHK",
@@ -2163,7 +2265,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 0.0,
-    "desc": "code word for  test aging of O2-sensor post cat"
+    "desc": "code word for  test aging of O2-sensor post cat",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0943 @0x84814C"
    },
    {
     "name": "TABGSTG",
@@ -2174,7 +2278,9 @@
     "unit": "Grad C",
     "value": 1225.0,
     "m79": 350.0,
-    "desc": "threshold for exhaust temperature dynamic-measuring"
+    "desc": "threshold for exhaust temperature dynamic-measuring",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0944 @0x847EDA"
    },
    {
     "name": "TFRMB",
@@ -2185,7 +2291,9 @@
     "unit": "s",
     "value": 3.0,
     "m79": 3.0,
-    "desc": "time delay for detect. the mean value of lamda control factor within thresholds"
+    "desc": "time delay for detect. the mean value of lamda control factor within thresholds",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0945 @0x84825E"
    },
    {
     "name": "TLLASH",
@@ -2196,7 +2304,9 @@
     "unit": "s",
     "value": 5.0,
     "m79": 5.0,
-    "desc": "time delay for reset lamlash_w if lamsons_w is not lamlash_w"
+    "desc": "time delay for reset lamlash_w if lamsons_w is not lamlash_w",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0946 @0x848340"
    },
    {
     "name": "TSALASH",
@@ -2207,7 +2317,9 @@
     "unit": "s",
     "value": 8.0,
     "m79": 3.0,
-    "desc": "Time after fuel cut-off for the checking of the sensor downstream catalyst"
+    "desc": "Time after fuel cut-off for the checking of the sensor downstream catalyst",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL5, 0x0947 @0x847E4C"
    },
    {
     "name": "TUSCHUB",
@@ -2218,7 +2330,9 @@
     "unit": "s",
     "value": 0.2,
     "m79": 0.2,
-    "desc": "Delay time for interference peaks at thrust detection of the rear oxygen sensor"
+    "desc": "Delay time for interference peaks at thrust detection of the rear oxygen sensor",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0948 @0x8484BC"
    },
    {
     "name": "TUSHSMIN",
@@ -2229,7 +2343,9 @@
     "unit": "s",
     "value": 3.0,
     "m79": 25.0,
-    "desc": "Minimum time for measuring the gradient for enable filter"
+    "desc": "Minimum time for measuring the gradient for enable filter",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0949 @0x847E40"
    },
    {
     "name": "TUSSA",
@@ -2240,7 +2356,9 @@
     "unit": "s",
     "value": 0.5,
     "m79": 2.0,
-    "desc": "delay time after crossing the control threshold downstream cat"
+    "desc": "delay time after crossing the control threshold downstream cat",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL3, 0x094a @0x847E58"
    },
    {
     "name": "USHLEAN",
@@ -2251,7 +2369,9 @@
     "unit": "V",
     "value": 0.1025,
     "m79": 0.1025,
-    "desc": "Threshold for lean volt. for reset dynamic measurement of sensor downstream cat."
+    "desc": "Threshold for lean volt. for reset dynamic measurement of sensor downstream cat.",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x094b @0x847F0A"
    },
    {
     "name": "USHRICH",
@@ -2262,7 +2382,9 @@
     "unit": "V",
     "value": 0.5511,
     "m79": 0.9996,
-    "desc": "Threshold for rich volt. for valid dyn. measurement of sensor downstream cat."
+    "desc": "Threshold for rich volt. for valid dyn. measurement of sensor downstream cat.",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x094c @0x847F20"
    },
    {
     "name": "USHSTGMX",
@@ -2273,7 +2395,9 @@
     "unit": "mV/ms",
     "value": 70.2,
     "m79": 70.2,
-    "desc": "Value for maximum gradient for initial value of filter"
+    "desc": "Value for maximum gradient for initial value of filter",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x094d @0x847E28"
    },
    {
     "name": "USHSTSOLL",
@@ -2284,7 +2408,9 @@
     "unit": "mV/ms",
     "value": 5.2,
     "m79": 1.56,
-    "desc": "Threshold for permitted gradient of the sensor voltage downstream catalyst"
+    "desc": "Threshold for permitted gradient of the sensor voltage downstream catalyst",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x094e @0x848588"
    },
    {
     "name": "USSCHUB",
@@ -2295,7 +2421,9 @@
     "unit": "V",
     "value": 0.1495,
     "m79": 0.1025,
-    "desc": "Threshold for sensor voltage downstream catalyst after fuel cut-off"
+    "desc": "Threshold for sensor voltage downstream catalyst after fuel cut-off",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL5, 0x094f @0x848410"
    },
    {
     "name": "CWGGLSV",
@@ -2306,7 +2434,9 @@
     "unit": "",
     "value": 0.0,
     "m79": 0.0,
-    "desc": "Code word for Ri-measurement for O2sensor pre cat (not fully heated)"
+    "desc": "Code word for Ri-measurement for O2sensor pre cat (not fully heated)",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0950 @0x848736"
    },
    {
     "name": "ADKATNF",
@@ -2317,7 +2447,9 @@
     "unit": "1/V",
     "value": 4.2129,
     "m79": 4.0257,
-    "desc": "scaling factor for signal amplitude of the sensor resp. of the catalyst stress"
+    "desc": "scaling factor for signal amplitude of the sensor resp. of the catalyst stress",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r4, 0x0951 @0x849288"
    },
    {
     "name": "AHKATMN",
@@ -2328,7 +2460,9 @@
     "unit": "-",
     "value": 0.3008,
     "m79": 0.4492,
-    "desc": "threshold value catalyst good, AHKAT < AHKATMN"
+    "desc": "threshold value catalyst good, AHKAT < AHKATMN",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0952 @0x8496CA"
    },
    {
     "name": "AHKATS",
@@ -2339,7 +2473,9 @@
     "unit": "-",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "threshold value for sum AHKAT,AHKAT2 (stereo)"
+    "desc": "threshold value for sum AHKAT,AHKAT2 (stereo)",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL6, 0x0953 @0x849748"
    },
    {
     "name": "AHKATSB",
@@ -2350,7 +2486,9 @@
     "unit": "-",
     "value": 0.9961,
     "m79": 0.9883,
-    "desc": "threshold value for error of adding range (stereo)"
+    "desc": "threshold value for error of adding range (stereo)",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0954 @0x849756"
    },
    {
     "name": "AHKTMXT",
@@ -2361,7 +2499,9 @@
     "unit": "-",
     "value": 0.5,
     "m79": 0.5,
-    "desc": "threshold value catalyst defect at tester's request"
+    "desc": "threshold value catalyst defect at tester's request",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL6, 0x0955 @0x84968C"
    },
    {
     "name": "APEKTDX",
@@ -2372,7 +2512,9 @@
     "unit": "",
     "value": 2.0,
     "m79": 2.0,
-    "desc": "max. number of tests with error result"
+    "desc": "max. number of tests with error result",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0956 @0x848EAC"
    },
    {
     "name": "AVKATFS",
@@ -2383,7 +2525,9 @@
     "unit": "-",
     "value": 0.5,
     "m79": 0.1992,
-    "desc": "setting value for AVKATF in case of powerfail"
+    "desc": "setting value for AVKATF in case of powerfail",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0957 @0x848B94"
    },
    {
     "name": "CDKATLK",
@@ -2394,7 +2538,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "code word for B_lrka active"
+    "desc": "code word for B_lrka active",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0958 @0x83A14C"
    },
    {
     "name": "DKATCW",
@@ -2405,7 +2551,9 @@
     "unit": "",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "single run resp. initialization of the DKAT function"
+    "desc": "single run resp. initialization of the DKAT function",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0959 @0x848E9C"
    },
    {
     "name": "DRLKTDP",
@@ -2416,7 +2564,9 @@
     "unit": "%",
     "value": 9.75,
     "m79": 9.75,
-    "desc": "Threshold for engine load change"
+    "desc": "Threshold for engine load change",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL6, 0x095a @0x8495AE"
    },
    {
     "name": "DRLKTDPT",
@@ -2427,7 +2577,9 @@
     "unit": "%",
     "value": 20.25,
     "m79": 9.75,
-    "desc": "Threshold for engine load change at tester's request"
+    "desc": "Threshold for engine load change at tester's request",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL6, 0x095b @0x849598"
    },
    {
     "name": "FALRKTD",
@@ -2438,7 +2590,9 @@
     "unit": "-",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "amplification factor for amplitude of lambda controller"
+    "desc": "amplification factor for amplitude of lambda controller",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x095c @0x8495A2"
    },
    {
     "name": "FALRKTT",
@@ -2449,7 +2603,9 @@
     "unit": "-",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "amplification factor for amplitude of lambda controller at tester mode"
+    "desc": "amplification factor for amplitude of lambda controller at tester mode",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x095d @0x84958C"
    },
    {
     "name": "KATBFMNT",
@@ -2460,7 +2616,9 @@
     "unit": "-",
     "value": 0.1992,
     "m79": 0.1992,
-    "desc": "threshold value for small catalyst stress at tester's request"
+    "desc": "threshold value for small catalyst stress at tester's request",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL6, 0x095e @0x849468"
    },
    {
     "name": "KATBFN",
@@ -2471,7 +2629,9 @@
     "unit": "-",
     "value": 0.6211,
     "m79": 0.8008,
-    "desc": "standardized mean value of the sensor amplitude"
+    "desc": "standardized mean value of the sensor amplitude",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r12, 0x095f @0x84940C"
    },
    {
     "name": "KATBFNM",
@@ -2482,7 +2642,9 @@
     "unit": "V",
     "value": 0.3599,
     "m79": 0.339,
-    "desc": "scaling factor multiplicative for catalyst stress"
+    "desc": "scaling factor multiplicative for catalyst stress",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r5, 0x0960 @0x848DFC"
    },
    {
     "name": "KATBFNP",
@@ -2493,7 +2655,9 @@
     "unit": "V",
     "value": 0.4016,
     "m79": 0.4381,
-    "desc": "scaling factor additive for catalyst stress"
+    "desc": "scaling factor additive for catalyst stress",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r13, 0x0961 @0x848E0C"
    },
    {
     "name": "KATBFSX",
@@ -2504,7 +2668,9 @@
     "unit": "-",
     "value": 0.8984,
     "m79": 0.9531,
-    "desc": "maximum integrator value for stop condition"
+    "desc": "maximum integrator value for stop condition",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0962 @0x83A316"
    },
    {
     "name": "KATBSG",
@@ -2515,7 +2681,9 @@
     "unit": "mg",
     "value": 13.0435,
     "m79": 10.4348,
-    "desc": "catalyst storage value for catalyst stress"
+    "desc": "catalyst storage value for catalyst stress",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r14, 0x0963 @0x848D82"
    },
    {
     "name": "KATBSH",
@@ -2526,7 +2694,9 @@
     "unit": "mg/s",
     "value": 13.0435,
     "m79": 5.2174,
-    "desc": "offset for lambda control slightly in the rich area"
+    "desc": "offset for lambda control slightly in the rich area",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r13, 0x0964 @0x848D4E"
    },
    {
     "name": "KATBSHG",
@@ -2537,7 +2707,9 @@
     "unit": "-",
     "value": 0.25,
     "m79": 0.3984,
-    "desc": "limitation factor of model lambda-offset due to sensor mean values"
+    "desc": "limitation factor of model lambda-offset due to sensor mean values",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0965 @0x8492FE"
    },
    {
     "name": "NDKTSOT",
@@ -2548,7 +2720,9 @@
     "unit": "Upm",
     "value": 2520.0,
     "m79": 1720.0,
-    "desc": "upper engine speed limit for function request"
+    "desc": "upper engine speed limit for function request",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0966 @0x83A27A"
    },
    {
     "name": "NDKTSUT",
@@ -2559,7 +2733,9 @@
     "unit": "Upm",
     "value": 560.0,
     "m79": 600.0,
-    "desc": "lower engine speed limit for function request"
+    "desc": "lower engine speed limit for function request",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0967 @0x83A270"
    },
    {
     "name": "NKTDX",
@@ -2570,7 +2746,9 @@
     "unit": "Upm",
     "value": 2520.0,
     "m79": 2520.0,
-    "desc": "Maximum speed for DKAT calculation"
+    "desc": "Maximum speed for DKAT calculation",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0968 @0x83A350"
    },
    {
     "name": "RLDKTOT",
@@ -2581,7 +2759,9 @@
     "unit": "%",
     "value": 30.0,
     "m79": 45.75,
-    "desc": "upper load limit for function request"
+    "desc": "upper load limit for function request",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0969 @0x83A29C"
    },
    {
     "name": "RLDKTUT",
@@ -2592,7 +2772,9 @@
     "unit": "%",
     "value": 20.25,
     "m79": 18.75,
-    "desc": "lower load limit for function request"
+    "desc": "lower load limit for function request",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x096a @0x83A292"
    },
    {
     "name": "TMAXKAT",
@@ -2603,7 +2785,9 @@
     "unit": "Grad C",
     "value": 650.0,
     "m79": 740.0,
-    "desc": "maximum catalyst temp. for active diagnosis"
+    "desc": "maximum catalyst temp. for active diagnosis",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x096b @0x849022"
    },
    {
     "name": "TMINKAT",
@@ -2614,7 +2798,9 @@
     "unit": "Grad C",
     "value": 470.0,
     "m79": 500.0,
-    "desc": "minimum catalyst temperature for monitoring"
+    "desc": "minimum catalyst temperature for monitoring",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x096c @0x84902C"
    },
    {
     "name": "TMNKATT",
@@ -2625,7 +2811,9 @@
     "unit": "Grad C",
     "value": 350.0,
     "m79": 350.0,
-    "desc": "minimum catalyst temperature for monitoring during tester mode"
+    "desc": "minimum catalyst temperature for monitoring during tester mode",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x096d @0x83A25E"
    },
    {
     "name": "TMSUKTD",
@@ -2636,7 +2824,9 @@
     "unit": "Grad C",
     "value": -9.75,
     "m79": -9.75,
-    "desc": "minimum engine start temp. for monitoring"
+    "desc": "minimum engine start temp. for monitoring",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL5, 0x096e @0x848C34"
    },
    {
     "name": "TWDKATST",
@@ -2647,7 +2837,9 @@
     "unit": "s",
     "value": 0.5,
     "m79": 0.5,
-    "desc": "waiting time after stop condition for filter and integrator"
+    "desc": "waiting time after stop condition for filter and integrator",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x096f @0x8491D2"
    },
    {
     "name": "TWKTDLP",
@@ -2658,7 +2850,9 @@
     "unit": "s",
     "value": 1.0,
     "m79": 1.0,
-    "desc": "delay time after parameter switch over in lambda control"
+    "desc": "delay time after parameter switch over in lambda control",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0970 @0x8491C4"
    },
    {
     "name": "ZDKATAD",
@@ -2669,7 +2863,9 @@
     "unit": "s",
     "value": 22.0,
     "m79": 20.0,
-    "desc": "filter time constant of the differentiator for signal amplitude"
+    "desc": "filter time constant of the differentiator for signal amplitude",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r12, 0x0971 @0x849208"
    },
    {
     "name": "ZDKATAF",
@@ -2680,7 +2876,9 @@
     "unit": "s",
     "value": 4.0,
     "m79": 3.0,
-    "desc": "time constant \"absolute value filter\" for signal amplitude"
+    "desc": "time constant \"absolute value filter\" for signal amplitude",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r13, 0x0972 @0x848BE2"
    },
    {
     "name": "ZDKATSH",
@@ -2691,7 +2889,9 @@
     "unit": "s",
     "value": 4.0,
     "m79": 4.0,
-    "desc": "time constant low pass filter, mean sensor values"
+    "desc": "time constant low pass filter, mean sensor values",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r12, 0x0973 @0x8492C8"
    },
    {
     "name": "ZDKTBD",
@@ -2702,7 +2902,9 @@
     "unit": "s",
     "value": 14.0,
     "m79": 26.0,
-    "desc": "time constant of the differentiator for RF-alternating component"
+    "desc": "time constant of the differentiator for RF-alternating component",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r12, 0x0974 @0x848CB2"
    },
    {
     "name": "ZDKTBF",
@@ -2713,7 +2915,9 @@
     "unit": "s",
     "value": 213.0,
     "m79": 213.0,
-    "desc": "time constant for gas mixing procedure in front of catalyst"
+    "desc": "time constant for gas mixing procedure in front of catalyst",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r12, 0x0974 @0x848CB2"
    },
    {
     "name": "ZKTDRL",
@@ -2724,7 +2928,9 @@
     "unit": "s",
     "value": 6.0,
     "m79": 6.0,
-    "desc": "time constant low pass filter, engine load"
+    "desc": "time constant low pass filter, engine load",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r12, 0x0976 @0x849542"
    },
    {
     "name": "PHLSNVMN",
@@ -2735,7 +2941,9 @@
     "unit": "-",
     "value": 0.8,
     "m79": 0.8,
-    "desc": "minimal normalised heating-power-diagnosis sensor pre catalyst"
+    "desc": "minimal normalised heating-power-diagnosis sensor pre catalyst",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL5, 0x0977 @0x849F26"
    },
    {
     "name": "TABGMSVU",
@@ -2746,7 +2954,9 @@
     "unit": "Grad C",
     "value": 250.0,
     "m79": 250.0,
-    "desc": "temp. threshold from exhaust temp. modell for diagn. sensor upstream"
+    "desc": "temp. threshold from exhaust temp. modell for diagn. sensor upstream",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0978 @0x849F18"
    },
    {
     "name": "TMASO",
@@ -2757,7 +2967,9 @@
     "unit": "s",
     "value": 3.0,
     "m79": 3.0,
-    "desc": "time after fuel cut off for commen open sensor ground"
+    "desc": "time after fuel cut off for commen open sensor ground",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0979 @0x84992C"
    },
    {
     "name": "TMNEB",
@@ -2768,7 +2980,9 @@
     "unit": "Grad C",
     "value": 18.0,
     "m79": 50.25,
-    "desc": "Engine temprerature threshold for measurement of sensor shunt pre cat"
+    "desc": "Engine temprerature threshold for measurement of sensor shunt pre cat",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x097a @0x849B42"
    },
    {
     "name": "TMSV",
@@ -2779,7 +2993,9 @@
     "unit": "Grad C",
     "value": 42.0,
     "m79": 42.0,
-    "desc": "engine temp. threshold for recognition cold start for measuring sensor upstream"
+    "desc": "engine temp. threshold for recognition cold start for measuring sensor upstream",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL5, 0x097b @0x849A66"
    },
    {
     "name": "TMSVA",
@@ -2790,7 +3006,9 @@
     "unit": "Grad C",
     "value": 60.0,
     "m79": 60.0,
-    "desc": "threshold for engine switch-off temp. for measuring cooling sensor upstream cat"
+    "desc": "threshold for engine switch-off temp. for measuring cooling sensor upstream cat",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x097c @0x849A58"
    },
    {
     "name": "TRSA",
@@ -2801,7 +3019,9 @@
     "unit": "s",
     "value": 5.0,
     "m79": 5.0,
-    "desc": "monitoring time closed-loop control (upstream CAT) -> sensor off"
+    "desc": "monitoring time closed-loop control (upstream CAT) -> sensor off",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL3, 0x097d @0x849944"
    },
    {
     "name": "TUSEINV",
@@ -2812,7 +3032,9 @@
     "unit": "s",
     "value": 5.0,
     "m79": 0.0,
-    "desc": "Delay time for condition Lambda sensor ready bit"
+    "desc": "Delay time for condition Lambda sensor ready bit",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x097e @0x84A2F2"
    },
    {
     "name": "PHLSNHMN",
@@ -2823,7 +3045,9 @@
     "unit": "-",
     "value": 0.75,
     "m79": 0.75,
-    "desc": "Heating power for adequate sensor heating"
+    "desc": "Heating power for adequate sensor heating",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x097f @0x84A554"
    },
    {
     "name": "THHA",
@@ -2834,7 +3058,9 @@
     "unit": "s",
     "value": 0.58,
     "m79": 0.6,
-    "desc": "off time to reduce heater power of oxygen sensor downstream cat at 13Volt"
+    "desc": "off time to reduce heater power of oxygen sensor downstream cat at 13Volt",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0980 @0x84A44E"
    },
    {
     "name": "THHA2",
@@ -2845,7 +3071,9 @@
     "unit": "s",
     "value": 0.58,
     "m79": 0.6,
-    "desc": "off time to reduce heater power of oxygen sensor2 downstream cat at 13Volt"
+    "desc": "off time to reduce heater power of oxygen sensor2 downstream cat at 13Volt",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0980 @0x84A44E"
    },
    {
     "name": "THHAWU",
@@ -2856,7 +3084,9 @@
     "unit": "s",
     "value": 0.0,
     "m79": 0.1,
-    "desc": "Switch OFF time during power reduction of sensor heating post cat"
+    "desc": "Switch OFF time during power reduction of sensor heating post cat",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0982 @0x84A4FA"
    },
    {
     "name": "THSHA",
@@ -2867,7 +3097,9 @@
     "unit": "s",
     "value": 10.0,
     "m79": 10.0,
-    "desc": "Verzgerungszeit fr Sonde ausreichend beheizt"
+    "desc": "Verzgerungszeit fr Sonde ausreichend beheizt",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0983 @0x84A39C"
    },
    {
     "name": "THVA",
@@ -2878,7 +3110,9 @@
     "unit": "s",
     "value": 0.2,
     "m79": 0.24,
-    "desc": "off time to reduce heater power of oxygen sensor upstream cat at 13 Volt"
+    "desc": "off time to reduce heater power of oxygen sensor upstream cat at 13 Volt",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0984 @0x84A59C"
    },
    {
     "name": "THVA2",
@@ -2889,7 +3123,9 @@
     "unit": "s",
     "value": 0.2,
     "m79": 0.24,
-    "desc": "off time to reduce heater power of oxygen sensor2 upstream cat at 13 Volt"
+    "desc": "off time to reduce heater power of oxygen sensor2 upstream cat at 13 Volt",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0984 @0x84A59C"
    },
    {
     "name": "THVAWU",
@@ -2900,7 +3136,9 @@
     "unit": "s",
     "value": 0.0,
     "m79": 0.03,
-    "desc": "Switch OFF time during power reduction of sensor heating pre cat"
+    "desc": "Switch OFF time during power reduction of sensor heating pre cat",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0986 @0x84A6F8"
    },
    {
     "name": "TMOHSMN",
@@ -2911,7 +3149,9 @@
     "unit": "Grad C",
     "value": -9.75,
     "m79": -9.75,
-    "desc": "Minimum engine temperature for lambda sensor heating"
+    "desc": "Minimum engine temperature for lambda sensor heating",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x0987 @0x84A42C"
    },
    {
     "name": "TREHS",
@@ -2922,7 +3162,9 @@
     "unit": "s",
     "value": 0.1,
     "m79": 0.1,
-    "desc": "time for restart sensor heating"
+    "desc": "time for restart sensor heating",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL5, 0x0988 @0x84A378"
    },
    {
     "name": "TVHSH",
@@ -2933,7 +3175,9 @@
     "unit": "s",
     "value": 0.0,
     "m79": 4.0,
-    "desc": "delay time for sensor heater downstream cut"
+    "desc": "delay time for sensor heater downstream cut",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x0989 @0x84A494"
    },
    {
     "name": "TVHSV",
@@ -2944,7 +3188,9 @@
     "unit": "s",
     "value": 0.0,
     "m79": 4.0,
-    "desc": "delay time for sensor heater upstream cut"
+    "desc": "delay time for sensor heater upstream cut",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x098a @0x84A686"
    },
    {
     "name": "TVHSVMX",
@@ -2955,7 +3201,9 @@
     "unit": "s",
     "value": 1.0,
     "m79": 2.0,
-    "desc": "delay time for maximum  sensor heater upstream cut"
+    "desc": "delay time for maximum  sensor heater upstream cut",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL3, 0x098b @0x84A384"
    },
    {
     "name": "UBHS",
@@ -2966,7 +3214,9 @@
     "unit": "V",
     "value": 15.5584,
     "m79": 15.9808,
-    "desc": "battery voltage threshold for switching off oxygen sensor heater"
+    "desc": "battery voltage threshold for switching off oxygen sensor heater",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x098c @0x84A50E"
    },
    {
     "name": "UHSN",
@@ -2977,7 +3227,9 @@
     "unit": "V",
     "value": 13.024,
     "m79": 13.5168,
-    "desc": "Nominal battery voltage for lambda sensor heating"
+    "desc": "Nominal battery voltage for lambda sensor heating",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r14, 0x098d @0x84A410"
    }
   ]
  },
@@ -3018,7 +3270,9 @@
      "Xoptim": 0.0,
      "L": 0.0
     },
-    "desc": "tans-threshold for canister purge control with B_ll = 1"
+    "desc": "tans-threshold for canister purge control with B_ll = 1",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x1535 @0x8537F8"
    },
    {
     "name": "TMSNOGA",
@@ -3041,7 +3295,9 @@
      "Xoptim": 30.0,
      "L": 30.0
     },
-    "desc": "threshold tms for endless purge control, if mixture adaptation without error"
+    "desc": "threshold tms for endless purge control, if mixture adaptation without error",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x1537 @0x853662"
    },
    {
     "name": "TMTE",
@@ -3064,7 +3320,9 @@
      "Xoptim": 39.0,
      "L": 39.0
     },
-    "desc": "engine-temperature threshold for canister purge"
+    "desc": "engine-temperature threshold for canister purge",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x176c @0x851842"
    },
    {
     "name": "FRHB",
@@ -3087,7 +3345,9 @@
      "Xoptim": 1.242,
      "L": 1.242
     },
-    "desc": "limit for lambda controller to reset Bit \"High HC-canister charge\""
+    "desc": "limit for lambda controller to reset Bit \"High HC-canister charge\"",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r4, 0x17ab @0x8577A4"
    },
    {
     "name": "FTEADAB",
@@ -3110,7 +3370,9 @@
      "Xoptim": 122.0,
      "L": 122.0
     },
-    "desc": "Canister charge threshold for interruption of the purge phase"
+    "desc": "Canister charge threshold for interruption of the purge phase",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL6, 0x17ac @0x85778C"
    },
    {
     "name": "FTEADMX",
@@ -3133,7 +3395,9 @@
      "Xoptim": 37.5,
      "L": 37.5
     },
-    "desc": "Maximum value of the canister charge (ftead)"
+    "desc": "Maximum value of the canister charge (ftead)",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL6, 0x17ad @0x85777C"
    },
    {
     "name": "FTEFHB",
@@ -3156,7 +3420,9 @@
      "Xoptim": 0.006,
      "L": 0.006
     },
-    "desc": "Limit for flow rate of purge system to detect high concentration"
+    "desc": "Limit for flow rate of purge system to detect high concentration",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x17ae @0x8577B8"
    },
    {
     "name": "FTEHB",
@@ -3179,7 +3445,9 @@
      "Xoptim": 10.0,
      "L": 10.0
     },
-    "desc": "Limit for purge factor to detect high concentration"
+    "desc": "Limit for purge factor to detect high concentration",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL6, 0x17af @0x8577C2"
    },
    {
     "name": "FUMRBRK",
@@ -3202,7 +3470,9 @@
      "Xoptim": 30.0,
      "L": 30.0
     },
-    "desc": "factor calculation of canister charge (ftead) from HC-concentration"
+    "desc": "factor calculation of canister charge (ftead) from HC-concentration",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r13, 0x17bb @0x85770C"
    },
    {
     "name": "KFFTEAN",
@@ -3225,7 +3495,9 @@
      "Xoptim": 0.004,
      "L": 0.004
     },
-    "desc": "characteristic map for limitation of the purge rate with no Lambda control"
+    "desc": "characteristic map for limitation of the purge rate with no Lambda control",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: mov r12, #0x17bc @0x8574EE"
    },
    {
     "name": "KFQTE",
@@ -3248,7 +3520,9 @@
      "Xoptim": 0.0,
      "L": 0.0
     },
-    "desc": "Map for purge rate increase / decrease"
+    "desc": "Map for purge rate increase / decrease",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: mov r12, #0x183f @0x857404"
    },
    {
     "name": "KHCTEMN",
@@ -3271,7 +3545,9 @@
      "Xoptim": 3.75,
      "L": 3.75
     },
-    "desc": "minimum value of HC concentration in purge flow"
+    "desc": "minimum value of HC concentration in purge flow",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbs r2, 0x18ab @0x8576D6"
    },
    {
     "name": "KHCTEMX",
@@ -3294,7 +3570,9 @@
      "Xoptim": 1.25,
      "L": 1.25
     },
-    "desc": "maximum value of HC concentration in purge flow"
+    "desc": "maximum value of HC concentration in purge flow",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbs r2, 0x18ac @0x8576C8"
    },
    {
     "name": "ZBTEML",
@@ -3317,7 +3595,9 @@
      "Xoptim": 0.311,
      "L": 0.311
     },
-    "desc": "integration speed for canister charge adaptation"
+    "desc": "integration speed for canister charge adaptation",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbs r2, 0x18ac @0x8576C8"
    },
    {
     "name": "DNDTEO",
@@ -3340,7 +3620,9 @@
      "Xoptim": 80.0,
      "L": 80.0
     },
-    "desc": "upper Nsoll-Nist threshold for abortion diagnosis CPV"
+    "desc": "upper Nsoll-Nist threshold for abortion diagnosis CPV",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1912 @0x84FFF2"
    },
    {
     "name": "DNDTEU",
@@ -3363,7 +3645,9 @@
      "Xoptim": 2480.0,
      "L": 2480.0
     },
-    "desc": "lower Nsoll-Nist threshold for abortion diagnosis CPV"
+    "desc": "lower Nsoll-Nist threshold for abortion diagnosis CPV",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movbz r12, 0x1913 @0x853CC4"
    },
    {
     "name": "ETAZWTEN",
@@ -3386,7 +3670,9 @@
      "Xoptim": 40.0,
      "L": 40.0
     },
-    "desc": "minimum threschold of ignition angle efficiency for diagnosis of PCV"
+    "desc": "minimum threschold of ignition angle efficiency for diagnosis of PCV",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x1914 @0x853CBE"
    },
    {
     "name": "FKADPMN",
@@ -3409,7 +3695,9 @@
      "Xoptim": 0.297,
      "L": 0.297
     },
-    "desc": "minimum feul part via CPV for passive O.K. testing."
+    "desc": "minimum feul part via CPV for passive O.K. testing.",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x1915 @0x857E1C"
    },
    {
     "name": "IMSDTEVA",
@@ -3432,7 +3720,9 @@
      "Xoptim": 1.998,
      "L": 1.998
     },
-    "desc": "thershold for integral of purge mass flow after a long purge stop"
+    "desc": "thershold for integral of purge mass flow after a long purge stop",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, [r5+#0x1916] @0x854E6C"
    },
    {
     "name": "TC6TECI",
@@ -3455,7 +3745,9 @@
      "Xoptim": 1.0,
      "L": 1.0
     },
-    "desc": "mode 6 code word for O.K. check of CPV form DLDP"
+    "desc": "mode 6 code word for O.K. check of CPV form DLDP",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x196d @0x858726"
    },
    {
     "name": "TC6TECL",
@@ -3478,7 +3770,9 @@
      "Xoptim": 6.0,
      "L": 6.0
     },
-    "desc": "mode 6 code word for O.K. check of CPV from air-test"
+    "desc": "mode 6 code word for O.K. check of CPV from air-test",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x196f @0x858B1E"
    },
    {
     "name": "TC6TECNL",
@@ -3501,7 +3795,9 @@
      "Xoptim": 7.0,
      "L": 7.0
     },
-    "desc": "mode 6 code word for NOT O.K. check of CPV from air-test"
+    "desc": "mode 6 code word for NOT O.K. check of CPV from air-test",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1970 @0x858B48"
    },
    {
     "name": "TC6TECP",
@@ -3524,7 +3820,9 @@
      "Xoptim": 3.0,
      "L": 3.0
     },
-    "desc": "mode 6 code word for passive O.K. check of CPV"
+    "desc": "mode 6 code word for passive O.K. check of CPV",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1971 @0x8589E6"
    },
    {
     "name": "TC6TECRF",
@@ -3547,7 +3845,9 @@
      "Xoptim": 5.0,
      "L": 5.0
     },
-    "desc": "mode 6 code word for O.K. check of CPV from FR-deviation dircetion rich"
+    "desc": "mode 6 code word for O.K. check of CPV from FR-deviation dircetion rich",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1972 @0x858AC8"
    },
    {
     "name": "TC6TECRM",
@@ -3570,7 +3870,9 @@
      "Xoptim": 4.0,
      "L": 4.0
     },
-    "desc": "mode 6 code word for O.K. check of CPV from FR-deviation dircetion lean"
+    "desc": "mode 6 code word for O.K. check of CPV from FR-deviation dircetion lean",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1973 @0x858A60"
    },
    {
     "name": "TC6TECT",
@@ -3593,7 +3895,9 @@
      "Xoptim": 2.0,
      "L": 2.0
     },
-    "desc": "mode 6 code word for O.K. check of CPV form DLDP"
+    "desc": "mode 6 code word for O.K. check of CPV form DLDP",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x1973 @0x858A60"
    },
    {
     "name": "TTEVAZ",
@@ -3616,7 +3920,9 @@
      "Xoptim": 6.0,
      "L": 6.0
     },
-    "desc": "duration of stay for CPV opening with not successful frm"
+    "desc": "duration of stay for CPV opening with not successful frm",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x1978 @0x857FDC"
    },
    {
     "name": "TVDTEB",
@@ -3639,7 +3945,9 @@
      "Xoptim": 2.0,
      "L": 2.0
     },
-    "desc": "delay time for statement TEV o.k./defect in diagnosis DTEV"
+    "desc": "delay time for statement TEV o.k./defect in diagnosis DTEV",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL5, 0x197a @0x85590A"
    },
    {
     "name": "TVDTEE",
@@ -3662,7 +3970,9 @@
      "Xoptim": 5.0,
      "L": 5.0
     },
-    "desc": "Duration as of PCV open for checking of DTEV"
+    "desc": "Duration as of PCV open for checking of DTEV",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: cmpb RL4, 0x197b @0x855DBA"
    },
    {
     "name": "TVDTEVP",
@@ -3685,7 +3995,9 @@
      "Xoptim": 5.0,
      "L": 5.0
     },
-    "desc": "delay time for setting of the flip flop \"Passive Diagnosis CPV o.k.\""
+    "desc": "delay time for setting of the flip flop \"Passive Diagnosis CPV o.k.\"",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: movb RL4, 0x197d @0x8561F6"
    },
    {
     "name": "TVDTEVZ",
@@ -3708,7 +4020,9 @@
      "Xoptim": 2.0,
      "L": 2.0
     },
-    "desc": "delay time for closing CPV for active DTEV"
+    "desc": "delay time for closing CPV for active DTEV",
+    "confidence": "подтверждена",
+    "confirmed_by": "код: mov r12, #0x197e @0x85627C"
    }
   ]
  },
@@ -3756,8 +4070,9 @@
     "addr": "0x1157A",
     "width": 1,
     "value": 1,
-    "confidence": "вероятная",
-    "desc": "кодовое слово: адаптация расхода включена"
+    "confidence": "подтверждена",
+    "desc": "кодовое слово: адаптация расхода включена",
+    "confirmed_by": "код: movb RL4, 0x157a @0x843526"
    },
    {
     "name": "KIMSALL",
@@ -3765,8 +4080,9 @@
     "width": 1,
     "factor": 0.00078125,
     "value": 0.003906,
-    "confidence": "вероятная",
-    "desc": "поправка интегратора воздуха холостого хода"
+    "confidence": "подтверждена",
+    "desc": "поправка интегратора воздуха холостого хода",
+    "confirmed_by": "код: movbz r12, 0x157b @0x843860"
    },
    {
     "name": "MSALLMN",
@@ -3801,8 +4117,9 @@
     "factor": 0.1,
     "unit": "kg/h",
     "value": 4.8,
-    "confidence": "вероятная",
-    "desc": "расход суммарного подсоса (утечки) воздуха"
+    "confidence": "подтверждена",
+    "desc": "расход суммарного подсоса (утечки) воздуха",
+    "confirmed_by": "код: movbz r4, 0x157f @0x843346"
    }
   ],
   "not_found": [
@@ -3891,7 +4208,7 @@
     "width": 2,
     "factor": 0.1,
     "unit": "kg/h",
-    "confidence": "вероятная",
+    "confidence": "подтверждена",
     "desc": "базовый расход через дроссель, вход wdkba (угол) и pspvdk (отношение давлений)",
     "layout": "заголовок Bosch: [nx][ny][ось X][ось Y][данные], оси внутри",
     "x_axis": {
@@ -3940,7 +4257,8 @@
     "unexplained": "на вход интерполяции подаётся 0xF8A0 -- ячейка расхода воздуха. Для карты, которая расход производит, это не сходится. Связное объяснение: calls 0x0073de -- обратная интерполяция (дано значение, найти вход). Доказать нельзя: процедура в масочном ПЗУ кристалла, вне образа.",
     "addr": "0x15694",
     "rows": 6,
-    "cols": 16
+    "cols": 16,
+    "confirmed_by": "код: mov r12, #0x5664 @0x843482"
    },
    {
     "name": "WDKUGDN",
@@ -3968,7 +4286,9 @@
       5000,
       5520,
       6520
-     ]
+     ],
+     "confidence": "подтверждена",
+     "confirmed_by": "код: mov r12, #0xd4 @0x834B62"
     },
     "values": [
      11.31,

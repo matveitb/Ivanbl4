@@ -56,7 +56,7 @@ def main():
     # Точное число не закрепляем: оно меняется, когда генератор выбрасывает
     # карты, лезущие на чужие байты. Закрепляем то, что должно держаться
     # всегда -- описание разобралось целиком и непусто.
-    check(len(p.layouts) == len(p.a2l.characteristics) > 700,
+    check(len(p.layouts) == len(p.a2l.characteristics) > 500,
           "карт разобрано: %d" % len(p.layouts))
     check(p.csum_table == 0x1FC00,
           "таблица сумм найдена сама: 0x%X" % p.csum_table)

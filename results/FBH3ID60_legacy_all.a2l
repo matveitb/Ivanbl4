@@ -141,16 +141,76 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 -0.75 0 0 0.001953125
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_n0p75_0_gradKW
+      "scale -0.75"
+      RAT_FUNC "%.3f" "grad KW"
+      COEFFS 0 1 0 0 0 -0.75
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p3921568627_0_DK
+      "scale 0.392157"
+      RAT_FUNC "%.3f" "% DK"
+      COEFFS 0 1 0 0 0 0.3921568627
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p25_0
+      "scale 0.25"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.25
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p2_0_s
+      "scale 0.2"
+      RAT_FUNC "%.3f" "s"
+      COEFFS 0 1 0 0 0 0.2
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p01953125_0_V
       "scale 0.0195312"
       RAT_FUNC "%.3f" "V"
       COEFFS 0 1 0 0 0 0.01953125
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p03125_0_1s
+      "scale 0.03125"
+      RAT_FUNC "%.3f" "1/s"
+      COEFFS 0 1 0 0 0 0.03125
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p25_0_Umin
       "scale 0.25"
       RAT_FUNC "%.3f" "U/min"
       COEFFS 0 1 0 0 0 0.25
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p01_0_s
+      "scale 0.01"
+      RAT_FUNC "%.3f" "s"
+      COEFFS 0 1 0 0 0 0.01
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p001953125_0
+      "scale 0.00195312"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.001953125
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p1960784314_0
+      "scale 0.196078"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.1960784314
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p003051757812_0
+      "scale 0.00305176"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.003051757812
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0030515625_0_Umin
+      "scale 0.00305156"
+      RAT_FUNC "%.3f" "%/(U/min)"
+      COEFFS 0 1 0 0 0 0.0030515625
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p78_0
@@ -165,10 +225,40 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.0001220703125
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p000244140625_0
+      "scale 0.000244141"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.000244140625
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0015625_0_kgh
+      "scale 0.0015625"
+      RAT_FUNC "%.3f" "kg/h"
+      COEFFS 0 1 0 0 0 0.0015625
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p1_0_kgh
       "scale 0.1"
       RAT_FUNC "%.3f" "kg/h"
       COEFFS 0 1 0 0 0 0.1
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p1_0_s
+      "scale 0.1"
+      RAT_FUNC "%.3f" "s"
+      COEFFS 0 1 0 0 0 0.1
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p39063_0_Umins
+      "scale 0.39063"
+      RAT_FUNC "%.3f" "U/min/s"
+      COEFFS 0 1 0 0 0 0.39063
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p015625_0
+      "scale 0.015625"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.015625
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p09375_0
@@ -195,6 +285,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 3.2
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_5p96En08_0_Min
+      "scale 5.96e-08"
+      RAT_FUNC "%.3f" "Min"
+      COEFFS 0 1 0 0 0 5.96e-08
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_1p525878906En05_0
       "scale 1.52588e-05"
       RAT_FUNC "%.3f" "-"
@@ -219,12 +315,6 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.01220703125
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p01_0_s
-      "scale 0.01"
-      RAT_FUNC "%.3f" "s"
-      COEFFS 0 1 0 0 0 0.01
-    /end COMPU_METHOD
-
     /begin COMPU_METHOD CM_10_0_Umin
       "scale 10"
       RAT_FUNC "%.1f" "U/min"
@@ -237,28 +327,10 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.09764705882
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p1960784314_0
-      "scale 0.196078"
-      RAT_FUNC "%.3f" "%"
-      COEFFS 0 1 0 0 0 0.1960784314
-    /end COMPU_METHOD
-
     /begin COMPU_METHOD CM_0p75_48_GradC
       "scale 0.75"
       RAT_FUNC "%.3f" "Grad C"
       COEFFS 0 1 48 0 0 0.75
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_0p3921568627_0_DK
-      "scale 0.392157"
-      RAT_FUNC "%.3f" "% DK"
-      COEFFS 0 1 0 0 0 0.3921568627
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_0p1_0_s
-      "scale 0.1"
-      RAT_FUNC "%.3f" "s"
-      COEFFS 0 1 0 0 0 0.1
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_5_0_GradC
@@ -273,10 +345,10 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 50 0 0 5
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p25_0
-      "scale 0.25"
-      RAT_FUNC "%.3f" "-"
-      COEFFS 0 1 0 0 0 0.25
+    /begin COMPU_METHOD CM_8_0_Ohm
+      "scale 8"
+      RAT_FUNC "%.1f" "Ohm"
+      COEFFS 0 1 0 0 0 8
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p3058103976_0_s
@@ -291,10 +363,28 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.048828125
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p005215686275_0p2_V
+      "scale 0.00521569"
+      RAT_FUNC "%.3f" "V"
+      COEFFS 0 1 0.2 0 0 0.005215686275
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0390625_0_mss
+      "scale 0.0390625"
+      RAT_FUNC "%.3f" "ms/s"
+      COEFFS 0 1 0 0 0 0.0390625
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p02275555556_0_kg
       "scale 0.0227556"
       RAT_FUNC "%.3f" "kg"
       COEFFS 0 1 0 0 0 0.02275555556
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p75_0_GradKW
+      "scale 0.75"
+      RAT_FUNC "%.3f" "Grad KW"
+      COEFFS 0 1 0 0 0 0.75
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_1_n1
@@ -303,10 +393,10 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 -1 0 0 1
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_n0p75_0_gradKW
-      "scale -0.75"
-      RAT_FUNC "%.3f" "grad KW"
-      COEFFS 0 1 0 0 0 -0.75
+    /begin COMPU_METHOD CM_1p25_0_V
+      "scale 1.25"
+      RAT_FUNC "%.1f" "V"
+      COEFFS 0 1 0 0 0 1.25
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_6_0_GradKW
@@ -315,22 +405,22 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 6
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p015625_0
-      "scale 0.015625"
+    /begin COMPU_METHOD CM_0p00048828125_0
+      "scale 0.000488281"
       RAT_FUNC "%.3f" "-"
-      COEFFS 0 1 0 0 0 0.015625
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_0p001953125_0
-      "scale 0.00195312"
-      RAT_FUNC "%.3f" "-"
-      COEFFS 0 1 0 0 0 0.001953125
+      COEFFS 0 1 0 0 0 0.00048828125
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_4p768359375En05_0_1s
       "scale 4.76836e-05"
       RAT_FUNC "%.3f" "1/s"
       COEFFS 0 1 0 0 0 4.768359375e-05
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p02392578125_0_1s
+      "scale 0.0239258"
+      RAT_FUNC "%.3f" "1/s"
+      COEFFS 0 1 0 0 0 0.02392578125
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p5_0_ms
@@ -351,10 +441,10 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.09103840683
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p003051757812_0
-      "scale 0.00305176"
-      RAT_FUNC "%.3f" "%"
-      COEFFS 0 1 0 0 0 0.003051757812
+    /begin COMPU_METHOD CM_0p07421875_0
+      "scale 0.0742188"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.07421875
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p0390625_0_hPa
@@ -363,22 +453,76 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.0390625
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_4p577636719En06_0_hPa
+      "scale 4.57764e-06"
+      RAT_FUNC "%.3f" "%/hPa"
+      COEFFS 0 1 0 0 0 4.577636719e-06
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p75_0_GradC
+      "scale 0.75"
+      RAT_FUNC "%.3f" "Grad C"
+      COEFFS 0 1 0 0 0 0.75
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_6p103515625En05_0
+      "scale 6.10352e-05"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 6.103515625e-05
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p05664148928_0_kJ
+      "scale 0.0566415"
+      RAT_FUNC "%.3f" "kJ"
+      COEFFS 0 1 0 0 0 0.05664148928
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_3p9062En05_0p05_s
+      "scale 3.9062e-05"
+      RAT_FUNC "%.3f" "s"
+      COEFFS 0 1 0.05 0 0 3.9062e-05
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0195313_0_V
+      "scale 0.0195313"
+      RAT_FUNC "%.3f" "V"
+      COEFFS 0 1 0 0 0 0.0195313
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p1875_0
+      "scale 0.1875"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.1875
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_7p629394531En05_0_1s
+      "scale 7.62939e-05"
+      RAT_FUNC "%.3f" "1/s"
+      COEFFS 0 1 0 0 0 7.629394531e-05
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0146484375_0_s
+      "scale 0.0146484"
+      RAT_FUNC "%.3f" "%/s"
+      COEFFS 0 1 0 0 0 0.0146484375
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p125_0
       "scale 0.125"
       RAT_FUNC "%.3f" "-"
       COEFFS 0 1 0 0 0 0.125
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p000732421875_0_GradC
+      "scale 0.000732422"
+      RAT_FUNC "%.3f" "Grad C"
+      COEFFS 0 1 0 0 0 0.000732421875
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p25_0_obmin
       "scale 0.25"
       RAT_FUNC "%.3f" "ob/min"
       COEFFS 0 1 0 0 0 0.25
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_0p75_0_GradKW
-      "scale 0.75"
-      RAT_FUNC "%.3f" "Grad KW"
-      COEFFS 0 1 0 0 0 0.75
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_4_0_kgh
@@ -435,10 +579,10 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.00177936
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p005215686275_0p2_V
-      "scale 0.00521569"
-      RAT_FUNC "%.3f" "V"
-      COEFFS 0 1 0.2 0 0 0.005215686275
+    /begin COMPU_METHOD CM_0p00266667_0_ms
+      "scale 0.00266667"
+      RAT_FUNC "%.3f" "ms"
+      COEFFS 0 1 0 0 0 0.00266667
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p52_0_mVms
@@ -493,12 +637,6 @@ ASAP2_VERSION 1 51
       "scale 0.0704"
       RAT_FUNC "%.3f" "V"
       COEFFS 0 1 0 0 0 0.0704
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_0p02392578125_0_1s
-      "scale 0.0239258"
-      RAT_FUNC "%.3f" "1/s"
-      COEFFS 0 1 0 0 0 0.02392578125
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p0444_0_g
@@ -563,6 +701,12 @@ ASAP2_VERSION 1 51
       FNC_VALUES 1 SBYTE ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
+    /begin RECORD_LAYOUT RL_2D_A16_UWORD
+      NO_AXIS_PTS_X 1 UBYTE
+      AXIS_PTS_X    2 UWORD INDEX_INCR DIRECT
+      FNC_VALUES    3 UWORD ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
     /begin RECORD_LAYOUT RL_2D_A8_UBYTE
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
@@ -577,12 +721,6 @@ ASAP2_VERSION 1 51
       FNC_VALUES    5 UWORD ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
-    /begin RECORD_LAYOUT RL_2D_A16_UWORD
-      NO_AXIS_PTS_X 1 UBYTE
-      AXIS_PTS_X    2 UWORD INDEX_INCR DIRECT
-      FNC_VALUES    3 UWORD ROW_DIR DIRECT
-    /end RECORD_LAYOUT
-
     /begin RECORD_LAYOUT RL_2D_A8_UWORD
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
@@ -591,6 +729,14 @@ ASAP2_VERSION 1 51
 
     /begin RECORD_LAYOUT RL_GRID_UWORD
       FNC_VALUES 1 UWORD ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT RL_3D_A16_UWORD
+      NO_AXIS_PTS_Y 1 UBYTE
+      NO_AXIS_PTS_X 2 UBYTE
+      AXIS_PTS_Y    3 UWORD INDEX_INCR DIRECT
+      AXIS_PTS_X    4 UWORD INDEX_INCR DIRECT
+      FNC_VALUES    5 UWORD ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
     /begin RECORD_LAYOUT RL_GRID_SWORD
@@ -1939,6 +2085,24 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MAP_056_10D9A_6
+      "veroyatnaya mapscan addr 0x10D9A"
+      CURVE
+      0x10D9A
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC SNS06LLSB
       "podtverzhdena damos-veroyatno addr 0x10F01 | Datapoint distribution, set-speed deviation, 06 datapoints., idle-speed control."
       CURVE
@@ -2528,6 +2692,63 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC FZN5
+      "veroyatnaya damos-veroyatno addr 0x11048 | Cylinder individual factor at neutral camshaft position EV 5"
+      CURVE
+      0x11048
+      RL_GRID_UBYTE
+      0
+      CM_0p001953125_n0p75
+      0.75
+      1.24805
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FZN6
+      "veroyatnaya damos-veroyatno addr 0x11058 | Cylinder individual factor at neutral camshaft position EV 6"
+      CURVE
+      0x11058
+      RL_GRID_UBYTE
+      0
+      CM_0p001953125_n0p75
+      0.75
+      1.24805
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FZN7
+      "veroyatnaya damos-veroyatno addr 0x11068 | Cylinder individual factor at neutral camshaft position EV 7"
+      CURVE
+      0x11068
+      RL_GRID_UBYTE
+      0
+      CM_0p001953125_n0p75
+      0.75
+      1.24805
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC FZNWN0
       "podtverzhdena damos-veroyatno addr 0x11078 | Cylinder individual factor at active camshaft position EV 1"
       CURVE
@@ -2631,6 +2852,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC PLRHAV
+      "neodnoznachnaya damos-somnitelno addr 0x111F1 | Weighting factor of P-part LRHK depending on catalyst age"
+      CURVE
+      0x111F1
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC MAP_115_112C2_14
       "podtverzhdena mapscan addr 0x112C2"
       CURVE
@@ -2646,6 +2886,33 @@ ASAP2_VERSION 1 51
         14
         0
         255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC GRID_116_112DF_4x49
+      "veroyatnaya gridscan addr 0x112DF | konstantnaya tablica (vse znacheniya 128)"
+      MAP
+      0x112DF
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        49
+        0
+        48
+        FIX_AXIS_PAR_DIST 0 1 49
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -2718,6 +2985,43 @@ ASAP2_VERSION 1 51
         7
         0
         255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_125_115FB_7
+      "veroyatnaya mapscan addr 0x115FB"
+      CURVE
+      0x115FB
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FAGRH
+      "veroyatnaya damos-veroyatno addr 0x11612 | altitude correction of EGR set value"
+      CURVE
+      0x11612
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -2885,6 +3189,33 @@ ASAP2_VERSION 1 51
         5
         0
         255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFAGRI
+      "somnitelnaya damos-somnitelno addr 0x119B2 | I component map of EGR controller"
+      MAP
+      0x119B2
+      RL_GRID_UBYTE
+      0
+      CM_0p03125_0_1s
+      0
+      7.96875
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -3230,6 +3561,106 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFLUAR2
+      "somnitelnaya damos-somnitelno addr 0x11CB0 | map for engine roughness distance reference value"
+      MAP
+      0x11CB0
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFLUARZ
+      "somnitelnaya damos-somnitelno addr 0x11CF0 | map for engine roughness distance reference value at ZAS (cylinder cut-off)"
+      MAP
+      0x11CF0
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DLURMIN
+      "veroyatnaya damos-veroyatno addr 0x11D30 | speed dependensy of engine roughness referenz minimum value 1"
+      CURVE
+      0x11D30
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDLUR2
+      "somnitelnaya damos-somnitelno addr 0x11DF9 | map engine roughness difference dluts referenz value"
+      MAP
+      0x11DF9
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFDLURZ
       "podtverzhdena damos-tochno addr 0x11E39 | map engine roughness difference dluts referenz value at ZAS (cylinder cut-off)"
       MAP
@@ -3294,6 +3725,87 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFLURB1
+      "somnitelnaya damos-somnitelno addr 0x11FDE | map for engine roughness - reference base value"
+      MAP
+      0x11FDE
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFLURB2
+      "veroyatnaya damos-veroyatno addr 0x1201E | map for engine roughness - reference base value"
+      MAP
+      0x1201E
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFLURBZ
+      "somnitelnaya damos-somnitelno addr 0x1205E | map for engine roughness base value, in case of ZAS"
+      MAP
+      0x1205E
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFLURM1
       "podtverzhdena damos-tochno addr 0x1211E | reference base value map for engine roughness for misfire detection"
       MAP
@@ -3318,6 +3830,109 @@ ASAP2_VERSION 1 51
         0
         7
         FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LURKTM
+      "veroyatnaya damos-veroyatno addr 0x1215E | Tmot-dependent engine roughness reference correcting value"
+      CURVE
+      0x1215E
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LURMIN1
+      "veroyatnaya damos-veroyatno addr 0x12166 | speed dependensy of engine roughness referenz minimum value 1"
+      CURVE
+      0x12166
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LURMIN2
+      "veroyatnaya damos-veroyatno addr 0x1216E | speed dependensy of engine roughness referenz minimum value 2"
+      CURVE
+      0x1216E
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LURMIN3
+      "veroyatnaya damos-veroyatno addr 0x12176 | speed dependensy of engine roughness referenz minimum value 3"
+      CURVE
+      0x12176
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFKSWF
+      "veroyatnaya damos-veroyatno addr 0x12192 | map for catalyst protection, weighting factors"
+      MAP
+      0x12192
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -3384,6 +3999,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC SAN12ESUW
+      "veroyatnaya damos-veroyatno addr 0x148B8 | Distribution for the limited injection counter anztib_w"
+      CURVE
+      0x148B8
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC SNM16OPUW_148D2
       "podtverzhdena damos-veroyatno addr 0x148D2 | set point distribution engine speed"
       CURVE
@@ -3400,6 +4034,24 @@ ASAP2_VERSION 1 51
         0
         15
         FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_175_14915_6
+      "veroyatnaya mapscan addr 0x14915"
+      CURVE
+      0x14915
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        65535
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -3422,6 +4074,118 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC TVKUPHS
+      "veroyatnaya damos-veroyatno addr 0x14940 | delay time for clutch switch during shifting in higher gear"
+      CURVE
+      0x14940
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0_s
+      0
+      2.55
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVKUPRS
+      "veroyatnaya damos-veroyatno addr 0x1494C | delay time for clutch switch during shifting in lower gear"
+      CURVE
+      0x1494C
+      RL_GRID_UBYTE
+      0
+      CM_0p01_0_s
+      0
+      2.55
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DETANN
+      "veroyatnaya damos-veroyatno addr 0x14959 | negative change limitation of etazwvg for each 10ms"
+      CURVE
+      0x14959
+      RL_GRID_UBYTE
+      0
+      CM_0p001953125_0
+      0
+      0.498047
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DETAPN
+      "veroyatnaya damos-veroyatno addr 0x14979 | Positive change limitation of etazwvg for each 10ms"
+      CURVE
+      0x14979
+      RL_GRID_UBYTE
+      0
+      CM_0p001953125_0
+      0
+      0.498047
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_181_14998_10
+      "veroyatnaya mapscan addr 0x14998"
+      CURVE
+      0x14998
+      RL_2D_A8_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_182_149B8_10
+      "veroyatnaya mapscan addr 0x149B8"
+      CURVE
+      0x149B8
+      RL_2D_A8_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC MAP_183_149D8_10
       "podtverzhdena mapscan addr 0x149D8"
       CURVE
@@ -3437,6 +4201,24 @@ ASAP2_VERSION 1 51
         10
         0
         255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_189_14BC5_12
+      "veroyatnaya mapscan addr 0x14BC5"
+      CURVE
+      0x14BC5
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        65535
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -3513,6 +4295,42 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MAP_208_14F60_8
+      "veroyatnaya mapscan addr 0x14F60"
+      CURVE
+      0x14F60
+      RL_2D_A8_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_209_14F7F_6
+      "veroyatnaya mapscan addr 0x14F7F"
+      CURVE
+      0x14F7F
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFZWWLNM
       "podtverzhdena damos-tochno addr 0x14F96 | Delta ignition sparc advance during engine warm up phase"
       MAP
@@ -3558,6 +4376,24 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MAP_212_15005_6
+      "veroyatnaya mapscan addr 0x15005"
+      CURVE
+      0x15005
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFWK_0_A
       "podtverzhdena damos-tochno addr 0x1502E | spark-advance-angle characteristic map for knock-protection function"
       MAP
@@ -3575,6 +4411,25 @@ ASAP2_VERSION 1 51
         5
         FIX_AXIS_PAR_DIST 0 1 6
       /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DMLLNGV
+      "veroyatnaya damos-veroyatno addr 0x15064 | LLR: D-gain depending of ngasf for air path"
+      CURVE
+      0x15064
+      RL_GRID_SBYTE
+      0
+      CM_0p0030515625_0_Umin
+      -0.3906
+      0.387548
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -3641,6 +4496,165 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MAP_222_15281_6
+      "veroyatnaya mapscan addr 0x15281"
+      CURVE
+      0x15281
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_223_152A1_6x7
+      "veroyatnaya mapscan addr 0x152A1"
+      MAP
+      0x152A1
+      RL_3D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        65535
+      /end AXIS_DESCR
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_224_15311_7
+      "veroyatnaya mapscan addr 0x15311"
+      CURVE
+      0x15311
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_225_15331_7
+      "veroyatnaya mapscan addr 0x15331"
+      CURVE
+      0x15331
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_226_15362_8x24
+      "veroyatnaya mapscan addr 0x15362"
+      MAP
+      0x15362
+      RL_3D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        24
+        0
+        65535
+      /end AXIS_DESCR
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_227_15528_12
+      "veroyatnaya mapscan addr 0x15528"
+      CURVE
+      0x15528
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_228_15559_16
+      "veroyatnaya mapscan addr 0x15559"
+      CURVE
+      0x15559
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKUGDN_15672
+      "veroyatnaya damos-veroyatno addr 0x15672 | throttle angle necessary for 95 % of the maximum possible air charge"
+      CURVE
+      0x15672
+      RL_GRID_UWORD
+      0
+      CM_0p001525878906_0
+      0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC LLSPMSN
       "podtverzhdena damos addr 0x156F9 | char. line of ISA pos. dependent on standardised air mass flow"
       CURVE
@@ -3687,6 +4701,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC AZKELDYN_0_A
+      "veroyatnaya damos-veroyatno addr 0x15B6A | ignition per cylinder for load dynamics => knock detection"
+      CURVE
+      0x15B6A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFDYES_0_A
       "podtverzhdena damos-tochno addr 0x15B82 | Threshold for dynamic presetting values"
       MAP
@@ -3711,6 +4744,61 @@ ASAP2_VERSION 1 51
         0
         15
         FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_247_15BCB_7
+      "veroyatnaya mapscan addr 0x15BCB"
+      CURVE
+      0x15BCB
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_248_15C2D_7
+      "veroyatnaya mapscan addr 0x15C2D"
+      CURVE
+      0x15C2D
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FNSSM_0_A
+      "veroyatnaya damos-veroyatno addr 0x15DC2 | after start increase"
+      CURVE
+      0x15DC2
+      RL_GRID_UBYTE
+      0
+      CM_0p015625_0
+      0
+      3.98438
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -3752,6 +4840,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KLLAMFA_0_A
+      "veroyatnaya damos-veroyatno addr 0x15E73 | full load enrichment"
+      CURVE
+      0x15E73
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC TVCO
       "podtverzhdena damos addr 0x15E87 | idle-speed potentiometer correction"
       CURVE
@@ -3787,6 +4894,71 @@ ASAP2_VERSION 1 51
         0
         5
         FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FVERZDYN
+      "veroyatnaya damos-veroyatno addr 0x15EC6 | dynamic factor delay of purge flow in the manifold"
+      CURVE
+      0x15EC6
+      RL_GRID_UBYTE
+      0
+      CM_5p96En08_0_Min
+      0
+      1.5198e-05
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFTADMS
+      "somnitelnaya damos-somnitelno addr 0x15EDB | dynamic evaluation factor for close off of PCV"
+      MAP
+      0x15EDB
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TATEMSN
+      "veroyatnaya damos-veroyatno addr 0x15F14 | characteristic line of the PCV duty-cycle depending on the desired mass-flow"
+      CURVE
+      0x15F14
+      RL_GRID_UWORD
+      0
+      CM_0p001525878906_0
+      0
+      99.9985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -3865,10 +5037,713 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC CDCAAA
+      "veroyatnaya damos-veroyatno addr 0x15FD1 | Dummy: top of table"
+      CURVE
+      0x15FD1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCAGRF
+      "veroyatnaya damos-veroyatno addr 0x15FD9 | code word CARB: EGR flow monitoring"
+      CURVE
+      0x15FD9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCAGRL
+      "veroyatnaya damos-veroyatno addr 0x15FE1 | code word CARB: EGR valve position sensor"
+      CURVE
+      0x15FE1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCAGRV
+      "veroyatnaya damos-veroyatno addr 0x15FE9 | code word CARB: diagnosis EGR valve"
+      CURVE
+      0x15FE9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCAHC
+      "veroyatnaya damos-veroyatno addr 0x15FF1 | code word CARB: MT/AT encoding"
+      CURVE
+      0x15FF1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCBM
+      "veroyatnaya damos-veroyatno addr 0x15FF9 | code word CARB: reference mark sensor"
+      CURVE
+      0x15FF9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC CDCDK
       "podtverzhdena damos-veroyatno addr 0x16001 | code word CARB: throttle position sensor"
       CURVE
       0x16001
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCDUMMY
+      "veroyatnaya damos-veroyatno addr 0x16009"
+      CURVE
+      0x16009
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCEGFE
+      "veroyatnaya damos-veroyatno addr 0x16011 | code word CARB: charge detection"
+      CURVE
+      0x16011
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCEV1
+      "veroyatnaya damos-veroyatno addr 0x16019 | code word CARB: injector 1"
+      CURVE
+      0x16019
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCEV2
+      "veroyatnaya damos-veroyatno addr 0x16021 | code word CARB: injector 2"
+      CURVE
+      0x16021
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCEV3
+      "veroyatnaya damos-veroyatno addr 0x16029 | code word CARB: injector 3"
+      CURVE
+      0x16029
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCEV4
+      "veroyatnaya damos-veroyatno addr 0x16031 | code word CARB: injector 4"
+      CURVE
+      0x16031
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCEV5
+      "veroyatnaya damos-veroyatno addr 0x16039 | code word CARB: injector 5"
+      CURVE
+      0x16039
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCEV6
+      "veroyatnaya damos-veroyatno addr 0x16041 | code word CARB: injector 6"
+      CURVE
+      0x16041
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCFRAO
+      "veroyatnaya damos-veroyatno addr 0x16049 | code word CARB: mixture adaptation factor frao"
+      CURVE
+      0x16049
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCFRAU
+      "veroyatnaya damos-veroyatno addr 0x16051 | code word CARB: mixture adaptation factor frau"
+      CURVE
+      0x16051
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCFRST
+      "veroyatnaya damos-veroyatno addr 0x16059 | code word CARB: deiation of lambda loop control"
+      CURVE
+      0x16059
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCGE
+      "veroyatnaya damos-veroyatno addr 0x16061 | code word CARB: transmission controlled spark advance GE"
+      CURVE
+      0x16061
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCHSH
+      "veroyatnaya damos-veroyatno addr 0x16069 | code word CARB: lambda sensor heating downstream cat"
+      CURVE
+      0x16069
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCHSHE
+      "veroyatnaya damos-veroyatno addr 0x16071 | Code word CARB: O2 Sensor Heater power stage"
+      CURVE
+      0x16071
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCHSV
+      "veroyatnaya damos-veroyatno addr 0x16079 | code word CARB: lambda sensor heating upstream cat"
+      CURVE
+      0x16079
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCHSVE
+      "veroyatnaya damos-veroyatno addr 0x16081 | code word CARB: lambda sensor heating power stage upstream cat"
+      CURVE
+      0x16081
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKAT
+      "veroyatnaya damos-veroyatno addr 0x16089 | code word CARB: catalyst conversion"
+      CURVE
+      0x16089
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKOSE
+      "veroyatnaya damos-veroyatno addr 0x16091 | Code word CARB: A/C control power stage"
+      CURVE
+      0x16091
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKPE
+      "veroyatnaya damos-veroyatno addr 0x16099 | Code word CARB: fuel pump relay power stage"
+      CURVE
+      0x16099
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKRNT
+      "veroyatnaya damos-veroyatno addr 0x160A1 | code word CARB: knock control zero test pulse"
+      CURVE
+      0x160A1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKROF
+      "veroyatnaya damos-veroyatno addr 0x160A9 | codeword CARB: knock control offset"
+      CURVE
+      0x160A9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKRTP
+      "veroyatnaya damos-veroyatno addr 0x160B1 | code word CARB: knock control test pulse"
+      CURVE
+      0x160B1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKS1
+      "veroyatnaya damos-veroyatno addr 0x160B9 | code word CARB: knock sensor 1"
+      CURVE
+      0x160B9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKS2
+      "veroyatnaya damos-veroyatno addr 0x160C1 | code word CARB: knock sensor 2"
+      CURVE
+      0x160C1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKS3
+      "veroyatnaya damos-veroyatno addr 0x160C9 | code word CARB: knock sensor 3"
+      CURVE
+      0x160C9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCKS4
+      "veroyatnaya damos-veroyatno addr 0x160D1 | code word CARB: knock sensor 4"
+      CURVE
+      0x160D1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCLASH
+      "veroyatnaya damos-veroyatno addr 0x160D9 | code word CARB: lambda sensor aging downstream cat"
+      CURVE
+      0x160D9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCLATP
+      "veroyatnaya damos-veroyatno addr 0x160E1 | code word CARB: lambda sensor aging tp"
+      CURVE
+      0x160E1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCLATV
+      "veroyatnaya damos-veroyatno addr 0x160E9 | code word CARB: lambda sensor aging tv"
+      CURVE
+      0x160E9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCLLR
+      "veroyatnaya damos-veroyatno addr 0x160F1 | code word CARB: idle speed control at limit"
+      CURVE
+      0x160F1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCLM
+      "veroyatnaya damos-veroyatno addr 0x160F9 | code word CARB: air flow sensor"
+      CURVE
+      0x160F9
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -3903,6 +5778,157 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC CDCLSV
+      "veroyatnaya damos-veroyatno addr 0x16109 | code word CARB: lambda sensor upstream cat"
+      CURVE
+      0x16109
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCLUEA
+      "veroyatnaya damos-veroyatno addr 0x16111 | code word CARB: Power stage engine fan A"
+      CURVE
+      0x16111
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_303_1611B_4
+      "veroyatnaya mapscan addr 0x1611B"
+      CURVE
+      0x1611B
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCMD01
+      "veroyatnaya damos-veroyatno addr 0x16131 | Code word CARB: misfire cyl. 1"
+      CURVE
+      0x16131
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCMD02
+      "veroyatnaya damos-veroyatno addr 0x16139 | Code word CARB: misfire cylinder 2"
+      CURVE
+      0x16139
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCMD03
+      "veroyatnaya damos-veroyatno addr 0x16141 | Code word CARB: misfire cylinder 3"
+      CURVE
+      0x16141
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCMFA
+      "veroyatnaya damos-veroyatno addr 0x16149 | code word CARB: MIL not local fixed"
+      CURVE
+      0x16149
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCMFB
+      "veroyatnaya damos-veroyatno addr 0x16151 | code word CARB: MIL external request"
+      CURVE
+      0x16151
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC MAP_309_16156_5
       "podtverzhdena mapscan addr 0x16156"
       CURVE
@@ -3918,6 +5944,139 @@ ASAP2_VERSION 1 51
         5
         0
         255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCPH
+      "veroyatnaya damos-veroyatno addr 0x16169 | code word CARB: phase sensor"
+      CURVE
+      0x16169
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCPUA
+      "veroyatnaya damos-veroyatno addr 0x16171 | Code word CARB: ambient pressure adaptation"
+      CURVE
+      0x16171
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCRKAT
+      "veroyatnaya damos-veroyatno addr 0x16179 | code word CARB: additive adaptive mixture correction rkat"
+      CURVE
+      0x16179
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCRKAZ
+      "veroyatnaya damos-veroyatno addr 0x16181 | code word CARB: additive adaptive mixture correction rkaz"
+      CURVE
+      0x16181
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCSGROM
+      "veroyatnaya damos-veroyatno addr 0x16189 | code word CARB: control unit defective (ROM)"
+      CURVE
+      0x16189
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCSWE
+      "veroyatnaya damos-veroyatno addr 0x16191 | code word CARB: acceleration sensor for rough surface detection"
+      CURVE
+      0x16191
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCTA
+      "veroyatnaya damos-veroyatno addr 0x16199 | code word CARB: intake air temperature"
+      CURVE
+      0x16199
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -3956,6 +6115,166 @@ ASAP2_VERSION 1 51
         0
         3
         FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCTHM
+      "veroyatnaya damos-veroyatno addr 0x161B1 | code word CARB: engine thermostat monitoring THM"
+      CURVE
+      0x161B1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCTM
+      "veroyatnaya damos-veroyatno addr 0x161B9 | code word CARB: engine coolant temperature TMOT"
+      CURVE
+      0x161B9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCUB
+      "veroyatnaya damos-veroyatno addr 0x161C1 | code word CARB: battery voltage UB (onboard)"
+      CURVE
+      0x161C1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCVFZ
+      "veroyatnaya damos-veroyatno addr 0x161C9 | code word CARB: vehicle speed signal"
+      CURVE
+      0x161C9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCZOE
+      "veroyatnaya damos-veroyatno addr 0x161D1 | code word CARB: idle speed actuator opening"
+      CURVE
+      0x161D1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCZSE
+      "veroyatnaya damos-veroyatno addr 0x161D9 | code word CARB: idle speed actuator closing"
+      CURVE
+      0x161D9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CDCZZZ
+      "veroyatnaya damos-veroyatno addr 0x161E1 | Dummy: end of table"
+      CURVE
+      0x161E1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC GRID_326_1637C_16x7
+      "veroyatnaya gridscan addr 0x1637C"
+      MAP
+      0x1637C
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -5296,6 +7615,42 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MAP_394_1854A_5
+      "veroyatnaya mapscan addr 0x1854A"
+      CURVE
+      0x1854A
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_395_1856E_8
+      "veroyatnaya mapscan addr 0x1856E"
+      CURVE
+      0x1856E
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC EVTMODO
       "podtverzhdena damos addr 0x185CD | offset for evtmod depending on filtered engine temperature"
       CURVE
@@ -5868,6 +8223,33 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFRINH
+      "neodnoznachnaya damos-somnitelno addr 0x188DF | MAP for Nernst resistor post cat"
+      MAP
+      0x188DF
+      RL_GRID_UBYTE
+      0
+      CM_8_0_Ohm
+      0
+      2040
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFTPKOR
       "podtverzhdena damos-tochno addr 0x18907 | correction map for the measured cycle duration TP (tpsvkof)"
       MAP
@@ -5941,6 +8323,33 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFRI2
+      "veroyatnaya damos-veroyatno addr 0x189C1 | LR-I-Map for bank 2"
+      MAP
+      0x189C1
+      RL_GRID_UBYTE
+      0
+      CM_0p3058103976_0_s
+      0
+      77.9817
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFRP
       "podtverzhdena damos-tochno addr 0x189EB | P characteristic map"
       MAP
@@ -5965,6 +8374,105 @@ ASAP2_VERSION 1 51
         0
         6
         FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFRP2
+      "somnitelnaya damos-somnitelno addr 0x18A15 | LR-P MAP for bank 2"
+      MAP
+      0x18A15
+      RL_GRID_UBYTE
+      0
+      CM_0p048828125_0
+      0
+      12.4512
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFRTV
+      "somnitelnaya damos-somnitelno addr 0x18A3F | delay time characteristic map"
+      MAP
+      0x18A3F
+      RL_GRID_SBYTE
+      0
+      CM_0p01_0_s
+      -1.28
+      1.27
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFRTV2
+      "somnitelnaya damos-somnitelno addr 0x18A69 | delay time characteristic map"
+      MAP
+      0x18A69
+      RL_GRID_SBYTE
+      0
+      CM_0p01_0_s
+      -1.28
+      1.27
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_432_18ABF_8
+      "veroyatnaya mapscan addr 0x18ABF"
+      CURVE
+      0x18ABF
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        255
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -6014,6 +8522,128 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFUSHK
+      "veroyatnaya damos-veroyatno addr 0x18B0E | lambda sensor reference value for lambda control downstream of catalyst"
+      MAP
+      0x18B0E
+      RL_GRID_SBYTE
+      0
+      CM_0p005215686275_0p2_V
+      -0.867608
+      0.462392
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC PLRHML
+      "veroyatnaya damos-veroyatno addr 0x18B32 | p-part of LRHK, f(dushk)"
+      CURVE
+      0x18B32
+      RL_GRID_SBYTE
+      0
+      CM_0p01_0_s
+      -1.28
+      1.27
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLLRHON
+      "veroyatnaya damos-veroyatno addr 0x18B3A | char. line on nmot, upper rl control threshold for downstream lambda control"
+      CURVE
+      0x18B3A
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      0
+      191.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLLRHUN
+      "veroyatnaya damos-veroyatno addr 0x18B42 | char. line on nmot, lower control threshold rl for downstream lambda control"
+      CURVE
+      0x18B42
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      0
+      191.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZLRHML
+      "veroyatnaya damos-veroyatno addr 0x18B4A | time constant of lambda control integrator downstream catalyst"
+      CURVE
+      0x18B4A
+      RL_GRID_UBYTE
+      0
+      CM_0p0390625_0_mss
+      0
+      9.96094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DTVKAML
+      "veroyatnaya damos-veroyatno addr 0x18B52 | delta-tv for cat oxygen neutralization (air mass dependent)"
+      CURVE
+      0x18B52
+      RL_GRID_SBYTE
+      0
+      CM_0p01_0_s
+      -1.28
+      1.27
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC DTVKAML2
       "podtverzhdena damos-veroyatno addr 0x18B57 | delta-tv for cat oxygen neutralization (air mass dependent) bank2"
       CURVE
@@ -6030,6 +8660,44 @@ ASAP2_VERSION 1 51
         0
         4
         FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKAXAVKAT
+      "veroyatnaya damos-veroyatno addr 0x18B5D | weighting factor for oxygen capacity depending on avkatf"
+      CURVE
+      0x18B5D
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC BTRKHTMS
+      "veroyatnaya damos-veroyatno addr 0x18B6B | Characteristic enabling flag B_trkh"
+      CURVE
+      0x18B6B
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -6192,6 +8860,42 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MAP_452_18C2A_8
+      "veroyatnaya mapscan addr 0x18C2A"
+      CURVE
+      0x18C2A
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_453_18C7C_8
+      "veroyatnaya mapscan addr 0x18C7C"
+      CURVE
+      0x18C7C
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC MAP_454_18CCE_4
       "podtverzhdena mapscan addr 0x18CCE"
       CURVE
@@ -6300,6 +9004,71 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC LMSTMOT
+      "veroyatnaya damos-veroyatno addr 0x18D4D | tmot-correction of lambda engine nominal"
+      CURVE
+      0x18D4D
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KEMLN
+      "veroyatnaya damos-veroyatno addr 0x18D5D | length of the sampling window for knock control"
+      CURVE
+      0x18D5D
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0_GradKW
+      0
+      191.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFMAKR
+      "somnitelnaya damos-somnitelno addr 0x18D6D | map for starting measuring window knock control"
+      MAP
+      0x18D6D
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0_GradKW
+      0
+      191.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC SENZZYL
       "podtverzhdena damos-veroyatno addr 0x18DB0 | knock sensor for sw-cylinder counter 0-7"
       CURVE
@@ -6316,6 +9085,196 @@ ASAP2_VERSION 1 51
         0
         7
         FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KE1N
+      "veroyatnaya damos-veroyatno addr 0x18DBB | knock detection threshold at cylindertimer 1"
+      CURVE
+      0x18DBB
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KE2N
+      "veroyatnaya damos-veroyatno addr 0x18DCB | knock detection threshold at cylindertimer 2"
+      CURVE
+      0x18DCB
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KE3N
+      "veroyatnaya damos-veroyatno addr 0x18DDB | knock detection threshold at cylindertimer 3"
+      CURVE
+      0x18DDB
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KE4N
+      "veroyatnaya damos-veroyatno addr 0x18DEB | knock detection threshold at cylindertimer 4"
+      CURVE
+      0x18DEB
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KE5N
+      "veroyatnaya damos-veroyatno addr 0x18DFB | knock detection threshold at cylindertimer 5"
+      CURVE
+      0x18DFB
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KE6N
+      "veroyatnaya damos-veroyatno addr 0x18E0B | knock detection threshold at cylindertimer 6"
+      CURVE
+      0x18E0B
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KE7N
+      "veroyatnaya damos-veroyatno addr 0x18E1B | knock detection threshold at cylindertimer 7"
+      CURVE
+      0x18E1B
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KE8N
+      "veroyatnaya damos-veroyatno addr 0x18E2B | knock detection threshold at cylindertimer 8"
+      CURVE
+      0x18E2B
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RKRMX1N
+      "veroyatnaya damos-veroyatno addr 0x18E3B | Maximum of reference level for knock detection threshold cylinder group 1"
+      CURVE
+      0x18E3B
+      RL_GRID_UBYTE
+      0
+      CM_1p25_0_V
+      0
+      318.75
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RKRMX2N
+      "veroyatnaya damos-veroyatno addr 0x18E4B | maximum of reference level for knock detection threshold cylinder group 2"
+      CURVE
+      0x18E4B
+      RL_GRID_UBYTE
+      0
+      CM_1p25_0_V
+      0
+      318.75
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -6391,6 +9350,25 @@ ASAP2_VERSION 1 51
         4
         0
         65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRDWSN
+      "veroyatnaya damos-veroyatno addr 0x18EA3 | knock control delta angle safety"
+      CURVE
+      0x18EA3
+      RL_GRID_SBYTE
+      0
+      CM_n0p75_0_gradKW
+      -95.25
+      96
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -6507,6 +9485,24 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MAP_484_18F61_4
+      "veroyatnaya mapscan addr 0x18F61"
+      CURVE
+      0x18F61
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC MAP_485_18F71_4
       "podtverzhdena mapscan addr 0x18F71"
       CURVE
@@ -6529,6 +9525,24 @@ ASAP2_VERSION 1 51
       "podtverzhdena mapscan addr 0x18FA2"
       CURVE
       0x18FA2
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_487_18FB2_4
+      "veroyatnaya mapscan addr 0x18FB2"
+      CURVE
+      0x18FB2
       RL_2D_A8_UBYTE
       0
       CM_IDENTITY
@@ -6869,6 +9883,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC SZANSSM2
+      "veroyatnaya damos-veroyatno addr 0x191D3 | switching level 2 of afterstart enrichment"
+      CURVE
+      0x191D3
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFFWL
       "podtverzhdena damos-tochno addr 0x191DF | map warm-up factor"
       MAP
@@ -6896,6 +9929,52 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFLASWLR
+      "somnitelnaya damos-somnitelno addr 0x1926F | map lambda engine nominal at warming up with active A/F control"
+      MAP
+      0x1926F
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LASWLTM
+      "veroyatnaya damos-veroyatno addr 0x192FF | offset lambda engine nominal with inactive A/F control"
+      CURVE
+      0x192FF
+      RL_GRID_SBYTE
+      0
+      CM_0p0078125_0
+      -1
+      0.992188
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC FUKNSTM
       "podtverzhdena damos addr 0x1930C | initial value of transient control post cranking factor"
       CURVE
@@ -6905,6 +9984,87 @@ ASAP2_VERSION 1 51
       CM_0p015625_0
       0
       3.98438
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        9
+        0
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFABAK_1931E
+      "veroyatnaya damos-veroyatno addr 0x1931E | share factor wall wetting for acceleration enrichment"
+      MAP
+      0x1931E
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        9
+        0
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFAVAK_1935D
+      "veroyatnaya damos-veroyatno addr 0x1935D | share factor wall wetting for deceleration enleanment"
+      MAP
+      0x1935D
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      0
+      0.996094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        9
+        0
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFBAKL_1939C
+      "veroyatnaya damos-veroyatno addr 0x1939C | factor accel. enrichment (short- and long-time part)"
+      MAP
+      0x1939C
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6978,6 +10138,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC FQTEVA
+      "neodnoznachnaya damos-somnitelno addr 0x19704 | progression of purge rate controller"
+      CURVE
+      0x19704
+      RL_GRID_UBYTE
+      0
+      CM_0p0625_0
+      0
+      15.9375
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC MAP_523_19719_8
       "podtverzhdena mapscan addr 0x19719"
       CURVE
@@ -7036,6 +10215,24 @@ ASAP2_VERSION 1 51
         NO_INPUT_QUANTITY
         CM_IDENTITY
         6
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_526_1977E_5
+      "veroyatnaya mapscan addr 0x1977E"
+      CURVE
+      0x1977E
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
         0
         255
       /end AXIS_DESCR
@@ -7164,6 +10361,25 @@ ASAP2_VERSION 1 51
         0
         9
         FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZBTEML
+      "veroyatnaya damos-veroyatno addr 0x198AD | integration speed for canister charge adaptation"
+      CURVE
+      0x198AD
+      RL_GRID_UBYTE
+      0
+      CM_0p02392578125_0_1s
+      0
+      6.10107
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -7598,6 +10814,63 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KIFZGAG
+      "veroyatnaya damos-veroyatno addr 0x1A62E | amplification of vehicle model integrator at AT"
+      CURVE
+      0x1A62E
+      RL_GRID_UWORD
+      0
+      CM_0p07421875_0
+      0
+      4863.93
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KIFZGAWG
+      "veroyatnaya damos-veroyatno addr 0x1A63A | amplification of vehicle model integrator at AT"
+      CURVE
+      0x1A63A
+      RL_GRID_UWORD
+      0
+      CM_0p07421875_0
+      0
+      4863.93
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KIFZGHG
+      "veroyatnaya damos-veroyatno addr 0x1A646 | amplification of vehicle model integrator at AT"
+      CURVE
+      0x1A646
+      RL_GRID_UWORD
+      0
+      CM_0p07421875_0
+      0
+      4863.93
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC MKLWON
       "podtverzhdena damos-veroyatno addr 0x1A652 | upper clutch torque threshold for antijerking function"
       CURVE
@@ -7855,6 +11128,61 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC MAP_568_1A945_4
+      "veroyatnaya mapscan addr 0x1A945"
+      CURVE
+      0x1A945
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_569_1A965_4
+      "veroyatnaya mapscan addr 0x1A965"
+      CURVE
+      0x1A965
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FPVMXN
+      "veroyatnaya damos-veroyatno addr 0x1A986 | factor for pressure ratio maximum"
+      CURVE
+      0x1A986
+      RL_GRID_UWORD
+      0
+      CM_3p051757812En05_0
+      0
+      1.99997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC FPVMXN2
       "podtverzhdena damos addr 0x1A9A0 | factor for pressure ratio maximum with secondary last sensor"
       CURVE
@@ -7871,6 +11199,60 @@ ASAP2_VERSION 1 51
         0
         5
         FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_572_1AA3A_4
+      "veroyatnaya mapscan addr 0x1AA3A"
+      CURVE
+      0x1AA3A
+      RL_2D_A8_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_573_1AB22_4
+      "veroyatnaya mapscan addr 0x1AB22"
+      CURVE
+      0x1AB22
+      RL_2D_A8_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_574_1AC8F_6
+      "veroyatnaya mapscan addr 0x1AC8F"
+      CURVE
+      0x1AC8F
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        65535
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -7925,6 +11307,135 @@ ASAP2_VERSION 1 51
         6
         0
         65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_578_1B0C2_5
+      "veroyatnaya mapscan addr 0x1B0C2"
+      CURVE
+      0x1B0C2
+      RL_2D_A8_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFURL3SU
+      "veroyatnaya damos-veroyatno addr 0x1B0E9 | conversion factor from ps->rl dependent on camshaft adjustment sumode=3"
+      MAP
+      0x1B0E9
+      RL_GRID_UWORD
+      0
+      CM_4p577636719En06_0_hPa
+      0
+      0.299995
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFURLSU
+      "veroyatnaya damos-veroyatno addr 0x1B229 | conversion factor from ps->rl dependent on camshaft adjustment sumode=1"
+      MAP
+      0x1B229
+      RL_GRID_UWORD
+      0
+      CM_4p577636719En06_0_hPa
+      0
+      0.299995
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DEVTMAGR
+      "veroyatnaya damos-veroyatno addr 0x1B352 | offset for evtmod depending on tsges_w at high tans caused by EGR"
+      CURVE
+      0x1B352
+      RL_GRID_SBYTE
+      0
+      CM_0p75_0_GradC
+      -96
+      95.25
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DPUPVDK
+      "veroyatnaya damos-veroyatno addr 0x1B378 | pressure difference pu-pvdk"
+      CURVE
+      0x1B378
+      RL_GRID_UBYTE
+      0
+      CM_0p0390625_0_hPa
+      0
+      9.96094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKDISA
+      "veroyatnaya damos-veroyatno addr 0x1B39A | faktor difference for integrator ambient pressure during fuel cut off"
+      CURVE
+      0x1B39A
+      RL_GRID_UWORD
+      0
+      CM_6p103515625En05_0
+      0
+      3.99994
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -8036,6 +11547,44 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC PAGAVML
+      "veroyatnaya damos-veroyatno addr 0x1B640 | exhaust gas pressure at outlet valve"
+      CURVE
+      0x1B640
+      RL_GRID_UBYTE
+      0
+      CM_0p0390625_0_hPa
+      0
+      9.96094
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NMOTNGAS
+      "veroyatnaya damos-veroyatno addr 0x1B660 | Engine speed correction factor dependend on rpm gradient"
+      CURVE
+      0x1B660
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC ATMTANS
       "podtverzhdena damos addr 0x1B67A | temperature correction of the exhaust model temperature"
       CURVE
@@ -8052,6 +11601,220 @@ ASAP2_VERSION 1 51
         0
         2
         FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFWMABG
+      "veroyatnaya damos-veroyatno addr 0x1B681 | map for heat-quantity threshold dew-point end upstream bank1"
+      MAP
+      0x1B681
+      RL_GRID_UWORD
+      0
+      CM_0p05664148928_0_kJ
+      0
+      3712
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFWMKAT
+      "veroyatnaya damos-veroyatno addr 0x1B6C7 | map for heat quantity threshold dew-point end downstream"
+      MAP
+      0x1B6C7
+      RL_GRID_UWORD
+      0
+      CM_0p05664148928_0_kJ
+      0
+      3712
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC STS06TMUW
+      "veroyatnaya damos-veroyatno addr 0x1B70D | tabstatm dependet basic point (number 6)"
+      CURVE
+      0x1B70D
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZATMAML
+      "veroyatnaya damos-veroyatno addr 0x1B71D | time constant for exhaust gas temperature model"
+      CURVE
+      0x1B71D
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZATMKML
+      "veroyatnaya damos-veroyatno addr 0x1B72B | time constant for catalyst temperature model tkatm"
+      CURVE
+      0x1B72B
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZATMRML
+      "veroyatnaya damos-veroyatno addr 0x1B739 | time constant for exhaust model temperature - pipe temperature"
+      CURVE
+      0x1B739
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        7
+        0
+        6
+        FIX_AXIS_PAR_DIST 0 1 7
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THSHKTK
+      "veroyatnaya damos-veroyatno addr 0x1B807 | Line for switch off time of lambda sensor heating post cat dep. on temp"
+      CURVE
+      0x1B807
+      RL_GRID_SBYTE
+      0
+      CM_3p9062En05_0p05_s
+      -0.0549999
+      -0.0450391
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC THSVKTA
+      "veroyatnaya damos-veroyatno addr 0x1B829 | Line of switching off time for lambda sensor heating depending on exh.gas temp"
+      CURVE
+      0x1B829
+      RL_GRID_SBYTE
+      0
+      CM_3p9062En05_0p05_s
+      -0.0549999
+      -0.0450391
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFRMIN
+      "veroyatnaya damos-veroyatno addr 0x1B85E | lower limit of control range"
+      MAP
+      0x1B85E
+      RL_GRID_UWORD
+      0
+      CM_3p051757812En05_0
+      0
+      1.99997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KDLASHKI
+      "neodnoznachnaya damos-somnitelno addr 0x1B899 | evaluation factor of I-part of LRHK, f(dlashkm)"
+      CURVE
+      0x1B899
+      RL_GRID_SWORD
+      0
+      CM_3p051757812En05_0
+      -1
+      0.999969
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        10
+        0
+        9
+        FIX_AXIS_PAR_DIST 0 1 10
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -8088,6 +11851,44 @@ ASAP2_VERSION 1 51
         5
         0
         255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LAMKAML
+      "veroyatnaya damos-veroyatno addr 0x1B939 | lambda setpoint for catylyst deoxidation (dependent on air mass)"
+      CURVE
+      0x1B939
+      RL_GRID_UWORD
+      0
+      CM_0p000244140625_0
+      0
+      15.9998
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LAMKAML2
+      "veroyatnaya damos-veroyatno addr 0x1B943 | lambdasetpoint for catalyst deoxidation (air mass dependent), bank 2"
+      CURVE
+      0x1B943
+      RL_GRID_UWORD
+      0
+      CM_0p000244140625_0
+      0
+      15.9998
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -8147,6 +11948,305 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFDYESOF
+      "somnitelnaya damos-somnitelno addr 0x1BB4D | Offset threshold for dynamic presetting values"
+      MAP
+      0x1BB4D
+      RL_GRID_UBYTE
+      0
+      CM_0p0234375_0
+      0
+      5.97656
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KLDYMNT
+      "veroyatnaya damos-veroyatno addr 0x1BBC9 | min. value of dynamic response derivation"
+      CURVE
+      0x1BBC9
+      RL_GRID_SBYTE
+      0
+      CM_n0p75_0_gradKW
+      -95.25
+      96
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC UDKSNO
+      "veroyatnaya damos-veroyatno addr 0x1BBEA | upper reference voltage threshold for diagnosis knock sensors"
+      CURVE
+      0x1BBEA
+      RL_GRID_UBYTE
+      0
+      CM_0p0195313_0_V
+      0
+      4.98048
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC UDKSNU
+      "veroyatnaya damos-veroyatno addr 0x1BC0A | lower reference voltage threshold for diagnosis knock sensors"
+      CURVE
+      0x1BC0A
+      RL_GRID_UBYTE
+      0
+      CM_0p0195313_0_V
+      0
+      4.98048
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MRFAVW
+      "veroyatnaya damos-veroyatno addr 0x1BC2C | threshold to switch end of injection angle at max. driver request"
+      CURVE
+      0x1BC2C
+      RL_GRID_UWORD
+      0
+      CM_0p003051757812_0
+      0
+      199.997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_614_1BC7A_8
+      "veroyatnaya mapscan addr 0x1BC7A"
+      CURVE
+      0x1BC7A
+      RL_2D_A8_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        255
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RKBAUM
+      "veroyatnaya damos-veroyatno addr 0x1BC96 | rk-threshold for acceleration enrichment display"
+      CURVE
+      0x1BC96
+      RL_GRID_SWORD
+      0
+      CM_0p1875_0
+      -6144
+      6143.81
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        9
+        0
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RKVAUM
+      "veroyatnaya damos-veroyatno addr 0x1BCA8 | rk-threshold for deceleration enleanment display"
+      CURVE
+      0x1BCA8
+      RL_GRID_SWORD
+      0
+      CM_0p1875_0
+      -6144
+      6143.81
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        9
+        0
+        8
+        FIX_AXIS_PAR_DIST 0 1 9
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZMRFABN
+      "veroyatnaya damos-veroyatno addr 0x1BCDB | calculation of current time constant of low pass (permanent high load) mrfabnf_w"
+      CURVE
+      0x1BCDB
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFFRAT
+      "veroyatnaya damos-veroyatno addr 0x1BCFA | load and speed dependent gradient of FRAT integrator"
+      MAP
+      0x1BCFA
+      RL_GRID_UWORD
+      0
+      CM_7p629394531En05_0_1s
+      0
+      4.99992
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZKFRAOA
+      "veroyatnaya damos-veroyatno addr 0x1BD41 | time constant for frao-integrator, f(number of starts with fuel in oil)"
+      CURVE
+      0x1BD41
+      RL_GRID_UWORD
+      0
+      CM_7p629394531En05_0_1s
+      0
+      4.99992
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZKFRAUA
+      "veroyatnaya damos-veroyatno addr 0x1BD4F | time constant for frau-integrator, f(number of starts with"
+      CURVE
+      0x1BD4F
+      RL_GRID_UWORD
+      0
+      CM_7p629394531En05_0_1s
+      0
+      4.99992
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZKRKATA
+      "neodnoznachnaya damos-somnitelno addr 0x1BD5D | integration speed integrator rkat, f(abo)"
+      CURVE
+      0x1BD5D
+      RL_GRID_UWORD
+      0
+      CM_0p0146484375_0_s
+      0
+      959.985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZKRKAZA
+      "veroyatnaya damos-veroyatno addr 0x1BD6B | integration speed integrator rkaz, f(abo)"
+      CURVE
+      0x1BD6B
+      RL_GRID_UWORD
+      0
+      CM_0p0146484375_0_s
+      0
+      959.985
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC MAP_623_1BD71_5
+      "veroyatnaya mapscan addr 0x1BD71"
+      CURVE
+      0x1BD71
+      RL_2D_A16_UWORD
+      0
+      CM_IDENTITY
+      0
+      65535
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        65535
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KLESUKKO
       "podtverzhdena damos addr 0x1BD89 | Characteristic line transient compensation at A/C on"
       CURVE
@@ -8166,6 +12266,63 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KLKESUKFS
+      "veroyatnaya damos-veroyatno addr 0x1BD99 | characteristic line of integration factor for trans. comp. at engaging gear(A/T)"
+      CURVE
+      0x1BD99
+      RL_GRID_UWORD
+      0
+      CM_3p051757812En05_0
+      0
+      1.99997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KLKESUKKO
+      "veroyatnaya damos-veroyatno addr 0x1BDA9 | characteristic line of integration factor for transient compensation at A/C on"
+      CURVE
+      0x1BDA9
+      RL_GRID_UWORD
+      0
+      CM_3p051757812En05_0
+      0
+      1.99997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRLFSDP
+      "veroyatnaya damos-veroyatno addr 0x1BDB9 | injection correction for RLFS"
+      CURVE
+      0x1BDB9
+      RL_GRID_UWORD
+      0
+      CM_3p051757812En05_0
+      0
+      1.99997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        11
+        0
+        10
+        FIX_AXIS_PAR_DIST 0 1 11
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC FQTEPT
       "podtverzhdena damos addr 0x1BE3F | characteristic line: for fuel-tank underpressure limitation"
       CURVE
@@ -8182,6 +12339,445 @@ ASAP2_VERSION 1 51
         0
         5
         FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFETATE
+      "veroyatnaya damos-veroyatno addr 0x1BE5E | characteristic map for efficency at active purging when te is near TEMIN"
+      MAP
+      0x1BE5E
+      RL_GRID_UWORD
+      0
+      CM_0p001953125_0
+      0
+      127.998
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        3
+        0
+        2
+        FIX_AXIS_PAR_DIST 0 1 3
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFTEKA
+      "somnitelnaya damos-somnitelno addr 0x1BE8A | characteristic map of desired fuel portion purge control"
+      MAP
+      0x1BE8A
+      RL_GRID_SBYTE
+      0
+      CM_0p0078125_0
+      -1
+      0.992188
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDTMTE
+      "veroyatnaya damos-veroyatno addr 0x1BF29 | char. map for gradient of engine coolant temperature in substitute temp. model"
+      MAP
+      0x1BF29
+      RL_GRID_SBYTE
+      0
+      CM_0p000732421875_0_GradC
+      -0.09375
+      0.0930176
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFDTMTR
+      "veroyatnaya damos-veroyatno addr 0x1BF49 | char. map for gradient of engine coolant temperature in reference model"
+      MAP
+      0x1BF49
+      RL_GRID_SBYTE
+      0
+      CM_0p000732421875_0_GradC
+      -0.09375
+      0.0930176
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KLDTMRS
+      "veroyatnaya damos-veroyatno addr 0x1BF5F | char.line for gradient of engine coolant temp. during cutoff for reference model"
+      CURVE
+      0x1BF5F
+      RL_GRID_SBYTE
+      0
+      CM_0p000732421875_0_GradC
+      -0.09375
+      0.0930176
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        5
+        0
+        4
+        FIX_AXIS_PAR_DIST 0 1 5
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DFPSLBIT
+      "veroyatnaya damos-veroyatno addr 0x1BF7C | Section bits for indication of the activated error paths"
+      CURVE
+      0x1BF7C
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LURBRL8
+      "veroyatnaya damos-veroyatno addr 0x1BF9F | reference value for engine roughness, vehicle speed zero"
+      CURVE
+      0x1BF9F
+      RL_GRID_SBYTE
+      0
+      CM_IDENTITY
+      -128
+      127
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        8
+        0
+        7
+        FIX_AXIS_PAR_DIST 0 1 8
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FKKVS
+      "veroyatnaya damos-veroyatno addr 0x1C02E | Factor to correct fuel delivery system"
+      MAP
+      0x1C02E
+      RL_GRID_UWORD
+      0
+      CM_3p051757812En05_0
+      0
+      1.99997
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        16
+        0
+        15
+        FIX_AXIS_PAR_DIST 0 1 16
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL30LINE
+      "veroyatnaya damos-veroyatno addr 0x1C3E2 | 30th line of classtable"
+      CURVE
+      0x1C3E2
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL31LINE
+      "veroyatnaya damos-veroyatno addr 0x1C3F0 | 31th line of classtable"
+      CURVE
+      0x1C3F0
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL32LINE
+      "veroyatnaya damos-veroyatno addr 0x1C3FE | 32th line of classtable"
+      CURVE
+      0x1C3FE
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL33LINE
+      "veroyatnaya damos-veroyatno addr 0x1C40C | 33th line of classtable"
+      CURVE
+      0x1C40C
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL34LINE
+      "veroyatnaya damos-veroyatno addr 0x1C41A | 34th line of classtable"
+      CURVE
+      0x1C41A
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL35LINE
+      "veroyatnaya damos-veroyatno addr 0x1C428 | 35th line of classtable"
+      CURVE
+      0x1C428
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL36LINE
+      "veroyatnaya damos-veroyatno addr 0x1C436 | 36th line of classtable"
+      CURVE
+      0x1C436
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL37LINE
+      "veroyatnaya damos-veroyatno addr 0x1C444 | 37th line of classtable"
+      CURVE
+      0x1C444
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL38LINE
+      "veroyatnaya damos-veroyatno addr 0x1C452 | 38th line of classtable"
+      CURVE
+      0x1C452
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CL39LINE
+      "veroyatnaya damos-veroyatno addr 0x1C460 | 39th line of classtable"
+      CURVE
+      0x1C460
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        13
+        0
+        12
+        FIX_AXIS_PAR_DIST 0 1 13
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LNXQTM
+      "veroyatnaya damos-veroyatno addr 0x1C471 | natural logarithm from temperature quotient"
+      CURVE
+      0x1C471
+      RL_GRID_UWORD
+      0
+      CM_6p103515625En05_0
+      0
+      3.99994
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TNLSGM
+      "veroyatnaya damos-veroyatno addr 0x1C4A3 | Delay time for ECU shut-off"
+      CURVE
+      0x1C4A3
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        6
+        0
+        5
+        FIX_AXIS_PAR_DIST 0 1 6
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC ZKTABTU
+      "veroyatnaya damos-veroyatno addr 0x1C4BF | time constant for engine cooling"
+      CURVE
+      0x1C4BF
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        4
+        0
+        3
+        FIX_AXIS_PAR_DIST 0 1 4
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -8249,6 +12845,116 @@ ASAP2_VERSION 1 51
       CM_0p01_0_s
       -0
       655.35
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAHSH
+      "podogrev datchika posle katalizatora"
+      VALUE
+      0x11DA5
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAKAT
+      "diagnostika katalizatora"
+      VALUE
+      0x11DA9
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLALASH
+      "starenie datchika posle katalizatora"
+      VALUE
+      0x11DB3
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLALSH
+      "sam datchik posle katalizatora"
+      VALUE
+      0x11DB8
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAFRAO
+      ""
+      VALUE
+      0x11DA1
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAFRAU
+      ""
+      VALUE
+      0x11DA2
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLAHSV
+      ""
+      VALUE
+      0x11DA7
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLALATP
+      ""
+      VALUE
+      0x11DB4
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLALATV
+      ""
+      VALUE
+      0x11DB5
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CLARKAT
+      ""
+      VALUE
+      0x11DC7
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFFDLBTS__kandidat
@@ -9108,6 +13814,17 @@ ASAP2_VERSION 1 51
       CM_0p0078125_0
       -0
       1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TEMIN
+      "somnitelnaya | minimalnoe effektivnoe vremya vpryska"
+      VALUE
+      0x15E44
+      RL_GRID_UBYTE
+      0
+      CM_0p00266667_0_ms
+      -0
+      0.680001
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TSTEAA
@@ -10100,17 +14817,6 @@ ASAP2_VERSION 1 51
       3.98438
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC ZBTEML
-      "podtverzhdena | integration speed for canister charge adaptation"
-      VALUE
-      0x198AD
-      RL_GRID_UBYTE
-      0
-      CM_0p02392578125_0_1s
-      -0
-      6.10107
-    /end CHARACTERISTIC
-
     /begin CHARACTERISTIC DNDTEO
       "podtverzhdena | upper Nsoll-Nist threshold for abortion diagnosis CPV"
       VALUE
@@ -10529,33 +15235,6 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFPUNW
-      "podtverzhdena | to zhe pri upravlenii fazami (rezhim 2) -- vsya v edinicah, fazovraschatelya tut net"
-      MAP
-      0x112DF
-      RL_GRID_UBYTE
-      0
-      CM_0p0078125_0
-      -0
-      1.99219
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        14
-        0
-        13
-        FIX_AXIS_PAR_DIST 0 1 14
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        14
-        0
-        13
-        FIX_AXIS_PAR_DIST 0 1 14
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
     /begin CHARACTERISTIC KFKHFM
       "podtverzhdena | korrekciya harakteristiki DMRV, oboroty x napolnenie"
       MAP
@@ -10607,15 +15286,19 @@ ASAP2_VERSION 1 51
       ROOT
       /begin SUB_GROUP
         G_scanner_podtverzhdena
+        G_scanner_veroyatnaya
         G_lambda_cat_diag_block
         G_knock_control
         G_canister_purge
+        G_scanner_somnitelnaya
         G_overrun_fuel_cut
         G_torque_model
+        G_second_lambda
         G_cyclic_charge
         G_maps
         G_hfm_path
         G_scalars
+        G_scanner_neodnoznachnaya
         G_transient_fuel
         G_axes_resolved_from_code
         G_full_load_lambda
@@ -10973,6 +15656,212 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
+    /begin GROUP G_scanner_veroyatnaya
+      "Skaner: veroyatnye"
+      /begin REF_CHARACTERISTIC
+        MAP_056_10D9A_6
+        FZN5
+        FZN6
+        FZN7
+        MAP_125_115FB_7
+        FAGRH
+        DLURMIN
+        KFLURB2
+        LURKTM
+        LURMIN1
+        LURMIN2
+        LURMIN3
+        KFKSWF
+        SAN12ESUW
+        MAP_175_14915_6
+        TVKUPHS
+        TVKUPRS
+        DETANN
+        DETAPN
+        MAP_181_14998_10
+        MAP_182_149B8_10
+        MAP_189_14BC5_12
+        MAP_208_14F60_8
+        MAP_209_14F7F_6
+        MAP_212_15005_6
+        DMLLNGV
+        MAP_222_15281_6
+        MAP_223_152A1_6x7
+        MAP_224_15311_7
+        MAP_225_15331_7
+        MAP_226_15362_8x24
+        MAP_227_15528_12
+        MAP_228_15559_16
+        WDKUGDN_15672
+        AZKELDYN_0_A
+        MAP_247_15BCB_7
+        MAP_248_15C2D_7
+        FNSSM_0_A
+        KLLAMFA_0_A
+        FVERZDYN
+        TATEMSN
+        CDCAAA
+        CDCAGRF
+        CDCAGRL
+        CDCAGRV
+        CDCAHC
+        CDCBM
+        CDCDUMMY
+        CDCEGFE
+        CDCEV1
+        CDCEV2
+        CDCEV3
+        CDCEV4
+        CDCEV5
+        CDCEV6
+        CDCFRAO
+        CDCFRAU
+        CDCFRST
+        CDCGE
+        CDCHSH
+        CDCHSHE
+        CDCHSV
+        CDCHSVE
+        CDCKAT
+        CDCKOSE
+        CDCKPE
+        CDCKRNT
+        CDCKROF
+        CDCKRTP
+        CDCKS1
+        CDCKS2
+        CDCKS3
+        CDCKS4
+        CDCLASH
+        CDCLATP
+        CDCLATV
+        CDCLLR
+        CDCLM
+        CDCLSV
+        CDCLUEA
+        MAP_303_1611B_4
+        CDCMD01
+        CDCMD02
+        CDCMD03
+        CDCMFA
+        CDCMFB
+        CDCPH
+        CDCPUA
+        CDCRKAT
+        CDCRKAZ
+        CDCSGROM
+        CDCSWE
+        CDCTA
+        CDCTHM
+        CDCTM
+        CDCUB
+        CDCVFZ
+        CDCZOE
+        CDCZSE
+        CDCZZZ
+        GRID_326_1637C_16x7
+        MAP_394_1854A_5
+        MAP_395_1856E_8
+        KFRI2
+        MAP_432_18ABF_8
+        KFUSHK
+        PLRHML
+        RLLRHON
+        RLLRHUN
+        ZLRHML
+        DTVKAML
+        FKAXAVKAT
+        BTRKHTMS
+        MAP_452_18C2A_8
+        MAP_453_18C7C_8
+        LMSTMOT
+        KEMLN
+        KE1N
+        KE2N
+        KE3N
+        KE4N
+        KE5N
+        KE6N
+        KE7N
+        KE8N
+        RKRMX1N
+        RKRMX2N
+        KRDWSN
+        MAP_484_18F61_4
+        MAP_487_18FB2_4
+        SZANSSM2
+        LASWLTM
+        KFABAK_1931E
+        KFAVAK_1935D
+        KFBAKL_1939C
+        MAP_526_1977E_5
+        KIFZGAG
+        KIFZGAWG
+        KIFZGHG
+        MAP_568_1A945_4
+        MAP_569_1A965_4
+        FPVMXN
+        MAP_572_1AA3A_4
+        MAP_573_1AB22_4
+        MAP_574_1AC8F_6
+        MAP_578_1B0C2_5
+        KFURL3SU
+        KFURLSU
+        DEVTMAGR
+        DPUPVDK
+        FKDISA
+        PAGAVML
+        NMOTNGAS
+        KFWMABG
+        KFWMKAT
+        STS06TMUW
+        ZATMAML
+        ZATMKML
+        ZATMRML
+        THSHKTK
+        THSVKTA
+        KFFRMIN
+        LAMKAML
+        LAMKAML2
+        KLDYMNT
+        UDKSNO
+        UDKSNU
+        MRFAVW
+        MAP_614_1BC7A_8
+        RKBAUM
+        RKVAUM
+        ZMRFABN
+        KFFRAT
+        ZKFRAOA
+        ZKFRAUA
+        ZKRKAZA
+        MAP_623_1BD71_5
+        KLKESUKFS
+        KLKESUKKO
+        FRLFSDP
+        KFETATE
+        KFDTMTE
+        KFDTMTR
+        KLDTMRS
+        DFPSLBIT
+        LURBRL8
+        FKKVS
+        CL30LINE
+        CL31LINE
+        CL32LINE
+        CL33LINE
+        CL34LINE
+        CL35LINE
+        CL36LINE
+        CL37LINE
+        CL38LINE
+        CL39LINE
+        LNXQTM
+        TNLSGM
+        ZKTABTU
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
     /begin GROUP G_lambda_cat_diag_block
       "Diagnostika katalizatora"
       /begin REF_CHARACTERISTIC
@@ -11102,6 +15991,7 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         GRID_528_197BC_10x10
         KFQTE
+        ZBTEML
         TATELL
         TMSNOGA
         TMTE
@@ -11113,7 +16003,6 @@ ASAP2_VERSION 1 51
         FUMRBRK
         KHCTEMN
         KHCTEMX
-        ZBTEML
         DNDTEO
         DNDTEU
         ETAZWTEN
@@ -11131,6 +16020,26 @@ ASAP2_VERSION 1 51
         TVDTEE
         TVDTEVP
         TVDTEVZ
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_scanner_somnitelnaya
+      "Skaner: somnitelnye"
+      /begin REF_CHARACTERISTIC
+        KFAGRI
+        KFLUAR2
+        KFLUARZ
+        KFDLUR2
+        KFLURB1
+        KFLURBZ
+        KFTADMS
+        KFRP2
+        KFRTV
+        KFRTV2
+        KFMAKR
+        KFLASWLR
+        KFDYESOF
+        KFTEKA
       /end REF_CHARACTERISTIC
     /end GROUP
 
@@ -11171,6 +16080,22 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
+    /begin GROUP G_second_lambda
+      "Vtoroy datchik kisloroda"
+      /begin REF_CHARACTERISTIC
+        CLAHSH
+        CLAKAT
+        CLALASH
+        CLALSH
+        CLAFRAO
+        CLAFRAU
+        CLAHSV
+        CLALATP
+        CLALATV
+        CLARKAT
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
     /begin GROUP G_cyclic_charge
       "Ciklovoe napolnenie"
       /begin REF_CHARACTERISTIC
@@ -11202,9 +16127,9 @@ ASAP2_VERSION 1 51
     /begin GROUP G_hfm_path
       "Vozdushnyy trakt, DMRV"
       /begin REF_CHARACTERISTIC
+        GRID_116_112DF_4x49
         KFPU
         KFPUSU
-        KFPUNW
         KFKHFM
         PUKANS
       /end REF_CHARACTERISTIC
@@ -11218,6 +16143,17 @@ ASAP2_VERSION 1 51
         NMAXDV
         NMXDKPU
         TNMAXDV
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_scanner_neodnoznachnaya
+      "Skaner: neodnoznachnye"
+      /begin REF_CHARACTERISTIC
+        PLRHAV
+        KFRINH
+        FQTEVA
+        KDLASHKI
+        ZKRKATA
       /end REF_CHARACTERISTIC
     /end GROUP
 
@@ -11282,6 +16218,7 @@ ASAP2_VERSION 1 51
       "Toplivopodacha, neizmennoe"
       /begin REF_CHARACTERISTIC
         KRKTE
+        TEMIN
       /end REF_CHARACTERISTIC
     /end GROUP
 

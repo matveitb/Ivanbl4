@@ -37,12 +37,13 @@ def check(cond, msg):
 
 def main():
     a2l = model.load(A2L)
-    # Порог опущен с 800 намеренно: 71 запись убрана как лезущая на чужие
-    # байты. Меньше карт, но ни одна больше не портит соседнюю при правке.
-    check(len(a2l.characteristics) > 750,
+    # Порог опущен дважды: сперва убраны карты, лезущие на чужие байты,
+    # потом -- все НЕПОДТВЕРЖДЁННЫЕ. Осталось то, на что есть ссылка из
+    # кода. Меньше карт, но каждая чем-то подтверждена.
+    check(len(a2l.characteristics) > 500,
           "карт разобрано: %d" % len(a2l.characteristics))
     check(len(a2l.axis_pts) >= 6, "осей-объектов: %d" % len(a2l.axis_pts))
-    check(len(a2l.compu) > 100, "пересчётов: %d" % len(a2l.compu))
+    check(len(a2l.compu) > 60, "пересчётов: %d" % len(a2l.compu))
     check(len(a2l.layouts) >= 13, "раскладок: %d" % len(a2l.layouts))
 
     # -- поле MaxDiff в AXIS_PTS не должно съезжать
@@ -154,7 +155,7 @@ def main():
     KNOWN = {
         ("KFKHFM", "KFWKSTT"),      # обе подтверждены, спорит внешняя
         ("KFMSNTAG", "KLAF"),       # KFMSNTAG damos-точно внутри KLAF
-        ("KFMSNWDK", "LLSPMSN"),    # LLSPMSN подтверждена внутри вероятной
+        ("KFMSNWDK", "LLSPMSN"),    # LLSPMSN подтверждена внутри KFMSNWDK
         ("KFBAKL", "KRKTE"),        # скаляр внутри карты, обе из профиля
     }
     ordered = sorted((L2 for L2 in lays.values() if L2.size),

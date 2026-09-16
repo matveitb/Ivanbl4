@@ -178,6 +178,12 @@ WEIGHT = {
 WEIGHT_PROFILE = 5
 
 
+try:
+    from ru_names import ru_name
+except Exception:                                           # noqa: BLE001
+    def ru_name(name, note="", points=None):                # noqa: D103
+        return ""
+
 CYR = re.compile("[А-Яа-яЁё]")
 
 
@@ -253,6 +259,16 @@ def resolve_overlaps(chars, meta):
                 j = order[b]
                 mj = meta[j]
                 if mj["start"] >= mi["start"] + mi["size"]:
+                    break
+                # Безымянная находка сканера, севшая на НАЗВАННУЮ карту,
+                # -- это она же и есть, только без имени: MAP_117_113A3
+                # лежит ровно на KFPUSUNW, MAP_184_14A11 на KFMIOP.
+                # Решается раньше весов и раньше защиты подтверждённых:
+                # спора тут нет, есть дубликат без имени.
+                ni = meta[i]["name"].startswith(("MAP_", "GRID_"))
+                nj = meta[j]["name"].startswith(("MAP_", "GRID_"))
+                if ni != nj:
+                    kill = ((j, i) if nj else (i, j))
                     break
                 if mi["weight"] == mj["weight"]:
                     note_pair(i, j)
@@ -502,7 +518,12 @@ def main(argv=None) -> int:
             '    /end CHARACTERISTIC\n'
             % (nm, comment(cmt), "MAP" if is3d else "CURVE", m["addr"], rl, cm,
                plo, phi, descr))
-        ru = short_ru(m.get("note") or "")
+        # Сперва выверенное имя, потом первая фраза русского описания.
+        # Пословный перевод английских описаний выброшен: он давал
+        # «P составляющая карта рециркуляция регулятор» -- выглядит
+        # осмысленно и тем обманывает.
+        ru = (ru_name(m.get("name") or "", m.get("note") or "", m.get("nx"))
+              or short_ru(m.get("note") or ""))
         if ru:
             ru_names[nm] = ru
         meta.append(dict(name=nm, start=m.get("data_addr") or m["addr"],
@@ -796,7 +817,8 @@ def main(argv=None) -> int:
                      '      %s\n      0\n      %s\n      %.6g\n      %.6g%s\n'
                      '    /end CHARACTERISTIC\n'
                      % (nm, comment(cmt), kind, e["addr"], rl, cm, lo, hi, descr))
-        ru = short_ru(e["desc"] or "")
+        ru = (ru_name(e["name"], e["desc"] or "", e["rows"])
+              or short_ru(e["desc"] or ""))
         if ru:
             ru_names[nm] = ru
         meta.append(dict(name=nm, start=e["addr"], size=cnt * w,

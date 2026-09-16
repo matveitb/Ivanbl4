@@ -66,7 +66,7 @@ def main():
     app.setApplicationName(APP)
 
     w = MainWindow(work, A2L)
-    check(w.project is not None and len(w.project.layouts) > 700,
+    check(w.project is not None and len(w.project.layouts) > 500,
           "окно открыло прошивку и описание: карт %d"
           % len(w.project.layouts))
     # Число групп берём из самого проекта, а не литералом: оно зависит от
