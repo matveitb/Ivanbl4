@@ -291,12 +291,6 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.00152588
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_40_0
-      "scale 40"
-      RAT_FUNC "%.1f" ""
-      COEFFS 0 1 0 0 0 40
-    /end COMPU_METHOD
-
     /begin COMPU_METHOD CM_0p0234375_0_napolneniya
       "scale 0.0234375"
       RAT_FUNC "%.3f" "% napolneniya"
@@ -465,30 +459,6 @@ ASAP2_VERSION 1 51
       12
       0
       191.25
-    /end AXIS_PTS
-
-    /begin AXIS_PTS AX_14B70_X
-      ""
-      0x14B70
-      NO_INPUT_QUANTITY
-      RL_AXIS_BARE_UWORD
-      0
-      CM_0p0234375_0
-      11
-      0
-      1535.98
-    /end AXIS_PTS
-
-    /begin AXIS_PTS AX_100F2_Y
-      ""
-      0x100F2
-      NO_INPUT_QUANTITY
-      RL_AXIS_BARE_UWORD
-      0
-      CM_40_0
-      16
-      0
-      2.6214e+06
     /end AXIS_PTS
 
     /begin AXIS_PTS AX_14BE0_X
@@ -4319,97 +4289,35 @@ ASAP2_VERSION 1 51
 
     /begin CHARACTERISTIC DNMAXH
       "podtverzhdena | Gisterezis zhestkogo ogranicheniya: toplivo vozvraschaetsya na NMAX minus 120 ob/min. Odinakov vo vseh vosmi proshivkah."
-      CURVE
+      VALUE
       0x14BB2
       RL_GRID_UWORD
       0
       CM_0p25_0_obmin
       -0
       16383.8
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        2
-        0
-        1
-        FIX_AXIS_PAR_DIST 0 1 2
-      /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC NMAX
       "podtverzhdena | Otsechka. Znacheniya sovpali s tem, chto nazyval kalibrovschik (6800 protiv 7700)."
-      CURVE
+      VALUE
       0x14BB4
       RL_GRID_UWORD
       0
       CM_0p25_0_obmin
       -0
       16383.8
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        2
-        0
-        1
-        FIX_AXIS_PAR_DIST 0 1 2
-      /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC NMAXDV
       "podtverzhdena | Ogranichenie oborotov pri neispravnom signale skorosti, a ne vtoroy porog obychnoy otsechki. Kosvennoe podtverzhdenie: L podnyal NMAX do 7084 i ostavil zdes 6000 -- bud eto rabochiy pr"
-      CURVE
+      VALUE
       0x14BB6
       RL_GRID_UWORD
       0
       CM_0p25_0_obmin
       -0
       16383.8
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        2
-        0
-        1
-        FIX_AXIS_PAR_DIST 0 1 2
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC RLVMXN
-      "podtverzhdena | maks. napolnenie pri otkrytom drossele"
-      CURVE
-      0x182B6
-      RL_GRID_UBYTE
-      0
-      CM_IDENTITY
-      -0
-      255
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        11
-        0
-        10
-        FIX_AXIS_PAR_DIST 0 1 11
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC RLVSMXN
-      "podtverzhdena | to zhe pri pereklyuchennom vpuske (SU)"
-      CURVE
-      0x182CD
-      RL_GRID_UBYTE
-      0
-      CM_IDENTITY
-      -0
-      255
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        11
-        0
-        10
-        FIX_AXIS_PAR_DIST 0 1 11
-      /end AXIS_DESCR
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFMIOP
@@ -4427,15 +4335,15 @@ ASAP2_VERSION 1 51
         11
         0
         1535.98
-        AXIS_PTS_REF AX_14B70_X
+        AXIS_PTS_REF SRL11_OP
       /end AXIS_DESCR
       /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_40_0
+        CM_40_0_rpm
         16
         0
-        2.6214e+06
-        AXIS_PTS_REF AX_100F2_Y
+        10200
+        AXIS_PTS_REF SNM16_OP
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -4455,33 +4363,6 @@ ASAP2_VERSION 1 51
         0
         64
         FIX_AXIS_PAR_DIST 0 1 65
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC KFETAZW_1
-      "podtverzhdena | karta KPD po uglu"
-      MAP
-      0x10216
-      RL_GRID_UBYTE
-      0
-      CM_0p5_0
-      -0
-      127.5
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        16
-        0
-        15
-        FIX_AXIS_PAR_DIST 0 1 16
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        16
-        0
-        15
-        FIX_AXIS_PAR_DIST 0 1 16
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -5043,7 +4924,6 @@ ASAP2_VERSION 1 51
         G_axis_blocks
         G_fuel_path
         G_full_load_lambda
-        G_max_charge_at_wot
         G_canister_purge
         G_saint_venant
         G_transient_fuel
@@ -5231,7 +5111,6 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         KFMIOP
         ETADZW
-        KFETAZW_1
         KFMIRL
         KFMDS
         ETALAM
@@ -5326,14 +5205,6 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         SNM16GKUB
         SRL12GKUB
-      /end REF_CHARACTERISTIC
-    /end GROUP
-
-    /begin GROUP G_max_charge_at_wot
-      "Napolnenie na polnoy nagruzke"
-      /begin REF_CHARACTERISTIC
-        RLVMXN
-        RLVSMXN
       /end REF_CHARACTERISTIC
     /end GROUP
 

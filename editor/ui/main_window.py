@@ -413,6 +413,13 @@ class MainWindow(QtWidgets.QMainWindow):
             txt += "<br>" + d
         if L.note:
             txt += "<br><i>%s</i>" % L.note
+        # Перекрытие -- не мелочь: правка этой карты изменит и ту, что
+        # делит с ней байты. Ничего не запрещаем, но говорим прямо.
+        over = self.project.overlaps(name)
+        if over:
+            txt += ('<br><span style="color:#9b1c1c"><b>делит байты с: %s'
+                    '</b> — правка здесь изменит и её</span>'
+                    % ", ".join(over[:6]))
         self.info.setText(txt)
 
     def run_op(self, kind: str) -> None:

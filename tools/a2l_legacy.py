@@ -164,6 +164,84 @@ SECTION_TITLES = {
 }
 
 
+# Вес доказательства. Перекрывающиеся карты не могут быть верны обе:
+# байты одни, а описания разные. Слабейшая уходит.
+WEIGHT = {
+    "подтверждена": 3,
+    "вероятная": 2,
+    "неоднозначная": 1,
+    "сомнительная": 0,
+}
+# Профиль -- это то, что подтверждено чтением кода в этом проекте, а опись
+# собрана выравниванием чужого дамоса. При прочих равных профиль весомее.
+WEIGHT_PROFILE = 5
+
+
+def resolve_overlaps(chars, meta):
+    """
+    Выбросить из описания карты, которые лезут на чужие байты.
+
+    Две карты с пересекающимися данными не могут быть верны обе. Поэтому
+    сравниваем вес доказательства и выбрасываем слабейшую. При РАВНОМ весе
+    не выбрасываем ничего: это настоящий спор, и решать его должен человек,
+    а не порядок в списке.
+
+    Проход повторяется, пока что-то выбрасывается: убрав большую слабую
+    карту (FVRMDYN на пять байт, накрывшую KUMSRL), мы освобождаем тех,
+    кого она накрывала.
+    """
+    alive = list(range(len(meta)))
+    dropped, unresolved = [], []
+    seen_pairs = set()
+
+    def note_pair(i, j):
+        pair = tuple(sorted((meta[i]["name"], meta[j]["name"])))
+        if pair in seen_pairs:
+            return
+        seen_pairs.add(pair)
+        unresolved.append((pair[0], pair[1],
+                           "%s / %s" % (meta[i]["why"], meta[j]["why"])))
+
+    while True:
+        order = sorted((i for i in alive if meta[i]["size"] > 0),
+                       key=lambda i: meta[i]["start"])
+        kill = None
+        for a in range(len(order)):
+            if kill:
+                break
+            i = order[a]
+            mi = meta[i]
+            for b in range(a + 1, len(order)):
+                j = order[b]
+                mj = meta[j]
+                if mj["start"] >= mi["start"] + mi["size"]:
+                    break
+                if mi["weight"] == mj["weight"]:
+                    note_pair(i, j)
+                    continue
+                loser, winner = (j, i) if mj["weight"] < mi["weight"] else (i, j)
+                # ПОДТВЕРЖДЁННУЮ КАРТУ НЕ ВЫБРАСЫВАЕМ НИКОГДА, чей бы вес
+                # ни был выше. Если две подтверждённые лезут друг на друга,
+                # это не мусор, а признак, что неверна одна из них -- и
+                # скорее всего внешняя, большая. Такое надо читать глазами,
+                # а не разрешать перевесом.
+                if meta[loser]["protect"]:
+                    note_pair(i, j)
+                    continue
+                kill = (loser, winner)
+                break
+        if not kill:
+            break
+        loser, winner = kill
+        alive.remove(loser)
+        dropped.append((meta[loser]["name"], meta[loser]["why"],
+                        meta[winner]["name"], meta[winner]["why"]))
+
+    keep = set(alive)
+    return ([chars[i] for i in sorted(keep)],
+            [meta[i] for i in sorted(keep)], dropped, unresolved)
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="A2L для старых версий WinOLS")
     ap.add_argument("--maps", required=True)
@@ -173,7 +251,16 @@ def main(argv=None) -> int:
     ap.add_argument("--min-confidence", default="all",
                     choices=["all", "verified"],
                     help="verified -- только подтверждённые карты")
+    ap.add_argument("--firmware",
+                    help="образ прошивки: по нему проверяются оси и "
+                         "разрешаются перекрытия. Без него описание всё равно "
+                         "выпускается, но непроверенным")
     args = ap.parse_args(argv)
+
+    image = None
+    if args.firmware:
+        with open(args.firmware, "rb") as fh:
+            image = fh.read()
 
     maps = json.load(open(args.maps, encoding="utf-8"))["maps"]
     profile = json.load(open(args.profile, encoding="utf-8")) if args.profile else {}
@@ -230,6 +317,10 @@ def main(argv=None) -> int:
 
     _prof_names(profile)
     disputed: list = []
+    # Разбор спорных адресов лежит в самом профиле: решение принято чтением
+    # кода один раз и записано, а не пересчитывается генератором заново.
+    verdicts = {k: v for k, v in (profile.get("address_disputes") or {}).items()
+                if isinstance(v, dict)}
 
     groups: dict[str, list[str]] = {}
 
@@ -241,6 +332,7 @@ def main(argv=None) -> int:
     compus: dict[str, str] = {}
     axis_objs: list[str] = []
     chars: list[str] = []
+    meta: list[dict] = []          # то же, что chars, но пригодное для разбора
 
     # --- объекты осей -------------------------------------------------
     for an, a in AXES.items():
@@ -271,8 +363,11 @@ def main(argv=None) -> int:
         raw_name = m.get("name") or ("MAP_%05X" % m["addr"])
         if raw_name in prof_named and m["addr"] not in prof_named[raw_name]:
             disputed.append((raw_name, m["addr"],
-                             sorted(prof_named[raw_name])[0]))
-            raw_name = "%s@%05X" % (raw_name, m["addr"])
+                             sorted(prof_named[raw_name])[0],
+                             verdicts.get(raw_name, {}).get("evidence", "")))
+            # без "@": ident() всё равно заменит его подчёркиванием, и
+            # задуманное ИМЯ@АДРЕС выходило как ИМЯ_АДРЕС -- пишем сразу так
+            raw_name = "%s_%05X" % (raw_name, m["addr"])
         nm = ident(raw_name, used)
         # Карта, которой профиль не знает, идёт в группу по достоверности:
         # шестьсот безымянных находок одной кучей -- это не дерево.
@@ -368,6 +463,11 @@ def main(argv=None) -> int:
             '    /end CHARACTERISTIC\n'
             % (nm, comment(cmt), "MAP" if is3d else "CURVE", m["addr"], rl, cm,
                plo, phi, descr))
+        meta.append(dict(name=nm, start=m.get("data_addr") or m["addr"],
+                         size=m["nx"] * max(1, m["ny"]) * dw,
+                         weight=WEIGHT.get(m.get("confidence"), 0),
+                         protect=m.get("confidence") == "подтверждена",
+                         why="опись, %s" % (m.get("confidence") or "без оценки")))
 
 
     # --- всё подтверждённое из профиля ---------------------------------
@@ -403,18 +503,63 @@ def main(argv=None) -> int:
     if before != len(maps):
         print("  безымянных карт заменено именами из профиля: %d"
               % (before - len(maps)), file=sys.stderr)
+    # Запись профиля отбрасываем не только когда её адрес совпал с адресом
+    # карты из описи, но и когда он совпал с адресом ЕЁ ДАННЫХ. У
+    # заголовочных карт это разные числа: опись знает KFETAZW по заголовку
+    # 0x101F4, профиль -- по данным 0x10216, и раньше в A2L выходили две
+    # записи на одни и те же 256 байт. Та же история у RLVMXN и RLVSMXN,
+    # где профиль указывает на счётчик, а опись на первое значение: это не
+    # спор об адресе, а одна и та же карта с двух концов.
     done_addr = {m["addr"] for m in maps}
+    done_addr |= {m["data_addr"] for m in maps if m.get("data_addr")}
     extra = []
+    merged: list = []
+
+    def points_at(addr, w, n):
+        """Первое значение по адресу -- на случай, если это счётчик."""
+        if image is None or addr + w > len(image):
+            return None
+        return int.from_bytes(image[addr:addr + w], "little")
+
+    def same_map_from_other_end(addr, node):
+        """
+        Не описывает ли эта запись профиля ту же карту, что уже выпущена,
+        только с другого конца -- от счётчика, а не от данных?
+
+        Признак проверяемый, а не предполагаемый: по адресу записи лежит
+        ЧИСЛО, равное её же количеству точек, а сразу за ним начинается
+        уже известная карта. Так устроены RLVMXN (0x182B6 счётчик, 0x182B7
+        данные) и RLVSMXN. Догадываться по расстоянию в байт нельзя:
+        соседняя калибровка может случайно оказаться через байт.
+        """
+        n = node.get("n") or 0
+        if not n:
+            return 0
+        for w in (1, 2):
+            if addr + w in done_addr and points_at(addr, w, n) == n:
+                return addr + w
+        return 0
 
     def collect(node, section):
         if isinstance(node, dict):
             a, nm = node.get("addr"), node.get("name")
             if isinstance(a, str) and a.startswith("0x") and nm:
                 addr = int(a, 16)
-                if addr not in done_addr:
+                twin = same_map_from_other_end(addr, node)
+                if twin:
+                    merged.append((nm, addr, twin))
                     done_addr.add(addr)
+                elif addr not in done_addr:
+                    done_addr.add(addr)
+                    # ВНИМАНИЕ: "width" в этом профиле -- ШИРИНА ЯЧЕЙКИ В
+                    # БАЙТАХ, а не число столбцов. Раньше здесь стояло
+                    # cols = cols or width, и скаляр шириной в слово
+                    # превращался в две ячейки: DNMAXH, NMAX, NMAXDV,
+                    # NMXDKPU и TNMAXDV стоят через два байта, поэтому
+                    # каждый залезал на следующий, и правка второй ячейки
+                    # NMAX писала в NMAXDV.
                     rows = node.get("rows") or node.get("height") or 1
-                    cols = node.get("cols") or node.get("width") or 1
+                    cols = node.get("cols") or 1
                     n = node.get("n") or 1
                     cnt = max(1, rows * cols, n)
                     extra.append(dict(name=nm, addr=addr, count=cnt,
@@ -443,21 +588,76 @@ def main(argv=None) -> int:
     if args.min_confidence == "verified":
         extra = [e for e in extra if e["conf"] == "подтверждена"]
     axis_src: dict[str, tuple] = {}
+    # адрес описанной вручную оси -> её имя, чтобы не плодить двойников
+    by_addr = {a["addr"]: an for an, a in AXES.items()}
+    bad_axes: list = []
 
-    def axis_obj(src, tag):
+    def _axis_values(addr, n, aw, factor, skip):
+        """Прочитать точки оси из образа -- ровно так, как их прочтёт редактор."""
+        if image is None:
+            return None
+        out = []
+        for i in range(n):
+            p = addr + skip + i * aw
+            if p + aw > len(image):
+                return None
+            out.append(int.from_bytes(image[p:p + aw], "little") * factor)
+        return out
+
+    def axis_obj(src, tag, owner=""):
         """
-        Ось профиля -> объект AXIS_PTS без счётчика.
+        Ось профиля -> объект AXIS_PTS.
 
-        У профиля записан адрес самих точек, а не начало блока, поэтому
-        раскладка объявляется голой: точки и всё. Число точек берём из
-        профиля -- там оно факт, а не запас.
+        Три вещи, на которых я уже споткнулся и которые теперь решаются, а
+        не предполагаются.
+
+        1. АДРЕС ОЗНАЧАЕТ РАЗНОЕ. У KFMIRL и KFMDS в профиле записан адрес
+           САМИХ ТОЧЕК, а у KFMIOP -- начало блока со счётчиком. Приняв
+           одно за другое, я выпустил ось оборотов, читающуюся как 113280,
+           205480 вместо 440, 680.
+        2. ШИРИНА ТОЧКИ НЕ ВСЕГДА СЛОВО. Ось оборотов на 0x100F2 --
+           байтовая с множителем 40.
+        3. ОСЬ МОЖЕТ БЫТЬ УЖЕ ОПИСАНА ВРУЧНУЮ. Обе оси KFMIOP -- это
+           SNM16_OP и SRL11_OP из таблицы AXES, и в самом профиле стоит
+           пометка "та же ось, что у KFZWOP".
+
+        Поэтому: сперва ищем готовую ось по адресу, затем проверяем
+        прочитанные точки по образу. Ось, которая не возрастает, НЕ
+        ВЫПУСКАЕТСЯ вовсе -- честная ось-индекс лучше красивой и неверной.
         """
         n = int(src.get("n") or 0)
         if not n or not str(src.get("addr", "")).startswith("0x"):
             return None
         addr = int(src["addr"], 16)
-        aw = int(src.get("width_bytes") or 2)
-        key = "AX_%X_%s" % (addr, tag)
+
+        # 1. уже описанная вручную ось -- у неё и счётчик, и ширина верны
+        for cand in (addr, addr - 1, addr - 2):
+            an = by_addr.get(cand)
+            if an and AXES[an]["n"] == n:
+                a = AXES[an]
+                axis_src.setdefault(an, (cm_name(a["factor"], a["offset"],
+                                                 a["unit"]),
+                                         a["factor"] * ((1 << (8 * a["width"])) - 1)))
+                return an
+
+        aw = int(src.get("width_bytes") or src.get("point_width") or 2)
+        af = src.get("factor") or 1.0
+        # 2. счётчик перед точками бывает, а бывает и нет -- решаем по образу.
+        #    Без образа проверить нечем: выпускаем как есть и говорим об этом
+        #    один раз в отчёте, а не делаем вид, что проверили.
+        skip = 0
+        if image is not None:
+            ok = lambda v: v and all(v[i + 1] > v[i] for i in range(n - 1))
+            vals = _axis_values(addr, n, aw, af, 0)
+            if not ok(vals):
+                alt = _axis_values(addr, n, aw, af, aw)
+                if ok(alt):
+                    skip, vals = aw, alt
+            if not ok(vals):
+                bad_axes.append((owner, tag, src.get("addr"), n, aw))
+                return None
+
+        key = "AX_%X_%s" % (addr + skip, tag)
         if key in used:
             return key
         arl = "RL_AXIS_BARE_%s" % TYPE_U[aw]
@@ -465,7 +665,6 @@ def main(argv=None) -> int:
             '\n    /begin RECORD_LAYOUT %s\r\n'
             '      AXIS_PTS_X 1 %s INDEX_INCR DIRECT\r\n'
             '    /end RECORD_LAYOUT\r\n' % (arl, TYPE_U[aw]))
-        af = src.get("factor") or 1.0
         acm = cm_name(af, 0.0, src.get("unit", ""))
         b = cm_block(af, 0.0, src.get("unit", ""))
         if b:
@@ -476,7 +675,7 @@ def main(argv=None) -> int:
             '\n    /begin AXIS_PTS %s\n      "%s"\n      0x%X\n'
             '      NO_INPUT_QUANTITY\n      %s\n      0\n      %s\n'
             '      %d\n      0\n      %.6g\n    /end AXIS_PTS\n'
-            % (key, comment(src.get("unit", "")), addr, arl, acm, n,
+            % (key, comment(src.get("unit", "")), addr + skip, arl, acm, n,
                af * ((1 << (8 * aw)) - 1)))
         return key
 
@@ -512,8 +711,10 @@ def main(argv=None) -> int:
         # файле идут значения ВТОРОЙ оси -- значит она и есть столбцы (X
         # в ASAP2), а первая -- строки. Проверено по данным и сходится с
         # tools/torque.py, который читает KFMDS так же.
-        ax_ref = axis_obj(e["ay"], "X") if isinstance(e["ay"], dict) else None
-        ay_ref = axis_obj(e["ax"], "Y") if isinstance(e["ax"], dict) else None
+        ax_ref = axis_obj(e["ay"], "X", e["name"]) \
+            if isinstance(e["ay"], dict) else None
+        ay_ref = axis_obj(e["ax"], "Y", e["name"]) \
+            if isinstance(e["ax"], dict) else None
 
         def com(ref, npts):
             acm, amax = axis_src[ref]
@@ -553,6 +754,17 @@ def main(argv=None) -> int:
                      '      %s\n      0\n      %s\n      %.6g\n      %.6g%s\n'
                      '    /end CHARACTERISTIC\n'
                      % (nm, comment(cmt), kind, e["addr"], rl, cm, lo, hi, descr))
+        meta.append(dict(name=nm, start=e["addr"], size=cnt * w,
+                         weight=WEIGHT_PROFILE
+                         if e["conf"] == "подтверждена" else WEIGHT_PROFILE - 1,
+                         protect=e["conf"] == "подтверждена",
+                         why="профиль, %s" % (e["conf"] or "без оценки")))
+
+    # --- разрешение перекрытий ------------------------------------------
+    chars, meta, dropped, unresolved = resolve_overlaps(chars, meta)
+    kept = {d["name"] for d in meta}
+    for sec in list(groups):
+        groups[sec] = [n for n in groups[sec] if n in kept]
 
     # --- группы ---------------------------------------------------------
     group_objs: list[str] = []
@@ -606,12 +818,45 @@ def main(argv=None) -> int:
     open(args.out, "wb").write(data)
 
     print("Записано: %s" % args.out)
+    if image is None:
+        print("  ОСИ И ПЕРЕКРЫТИЯ НЕ ПРОВЕРЕНЫ: образ не передан (--firmware)",
+              file=sys.stderr)
+    if merged:
+        print("  сведено записей «счётчик против данных»: %d" % len(merged),
+              file=sys.stderr)
+        for nm_, a_, b_ in sorted(merged):
+            print("    %-12s профиль 0x%05X -> уже описана с 0x%05X"
+                  % (nm_, a_, b_), file=sys.stderr)
+    if bad_axes:
+        print("  ОСИ, НЕ ПРОШЕДШИЕ ПРОВЕРКУ (выпущены как индекс): %d"
+              % len(bad_axes), file=sys.stderr)
+        for owner, tag, a_, n_, w_ in bad_axes:
+            print("    %-12s ось %s по %s: %d точек по %d байт не возрастают"
+                  % (owner, tag, a_, n_, w_), file=sys.stderr)
+    if dropped:
+        print("  ВЫБРОШЕНО ПО ПЕРЕКРЫТИЮ: %d" % len(dropped), file=sys.stderr)
+        for loser, lw, winner, ww in sorted(dropped):
+            print("    %-22s (%s)  лез на  %-22s (%s)"
+                  % (loser, lw, winner, ww), file=sys.stderr)
+    if unresolved:
+        print("  ПЕРЕКРЫТИЯ С РАВНЫМ ВЕСОМ -- решать человеку: %d"
+              % len(unresolved), file=sys.stderr)
+        for a_, b_, why in sorted(unresolved):
+            print("    %-22s и %-22s (%s)" % (a_, b_, why), file=sys.stderr)
+    # Сведённые записи -- не спор: там опись и профиль говорят об одной
+    # карте с разных концов. В списке спорных им делать нечего.
+    merged_names = {m[0] for m in merged}
+    disputed = [d for d in disputed if d[0] not in merged_names]
     if disputed:
-        print("  СПОРНЫЕ АДРЕСА -- имя оставлено профилю, запись сканера "
-              "переименована в ИМЯ@АДРЕС: %d" % len(disputed), file=sys.stderr)
-        for nm_, scan, prof_a in sorted(disputed):
-            print("    %-12s сканер 0x%05X, профиль 0x%05X"
-                  % (nm_, scan, prof_a), file=sys.stderr)
+        solved = sum(1 for d in disputed if d[3])
+        print("  СПОРНЫЕ АДРЕСА: %d, из них разобрано по коду %d. Имя "
+              "остаётся за профилем, запись описи переименована в ИМЯ_АДРЕС"
+              % (len(disputed), solved), file=sys.stderr)
+        for nm_, scan, prof_a, why in sorted(disputed):
+            print("    %-12s опись 0x%05X, профиль 0x%05X%s"
+                  % (nm_, scan, prof_a,
+                     ("  <- " + why) if why else "  (по коду не разобрано)"),
+                  file=sys.stderr)
     print("  карт: %d, осей: %d, раскладок: %d, пересчётов: %d, групп: %d"
           % (len(chars), len(axis_objs), len(layouts), len(compus) + 1,
              max(0, len(group_objs) - 1)))

@@ -88,6 +88,7 @@ class Project:
     fix_checksums: bool = True
     csum_table: int = -1
     group_mode: str = "auto"        # auto -- из описания, user -- своя
+    _overlaps: dict = None          # считается лениво, при первом спросе
 
     # -- открытие --------------------------------------------------------
 
@@ -113,6 +114,7 @@ class Project:
         self.layouts = geometry.resolve_all(self.a2l, data, self.am)
         self.csum_table = saving.find_table(data)
         self.history = History()
+        self._overlaps = None
 
     # -- дерево ----------------------------------------------------------
 
@@ -156,6 +158,34 @@ class Project:
         for title in sorted(buckets, key=lambda k: -len(buckets[k])):
             root.children.append(TreeNode(title, buckets[title]))
         return root
+
+    def _build_overlaps(self) -> None:
+        """
+        Кто с кем делит байты.
+
+        Описание не обязано быть непротиворечивым: адреса приходят из
+        разных источников, и две карты вполне могут претендовать на одни и
+        те же байты. Для описи это неточность, для редактора -- прямая
+        порча: правишь одну карту, молча меняется соседняя. Запрещать
+        нечего, человек может знать, что делает, но молчать нельзя.
+
+        Считаем один раз при открытии, заметанием по отсортированным
+        началам, а не сравнением всех со всеми.
+        """
+        self._overlaps = {}
+        items = sorted((L for L in self.layouts.values() if L.size),
+                       key=lambda L: L.data_off)
+        for i, a in enumerate(items):
+            for b in items[i + 1:]:
+                if b.data_off >= a.end:
+                    break
+                self._overlaps.setdefault(a.name, []).append(b.name)
+                self._overlaps.setdefault(b.name, []).append(a.name)
+
+    def overlaps(self, name: str) -> list:
+        if self._overlaps is None:
+            self._build_overlaps()
+        return self._overlaps.get(name, [])
 
     def search(self, text: str) -> list:
         """Поиск по имени и по описанию. Пустой запрос -- все карты."""

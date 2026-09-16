@@ -35,8 +35,15 @@ def find_in_profile(path: str, name: str) -> dict:
                      (name, ", ".join(m.get("name", "?") for m in prof.get("maps", []))))
 
 
-def read_map(fw: fwlib.Firmware, data_addr: int, nx: int, ny: int, dw: int):
-    flat = fw.vec(data_addr, nx * ny, dw)
+def read_map(fw: fwlib.Firmware, data_addr: int, nx: int, ny: int, dw: int,
+             signed: bool = False):
+    """
+    Знак обязателен. Без него карта УОЗ показывает 255 там, где в блоке
+    лежит -0.75 градуса: ячейка со знаковым байтом 0xFF читается как 255,
+    и это не мелкая неточность на экране, а неверное число, по которому
+    человек принимает решение.
+    """
+    flat = fw.vec(data_addr, nx * ny, dw, signed)
     return fwlib.reshape(flat, ny, nx)
 
 
@@ -60,6 +67,8 @@ def main(argv=None) -> int:
     ap.add_argument("--nx", type=int)
     ap.add_argument("--ny", type=int, default=1)
     ap.add_argument("--dw", type=int, default=1, help="разрядность данных в байтах")
+    ap.add_argument("--signed", action="store_true",
+                    help="знаковые ячейки (у карт УОЗ так и есть)")
     ap.add_argument("--scale", type=float, help="множитель для физических единиц")
     ap.add_argument("--unit", default="", help="подпись единиц")
     args = ap.parse_args(argv)
@@ -70,12 +79,14 @@ def main(argv=None) -> int:
         data_addr = _int(m.get("data_addr", addr))
         nx, ny = int(m["nx"]), int(m.get("ny", 1))
         dw = int(m.get("data_width", 1))
+        signed = bool(m.get("signed")) or args.signed
         title = m["name"]
         note = m.get("note", "")
     elif args.addr is not None and args.nx:
         addr = args.addr
         data_addr = args.data_addr if args.data_addr is not None else addr
         nx, ny, dw = args.nx, args.ny, args.dw
+        signed = args.signed
         title = "карта @0x%X" % addr
         note = ""
     else:
@@ -83,7 +94,8 @@ def main(argv=None) -> int:
         return 2
 
     print("=" * 70)
-    print("%s   %dx%d, u%d, данные @0x%X" % (title, nx, ny, dw * 8, data_addr))
+    print("%s   %dx%d, %s%d, данные @0x%X"
+          % (title, nx, ny, "s" if signed else "u", dw * 8, data_addr))
     if note:
         print(note)
     print("=" * 70)
@@ -91,7 +103,7 @@ def main(argv=None) -> int:
     mats = []
     for path in args.firmwares:
         fw = fwlib.load(path)
-        mat = read_map(fw, data_addr, nx, ny, dw)
+        mat = read_map(fw, data_addr, nx, ny, dw, signed)
         mats.append((os.path.basename(path), mat))
         print("\n--- %s ---" % os.path.basename(path))
         print(fmt(mat))

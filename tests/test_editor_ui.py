@@ -66,10 +66,13 @@ def main():
     app.setApplicationName(APP)
 
     w = MainWindow(work, A2L)
-    check(w.project is not None and len(w.project.layouts) == 858,
+    check(w.project is not None and len(w.project.layouts) > 700,
           "окно открыло прошивку и описание: карт %d"
           % len(w.project.layouts))
-    check(w.tree.tree.topLevelItemCount() == 24,
+    # Число групп берём из самого проекта, а не литералом: оно зависит от
+    # того, сколько карт выбросил генератор, и литерал тут только протухает.
+    NGROUPS = len(w.project.tree().children)
+    check(w.tree.tree.topLevelItemCount() == NGROUPS,
           "в дереве групп: %d" % w.tree.tree.topLevelItemCount())
 
     # -- таблица совпадает с ядром ---------------------------------------
@@ -96,7 +99,8 @@ def main():
     check(w.tree.tree.topLevelItemCount() == 1 and top.childCount() > 1,
           "поиск дал плоский список из %d карт" % top.childCount())
     w.tree.search.clear()
-    check(w.tree.tree.topLevelItemCount() == 24, "после очистки дерево вернулось")
+    check(w.tree.tree.topLevelItemCount() == NGROUPS,
+          "после очистки дерево вернулось")
 
     # -- кнопка правки меняет буфер и отменяется --------------------------
     snapshot = bytes(w.project.buf)
@@ -244,7 +248,7 @@ def main():
     check(os.path.exists(w.project.project_path),
           "файл проекта записан сразу: %s"
           % os.path.basename(w.project.project_path))
-    check(w.tree.tree.topLevelItemCount() == 24,
+    check(w.tree.tree.topLevelItemCount() == NGROUPS,
           "пока выбрана группировка из описания, дерево не поменялось")
 
     w._set_group_mode("user")
@@ -258,7 +262,7 @@ def main():
     check(w.tree.picked_maps() == ["KFZWOP", "KFZW"],
           "щелчок по заголовку берёт всю группу")
     w._set_group_mode("auto")
-    check(w.tree.tree.topLevelItemCount() == 24, "режим вернулся")
+    check(w.tree.tree.topLevelItemCount() == NGROUPS, "режим вернулся")
 
     # -- недавние файлы ----------------------------------------------------
     rec = w._recent()

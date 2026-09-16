@@ -37,7 +37,9 @@ def check(cond, msg):
 
 def main():
     a2l = model.load(A2L)
-    check(len(a2l.characteristics) > 800,
+    # Порог опущен с 800 намеренно: 71 запись убрана как лезущая на чужие
+    # байты. Меньше карт, но ни одна больше не портит соседнюю при правке.
+    check(len(a2l.characteristics) > 750,
           "карт разобрано: %d" % len(a2l.characteristics))
     check(len(a2l.axis_pts) >= 6, "осей-объектов: %d" % len(a2l.axis_pts))
     check(len(a2l.compu) > 100, "пересчётов: %d" % len(a2l.compu))
@@ -108,6 +110,64 @@ def main():
     dys = D.y_axis.values(buf)
     check([round(v) for v in dys[:3]] == [680, 800, 1240],
           "KFMDS: обороты по строкам, с %s" % [round(v) for v in dys[:3]])
+
+    # -- ВСЕ оси обязаны возрастать
+    #
+    # Проверка общая нарочно. Точечных было три -- KFZWOP, KFMIRL, KFMDS --
+    # и они пропустили сломанные оси KFMIOP: ось оборотов читалась как
+    # 113280, 205480 вместо 440, 680, потому что генератор принял начало
+    # блока со счётчиком за начало точек. Пятнадцать зелёных наборов этого
+    # не заметили. Ось, идущая не по возрастанию, физического смысла не
+    # имеет ни у одной карты, поэтому проверяем разом по всем.
+    lays = geometry.resolve_all(a2l, buf, am)
+    crooked = []
+    for L2 in lays.values():
+        for tag, src in (("X", L2.x_axis), ("Y", L2.y_axis)):
+            if src.kind not in ("inline", "ref") or src.count < 2:
+                continue
+            v = src.values(buf)
+            if any(v[i + 1] <= v[i] for i in range(len(v) - 1)):
+                crooked.append("%s.%s %s" % (L2.name, tag,
+                                             [round(x, 1) for x in v[:4]]))
+    check(not crooked, "осей, идущих не по возрастанию: %d %s"
+          % (len(crooked), crooked[:3]))
+
+    # -- KFMIOP закрепляем поимённо: именно её я и сломал
+    P = geometry.resolve(a2l, "KFMIOP", buf, am)
+    check((P.nx, P.ny) == (11, 16), "KFMIOP: %dx%d" % (P.nx, P.ny))
+    pxs, pys = P.x_axis.values(buf), P.y_axis.values(buf)
+    check([round(v) for v in pys[:3]] == [440, 680, 800]
+          and round(pys[-1]) == 6520,
+          "KFMIOP: обороты по строкам %s .. %g"
+          % ([round(v) for v in pys[:3]], pys[-1]))
+    check([round(v) for v in pxs[:3]] == [10, 15, 20] and round(pxs[-1]) == 100,
+          "KFMIOP: нагрузка по столбцам %s .. %g"
+          % ([round(v) for v in pxs[:3]], pxs[-1]))
+
+    # -- карты не должны делить байты
+    #
+    # Две карты на одних байтах не могут быть верны обе, а в редакторе это
+    # прямая порча: правишь одну, меняется другая. Разрешение по весу
+    # доказательства оставляет только случаи, где обе стороны подтверждены
+    # -- их перечисляем поимённо, чтобы новое перекрытие не проскочило под
+    # общим порогом.
+    KNOWN = {
+        ("KFKHFM", "KFWKSTT"),      # обе подтверждены, спорит внешняя
+        ("KFMSNTAG", "KLAF"),       # KFMSNTAG damos-точно внутри KLAF
+        ("KFMSNWDK", "LLSPMSN"),    # LLSPMSN подтверждена внутри вероятной
+        ("KFBAKL", "KRKTE"),        # скаляр внутри карты, обе из профиля
+    }
+    ordered = sorted((L2 for L2 in lays.values() if L2.size),
+                     key=lambda L2: L2.data_off)
+    shared = []
+    for i in range(len(ordered) - 1):
+        A2, B2 = ordered[i], ordered[i + 1]
+        if A2.end > B2.data_off:
+            pair = tuple(sorted((A2.name, B2.name)))
+            if pair not in KNOWN:
+                shared.append("%s + %s" % pair)
+    check(not shared, "карт, делящих байты сверх известных %d: %d %s"
+          % (len(KNOWN), len(shared), shared[:4]))
 
     # -- кривая с синтетической осью
     C = geometry.resolve(a2l, "SGA08MDUB", buf, am)

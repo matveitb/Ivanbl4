@@ -53,7 +53,11 @@ def main():
     shutil.copy(FW, work)
 
     p = proj.Project.open(A2L, work)
-    check(len(p.layouts) == 858, "карт разобрано: %d" % len(p.layouts))
+    # Точное число не закрепляем: оно меняется, когда генератор выбрасывает
+    # карты, лезущие на чужие байты. Закрепляем то, что должно держаться
+    # всегда -- описание разобралось целиком и непусто.
+    check(len(p.layouts) == len(p.a2l.characteristics) > 700,
+          "карт разобрано: %d" % len(p.layouts))
     check(p.csum_table == 0x1FC00,
           "таблица сумм найдена сама: 0x%X" % p.csum_table)
 

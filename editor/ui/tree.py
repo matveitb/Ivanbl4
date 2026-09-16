@@ -73,10 +73,14 @@ class MapTree(QtWidgets.QWidget):
         size = "%dx%d" % (L.nx, L.ny) if L.cells > 1 else "-"
         node = QtWidgets.QTreeWidgetItem([name, size])
         node.setData(0, ROLE_MAP, name)
-        node.setToolTip(0, "%s\nданные 0x%05X, %s%d, множитель %g %s\n%s"
-                        % (name, L.data_off, "s" if L.signed else "u",
-                           L.width * 8, L.factor, L.unit,
-                           self.project.desc(name)))
+        tip = ("%s\nданные 0x%05X, %s%d, множитель %g %s\n%s"
+               % (name, L.data_off, "s" if L.signed else "u",
+                  L.width * 8, L.factor, L.unit, self.project.desc(name)))
+        over = self.project.overlaps(name)
+        if over:
+            tip += "\nделит байты с: " + ", ".join(over[:6])
+            node.setForeground(0, QtGui.QBrush(QtGui.QColor(155, 28, 28)))
+        node.setToolTip(0, tip)
         if not L.editable:
             node.setForeground(0, QtGui.QBrush(QtGui.QColor(140, 140, 140)))
         if name in self._changed:
