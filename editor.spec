@@ -78,33 +78,51 @@ pyz = PYZ(a.pure)
 
 
 
-def build(name, console):
-    return EXE(
-        pyz,
-        a.scripts,
-        a.binaries,
-        a.datas,
-        [],
-        name=name,
-        debug=False,
-        bootloader_ignore_signals=False,
-        strip=False,
-        upx=False,
-        runtime_tmpdir=None,
-        console=console,
-        disable_windowed_traceback=False,
-        argv_emulation=False,
-        target_arch=None,
-        codesign_identity=None,
-        entitlements_file=None,
-    )
+COMMON = dict(
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    # UPX не трогаем ВООБЩЕ. Сжатый исполняемый файл -- главный признак,
+    # по которому эвристики антивирусов записывают программу в упаковщики,
+    # а выигрыш в размере того не стоит.
+    upx=False,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
 
 
-# То, что получает человек: окно без консоли.
-exe = build(APP_NAME, False)
+def onefile(name, console):
+    return EXE(pyz, a.scripts, a.binaries, a.datas, [],
+               name=name, runtime_tmpdir=None, console=console, **COMMON)
 
-# То же самое, но с консолью -- для самопроверки на сборочной машине.
-# У оконной программы под Windows stdout писать некуда, и вывод
-# самопроверки пропал бы вместе с ответом на вопрос, работает ли сборка.
-# Содержимое обеих одинаковое: анализ и архив общие.
-exe_check = build("selftest", True)
+
+# --- ОСНОВНАЯ сборка: папкой ------------------------------------------
+#
+# Одиночный .exe устроен как самораспаковывающийся архив: на старте он
+# разворачивает Python и полсотни библиотек во временный каталог и оттуда
+# запускает. Это ровно тот почерк, по которому эвристики антивирусов ловят
+# упаковщики и дропперы, и неподписанный одиночный файл они заворачивают
+# регулярно -- вплоть до того, что браузер не даёт его скачать.
+#
+# Сборка папкой так не выглядит: рядом с exe лежат обычные DLL, ничего
+# никуда не распаковывается. Ложных срабатываний заметно меньше.
+# Раздаётся zip-архивом, и это ещё и обходит запрет браузера на скачивание
+# неподписанных исполняемых файлов.
+exe_dir = EXE(pyz, a.scripts, [], exclude_binaries=True,
+              name=APP_NAME, console=False, **COMMON)
+coll = COLLECT(exe_dir, a.binaries, a.datas, strip=False, upx=False,
+               name=APP_NAME)
+
+# --- Запасная сборка: одним файлом ------------------------------------
+# Кому удобнее один файл и у кого антивирус не возражает.
+exe = onefile(APP_NAME + "-onefile", False)
+
+# --- Самопроверка ------------------------------------------------------
+# С консолью: у оконной программы под Windows stdout писать некуда, и
+# вывод самопроверки пропал бы вместе с ответом на вопрос, работает ли
+# сборка. Анализ и архив общие со всеми остальными, значит проверяется
+# ровно то же содержимое.
+exe_check = onefile("selftest", True)

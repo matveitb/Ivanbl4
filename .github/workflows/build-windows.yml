@@ -85,11 +85,36 @@ jobs:
             throw "самопроверка не подтвердила себя строкой SELFTEST RESULT: PASS"
           }
 
-      - name: Выложить готовый файл
+      # А это -- проверка ТОЙ САМОЙ сборки, которая уезжает человеку.
+      # Консольный двойник собран из того же анализа, но отгружаем мы
+      # папку, и проверять надо её. Она оконная, stdout нет, поэтому
+      # самопроверка пишет в файл.
+      - name: Самопроверка сборки-папки
+        env:
+          QT_QPA_PLATFORM: offscreen
+          PYTHONIOENCODING: utf-8
+        run: |
+          & .\dist\CalibrationEditor\CalibrationEditor.exe --selftest `
+              firmware\FBH3ID60_stok.bin --log selftest-dir.log
+          $code = $LASTEXITCODE
+          if (Test-Path selftest-dir.log) { Get-Content selftest-dir.log }
+          if ($code -ne 0) { throw "самопроверка сборки-папки провалена" }
+          if (-not (Select-String -Path selftest-dir.log `
+                    -Pattern "SELFTEST RESULT: PASS" -Quiet)) {
+            throw "сборка-папка не подтвердила себя"
+          }
+
+      - name: Упаковать папку
+        run: Compress-Archive -Path dist\CalibrationEditor `
+               -DestinationPath dist\CalibrationEditor-windows.zip
+
+      - name: Выложить готовое
         uses: actions/upload-artifact@v4
         with:
           name: CalibrationEditor-windows
-          path: dist/CalibrationEditor.exe
+          path: |
+            dist/CalibrationEditor-windows.zip
+            dist/CalibrationEditor-onefile.exe
           if-no-files-found: error
 
       # Релиз делается и по тегу, и по ручному запуску.
@@ -108,17 +133,28 @@ jobs:
         with:
           tag_name: ${{ inputs.tag || 'v1.0' }}
           name: Редактор калибровок ${{ inputs.tag || 'v1.0' }}
-          files: dist/CalibrationEditor.exe
+          files: |
+            dist/CalibrationEditor-windows.zip
+            dist/CalibrationEditor-onefile.exe
           body: |
             Редактор калибровок Bosch M7.9.7 (Kia Spectra 1.6, FBH3ID60).
 
-            Скачай `CalibrationEditor.exe` ниже и запусти. Ставить ничего
-            не нужно: ни Python, ни Qt. Описание карт вшито внутрь,
-            остаётся открыть только прошивку.
+            **Качай `CalibrationEditor-windows.zip`.** Распакуй куда
+            угодно и запусти `CalibrationEditor.exe` из папки. Ставить
+            ничего не нужно: ни Python, ни Qt. Описание карт вшито
+            внутрь, остаётся открыть только прошивку.
 
-            При первом запуске Windows покажет «Система Windows защитила
-            ваш компьютер» — файл не подписан сертификатом. Жми
-            «Подробнее» → «Выполнить в любом случае».
+            Второй файл, `CalibrationEditor-onefile.exe`, — то же самое
+            одним файлом, без папки. Удобнее, но антивирусы такие
+            самораспаковывающиеся сборки часто заворачивают по эвристике.
+            Если zip-вариант устраивает, бери его.
+
+            **Про предупреждения.** Файл не подписан сертификатом —
+            сертификат платный. Поэтому Windows покажет «Система Windows
+            защитила ваш компьютер»: «Подробнее» → «Выполнить в любом
+            случае». Антивирус может поругаться по той же причине: код
+            открытый, собирается публично на GitHub Actions, лог сборки
+            виден целиком.
 
             Что умеет: дерево из 787 карт с русскими названиями и
             поиском, правка таблицы с операциями над выделением, отмена и

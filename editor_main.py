@@ -48,7 +48,26 @@ def selftest() -> int:
     except Exception:                                       # noqa: BLE001
         pass
 
+    # Вдобавок пишем в файл, если попросили. Это нужно, чтобы проверять
+    # ОКОННУЮ сборку -- ту самую, которая уезжает человеку. У неё stdout
+    # нет вовсе, и без файла проверить её было бы нечем; а проверять
+    # консольного двойника вместо того, что отгружаешь, -- самообман.
+    log = None
+    if "--log" in sys.argv:
+        i = sys.argv.index("--log")
+        if i + 1 < len(sys.argv):
+            try:
+                log = open(sys.argv[i + 1], "w", encoding="utf-8")
+            except Exception:                               # noqa: BLE001
+                log = None
+
     def say(msg):
+        if log is not None:
+            try:
+                log.write(msg + "\n")
+                log.flush()
+            except Exception:                               # noqa: BLE001
+                pass
         try:
             print(msg, flush=True)
         except Exception:                                   # noqa: BLE001
@@ -76,8 +95,20 @@ def selftest() -> int:
     if not os.path.exists(a2l_path):
         return verdict(1)
 
+    # прошивка -- первый довод, который не ключ и не значение ключа
+    args = list(sys.argv[1:])
+    positional = []
+    skip = False
+    for i, a in enumerate(args):
+        if skip:
+            skip = False
+            continue
+        if a == "--log":
+            skip = True
+        elif not a.startswith("--"):
+            positional.append(a)
     fw = None
-    for cand in (sys.argv[2] if len(sys.argv) > 2 else "",
+    for cand in ((positional[0] if positional else ""),
                  paths.bundled("firmware", "FBH3ID60_stok.bin")):
         if cand and os.path.exists(cand):
             fw = cand
