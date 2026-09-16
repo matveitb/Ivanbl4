@@ -2,8 +2,10 @@
 """
 Запуск окна: python3 -m editor [прошивка.bin] [описание.a2l]
 
-Без доводов открывается последняя пара файлов, если она запомнена, иначе
-пустое окно с приглашением открыть файлы.
+Без доводов открывается последняя пара файлов, если она запомнена. Если
+не запомнена, а рядом лежит вложенное в сборку описание Spectra --
+открывается оно, и человеку остаётся выбрать только прошивку. Совсем
+пустое окно с приглашением «откройте файлы» -- последний случай.
 """
 
 from __future__ import annotations
@@ -11,10 +13,13 @@ from __future__ import annotations
 import os
 import sys
 
-from . import paths                                         # noqa: F401
+from . import paths
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                "ui"))
+if not paths.FROZEN:
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                    "ui"))
+
+DEFAULT_A2L = os.path.join("results", "FBH3ID60_legacy.a2l")
 
 
 def main(argv=None) -> int:
@@ -41,6 +46,10 @@ def main(argv=None) -> int:
             binp = a2l = ""
 
     w = MainWindow(binp, a2l)
+    if w.project is None:
+        near = paths.bundled(DEFAULT_A2L)
+        if os.path.exists(near):
+            w.preset_a2l(near)
     w.show()
     return app.exec()
 

@@ -3,3 +3,8 @@ out/
 
 __pycache__/
 *.pyc
+
+# Сборка PyInstaller
+build/
+dist/
+*.spec.bak

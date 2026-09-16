@@ -38,6 +38,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, bin_path: str = "", a2l_path: str = ""):
         super().__init__()
         self.project = None
+        self._preset = ""          # описание, вложенное в сборку
         self.settings = QtCore.QSettings(ORG, APP)
         self.setWindowTitle(APP)
         self.resize(1280, 800)
@@ -230,9 +231,24 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # -- открытие и сохранение -------------------------------------------
 
+    def preset_a2l(self, path: str) -> None:
+        """
+        Подставить описание, вложенное в сборку.
+
+        В .exe описание Spectra лежит внутри, и заставлять человека искать
+        его на диске бессмысленно: файла там может не быть вовсе. Окно
+        открывается с готовым описанием, остаётся выбрать прошивку. Чужое
+        описание при этом никуда не девается -- «Файл → Открыть» как было.
+        """
+        self._preset = path
+        self.statusBar().showMessage(
+            "Описание Spectra внутри программы. Осталось открыть прошивку: "
+            "Файл → Открыть")
+
     def ask_open(self) -> None:
+        start = self._preset or self._last_dir()
         a2l, _ = QtWidgets.QFileDialog.getOpenFileName(
-            self, "Описание A2L", self._last_dir(), "ASAP2 (*.a2l);;Все (*)")
+            self, "Описание A2L", start, "ASAP2 (*.a2l);;Все (*)")
         if not a2l:
             return
         binp, _ = QtWidgets.QFileDialog.getOpenFileName(

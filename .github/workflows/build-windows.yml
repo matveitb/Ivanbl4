@@ -1,0 +1,79 @@
+# Сборка редактора калибровок под Windows.
+#
+# Зачем CI, а не «собери у себя»: кросс-сборки у PyInstaller нет, exe для
+# Windows собирается только на Windows. Сборочная машина здесь и есть та
+# самая Windows.
+#
+# Готовый файл лежит во вкладке Actions -> нужный запуск -> Artifacts.
+# Если поставить тег вида v1.0, он вдобавок прикрепится к релизу.
+
+name: Сборка Windows
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Поставить зависимости
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-editor.txt
+          pip install pyinstaller
+
+      # Проверки гоняем ДО сборки: собирать заведомо сломанное незачем.
+      # offscreen -- потому что экрана на сборочной машине нет, а окно
+      # создать надо.
+      - name: Проверки
+        env:
+          QT_QPA_PLATFORM: offscreen
+          PYTHONIOENCODING: utf-8
+        run: |
+          $fail = 0
+          Get-ChildItem tests/test_*.py | ForEach-Object {
+            Write-Host "=== $($_.Name) ==="
+            python $_.FullName
+            if ($LASTEXITCODE -ne 0) { $fail = 1 }
+          }
+          if ($fail -ne 0) { throw "проверки провалены" }
+
+      - name: Собрать
+        env:
+          PYTHONIOENCODING: utf-8
+        run: pyinstaller --noconfirm editor.spec
+
+      # Главный шаг. «Собралось» не значит «работает»: половина импортов
+      # в проекте ленивая, и собранный файл спокойно откроется, а упадёт
+      # при нажатии «протянуть». Самопроверка живёт внутри сборки и
+      # прогоняет то же, что делается руками, -- правку, отмену,
+      # сохранение с суммами, сравнение.
+      - name: Самопроверка собранного файла
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          .\dist\selftest.exe --selftest firmware\FBH3ID60_stok.bin
+          if ($LASTEXITCODE -ne 0) { throw "самопроверка сборки провалена" }
+
+      - name: Выложить готовый файл
+        uses: actions/upload-artifact@v4
+        with:
+          name: CalibrationEditor-windows
+          path: dist/CalibrationEditor.exe
+          if-no-files-found: error
+
+      - name: Прикрепить к релизу
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/CalibrationEditor.exe

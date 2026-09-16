@@ -7,10 +7,48 @@
 
 ## Запуск
 
+### Готовый .exe для Windows
+
+Собирается автоматически на сборочной машине Windows: вкладка **Actions**
+в репозитории → последний зелёный запуск → раздел **Artifacts** →
+`CalibrationEditor-windows`. Внутри один файл, ничего ставить не надо —
+ни Python, ни Qt. Описание Spectra вложено внутрь, так что после запуска
+остаётся выбрать только прошивку.
+
+Почему не лежит готовым в репозитории: PyInstaller не умеет кросс-сборку,
+Windows-файл собирается только на Windows. Отсюда и CI.
+
+### Из исходников (любая система)
+
 ```
 pip install -r ../requirements-editor.txt
 python3 -m editor прошивка.bin описание.a2l
 ```
+
+На чистом Linux одного `pip install` мало — PySide6 тянет системные
+библиотеки Qt:
+
+```
+sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libxkbcommon-x11-0 \
+  libdbus-1-3 libfontconfig1 libxcb-cursor0 libxcb-xinerama0 \
+  libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libxcb-randr0 \
+  libxcb-render-util0
+```
+
+На Windows этого не нужно: там колёса PySide6 несут всё своё.
+
+### Собрать .exe самому
+
+```
+pip install pyinstaller
+pyinstaller editor.spec
+dist\selftest.exe --selftest firmware\FBH3ID60_stok.bin
+```
+
+Вторая команда обязательна. «Собралось» не значит «работает»: половина
+импортов в проекте ленивая, и собранный файл спокойно откроется, а упадёт
+при нажатии «протянуть». Самопроверка живёт внутри сборки и прогоняет то
+же, что делается руками.
 
 Без Qt, из командной строки — то же ядро:
 
