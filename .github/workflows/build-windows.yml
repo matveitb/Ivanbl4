@@ -94,11 +94,19 @@ jobs:
           QT_QPA_PLATFORM: offscreen
           PYTHONIOENCODING: utf-8
         run: |
-          & .\dist\CalibrationEditor\CalibrationEditor.exe --selftest `
-              firmware\FBH3ID60_stok.bin --log selftest-dir.log
-          $code = $LASTEXITCODE
+          # Start-Process -Wait, а не просто вызов: PowerShell не ждёт
+          # ОКОННУЮ программу, управление возвращается сразу, и
+          # $LASTEXITCODE берётся мимо -- первый прогон так и упал, хотя
+          # сама самопроверка в логе писала PASS.
+          $p = Start-Process -FilePath `
+                 ".\dist\CalibrationEditor\CalibrationEditor.exe" `
+               -ArgumentList "--selftest","firmware\FBH3ID60_stok.bin",`
+                 "--log","selftest-dir.log" `
+               -Wait -PassThru -NoNewWindow
           if (Test-Path selftest-dir.log) { Get-Content selftest-dir.log }
-          if ($code -ne 0) { throw "самопроверка сборки-папки провалена" }
+          if ($p.ExitCode -ne 0) {
+            throw "самопроверка сборки-папки провалена, код $($p.ExitCode)"
+          }
           if (-not (Select-String -Path selftest-dir.log `
                     -Pattern "SELFTEST RESULT: PASS" -Quiet)) {
             throw "сборка-папка не подтвердила себя"
