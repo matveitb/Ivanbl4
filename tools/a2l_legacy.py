@@ -150,10 +150,15 @@ def main(argv=None) -> int:
     # --- объекты осей -------------------------------------------------
     for an, a in AXES.items():
         rl = "RL_AXIS_U%d" % (a["width"] * 8)
+        # Ширина СЧЁТЧИКА совпадает с шириной самих точек, а не всегда байт.
+        # У словных осей (SRL11OPUW на 0x14B70) счётчик тоже словный, и
+        # данные начинаются на два байта дальше. С байтовым счётчиком
+        # чтение съезжало на один байт и давало мусор -- поймано при
+        # первом же открытии карты в редакторе.
         layouts.setdefault(rl,
-            '\n    /begin RECORD_LAYOUT %s\r\n      NO_AXIS_PTS_X 1 UBYTE\r\n'
+            '\n    /begin RECORD_LAYOUT %s\r\n      NO_AXIS_PTS_X 1 %s\r\n'
             '      AXIS_PTS_X    2 %s INDEX_INCR DIRECT\r\n    /end RECORD_LAYOUT\r\n'
-            % (rl, TYPE_U[a["width"]]))
+            % (rl, TYPE_U[a["width"]], TYPE_U[a["width"]]))
         cm = cm_name(a["factor"], a["offset"], a["unit"])
         b = cm_block(a["factor"], a["offset"], a["unit"])
         if b:
