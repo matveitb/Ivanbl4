@@ -507,6 +507,18 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.0444
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p2_0_s
+      "scale 0.2"
+      RAT_FUNC "%.3f" "s"
+      COEFFS 0 1 0 0 0 0.2
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_1p25_0_kmh
+      "scale 1.25"
+      RAT_FUNC "%.1f" "km/h"
+      COEFFS 0 1 0 0 0 1.25
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_7p8125En06_0_kgh1min
       "scale 7.8125e-06"
       RAT_FUNC "%.3f" "(kg/h)/(1/min)/%"
@@ -677,6 +689,18 @@ ASAP2_VERSION 1 51
       12
       0
       191.25
+    /end AXIS_PTS
+
+    /begin AXIS_PTS SNM08_KO
+      "engine speed for A/C compressor, 8 points"
+      0x119D9
+      NO_INPUT_QUANTITY
+      RL_AXIS_U8
+      0
+      CM_40_0_rpm
+      8
+      0
+      10200
     /end AXIS_PTS
 
     /begin AXIS_PTS AX_14BE0_X
@@ -2885,33 +2909,6 @@ ASAP2_VERSION 1 51
         5
         0
         255
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC KFAGRP
-      "adres podtverzhden damos-somnitelno addr 0x119E3 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x19e2 @0x856920 | P component map of EGR controller"
-      MAP
-      0x119E3
-      RL_GRID_UBYTE
-      0
-      CM_0p00390625_0
-      0
-      0.996094
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        7
-        0
-        6
-        FIX_AXIS_PAR_DIST 0 1 7
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        7
-        0
-        6
-        FIX_AXIS_PAR_DIST 0 1 7
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -10298,6 +10295,208 @@ ASAP2_VERSION 1 51
       25.5
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC LIMTKOA
+      "podtverzhdena | Time threshold to switch off the AC-compressor indefinitly"
+      VALUE
+      0x119D8
+      RL_GRID_UBYTE
+      0
+      CM_0p2_0_s
+      -0
+      51
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TKOAMNN
+      "podtverzhdena | minimum shutdown time for air-conditioning compressor"
+      CURVE
+      0x119E2
+      RL_GRID_UBYTE
+      0
+      CM_0p2_0_s
+      -0
+      51
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        8
+        0
+        10200
+        AXIS_PTS_REF SNM08_KO
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TKOAMXN
+      "podtverzhdena | maximum shutdown time for air-conditioning compressor"
+      CURVE
+      0x119EA
+      RL_GRID_UBYTE
+      0
+      CM_0p2_0_s
+      -0
+      51
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        8
+        0
+        10200
+        AXIS_PTS_REF SNM08_KO
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TKOEMNN
+      "podtverzhdena | minimal time of air-condition compressor beeing swiched on"
+      CURVE
+      0x119F2
+      RL_GRID_UBYTE
+      0
+      CM_0p2_0_s
+      -0
+      51
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        8
+        0
+        10200
+        AXIS_PTS_REF SNM08_KO
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMKOAO
+      "podtverzhdena | Upper coolant temperature for swichting off the AC-compressor"
+      VALUE
+      0x119FA
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMKOAU
+      "podtverzhdena | Lower coolant temperature for swichting off the AC-compressor"
+      VALUE
+      0x119FB
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TNACMX
+      "podtverzhdena | maximal time for engine speed nac after S_ko = 0"
+      VALUE
+      0x119FC
+      RL_GRID_UBYTE
+      0
+      CM_0p2_0_s
+      -0
+      51
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVKOA
+      "podtverzhdena | delay time for compressor OFF"
+      VALUE
+      0x119FD
+      RL_GRID_UBYTE
+      0
+      CM_0p02_0_s
+      -0
+      5.1
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TVKOE
+      "podtverzhdena | delay time for compressor ON"
+      VALUE
+      0x119FE
+      RL_GRID_UBYTE
+      0
+      CM_0p02_0_s
+      -0
+      5.1
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC VKOAO
+      "podtverzhdena | Upper vehicle speed threshold to inhibit the AC-compressor"
+      VALUE
+      0x119FF
+      RL_GRID_UBYTE
+      0
+      CM_1p25_0_kmh
+      -0
+      318.75
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC VKOAU
+      "podtverzhdena | low vehicle speed threshold to inhibit the AC-compressor"
+      VALUE
+      0x11A00
+      RL_GRID_UBYTE
+      0
+      CM_1p25_0_kmh
+      -0
+      318.75
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKKOAN_0
+      "podtverzhdena | wdk threshold for A/C compressor cut off, variant 0"
+      CURVE
+      0x11A01
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      -0
+      99.6094
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        8
+        0
+        10200
+        AXIS_PTS_REF SNM08_KO
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKKOAN_1
+      "podtverzhdena | wdk threshold for A/C compressor cut off, variant 1"
+      CURVE
+      0x11A09
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      -0
+      99.6094
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        8
+        0
+        10200
+        AXIS_PTS_REF SNM08_KO
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKKOEN
+      "podtverzhdena | wdk threshold for air-condition compressor authorisation"
+      CURVE
+      0x11A11
+      RL_GRID_UBYTE
+      0
+      CM_0p390625_0
+      -0
+      99.6094
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        8
+        0
+        10200
+        AXIS_PTS_REF SNM08_KO
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KUMSRL
       "podtverzhdena | konstanta perescheta rashoda vozduha v otnositelnoe napolnenie"
       VALUE
@@ -10611,6 +10810,7 @@ ASAP2_VERSION 1 51
         G_lambda_cat_diag_block
         G_knock_control
         G_canister_purge
+        G_ac_compressor
         G_overrun_fuel_cut
         G_torque_model
         G_cyclic_charge
@@ -10685,7 +10885,6 @@ ASAP2_VERSION 1 51
         MAP_131_116B2_6x6
         MAP_132_116E5_4
         MAP_134_11986_5x6
-        KFAGRP
         MAP_137_11A1A_6
         MAP_139_11A40_10x10
         FFTEV6
@@ -11138,6 +11337,26 @@ ASAP2_VERSION 1 51
         TVDTEE
         TVDTEVP
         TVDTEVZ
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_ac_compressor
+      "Kondicioner"
+      /begin REF_CHARACTERISTIC
+        LIMTKOA
+        TKOAMNN
+        TKOAMXN
+        TKOEMNN
+        TMKOAO
+        TMKOAU
+        TNACMX
+        TVKOA
+        TVKOE
+        VKOAO
+        VKOAU
+        WDKKOAN_0
+        WDKKOAN_1
+        WDKKOEN
       /end REF_CHARACTERISTIC
     /end GROUP
 

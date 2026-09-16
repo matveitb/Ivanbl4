@@ -44,6 +44,15 @@ AXES = {
                      unit="rpm", desc="engine speed for KFLBTS, 16 points"),
     "SRL12_GK": dict(addr=0x1821E, n=12, width=1, factor=0.75, offset=0.0,
                      unit="%", desc="relative load for KFLBTS, 12 points"),
+    # Ось управления компрессором кондиционера. Разобрана по коду:
+    # 0x119D9 -- счётчик (8), дальше восемь точек. Индекс считается на
+    # 0x8567BC из 0xF89E, и дамос называет эту ось прямо -- SNM08KOUB,
+    # "Datapoint distribution for air-conditioner compressor control 8 nmot".
+    # Адрес -- СЧЁТЧИК, как и у остальных описанных здесь осей: раскладка
+    # RL_AXIS_U8 читает сначала число точек, потом сами точки. С адресом
+    # точек ось сдвигалась на байт и первая точка уезжала в конец.
+    "SNM08_KO": dict(addr=0x119D9, n=8, width=1, factor=40.0, offset=0.0,
+                     unit="rpm", desc="engine speed for A/C compressor, 8 points"),
 }
 
 # Какая карта какими осями пользуется: (ось строк = X, ось столбцов = Y)
@@ -141,6 +150,7 @@ SECTION_TITLES = {
     "lambda_cat_diag_block": "Диагностика катализатора",
     "canister_purge": "Адсорбер",
     "cpv_diagnostics_block": "Диагностика адсорбера",
+    "ac_compressor": "Кондиционер",
     "overrun_fuel_cut": "Отсечка на принудительном холостом",
     "max_charge_at_wot": "Наполнение на полной нагрузке",
     "immobilizer": "Иммобилайзер",
@@ -827,6 +837,15 @@ def main(argv=None) -> int:
             descr = fix(e["rows"]) + fix(e["cols"])
             kind = "MAP"
             cnt = e["rows"] * e["cols"]
+        elif (ax_ref or ay_ref) and cnt > 1:
+            # Кривая с НАСТОЯЩЕЙ осью, а не с осью-индексом. До этой ветки
+            # ось признавалась только у двумерных карт, и восемь кривых
+            # управления компрессором показывались по номеру точки вместо
+            # оборотов -- при том что ось у них известна и общая.
+            ref = ax_ref or ay_ref
+            src = e["ay"] if ax_ref else e["ax"]
+            descr = com(ref, int(src.get("n") or cnt))
+            kind = "CURVE"
         elif cnt > 1:
             descr = fix(cnt)
             kind = "CURVE"

@@ -170,6 +170,31 @@ def main():
     check(not shared, "карт, делящих байты сверх известных %d: %d %s"
           % (len(KNOWN), len(shared), shared[:4]))
 
+    # -- блок кондиционера: кривая с НАСТОЯЩЕЙ осью
+    #
+    # Раньше на этих байтах стояла "карта регулятора AGR" 7x7 -- имя из
+    # выравнивания, само же помеченное "не сходится". По коду там ось
+    # оборотов и четыре кривые по восемь точек. Закрепляем поимённо две
+    # вещи, на которых ошибка была бы не видна глазом: ось должна
+    # начинаться с 800 (адрес указывает на СЧЁТЧИК, а не на точки -- с
+    # адресом точек первая уезжала в конец), и пороги дросселя должны
+    # читаться в процентах, а не в сырых числах.
+    A = geometry.resolve(a2l, "WDKKOEN", buf, am)
+    check(A.ctype == "CURVE" and (A.nx, A.ny) == (8, 1),
+          "WDKKOEN: кривая %dx%d" % (A.nx, A.ny))
+    axs = A.x_axis.values(buf)
+    check([round(v) for v in axs] == [800, 1000, 1400, 2000, 3000,
+                                      4000, 5000, 6000],
+          "WDKKOEN: ось оборотов %s" % [round(v) for v in axs])
+    wd = M.read_phys(buf, A)[0]
+    check(abs(wd[0] - 23.05) < 0.02 and abs(wd[-1] - 50.0) < 0.02,
+          "WDKKOEN: порог дросселя %.2f..%.2f %%" % (wd[0], wd[-1]))
+    T = geometry.resolve(a2l, "TMKOAO", buf, am)
+    check(abs(M.read_phys(buf, T)[0][0] - 114.75) < 0.01,
+          "TMKOAO: верхний порог t ОЖ %.2f" % M.read_phys(buf, T)[0][0])
+    check("KFAGRP" not in a2l.characteristics,
+          "KFAGRP выброшена: на её байтах лежит TKOAMNN")
+
     # -- кривая с синтетической осью
     C = geometry.resolve(a2l, "SGA08MDUB", buf, am)
     check(C.ctype == "CURVE" and C.ny == 1,

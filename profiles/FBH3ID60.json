@@ -4035,13 +4035,261 @@
   "check": "25 значений из 46 совпали с исходной M7.9 байт в байт, 38 ячеек читаются кодом",
   "confidence": "подтверждена"
  },
+ "ac_compressor": {
+  "note": "Управление компрессором кондиционера. Разобрано по коду 0x8566CC..0x8569D6, а не выравниванием: у всех четырнадцати записей адрес взят из инструкции, которая их читает. Имена из дамоса подошли ПОСЛЕ разбора, единым сдвигом +0x49A и в том же порядке -- семь независимых совпадений подряд (LIMTKOA как «выключить насовсем», SNM08KOUB как ось оборотов, три времени, окно температуры ОЖ, две задержки, окно скорости, пороги дросселя). Прежние имена этого участка -- KFAGRI 0x119B2 и KFAGRP 0x119E3, «карты регулятора AGR» -- отозваны: рециркуляции ОГ на S6D нет, обе записи получены выравниванием и сами помечены «не сходится», и по коду на их байтах лежат ось и три кривые времён, а не карта 7x7.",
+  "code": {
+   "task": "вызывается из списка задач 0x83070C",
+   "axis_index": "0x8567BC: mov r12,#0x19d9 / movbz r13,0xf89e / calls 0x0074da -> 0x98CE",
+   "state": "0xFD56.11 -- компрессор включён (B_ko). Её же читает 0x840178, где по ней подключается KFMDKO -- «момент, потребный на кондиционер». Это и есть независимая проверка смысла бита.",
+   "ram": {
+    "0x89F3": "угол открытия дросселя wdk, 0.390625 %/бит",
+    "0x881D": "скорость автомобиля, 1.25 км/ч/бит",
+    "0x8AB4": "температура ОЖ, 0.75 -48 (сверено с TMTE 0x1976C)",
+    "0x98D0..0x98D7": "счётчики времени состояний",
+    "0x98D8": "битовое поле состояния управления компрессором",
+    "0xF87A": "выбор варианта кривой WDKKOAN, ставится по 0xFD10.3 на 0x84CD10"
+   },
+   "pointer_table": "0x12926: {0x1A01, 0x1A09} -- массив WDKKOAN, читается на 0x856856"
+  },
+  "items": [
+   {
+    "name": "LIMTKOA",
+    "addr": "0x119D8",
+    "width_bytes": 1,
+    "factor": 0.2,
+    "offset": 0.0,
+    "unit": "s",
+    "value": 50.0,
+    "desc": "Time threshold to switch off the AC-compressor indefinitly",
+    "addr_confirmed": "код: movbz r5, 0x19d8 @0x856974",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TKOAMNN",
+    "addr": "0x119E2",
+    "n": 8,
+    "width_bytes": 1,
+    "factor": 0.2,
+    "offset": 0.0,
+    "unit": "s",
+    "value": 4.0,
+    "desc": "minimum shutdown time for air-conditioning compressor",
+    "x_axis": {
+     "addr": "0x119DA",
+     "n": 8,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "SNM08KOUB -- ось оборотов управления компрессором"
+    },
+    "addr_confirmed": "код: mov r12,#0x19e2 @0x856920",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TKOAMXN",
+    "addr": "0x119EA",
+    "n": 8,
+    "width_bytes": 1,
+    "factor": 0.2,
+    "offset": 0.0,
+    "unit": "s",
+    "value": 4.0,
+    "desc": "maximum shutdown time for air-conditioning compressor",
+    "x_axis": {
+     "addr": "0x119DA",
+     "n": 8,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "SNM08KOUB -- ось оборотов управления компрессором"
+    },
+    "addr_confirmed": "код: mov r12,#0x19ea @0x856954 и @0x856968",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TKOEMNN",
+    "addr": "0x119F2",
+    "n": 8,
+    "width_bytes": 1,
+    "factor": 0.2,
+    "offset": 0.0,
+    "unit": "s",
+    "value": 4.0,
+    "desc": "minimal time of air-condition compressor beeing swiched on",
+    "x_axis": {
+     "addr": "0x119DA",
+     "n": 8,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "SNM08KOUB -- ось оборотов управления компрессором"
+    },
+    "addr_confirmed": "код: mov r12,#0x19f2 @0x85693A",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TMKOAO",
+    "addr": "0x119FA",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "value": 114.75,
+    "desc": "Upper coolant temperature for swichting off the AC-compressor",
+    "addr_confirmed": "код: cmpb RL4, 0x19fa @0x8568D8",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TMKOAU",
+    "addr": "0x119FB",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "value": -48.0,
+    "desc": "Lower coolant temperature for swichting off the AC-compressor",
+    "addr_confirmed": "код: cmpb RL4, 0x19fb @0x8568DE",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TNACMX",
+    "addr": "0x119FC",
+    "width_bytes": 1,
+    "factor": 0.2,
+    "offset": 0.0,
+    "unit": "s",
+    "value": 0.2,
+    "desc": "maximal time for engine speed nac after S_ko = 0",
+    "addr_confirmed": "код: cmpb RL4, 0x19fc @0x856788",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TVKOA",
+    "addr": "0x119FD",
+    "width_bytes": 1,
+    "factor": 0.02,
+    "offset": 0.0,
+    "unit": "s",
+    "value": 0.3,
+    "desc": "delay time for compressor OFF",
+    "addr_confirmed": "код: cmpb RL4, 0x19fd @0x856794",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TVKOE",
+    "addr": "0x119FE",
+    "width_bytes": 1,
+    "factor": 0.02,
+    "offset": 0.0,
+    "unit": "s",
+    "value": 0.5,
+    "desc": "delay time for compressor ON",
+    "addr_confirmed": "код: cmpb RL4, 0x19fe @0x856764",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "VKOAO",
+    "addr": "0x119FF",
+    "width_bytes": 1,
+    "factor": 1.25,
+    "offset": 0.0,
+    "unit": "km/h",
+    "value": 20.0,
+    "desc": "Upper vehicle speed threshold to inhibit the AC-compressor",
+    "addr_confirmed": "код: cmpb RL4, 0x19ff @0x856844",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "VKOAU",
+    "addr": "0x11A00",
+    "width_bytes": 1,
+    "factor": 1.25,
+    "offset": 0.0,
+    "unit": "km/h",
+    "value": 0.0,
+    "desc": "low vehicle speed threshold to inhibit the AC-compressor",
+    "addr_confirmed": "код: cmpb RL4, 0x1a00 @0x85684A",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "WDKKOAN_0",
+    "addr": "0x11A01",
+    "n": 8,
+    "width_bytes": 1,
+    "factor": 0.390625,
+    "offset": 0.0,
+    "unit": "%",
+    "value": 30.08,
+    "desc": "wdk threshold for A/C compressor cut off, variant 0",
+    "x_axis": {
+     "addr": "0x119DA",
+     "n": 8,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "SNM08KOUB -- ось оборотов управления компрессором"
+    },
+    "addr_confirmed": "код: mov r12,[r4+#0x2926] @0x856856, таблица 0x12926",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "WDKKOAN_1",
+    "addr": "0x11A09",
+    "n": 8,
+    "width_bytes": 1,
+    "factor": 0.390625,
+    "offset": 0.0,
+    "unit": "%",
+    "value": 30.08,
+    "desc": "wdk threshold for A/C compressor cut off, variant 1",
+    "x_axis": {
+     "addr": "0x119DA",
+     "n": 8,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "SNM08KOUB -- ось оборотов управления компрессором"
+    },
+    "addr_confirmed": "код: mov r12,[r4+#0x2926] @0x856856, таблица 0x12926",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "WDKKOEN",
+    "addr": "0x11A11",
+    "n": 8,
+    "width_bytes": 1,
+    "factor": 0.390625,
+    "offset": 0.0,
+    "unit": "%",
+    "value": 23.05,
+    "desc": "wdk threshold for air-condition compressor authorisation",
+    "x_axis": {
+     "addr": "0x119DA",
+     "n": 8,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "SNM08KOUB -- ось оборотов управления компрессором"
+    },
+    "addr_confirmed": "код: mov r12,#0x1a11 @0x856876",
+    "confidence": "подтверждена"
+   }
+  ]
+ },
  "cyclic_charge": {
   "note": "Цикловое наполнение rl. Блок вычисляется, а не берётся из таблицы: rl = (расход воздуха / обороты) / KUMSRL. Базовой таблицы наполнения по дросселю в главном топливном тракте нет -- прошивка по ДМРВ.",
   "found_by": "сдвиг области +1147 (тот же, что у контура детонации) + calref + физический расчёт по рабочему объёму + дизассемблер",
   "ram": {
-   "nmot": "0xF8A0 -- обороты. Считаются по 0x85EEAC как константа делить на период, классический признак расчёта оборотов.",
-   "nmot_x40_index": "0x8A9B -- обороты делить на 40 с ограничением 255. Сорок -- ровно масштаб всех осей оборотов в этой прошивке, поэтому опознание однозначно.",
-   "nmot_x160_index": "0xF89E -- обороты делить на 160, грубый индекс",
+   "nmot": "0xF8A0 -- обороты, 0.25 об/мин на единицу (то есть обороты, умноженные на четыре). Считаются по 0x85EEAC как константа делить на период. Масштаб закреплён отсечкой: NMAX 0x14BB4 = 26800, а отсечка на Спектре 6700 -- сходится ровно, и так же сходятся NMAXDV 24000 = 6000 и гистерезис DNMAXH 480 = 120.",
+   "nmot_axis_index": "0xF89E -- 0xF8A0 делить на 160 (0x85EFB4), то есть ОБОРОТЫ ДЕЛИТЬ НА 40. Сорок -- масштаб всех осей оборотов в этой прошивке, поэтому 0xF89E и есть сырой индекс оси оборотов. Именно он подаётся в 14 из 22 поисков по осям.",
+   "nmot_fine_index": "0x8A9B -- 0xF8A0 делить на 40 (0x85EFE2), то есть обороты делить на 10, с насыщением на 2560 об/мин. Мелкий индекс низких оборотов, в поиске по осям не участвует ни разу.",
+   "correction_scale": "ПОПРАВКА К МОЕЙ ЖЕ ЗАПИСИ. Раньше здесь стояло «0x8A9B -- обороты делить на 40, индекс оси» и «0xF89E -- обороты делить на 160, грубый индекс». Деления названы верно, а вывод из них сделан обратный. Развязка: ось SNM08KOUB 0x119DA (20,25,35,50,75,100,125,150) индексируется из 0xF89E, и дамос называет её «8 nmot»; при множителе 40 это 800..6000 об/мин, при 160 вышло бы 3200..24000. Значит делить надо на 160, а сами обороты лежат учетверёнными.",
    "denominator": "0x9368 = KUMSRL * обороты, знаменатель формулы ФР. Считается по 0x843A1A.",
    "rlroh": "0x9366 -- относительное наполнение. Получается делением на 0x9368 по 0x843A3C.",
    "correction": "РАНЬШЕ Я ОШИБАЛСЯ: писал, что 0xF8A0 это расход воздуха, 0x9368 -- готовое наполнение, а 0xF89E -- индекс нагрузки. Всё три неверно. Ошибка вскрылась при проверке входа RLNOT: у аварийной кривой вход обязан быть по оборотам, а по моей разметке выходила нагрузка. Деление на 40 в соседней строке и использование 0x9368 делителем расставили всё по местам."
@@ -4388,7 +4636,7 @@
  "hfm_path": {
   "note": "Обработка сигнала ДМРВ: коррекция характеристики и коррекция пульсаций. Найдено по коду -- диспетчер 0x842B7E..0x842BE4 выбирает одну из четырёх пульсационных карт по режиму и всегда читает карту коррекции ДМРВ.",
   "fr": "Funktionsrahmen ME7.3: KFKHFM(NMOT,RL), KFPU(NMOTKOR,WDKBA) и три варианта KFPUNW/KFPUSU/KFPUSUNW по sumode",
-  "dispatcher": "0x842B7E (по умолчанию), 0x842B94 (режим 2), 0x842BAA (режим 3), 0x842BC0 (режим 1); входы 0x88D2 и 0x89F3, результат 0x88D1. Затем 0x842BD4 всегда, входы 0xF89E (индекс нагрузки) и 0xF86B (обороты), результат 0x88D0.",
+  "dispatcher": "0x842B7E (по умолчанию), 0x842B94 (режим 2), 0x842BAA (режим 3), 0x842BC0 (режим 1); входы 0x88D2 и 0x89F3, результат 0x88D1. Затем 0x842BD4 всегда, входы 0xF89E (индекс оборотов) и 0xF86B, результат 0x88D0.",
   "scale": "множитель, делить на 128",
   "items": [
    {
