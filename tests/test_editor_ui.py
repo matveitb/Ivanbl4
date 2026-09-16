@@ -142,6 +142,53 @@ def main():
         print("     (в этом A2L карт только для чтения нет -- "
               "проверять нечего)")
 
+    # -- графики ----------------------------------------------------------
+    w.tree.select_map("KFZWOP")
+    w.open_map("KFZWOP")
+    check(w.curve.lay is not None and w.surface.lay is not None,
+          "обе рисовалки получили карту")
+
+    w.grid.setCurrentCell(7, 3)
+    check(w.curve.row == 7, "кривая следует за строкой таблицы: %d"
+          % w.curve.row)
+
+    def shot(widget):
+        return widget.grab().toImage()
+
+    before_c, before_s = shot(w.curve), shot(w.surface)
+    g.clearSelection()
+    for c in range(g.columnCount()):
+        g.item(7, c).setSelected(True)
+    w.value.setValue(6.0)
+    w.run_op("+")
+    check(shot(w.curve) != before_c, "кривая перерисовалась после правки")
+    check(shot(w.surface) != before_s, "поверхность перерисовалась после правки")
+    w.undo()
+    check(shot(w.curve) == before_c, "и вернулась после отмены")
+    check(bytes(w.project.buf) == snapshot, "буфер тоже вернулся")
+
+    # поворот меняет картинку, двойной щелчок возвращает исходный вид
+    was = shot(w.surface)
+    w.surface.yaw += 0.7
+    w.surface.update()
+    check(shot(w.surface) != was, "поворот поверхности виден")
+    w.surface.mouseDoubleClickEvent(None)
+    check(shot(w.surface) == was, "двойной щелчок вернул исходный вид")
+
+    # ни одна карта не роняет рисовалки
+    bad = []
+    for name in w.project.layouts:
+        for widget in (w.curve, w.surface):
+            try:
+                widget.set_map(w.project, name)
+                widget.grab()
+            except Exception as exc:                        # noqa: BLE001
+                bad.append("%s: %s" % (name, exc))
+    check(not bad,
+          "все %d карт прошли через кривую и поверхность%s"
+          % (len(w.project.layouts),
+             "" if not bad else ", кроме: " + "; ".join(bad[:3])))
+
     shutil.rmtree(tmp, ignore_errors=True)
 
     print()

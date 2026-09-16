@@ -25,6 +25,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import project as proj                                      # noqa: E402
 import saving                                               # noqa: E402
 from grid import MapGrid                                    # noqa: E402
+from plot2d import Curve2D                                  # noqa: E402
+from plot3d import Surface3D                                # noqa: E402
 from tree import MapTree                                    # noqa: E402
 
 ORG, APP = "Ivanbl4", "Редактор калибровок"
@@ -44,6 +46,23 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.grid = MapGrid()
         self.grid.edited.connect(self._after_edit)
+        self.grid.currentCellChanged.connect(
+            lambda r, c, pr, pc: self.curve.set_row(r))
+
+        # Графики лежат под таблицей, а не в отдельном окне и не вкладками:
+        # смотреть на кривую отдельно от чисел бессмысленно -- правку
+        # делают в таблице, а форму проверяют тут же, не отводя глаз.
+        # Рядом, а не вкладками, ещё и потому, что поверхности нужна
+        # примерно квадратная область: в широкой полосе она вписывается
+        # по высоте и висит посередине, оставляя пустые поля по бокам.
+        self.curve = Curve2D()
+        self.surface = Surface3D()
+        self.plots = QtWidgets.QSplitter(QtCore.Qt.Orientation.Horizontal)
+        self.plots.addWidget(self.curve)
+        self.plots.addWidget(self.surface)
+        self.plots.setStretchFactor(0, 3)
+        self.plots.setStretchFactor(1, 2)
+        self.plots.setSizes([620, 420])
 
         self.info = QtWidgets.QLabel("Карта не выбрана")
         self.info.setTextInteractionFlags(
@@ -51,11 +70,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.info.setWordWrap(True)
         self.info.setStyleSheet("padding:4px; color:#444;")
 
+        vsplit = QtWidgets.QSplitter(QtCore.Qt.Orientation.Vertical)
+        vsplit.addWidget(self.grid)
+        vsplit.addWidget(self.plots)
+        vsplit.setStretchFactor(0, 3)
+        vsplit.setStretchFactor(1, 2)
+        vsplit.setSizes([460, 300])
+        self.vsplit = vsplit
+
         right = QtWidgets.QWidget()
         rl = QtWidgets.QVBoxLayout(right)
         rl.setContentsMargins(0, 0, 0, 0)
         rl.setSpacing(2)
-        rl.addWidget(self.grid, 1)
+        rl.addWidget(vsplit, 1)
         rl.addWidget(self.info)
 
         split = QtWidgets.QSplitter()
@@ -97,6 +124,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.act_shade = QtGui.QAction("Заливка по значению", self,
                                        checkable=True, checked=True,
                                        triggered=self._toggle_shading)
+        self.act_plots = QtGui.QAction("Графики", self, checkable=True,
+                                       checked=True,
+                                       triggered=self._toggle_plots)
         self.act_quit = QtGui.QAction("Выход", self, shortcut=S.Quit,
                                       triggered=self.close)
         for a in (self.act_save, self.act_save_as, self.act_bin):
@@ -164,6 +194,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         m = self.menuBar().addMenu("Вид")
         m.addAction(self.act_shade)
+        m.addAction(self.act_plots)
 
     # -- открытие и сохранение -------------------------------------------
 
@@ -248,6 +279,8 @@ class MainWindow(QtWidgets.QMainWindow):
         if not self.project:
             return
         self.grid.set_map(self.project, name)
+        self.curve.set_map(self.project, name)
+        self.surface.set_map(self.project, name)
         L = self.project.layout(name)
         bits = ["<b>%s</b>" % name,
                 "%s %dx%d" % (L.ctype, L.nx, L.ny),
@@ -273,6 +306,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _after_edit(self, name: str) -> None:
         self.tree.mark_changed(self.project.changed_maps())
+        self.curve.refresh()
+        self.surface.refresh()
         self._update_title()
 
     def undo(self) -> None:
@@ -295,6 +330,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.tree.select_map(ed.map_name)
             self.open_map(ed.map_name)
         self.grid.refresh()
+        self.curve.refresh()
+        self.surface.refresh()
         self.tree.mark_changed(self.project.changed_maps())
         self._update_title()
         self.statusBar().showMessage("%s: %s на %s (%d ячеек)"
@@ -307,6 +344,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def _toggle_shading(self, on: bool) -> None:
         self.grid.shading = on
         self.grid.refresh()
+
+    def _toggle_plots(self, on: bool) -> None:
+        self.plots.setVisible(on)
 
     def _toggle_csum(self, on: bool) -> None:
         if self.project:
@@ -331,9 +371,13 @@ class MainWindow(QtWidgets.QMainWindow):
         g = self.settings.value("geometry")
         if g:
             self.restoreGeometry(g)
+        v = self.settings.value("vsplit")
+        if v:
+            self.vsplit.restoreState(v)
 
     def closeEvent(self, ev) -> None:
         self.settings.setValue("geometry", self.saveGeometry())
+        self.settings.setValue("vsplit", self.vsplit.saveState())
         if self.project and self.project.dirty:
             r = QtWidgets.QMessageBox.question(
                 self, "Есть несохранённые правки",
