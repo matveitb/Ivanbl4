@@ -211,6 +211,23 @@ def main():
     check(abs(M.read_phys(buf, geometry.resolve(a2l, "FRAOMX", buf, am))[0][0]
               - 1.25) < 0.001, "FRAOMX: верхний предел коррекции 1.25")
 
+    # -- кривые лямбды по оборотам обязаны БЫТЬ в описании
+    #
+    # Проверка покрытия (tools/coverage.py) поймала, что самого правленого
+    # места во всей прошивке в A2L не было вовсе: в профиле кривые лежали
+    # свободной формой, которую сборщик не читает. Закрепляем поимённо --
+    # и ось, потому что она была записана температурной, а на деле по
+    # оборотам.
+    for nm, off in (("CURVE_1955B", 0x19562), ("CURVE_19568", 0x1956F)):
+        C2 = geometry.resolve(a2l, nm, buf, am)
+        check(C2.data_off == off and C2.nx == 6,
+              "%s: данные 0x%05X, точек %d" % (nm, C2.data_off, C2.nx))
+        cax = [round(v) for v in C2.x_axis.values(buf)]
+        check(cax == [1480, 2480, 3480, 4480, 5480, 6480],
+              "%s: ось по оборотам %s" % (nm, cax))
+        check(abs(M.read_phys(buf, C2)[0][0] - 1.0) < 1e-9,
+              "%s: сток -- ровно 1.000" % nm)
+
     # -- кривая с синтетической осью
     C = geometry.resolve(a2l, "SGA08MDUB", buf, am)
     check(C.ctype == "CURVE" and C.ny == 1,

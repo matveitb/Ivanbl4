@@ -604,7 +604,52 @@
    "FBH3ID60_L": "+12.5 %"
   },
   "evidence": "Шкала и знак установлены управляемым экспериментом на паре нивовских прошивок B103eq09 / B103eq09_1.5: в ChipTuningPRO выставлена alpha=1.5 по всей карте, и в образе 192 байта изменились со 128 ровно на 192. Значит 128 -> 1.000, 192 -> 1.500, то есть alpha = сырое/128.",
-  "not_identified": "Заводского имени нет: в доноре px5ns03d между KRKTE (src 0x1948C) и CWLAMBTS (src 0x194A7) 26 байт не названы. Зато смысл теперь взят из кода, а не из имени."
+  "not_identified": "Заводского имени нет: в доноре px5ns03d между KRKTE (src 0x1948C) и CWLAMBTS (src 0x194A7) 26 байт не названы. Зато смысл теперь взят из кода, а не из имени.",
+  "items": [
+   {
+    "name": "CURVE_1955B",
+    "addr": "0x19562",
+    "n": 6,
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "desc": "nominal lambda vs engine speed, variant 0 (no factory name: donor DAMOS leaves these 26 bytes unnamed)",
+    "x_axis": {
+     "addr": "0x1955C",
+     "n": 6,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "вход 0xF89E -- обороты делить на 40"
+    },
+    "addr_confirmed": "код: mov r12, [r4+#0x616a] @0x8551D0, таблица 0x1616A = {0x155B, 0x0206}",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "CURVE_19568",
+    "addr": "0x1956F",
+    "n": 6,
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "desc": "nominal lambda vs engine speed, variant 1 (no factory name: donor DAMOS leaves these 26 bytes unnamed)",
+    "x_axis": {
+     "addr": "0x19569",
+     "n": 6,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "вход 0xF89E -- обороты делить на 40"
+    },
+    "addr_confirmed": "код: mov r12, [r4+#0x616a] @0x8551D0, таблица 0x1616E = {0x1568, 0x0206}",
+    "confidence": "подтверждена"
+   }
+  ],
+  "naming": "Имена CURVE_1955B и CURVE_19568 -- НАШИ, по адресу, как у находок сканера. Заводского имени нет: в доноре px5ns03d между KRKTE (src 0x1948C) и CWLAMBTS (src 0x194A7) эти 26 байт не названы. Выдумывать боschевское имя нельзя -- его начнут искать в дамосах."
  },
  "mixture_adaptation": {
   "note": "Пороги и пределы адаптации смеси. Найдены сдвигом дамоса +0xD5 на участке 0x19460..0x194A1 -- и сдвиг не подгонялся: ВСЕ 30 записей подряд попали в ячейки, которые код действительно читает, каждая в своём месте. Двадцать восемь читаются напрямую (extp 0x206 + cmpb/movbz), ещё две -- это карты, и они читаются указателем: FBZFRAT 0x19538 на 0x85470E, KFFDLBTS 0x19576 на 0x855C44. Две записи этого ряда -- TATELL и TMSNOGA -- уже стояли в профиле по другому поводу и сошлись по адресу, что и закрепляет сдвиг независимо.",

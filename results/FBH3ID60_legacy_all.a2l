@@ -755,6 +755,10 @@ ASAP2_VERSION 1 51
       FNC_VALUES    3 UBYTE ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
+    /begin RECORD_LAYOUT RL_AXIS_BARE_UBYTE
+      AXIS_PTS_X 1 UBYTE INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
     /begin RECORD_LAYOUT RL_AXIS_BARE_UWORD
       AXIS_PTS_X 1 UWORD INDEX_INCR DIRECT
     /end RECORD_LAYOUT
@@ -839,6 +843,30 @@ ASAP2_VERSION 1 51
       0
       CM_40_0_rpm
       8
+      0
+      10200
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_1955C_Y
+      "rpm"
+      0x1955C
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_40_0_rpm
+      6
+      0
+      10200
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_19569_Y
+      "rpm"
+      0x19569
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_40_0_rpm
+      6
       0
       10200
     /end AXIS_PTS
@@ -12921,6 +12949,44 @@ ASAP2_VERSION 1 51
       255
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC CURVE_1955B
+      "podtverzhdena | nominal lambda vs engine speed, variant 0 (no factory name: donor DAMOS leaves these 26 bytes unnamed)"
+      CURVE
+      0x19562
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        6
+        0
+        10200
+        AXIS_PTS_REF AX_1955C_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CURVE_19568
+      "podtverzhdena | nominal lambda vs engine speed, variant 1 (no factory name: donor DAMOS leaves these 26 bytes unnamed)"
+      CURVE
+      0x1956F
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        6
+        0
+        10200
+        AXIS_PTS_REF AX_19569_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC TATELL
       "podtverzhdena | tans-threshold for canister purge control with B_ll = 1"
       VALUE
@@ -15749,6 +15815,7 @@ ASAP2_VERSION 1 51
         G_throttle_air_model
         G_axis_blocks
         G_fuel_path
+        G_fuel_trim_curves
         G_fuel_path_unchanged
         G_other_regions
         G_saint_venant
@@ -16711,6 +16778,14 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         KFLF
         FRKAP
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_fuel_trim_curves
+      "Korrekcii toplivopodachi"
+      /begin REF_CHARACTERISTIC
+        CURVE_1955B
+        CURVE_19568
       /end REF_CHARACTERISTIC
     /end GROUP
 
