@@ -369,6 +369,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.25
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p392157_0
+      "scale 0.392157"
+      RAT_FUNC "%.3f" "%"
+      COEFFS 0 1 0 0 0 0.392157
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p001779359431_0_ms
       "scale 0.00177936"
       RAT_FUNC "%.3f" "ms/%"
@@ -707,6 +713,42 @@ ASAP2_VERSION 1 51
       10200
     /end AXIS_PTS
 
+    /begin AXIS_PTS AX_18FCB_Y
+      "rpm"
+      0x18FCB
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_40_0_rpm
+      6
+      -0
+      10200
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_18FD8_Y
+      "rpm"
+      0x18FD8
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_40_0_rpm
+      6
+      -0
+      10200
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_18FE5_Y
+      "rpm"
+      0x18FE5
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_40_0_rpm
+      6
+      -0
+      10200
+    /end AXIS_PTS
+
     /begin AXIS_PTS AX_1955C_Y
       "rpm"
       0x1955C
@@ -715,7 +757,7 @@ ASAP2_VERSION 1 51
       0
       CM_40_0_rpm
       6
-      0
+      -0
       10200
     /end AXIS_PTS
 
@@ -727,7 +769,31 @@ ASAP2_VERSION 1 51
       0
       CM_40_0_rpm
       6
+      -0
+      10200
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_18AC1_Y
+      "Grad C"
+      0x18AC1
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
       0
+      CM_0p75_48_GradC
+      8
+      -48
+      143.25
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_18AD2_Y
+      "rpm"
+      0x18AD2
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_40_0_rpm
+      8
+      -0
       10200
     /end AXIS_PTS
 
@@ -739,7 +805,7 @@ ASAP2_VERSION 1 51
       0
       CM_0p001525878906_0_momenta
       12
-      0
+      -0
       99.9985
     /end AXIS_PTS
 
@@ -751,7 +817,7 @@ ASAP2_VERSION 1 51
       0
       CM_0p25_0_obmin
       16
-      0
+      -0
       16383.8
     /end AXIS_PTS
 
@@ -763,7 +829,7 @@ ASAP2_VERSION 1 51
       0
       CM_0p0234375_0_napolneniya
       12
-      0
+      -0
       1535.98
     /end AXIS_PTS
 
@@ -775,7 +841,7 @@ ASAP2_VERSION 1 51
       0
       CM_0p25_0_obmin
       10
-      0
+      -0
       16383.8
     /end AXIS_PTS
 
@@ -787,7 +853,7 @@ ASAP2_VERSION 1 51
       0
       CM_IDENTITY
       6
-      0
+      -0
       65535
     /end AXIS_PTS
 
@@ -799,7 +865,7 @@ ASAP2_VERSION 1 51
       0
       CM_IDENTITY
       16
-      0
+      -0
       65535
     /end AXIS_PTS
 
@@ -811,7 +877,7 @@ ASAP2_VERSION 1 51
       0
       CM_0p25_0_obmin
       12
-      0
+      -0
       16383.8
     /end AXIS_PTS
 
@@ -823,7 +889,7 @@ ASAP2_VERSION 1 51
       0
       CM_0p01219512195_0_ugoldrosselya
       12
-      0
+      -0
       799.207
     /end AXIS_PTS
 
@@ -5920,7 +5986,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC RLLRUN
+    /begin CHARACTERISTIC RLLRUN_18AD2
       "adres podtverzhden damos-veroyatno addr 0x18AD2 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xad1 @0x84B798 | char.line above nmot,lower rL control limit for controller in front of catalyst"
       CURVE
       0x18AD2
@@ -6495,7 +6561,7 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC WDKSLN
+    /begin CHARACTERISTIC WDKSLN_18FCB
       "adres podtverzhden damos-veroyatno addr 0x18FCB | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfca @0x8506E0 | Throttle valve angle threshold for idle detection"
       CURVE
       0x18FCB
@@ -6511,24 +6577,6 @@ ASAP2_VERSION 1 51
         0
         5
         FIX_AXIS_PAR_DIST 0 1 6
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC MAP_489_18FD6_4
-      "adres podtverzhden mapscan addr 0x18FD6 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xfdb @0x840808"
-      CURVE
-      0x18FD6
-      RL_2D_A8_UBYTE
-      0
-      CM_IDENTITY
-      0
-      255
-      /begin AXIS_DESCR STD_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        4
-        0
-        255
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -8203,8 +8251,65 @@ ASAP2_VERSION 1 51
       655.35
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC CURVE_1955B
-      "podtverzhdena | nominal lambda vs engine speed, variant 0 (no factory name: donor DAMOS leaves these 26 bytes unnamed)"
+    /begin CHARACTERISTIC WDKSLN
+      "podtverzhdena | Throttle valve angle threshold for idle detection"
+      CURVE
+      0x18FD1
+      RL_GRID_UBYTE
+      0
+      CM_0p392157_0
+      -0
+      100
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        6
+        0
+        10200
+        AXIS_PTS_REF AX_18FCB_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKVLN_0
+      "podtverzhdena | Throttle valve angle threshold for full load detection, variant 0"
+      CURVE
+      0x18FDE
+      RL_GRID_UBYTE
+      0
+      CM_0p392157_0
+      -0
+      100
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        6
+        0
+        10200
+        AXIS_PTS_REF AX_18FD8_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC WDKVLN_1
+      "podtverzhdena | Throttle valve angle threshold for full load detection, variant 1"
+      CURVE
+      0x18FEB
+      RL_GRID_UBYTE
+      0
+      CM_0p392157_0
+      -0
+      100
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        6
+        0
+        10200
+        AXIS_PTS_REF AX_18FE5_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KLLAMFA_0
+      "podtverzhdena | full load enrichment, variant 0"
       CURVE
       0x19562
       RL_GRID_UBYTE
@@ -8222,8 +8327,8 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC CURVE_19568
-      "podtverzhdena | nominal lambda vs engine speed, variant 1 (no factory name: donor DAMOS leaves these 26 bytes unnamed)"
+    /begin CHARACTERISTIC KLLAMFA_1
+      "podtverzhdena | full load enrichment, variant 1"
       CURVE
       0x1956F
       RL_GRID_UBYTE
@@ -8239,6 +8344,118 @@ ASAP2_VERSION 1 51
         10200
         AXIS_PTS_REF AX_19569_Y
       /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TV_LAMFA
+      "adres podtverzhden | delay before full load enrichment, per variant (imya nashe: damos etu paru ne nazyvaet)"
+      CURVE
+      0x1B894
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        2
+        0
+        1
+        FIX_AXIS_PAR_DIST 0 1 2
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLLRTMO
+      "podtverzhdena | char. line on tmot, upper rl control threshold for upstream lambda"
+      CURVE
+      0x18AC9
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_48_GradC
+        8
+        0
+        143.25
+        AXIS_PTS_REF AX_18AC1_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLLRUN
+      "podtverzhdena | char.line above nmot, lower rL control limit"
+      CURVE
+      0x18ADA
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        8
+        0
+        10200
+        AXIS_PTS_REF AX_18AD2_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TARAU
+      "podtverzhdena | air temperature threshold for closed loop lambda switch"
+      VALUE
+      0x18AE2
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TASHS
+      "podtverzhdena | intake air temp threshold triggering TLRHS blocking time"
+      VALUE
+      0x18AE3
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TLRHS
+      "podtverzhdena | blocking time of lambda control during hot start"
+      VALUE
+      0x18AE4
+      RL_GRID_UBYTE
+      0
+      CM_0p1_0_s
+      -0
+      25.5
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMRA1
+      "podtverzhdena | cut-out condition, idle-speed switch = 0"
+      VALUE
+      0x18AE5
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMRA2
+      "adres podtverzhden | cut-out condition, idle-speed switch = 1"
+      VALUE
+      0x18AE6
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC TATELL
@@ -11083,7 +11300,9 @@ ASAP2_VERSION 1 51
         G_overrun_fuel_cut
         G_torque_model
         G_cyclic_charge
+        G_lambda_control_thresholds
         G_maps
+        G_full_load_enrichment
         G_hfm_path
         G_scalars
         G_transient_fuel
@@ -11092,7 +11311,6 @@ ASAP2_VERSION 1 51
         G_throttle_air_model
         G_axis_blocks
         G_fuel_path
-        G_fuel_trim_curves
         G_other_regions
         G_saint_venant
       /end SUB_GROUP
@@ -11218,7 +11436,6 @@ ASAP2_VERSION 1 51
         KLATMLAE
         KLATMZWE
         MAP_422_188CA_5
-        RLLRUN
         DTVKAML2
         FTMLAKH
         MAP_446_18BBA_4
@@ -11241,8 +11458,6 @@ ASAP2_VERSION 1 51
         LKRN
         MAP_485_18F71_4
         MAP_486_18FA2_4
-        WDKSLN
-        MAP_489_18FD6_4
         SNM08GKUB
         MAP_493_19081_8
         WEAN
@@ -11709,6 +11924,20 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
+    /begin GROUP G_lambda_control_thresholds
+      "lambda_control_thresholds"
+      /begin REF_CHARACTERISTIC
+        RLLRUN_18AD2
+        RLLRTMO
+        RLLRUN
+        TARAU
+        TASHS
+        TLRHS
+        TMRA1
+        TMRA2
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
     /begin GROUP G_maps
       "Karty iz opisi"
       /begin REF_CHARACTERISTIC
@@ -11720,6 +11949,19 @@ ASAP2_VERSION 1 51
         KFZW2
         KFZWMN
         KFLBTS
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_full_load_enrichment
+      "full_load_enrichment"
+      /begin REF_CHARACTERISTIC
+        WDKSLN_18FCB
+        WDKSLN
+        WDKVLN_0
+        WDKVLN_1
+        KLLAMFA_0
+        KLLAMFA_1
+        TV_LAMFA
       /end REF_CHARACTERISTIC
     /end GROUP
 
@@ -11799,14 +12041,6 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         KFLF
         FRKAP
-      /end REF_CHARACTERISTIC
-    /end GROUP
-
-    /begin GROUP G_fuel_trim_curves
-      "Korrekcii toplivopodachi"
-      /begin REF_CHARACTERISTIC
-        CURVE_1955B
-        CURVE_19568
       /end REF_CHARACTERISTIC
     /end GROUP
 

@@ -531,90 +531,122 @@
   "evidence": "Диф startpower -> NI_startpower: 81 байт, только эти две вещи плюс контрольные суммы."
  },
  "fuel_trim_curves": {
-  "summary": "Две кривые ЗАДАННОЙ ЛЯМБДЫ ПО ОБОРОТАМ -- этим правят топливо все авторы",
-  "curves": [
-   {
-    "header": "0x1955B",
-    "axis": "0x1955C",
-    "data": "0x19562",
-    "points": 6
-   },
-   {
-    "header": "0x19568",
-    "axis": "0x19569",
-    "data": "0x1956F",
-    "points": 6
-   }
-  ],
-  "code": {
-   "site": "0x8551CA",
-   "sequence": [
-    "movbz r4, 0xf87a        ; вариант 0 или 1",
-    "shl   r4, #0x2          ; запись таблицы 4 байта",
-    "mov   r12, [r4+#0x616a] ; смещение кривой",
-    "mov   r13, [r4+#0x616c] ; страница 0x206",
-    "movbz r14, 0xf89e       ; ОБОРОТЫ",
-    "calls 0x833a00          ; интерполяция кривой",
-    "shl   r4, #0x5          ; 128 -> 0x1000 = 1.000",
-    "mov   0x9880, r4"
-   ],
-   "pointer_table": "0x1616A: {0x155B, 0x0206} и 0x1616E: {0x1568, 0x0206} -- пары «смещение, страница». Из-за них прямой поиск указателя ничего не находил, и в профиле стояло «ссылок из кода нет».",
-   "arbitration": "0x85333E: r8 = min(0x9880, 0x98A2). Меньше -- значит богаче, то есть кривая выигрывает везде, где просит богаче. Дальше на 0x853426 результат ещё раз минимизируется с 0x97CA/0x9428/0x94AA и ложится в 0x981E, откуда идёт в заданную лямбду 0x9818/0x8A16.",
-   "neutral": "0x1000 = 1.000; по умолчанию 0x9880 = 0x1000 (0x85519A), то есть «ничего не прошу»"
+  "moved": "Кривые перенесены в раздел full_load_enrichment и НАЗВАНЫ. Имена CURVE_1955B/CURVE_19568 отозваны: в дамосе есть KLLAMFA_0_A и KLLAMFA_1_A -- массив указателей на две кривые по шесть точек с множителем 0.0078125 и описанием 'full load enrichment'. Сходится всё: число точек, множитель, парность, и главное -- код читает их только при взведённом признаке полной нагрузки."
+ },
+ "full_load_enrichment": {
+  "note": "Полная нагрузка: КОГДА она признана и НАСКОЛЬКО тогда обогащать. Разобрано по коду 0x8506B8..0x8506FE и 0x8551A4..0x8551E6. Это оказалась одна цепочка, и обе её половины правит КАЖДЫЙ автор без исключения.",
+  "chain": {
+   "1_порог": "0x8506C2: mov r13,[r5+#0x5f4e] / movbz r14,0xf89e / calls 0x833a00, затем movbz r5,0x89f3 (угол дросселя) и сравнение. Выше порога -- bset 0xff10.6, дальше bmov 0xfd48.11. Указатели лежат в таблице 0x15F4C = {0x0FD7, 0x0206} и 0x15F50 = {0x0FE4, 0x0206}.",
+   "2_холостой": "Тем же способом на 0x8506E0 читается WDKSLN 0x18FCA и ставит 0xFD48.10 -- признак холостого хода. Пороги братья: один снизу, другой сверху.",
+   "3_задержка": "0x8551A4: jnb 0xfd48.11 -- БЕЗ полной нагрузки запрос равен ровно 1.000. С ней счётчик 0x9882 растёт до значения из 0x1B894 (по варианту 0xF87A), и только потом читается KLLAMFA.",
+   "4_обогащение": "0x8551D0: mov r12,[r4+#0x616a] -- KLLAMFA по оборотам, результат ×32 в 0x9880, дальше минимум против KFLBTS.",
+   "selector": "0xF87A -- 0 или 1, ставится на 0x84CD10 по 0xFD10.3. Тот же селектор выбирает вариант WDKKOAN у кондиционера."
   },
-  "axis": {
-   "addr": "0x1955C",
-   "raw": [
-    37,
-    62,
-    87,
-    112,
-    137,
-    162
-   ],
-   "factor": 40,
-   "offset": 0,
-   "unit": "об/мин",
-   "phys": [
-    1480,
-    2480,
-    3480,
-    4480,
-    5480,
-    6480
-   ],
-   "input": "0xF89E -- обороты делить на 40"
-  },
-  "axis_correction": "РАНЬШЕ Я ПИСАЛ, ЧТО ОСЬ ТЕМПЕРАТУРНАЯ (0.75 -48, -20.25..73.5 °C). Неверно. Вход кривой виден в коде -- movbz r14, 0xf89e, это обороты делить на 40, и те же сырые 37..162 дают ровный ряд 1480..6480 об/мин. Правка тюнеров, значит, обогащает НЕ на холодном моторе, а во всём диапазоне оборотов.",
-  "value_conversion": {
-   "formula": "lambda = сырое / 128",
-   "neutral_raw": 128,
-   "step_percent": 0.78,
-   "semantics": "меньше 1.000 = БОГАЧЕ. Подтверждено кодом: значение уходит в минимум против других запросов лямбды."
-  },
-  "values_enrichment": {
-   "сток / Spectra ori_e3": "1.000 -- нейтраль",
-   "csok": "0.906…0.859  -> обогащение +11.6 %",
-   "csok v2": "0.891…0.844 -> +13.2 %, то есть БОГАЧЕ csok на 1.6 %",
-   "MPower": "1.023 равномерно -> -2.3 %, единственный обедняет",
-   "Spectra mod": "1.000 на -20 °C -> 0.852 на +73 °C, +8.1 %",
-   "Xstart": "+13.3 %",
-   "Xoptim": "+12.6 %",
-   "startpower / NI_startpower": "как csok, +11.6 %",
-   "FBH3ID60_L": "+12.5 %"
-  },
-  "evidence": "Шкала и знак установлены управляемым экспериментом на паре нивовских прошивок B103eq09 / B103eq09_1.5: в ChipTuningPRO выставлена alpha=1.5 по всей карте, и в образе 192 байта изменились со 128 ровно на 192. Значит 128 -> 1.000, 192 -> 1.500, то есть alpha = сырое/128.",
-  "not_identified": "Заводского имени нет: в доноре px5ns03d между KRKTE (src 0x1948C) и CWLAMBTS (src 0x194A7) 26 байт не названы. Зато смысл теперь взят из кода, а не из имени.",
   "items": [
    {
-    "name": "CURVE_1955B",
+    "name": "WDKSLN",
+    "addr": "0x18FD1",
+    "n": 6,
+    "width_bytes": 1,
+    "factor": 0.392157,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": [
+     2,
+     2,
+     2,
+     3,
+     3,
+     4
+    ],
+    "desc": "Throttle valve angle threshold for idle detection",
+    "x_axis": {
+     "addr": "0x18FCB",
+     "n": 6,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "вход 0xF89E -- обороты делить на 40"
+    },
+    "addr_confirmed": "код: mov r12,#0xfca / mov r13,#0x206 @0x8506E0",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "WDKVLN_0",
+    "addr": "0x18FDE",
+    "n": 6,
+    "width_bytes": 1,
+    "factor": 0.392157,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": [
+     166,
+     166,
+     166,
+     166,
+     166,
+     166
+    ],
+    "desc": "Throttle valve angle threshold for full load detection, variant 0",
+    "x_axis": {
+     "addr": "0x18FD8",
+     "n": 6,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "вход 0xF89E -- обороты делить на 40"
+    },
+    "addr_confirmed": "код: mov r12,[r5+#0x5f4c] @0x8506BE, таблица 0x15F4C = {0x0FD7, 0x0206}",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "WDKVLN_1",
+    "addr": "0x18FEB",
+    "n": 6,
+    "width_bytes": 1,
+    "factor": 0.392157,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": [
+     166,
+     166,
+     166,
+     166,
+     166,
+     166
+    ],
+    "desc": "Throttle valve angle threshold for full load detection, variant 1",
+    "x_axis": {
+     "addr": "0x18FE5",
+     "n": 6,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm",
+     "note": "вход 0xF89E -- обороты делить на 40"
+    },
+    "addr_confirmed": "код: mov r12,[r5+#0x5f4c] @0x8506BE, таблица 0x15F50 = {0x0FE4, 0x0206}",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "KLLAMFA_0",
     "addr": "0x19562",
     "n": 6,
     "width_bytes": 1,
     "factor": 0.0078125,
     "offset": 0.0,
     "unit": "-",
-    "desc": "nominal lambda vs engine speed, variant 0 (no factory name: donor DAMOS leaves these 26 bytes unnamed)",
+    "raw": [
+     128,
+     128,
+     128,
+     128,
+     128,
+     128
+    ],
+    "desc": "full load enrichment, variant 0",
     "x_axis": {
      "addr": "0x1955C",
      "n": 6,
@@ -624,18 +656,26 @@
      "unit": "rpm",
      "note": "вход 0xF89E -- обороты делить на 40"
     },
-    "addr_confirmed": "код: mov r12, [r4+#0x616a] @0x8551D0, таблица 0x1616A = {0x155B, 0x0206}",
+    "addr_confirmed": "код: mov r12,[r4+#0x616a] @0x8551D0, таблица 0x1616A = {0x155B, 0x0206}",
     "confidence": "подтверждена"
    },
    {
-    "name": "CURVE_19568",
+    "name": "KLLAMFA_1",
     "addr": "0x1956F",
     "n": 6,
     "width_bytes": 1,
     "factor": 0.0078125,
     "offset": 0.0,
     "unit": "-",
-    "desc": "nominal lambda vs engine speed, variant 1 (no factory name: donor DAMOS leaves these 26 bytes unnamed)",
+    "raw": [
+     128,
+     128,
+     128,
+     128,
+     128,
+     128
+    ],
+    "desc": "full load enrichment, variant 1",
     "x_axis": {
      "addr": "0x19569",
      "n": 6,
@@ -645,11 +685,160 @@
      "unit": "rpm",
      "note": "вход 0xF89E -- обороты делить на 40"
     },
-    "addr_confirmed": "код: mov r12, [r4+#0x616a] @0x8551D0, таблица 0x1616E = {0x1568, 0x0206}",
+    "addr_confirmed": "код: mov r12,[r4+#0x616a] @0x8551D0, таблица 0x1616E = {0x1568, 0x0206}",
     "confidence": "подтверждена"
+   },
+   {
+    "name": "TV_LAMFA",
+    "addr": "0x1B894",
+    "n": 2,
+    "width_bytes": 1,
+    "factor": 1.0,
+    "offset": 0.0,
+    "unit": "",
+    "raw": [
+     0,
+     0
+    ],
+    "desc": "delay before full load enrichment, per variant (имя наше: дамос эту пару не называет)",
+    "addr_confirmed": "код: movb RL5, [r4+#0x3894] @0x8551B0, сравнение со счётчиком 0x9882",
+    "confidence": "адрес подтверждён"
    }
   ],
-  "naming": "Имена CURVE_1955B и CURVE_19568 -- НАШИ, по адресу, как у находок сканера. Заводского имени нет: в доноре px5ns03d между KRKTE (src 0x1948C) и CWLAMBTS (src 0x194A7) эти 26 байт не названы. Выдумывать боschевское имя нельзя -- его начнут искать в дамосах."
+  "who_edits": {
+   "сток": "WDKVLN 65.1 % на всех оборотах, KLLAMFA ровно 1.000 -- обогащения нет, всё отдано KFLBTS",
+   "csok / csok v2": "WDKVLN 58.0 %, KLLAMFA 0.906..0.859",
+   "startpower": "WDKVLN 40.0..59.2 % по оборотам, KLLAMFA 0.906..0.859",
+   "MPower": "WDKVLN 20.0 % на всех оборотах -- полная нагрузка с пятой части педали; KLLAMFA 1.023, то есть беднее стока",
+   "L": "WDKVLN 4.3 / 25.5 / 50.2 %, KLLAMFA 0.906..0.805",
+   "Xoptim / Xstart": "WDKVLN 9.8..49.0 %",
+   "вывод": "порог полной нагрузки тронули ВСЕ десять без исключения -- это единственная запись во всей прошивке с таким счётом"
+  }
+ },
+ "lambda_control_thresholds": {
+  "note": "Пороги включения лямбда-регулирования. Сдвиг дамоса в области 0x18Axx и 0x18Fxx нулевой -- проверено на четырёх записях, у которых есть ссылка из кода, и на двух, читаемых напрямую.",
+  "items": [
+   {
+    "name": "RLLRTMO",
+    "addr": "0x18AC9",
+    "n": 8,
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": [
+     133,
+     133,
+     133,
+     133,
+     133,
+     133,
+     133,
+     133
+    ],
+    "desc": "char. line on tmot, upper rl control threshold for upstream lambda",
+    "x_axis": {
+     "addr": "0x18AC1",
+     "n": 8,
+     "width_bytes": 1,
+     "factor": 0.75,
+     "offset": 48.0,
+     "unit": "Grad C"
+    },
+    "addr_confirmed": "код: mov r12,#0xac0 / mov r13,#0x206 / movbz r14,0x8ab4 @0x84B5D6 -- вход ТЕМПЕРАТУРА ОЖ, ровно как в имени",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "RLLRUN",
+    "addr": "0x18ADA",
+    "n": 8,
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3
+    ],
+    "desc": "char.line above nmot, lower rL control limit",
+    "x_axis": {
+     "addr": "0x18AD2",
+     "n": 8,
+     "width_bytes": 1,
+     "factor": 40.0,
+     "offset": 0.0,
+     "unit": "rpm"
+    },
+    "addr_confirmed": "код: mov r12,#0xad1 / mov r13,#0x206 / movbz r14,0xf89e @0x84B7A4 -- вход ОБОРОТЫ, ровно как в имени",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TARAU",
+    "addr": "0x18AE2",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 51,
+    "desc": "air temperature threshold for closed loop lambda switch",
+    "addr_confirmed": "код: cmpb RL4, 0x0ae2 @0x84B63E",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TASHS",
+    "addr": "0x18AE3",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 144,
+    "desc": "intake air temp threshold triggering TLRHS blocking time",
+    "addr_confirmed": "код: cmpb RL5, 0x0ae3 @0x84B65C",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TLRHS",
+    "addr": "0x18AE4",
+    "width_bytes": 1,
+    "factor": 0.1,
+    "offset": 0.0,
+    "unit": "s",
+    "raw": 25,
+    "desc": "blocking time of lambda control during hot start",
+    "addr_confirmed": "код: movb RL4, 0x0ae4 @0x84B626",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TMRA1",
+    "addr": "0x18AE5",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 84,
+    "desc": "cut-out condition, idle-speed switch = 0",
+    "addr_confirmed": "код: movbz r12, 0x0ae5 @0x84B68C",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TMRA2",
+    "addr": "0x18AE6",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 84,
+    "desc": "cut-out condition, idle-speed switch = 1",
+    "addr_confirmed": "код: чтение рядом с TMRA1 @0x84B68C",
+    "confidence": "адрес подтверждён"
+   }
+  ]
  },
  "mixture_adaptation": {
   "note": "Пороги и пределы адаптации смеси. Найдены сдвигом дамоса +0xD5 на участке 0x19460..0x194A1 -- и сдвиг не подгонялся: ВСЕ 30 записей подряд попали в ячейки, которые код действительно читает, каждая в своём месте. Двадцать восемь читаются напрямую (extp 0x206 + cmpb/movbz), ещё две -- это карты, и они читаются указателем: FBZFRAT 0x19538 на 0x85470E, KFFDLBTS 0x19576 на 0x855C44. Две записи этого ряда -- TATELL и TMSNOGA -- уже стояли в профиле по другому поводу и сошлись по адресу, что и закрепляет сдвиг независимо.",

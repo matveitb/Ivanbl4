@@ -789,18 +789,24 @@ def main(argv=None) -> int:
             '\n    /begin RECORD_LAYOUT %s\r\n'
             '      AXIS_PTS_X 1 %s INDEX_INCR DIRECT\r\n'
             '    /end RECORD_LAYOUT\r\n' % (arl, TYPE_U[aw]))
-        acm = cm_name(af, 0.0, src.get("unit", ""))
-        b = cm_block(af, 0.0, src.get("unit", ""))
+        # СМЕЩЕНИЕ У ОСИ ТОЖЕ БЫВАЕТ. Раньше здесь стоял ноль, и ось по
+        # температуре ОЖ у RLLRTMO читалась 17.25..147 вместо -30.75..99:
+        # множитель применялся, а вычитание 48 -- нет. На оси оборотов
+        # незаметно (там смещения нет), поэтому и прошло.
+        ao = float(src.get("offset") or 0.0)
+        acm = cm_name(af, ao, src.get("unit", ""))
+        b = cm_block(af, ao, src.get("unit", ""))
         if b:
             compus.setdefault(acm, b)
         used.add(key)
-        axis_src[key] = (acm, af * ((1 << (8 * aw)) - 1))
+        top = af * ((1 << (8 * aw)) - 1) - ao
+        axis_src[key] = (acm, top)
         axis_objs.append(
             '\n    /begin AXIS_PTS %s\n      "%s"\n      0x%X\n'
             '      NO_INPUT_QUANTITY\n      %s\n      0\n      %s\n'
-            '      %d\n      0\n      %.6g\n    /end AXIS_PTS\n'
+            '      %d\n      %.6g\n      %.6g\n    /end AXIS_PTS\n'
             % (key, comment(src.get("unit", "")), addr + skip, arl, acm, n,
-               af * ((1 << (8 * aw)) - 1)))
+               -ao, top))
         return key
 
     for e in extra:

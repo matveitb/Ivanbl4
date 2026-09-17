@@ -224,7 +224,7 @@ def main():
     # свободной формой, которую сборщик не читает. Закрепляем поимённо --
     # и ось, потому что она была записана температурной, а на деле по
     # оборотам.
-    for nm, off in (("CURVE_1955B", 0x19562), ("CURVE_19568", 0x1956F)):
+    for nm, off in (("KLLAMFA_0", 0x19562), ("KLLAMFA_1", 0x1956F)):
         C2 = geometry.resolve(a2l, nm, buf, am)
         check(C2.data_off == off and C2.nx == 6,
               "%s: данные 0x%05X, точек %d" % (nm, C2.data_off, C2.nx))
@@ -233,6 +233,38 @@ def main():
               "%s: ось по оборотам %s" % (nm, cax))
         check(abs(M.read_phys(buf, C2)[0][0] - 1.0) < 1e-9,
               "%s: сток -- ровно 1.000" % nm)
+
+    # -- полная нагрузка: порог и обогащение
+    #
+    # Две половины одной цепочки, и правят их все десять авторов. Порог
+    # закрепляем вместе с осью: обе кривые лежат В ОДНОМ блоке подряд, и
+    # сдвиг на семь байт дал бы соседнюю -- значения там те же, ошибка
+    # молчала бы.
+    W0 = geometry.resolve(a2l, "WDKVLN_0", buf, am)
+    check(W0.data_off == 0x18FDE and W0.nx == 6,
+          "WDKVLN_0: данные 0x%05X, точек %d" % (W0.data_off, W0.nx))
+    check(abs(M.read_phys(buf, W0)[0][0] - 65.1) < 0.1,
+          "WDKVLN_0: порог %.1f %%" % M.read_phys(buf, W0)[0][0])
+    S = geometry.resolve(a2l, "WDKSLN", buf, am)
+    check(abs(M.read_phys(buf, S)[0][0] - 0.78) < 0.02,
+          "WDKSLN: порог холостого %.2f %%" % M.read_phys(buf, S)[0][0])
+    for nm in ("KLLAMFA_0", "KLLAMFA_1"):
+        F = geometry.resolve(a2l, nm, buf, am)
+        check([round(v) for v in F.x_axis.values(buf)]
+              == [1480, 2480, 3480, 4480, 5480, 6480],
+              "%s: ось по оборотам" % nm)
+        check(abs(M.read_phys(buf, F)[0][0] - 1.0) < 1e-9,
+              "%s: сток -- ровно 1.000" % nm)
+
+    # -- у оси бывает не только множитель, но и смещение
+    #
+    # Ось по температуре ОЖ читалась 17.25..147 вместо -30.75..99:
+    # множитель применялся, вычитание 48 -- нет. На осях оборотов это
+    # незаметно, там смещения нет, поэтому ошибка и прошла.
+    T = geometry.resolve(a2l, "RLLRTMO", buf, am)
+    tax = [round(v, 2) for v in T.x_axis.values(buf)]
+    check(tax[0] == -30.75 and tax[-1] == 99.0,
+          "RLLRTMO: ось по температуре %s .. %s" % (tax[0], tax[-1]))
 
     # -- кривая с синтетической осью
     C = geometry.resolve(a2l, "SGA08MDUB", buf, am)
