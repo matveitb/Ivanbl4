@@ -175,6 +175,34 @@ SECTION_TITLES = {
 }
 
 
+# ОТОЗВАНО ПОИМЁННО. Разрешение по весу тут не работает: обе стороны
+# помечены "подтверждена", и защита подтверждённых не даёт выбросить ни
+# ту, ни другую. Значит решать надо разбором, а не порогом, -- и решение
+# записывается сюда вместе с доказательством, чтобы его можно было
+# оспорить, а не просто увидеть как пропажу.
+#
+# Все три отозванные пришли из описи (выравнивание чужого дамоса), все
+# три противника -- из кода или из структуры области.
+RETRACTED = {
+    "KFWKSTT": (0x111A8,
+                "лезет через границу двух карт, подтверждённых кодом: данные "
+                "KFKHFM кончаются ровно на 0x111DF, а 0x111DF -- это "
+                "ЗАГОЛОВОК KFPUSU (0x842BE0 и 0x842BCC). Таблица не может "
+                "начинаться в конце одной карты и кончаться внутри "
+                "заголовка следующей"),
+    "KFMSNTAG": (0x1579A,
+                 "лежит внутри KLAF, у которой границы держит код: на "
+                 "0x844AB8 читается первая точка 0x15754, на 0x844AB2 -- "
+                 "последняя 0x15B3C, обе как ограничители. Плюс 501 "
+                 "значение KLAF побайтово совпадает с px5ns03d. Плюс само "
+                 "имя -- 'EGR mass flow', а рециркуляции на S6D нет"),
+    "LLSPMSN": (0x156F9,
+                "лежит внутри KFMSNWDK со смещением 0x65 -- нечётным, то "
+                "есть даже не на границе ячейки словной карты. А конец "
+                "KFMSNWDK совпадает с началом KLAF байт в байт"),
+}
+
+
 # Вес доказательства. Перекрывающиеся карты не могут быть верны обе:
 # байты одни, а описания разные. Слабейшая уходит.
 WEIGHT = {
@@ -428,8 +456,12 @@ def main(argv=None) -> int:
                a["offset"], a["n"] * 0 + a["factor"] * ((1 << (8 * a["width"])) - 1)))
 
     # --- карты ---------------------------------------------------------
+    retracted: list = []
     for m in maps:
         raw_name = m.get("name") or ("MAP_%05X" % m["addr"])
+        if raw_name in RETRACTED and m["addr"] == RETRACTED[raw_name][0]:
+            retracted.append((raw_name, m["addr"], RETRACTED[raw_name][1]))
+            continue
         if raw_name in prof_named and m["addr"] not in prof_named[raw_name]:
             disputed.append((raw_name, m["addr"],
                              sorted(prof_named[raw_name])[0],
@@ -952,6 +984,10 @@ def main(argv=None) -> int:
         for owner, tag, a_, n_, w_ in bad_axes:
             print("    %-12s ось %s по %s: %d точек по %d байт не возрастают"
                   % (owner, tag, a_, n_, w_), file=sys.stderr)
+    if retracted:
+        print("  ОТОЗВАНО РАЗБОРОМ: %d" % len(retracted), file=sys.stderr)
+        for nm_, a_, why in sorted(retracted):
+            print("    %-12s 0x%05X  %s" % (nm_, a_, why), file=sys.stderr)
     if dropped:
         print("  ВЫБРОШЕНО ПО ПЕРЕКРЫТИЮ: %d" % len(dropped), file=sys.stderr)
         for loser, lw, winner, ww in sorted(dropped):

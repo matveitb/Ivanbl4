@@ -165,12 +165,6 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.0001220703125
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p1_0_kgh
-      "scale 0.1"
-      RAT_FUNC "%.3f" "kg/h"
-      COEFFS 0 1 0 0 0 0.1
-    /end COMPU_METHOD
-
     /begin COMPU_METHOD CM_0p09375_0
       "scale 0.09375"
       RAT_FUNC "%.3f" "%"
@@ -529,6 +523,12 @@ ASAP2_VERSION 1 51
       "scale 0.00078125"
       RAT_FUNC "%.3f" ""
       COEFFS 0 1 0 0 0 0.00078125
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p1_0_kgh
+      "scale 0.1"
+      RAT_FUNC "%.3f" "kg/h"
+      COEFFS 0 1 0 0 0 0.1
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p001525878906_0_ugladrossely
@@ -2656,33 +2656,6 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFWKSTT
-      "podtverzhdena damos-tochno addr 0x111A8 | map weighting of factor cold start"
-      MAP
-      0x111A8
-      RL_GRID_UBYTE
-      0
-      CM_0p0078125_0
-      0
-      1.99219
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        6
-        0
-        5
-        FIX_AXIS_PAR_DIST 0 1 6
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        12
-        0
-        11
-        FIX_AXIS_PAR_DIST 0 1 12
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
     /begin CHARACTERISTIC MAP_115_112C2_14
       "adres podtverzhden mapscan addr 0x112C2 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x12c1 @0x842B94"
       CURVE
@@ -3663,52 +3636,6 @@ ASAP2_VERSION 1 51
         6
         0
         65535
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC LLSPMSN
-      "podtverzhdena damos addr 0x156F9 | char. line of ISA pos. dependent on standardised air mass flow"
-      CURVE
-      0x156F9
-      RL_GRID_UWORD
-      0
-      CM_0p001525878906_0
-      0
-      99.9985
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        16
-        0
-        15
-        FIX_AXIS_PAR_DIST 0 1 16
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC KFMSNTAG
-      "podtverzhdena damos-tochno addr 0x1579A | EGR mass flow standardised"
-      MAP
-      0x1579A
-      RL_GRID_UBYTE
-      0
-      CM_0p1_0_kgh
-      0
-      25.5
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        12
-        0
-        11
-        FIX_AXIS_PAR_DIST 0 1 12
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        10
-        0
-        9
-        FIX_AXIS_PAR_DIST 0 1 10
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -11403,7 +11330,6 @@ ASAP2_VERSION 1 51
         KFSZT
         KLMDLOAD2
         FABMDWA
-        KFWKSTT
         KFAGRS
         SUA08FEUB
         KFDLURZ
@@ -11414,8 +11340,6 @@ ASAP2_VERSION 1 51
         KFWK_0_A
         MDST
         FNSTABNV
-        LLSPMSN
-        KFMSNTAG
         KFDYES_0_A
         TVUB
         TVCO
