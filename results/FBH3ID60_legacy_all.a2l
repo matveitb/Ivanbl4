@@ -525,6 +525,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.25
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p001779359431_0_ms
+      "scale 0.00177936"
+      RAT_FUNC "%.3f" "ms/%"
+      COEFFS 0 1 0 0 0 0.001779359431
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_4_0_kgh
       "scale 4"
       RAT_FUNC "%.1f" "kg/h"
@@ -571,12 +577,6 @@ ASAP2_VERSION 1 51
       "scale 5"
       RAT_FUNC "%.1f" "C"
       COEFFS 0 1 -50 0 0 5
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_0p00177936_0_ms
-      "scale 0.00177936"
-      RAT_FUNC "%.3f" "ms/%"
-      COEFFS 0 1 0 0 0 0.00177936
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p00266667_0_ms
@@ -12921,6 +12921,314 @@ ASAP2_VERSION 1 51
       255
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC TATELL
+      "podtverzhdena | tans-threshold for canister purge control with B_ll = 1"
+      VALUE
+      0x19535
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMSKLH
+      "podtverzhdena | engine temperature threshold for short initial phase LRA when engin hot"
+      VALUE
+      0x19536
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMSNOGA
+      "podtverzhdena | threshold tms for endless purge control, if mixture adaptation without error"
+      VALUE
+      0x19537
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRAOMN
+      "podtverzhdena | lower limit of correction factor frao"
+      VALUE
+      0x19543
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRAOMX
+      "podtverzhdena | upper limit of correction factor frao"
+      VALUE
+      0x19544
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRAORN
+      "podtverzhdena | reduced lower threshold for frao correction"
+      VALUE
+      0x19545
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRAORX
+      "podtverzhdena | reduced upper threshold for trao correction"
+      VALUE
+      0x19546
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRATMN
+      "podtverzhdena | lower limit of correction factor frat"
+      VALUE
+      0x19547
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRATMX
+      "podtverzhdena | upper limit of correction factor frat"
+      VALUE
+      0x19548
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRAUMN
+      "podtverzhdena | lower limit of correction factor frau"
+      VALUE
+      0x19549
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRAUMX
+      "podtverzhdena | upper limit of correction factor frau"
+      VALUE
+      0x1954A
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRAURN
+      "podtverzhdena | reduced lower threshold for frau correction"
+      VALUE
+      0x1954B
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FRAURX
+      "podtverzhdena | reduced upper threshold fpr frau correction"
+      VALUE
+      0x1954C
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NO1
+      "podtverzhdena | upper engine-speed threshold range 1"
+      VALUE
+      0x1954D
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NOLRA
+      "podtverzhdena | codeword for release of adaptation"
+      VALUE
+      0x1954E
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC NU3
+      "podtverzhdena | lower engine-speed threshold range 3"
+      VALUE
+      0x1954F
+      RL_GRID_UBYTE
+      0
+      CM_40_0_Upm
+      -0
+      10200
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLO2
+      "podtverzhdena | upper load threshold of range 2"
+      VALUE
+      0x19550
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLO3
+      "podtverzhdena | upper load-signal threshold range 3"
+      VALUE
+      0x19551
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLO3AC
+      "podtverzhdena | upper load-signal threshold range 3 with compressor"
+      VALUE
+      0x19552
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLU2
+      "podtverzhdena | lower load-signal threshold range 2"
+      VALUE
+      0x19553
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLU2AC
+      "podtverzhdena | lower load-signal threshold range 2 with compressor"
+      VALUE
+      0x19554
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLU3
+      "podtverzhdena | lower load-signal threshold range 3"
+      VALUE
+      0x19555
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC RLU4
+      "podtverzhdena | lower load threshold of the upper multiplicative section"
+      VALUE
+      0x19556
+      RL_GRID_UBYTE
+      0
+      CM_0p75_0
+      -0
+      191.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMFRATMN
+      "podtverzhdena | minimum temperature at it ftklra_w is one"
+      VALUE
+      0x19557
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC TMFRATUB
+      "podtverzhdena | upper temperature threshold at it ftklra_w is constant"
+      VALUE
+      0x19558
+      RL_GRID_UBYTE
+      0
+      CM_0p75_48_GradC
+      -48
+      143.25
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWPKAPP
+      "podtverzhdena | code word application of reference pressure for fuel-pressure controller"
+      VALUE
+      0x19559
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KRKTE
+      "podtverzhdena | conversion from relative fuel mass rk into effective injection time te"
+      VALUE
+      0x1955A
+      RL_GRID_UBYTE
+      0
+      CM_0p001779359431_0_ms
+      -0
+      0.453737
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CWLAMBTS
+      "podtverzhdena | code word: lambda component protection"
+      VALUE
+      0x19575
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFFDLBTS__kandidat
       "podtverzhdena |"
       MAP
@@ -13756,17 +14064,6 @@ ASAP2_VERSION 1 51
       CM_IDENTITY
       -0
       255
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC KRKTE
-      "podtverzhdena | pereschet otnositelnoy massy topliva rk v effektivnoe vremya vpryska te -- postoyannaya forsunki"
-      VALUE
-      0x19485
-      RL_GRID_UBYTE
-      0
-      CM_0p00177936_0_ms
-      -0
-      0.453737
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC FRKAP
@@ -14660,28 +14957,6 @@ ASAP2_VERSION 1 51
       17.952
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC TATELL
-      "podtverzhdena | tans-threshold for canister purge control with B_ll = 1"
-      VALUE
-      0x19535
-      RL_GRID_UBYTE
-      0
-      CM_0p75_48_GradC
-      -48
-      143.25
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC TMSNOGA
-      "podtverzhdena | threshold tms for endless purge control, if mixture adaptation without error"
-      VALUE
-      0x19537
-      RL_GRID_UBYTE
-      0
-      CM_0p75_48_GradC
-      -48
-      143.25
-    /end CHARACTERISTIC
-
     /begin CHARACTERISTIC TMTE
       "podtverzhdena | engine-temperature threshold for canister purge"
       VALUE
@@ -15457,6 +15732,7 @@ ASAP2_VERSION 1 51
         G_lambda_cat_diag_block
         G_knock_control
         G_canister_purge
+        G_mixture_adaptation
         G_ac_compressor
         G_overrun_fuel_cut
         G_scanner_somnitelnaya
@@ -16165,8 +16441,6 @@ ASAP2_VERSION 1 51
         GRID_528_197BC_10x10
         KFQTE
         ZBTEML
-        TATELL
-        TMSNOGA
         TMTE
         FRHB
         FTEADAB
@@ -16193,6 +16467,40 @@ ASAP2_VERSION 1 51
         TVDTEE
         TVDTEVP
         TVDTEVZ
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_mixture_adaptation
+      "mixture_adaptation"
+      /begin REF_CHARACTERISTIC
+        TATELL
+        TMSKLH
+        TMSNOGA
+        FRAOMN
+        FRAOMX
+        FRAORN
+        FRAORX
+        FRATMN
+        FRATMX
+        FRAUMN
+        FRAUMX
+        FRAURN
+        FRAURX
+        NO1
+        NOLRA
+        NU3
+        RLO2
+        RLO3
+        RLO3AC
+        RLU2
+        RLU2AC
+        RLU3
+        RLU4
+        TMFRATMN
+        TMFRATUB
+        CWPKAPP
+        KRKTE
+        CWLAMBTS
       /end REF_CHARACTERISTIC
     /end GROUP
 
@@ -16409,7 +16717,6 @@ ASAP2_VERSION 1 51
     /begin GROUP G_fuel_path_unchanged
       "Toplivopodacha, neizmennoe"
       /begin REF_CHARACTERISTIC
-        KRKTE
         TEMIN
       /end REF_CHARACTERISTIC
     /end GROUP

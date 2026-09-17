@@ -40,18 +40,69 @@ import c166dis
 DATA_BASE = 0x10000
 DATA_END = 0x20000
 
+# СТРАНИЦА. Половина калибровки этой прошивки лежит выше 0x18000, и
+# указатель туда кладётся ПАРОЙ: смещение в r12, номер страницы в r13.
+#
+#     mov r12, #0x1636     ; KFLBTS
+#     mov r13, #0x206      ; страница
+#     mov r14, #0x1f7      ; ось SNM16GKUB
+#     mov r15, #0x206
+#     calls 0x833FFC
+#
+# Пока эта пара не разбиралась, весь топливный блок 0x19xxx был для
+# поиска по коду невидим: смещение 0x1636 читалось как 0x11636, то есть
+# как чужие байты. Отсюда и брались записи вида "ссылок из кода нет" у
+# KRKTE и у кривых обогащения.
+PAGES = {0x204: 0x10000, 0x205: 0x14000, 0x206: 0x18000, 0x207: 0x1C000}
 
 # Мелкие непосредственные значения -- это счётчики, флаги и индексы, а не
 # указатели. Без этого порога "картой" становится каждый mov rN, #0.
 MIN_IMM = 0x80
 
 
-def data_addr(imm: int) -> int | None:
+def data_addr(imm: int, page: int | None = None) -> int | None:
     """Непосредственное 16-битное значение -> смещение в файле, если похоже на калибровку."""
+    if page is not None:
+        base = PAGES.get(page)
+        if base is None:
+            return None
+        off = base + (imm & 0x3FFF)
+        return off if DATA_BASE <= off < DATA_END else None
     if imm < MIN_IMM:
         return None
     off = DATA_BASE + imm
     return off if DATA_BASE <= off < DATA_END else None
+
+
+def pointers(args: dict) -> list:
+    """
+    Аргументы вызова -> список указателей на калибровку.
+
+    Возвращает пары (роль, адрес): роль "тело" для r12 и "ось"/"второй"
+    для r14. Страница, если она есть, съедает соседний регистр -- иначе
+    номер страницы 0x206 сам считался бы указателем на 0x10206.
+    """
+    out = []
+    used = set()
+    for lo, hi, role in ((12, 13, "тело"), (14, 15, "второй")):
+        if lo not in args:
+            continue
+        page = args.get(hi)
+        if page in PAGES:
+            a = data_addr(args[lo], page)
+            used.add(hi)
+        else:
+            a = data_addr(args[lo])
+        if a is not None:
+            out.append((role, a, args.get(hi) if hi in used else None))
+            used.add(lo)
+    # непарный r13 (ось без страницы) -- старая форма, встречается у
+    # карт ниже 0x18000: mov r12,#0x529 / mov r13,#0x4b70
+    if 13 in args and 13 not in used and 12 in used:
+        a = data_addr(args[13])
+        if a is not None:
+            out.append(("ось", a, None))
+    return out
 
 
 def read_axis(fw: fwlib.Firmware, addr: int, max_n: int = 40):
@@ -100,6 +151,7 @@ class Scanner:
         data = self.fw.data
         sites = []
         regs: dict[int, tuple[int, int]] = {}   # rN -> (значение, адрес команды)
+        ram: dict[int, tuple[int, int]] = {}    # rN -> (адрес ячейки-входа, адрес команды)
         off = self.code_start
         idx = 0
         while off < self.code_end:
@@ -114,21 +166,46 @@ class Scanner:
                     regs[int(m.group(1))] = (int(ins.ops[1][1:], 0), off)
                 except ValueError:
                     pass
+            elif ins.mnem in ("mov", "movb", "movbz", "movbs") and m \
+                    and len(ins.ops) == 2 and re.match(r'^0x[0-9a-f]+$',
+                                                       ins.ops[1]):
+                # ВХОД, а не указатель: movbz r13, 0xf89e -- это обороты.
+                # Без этого вход выглядел пустым местом, и карту нельзя
+                # было отличить от карты с тем же телом, но другим входом.
+                ram[int(m.group(1))] = (int(ins.ops[1], 0), off)
             elif ins.mnem in ("calls", "calla", "callr"):
                 snap = {r: v for r, (v, a) in regs.items()
                         if r in (12, 13, 14, 15) and off - a <= window * 4}
+                ins_snap = {r: v for r, (v, a) in ram.items()
+                            if r in (12, 13, 14, 15) and off - a <= window * 4}
                 if snap:
-                    tgt = ins.ops[-1]
                     sites.append({
-                        "site": off, "target": tgt, "args": snap,
+                        "site": off, "target": ins.ops[-1], "args": snap,
+                        "inputs": ins_snap,
+                        "dest": self._dest(data, off + ins.length),
                     })
                 regs.clear()
+                ram.clear()
             elif ins.mnem in ("ret", "rets", "reti", "retp"):
                 regs.clear()
+                ram.clear()
 
             off += ins.length
             idx += 1
         return sites
+
+    def _dest(self, data, off, look: int = 3):
+        """Куда лёг результат: ближайшее сохранение r4/RL4 в ячейку."""
+        for _ in range(look):
+            ins = self.dis.decode(data, off, off)
+            if ins.length <= 0:
+                return None
+            if ins.mnem in ("mov", "movb") and len(ins.ops) == 2 \
+                    and re.match(r'^0x[0-9a-f]+$', ins.ops[0]) \
+                    and ins.ops[1] in ("r4", "RL4"):
+                return int(ins.ops[0], 0)
+            off += ins.length
+        return None
 
 
 def _auto_int(s: str) -> int:
@@ -158,10 +235,8 @@ def main(argv=None) -> int:
     # какие цели получают указатели на калибровки
     by_target: dict[str, set] = defaultdict(set)
     for s in sites:
-        for r, v in s["args"].items():
-            d = data_addr(v)
-            if d is not None:
-                by_target[s["target"]].add(d)
+        for _role, a, _pg in pointers(s["args"]):
+            by_target[s["target"]].add(a)
 
     ranked = sorted(by_target.items(), key=lambda kv: -len(kv[1]))
     if args.callees:
@@ -178,14 +253,17 @@ def main(argv=None) -> int:
     for s in sites:
         if s["target"] not in interp:
             continue
-        a12 = data_addr(s["args"].get(12, -1)) if 12 in s["args"] else None
-        a13 = data_addr(s["args"].get(13, -1)) if 13 in s["args"] else None
-        if a12 is None:
+        ptrs = pointers(s["args"])
+        if not ptrs or ptrs[0][0] != "тело":
             continue
+        a12, page = ptrs[0][1], ptrs[0][2]
+        a13 = next((a for role, a, _p in ptrs[1:]), None)
         ax = read_axis(fw, a13) if a13 is not None else None
         entries.append({
             "site": s["site"], "target": s["target"],
-            "map_addr": a12, "axis_addr": a13,
+            "map_addr": a12, "page": page, "axis_addr": a13,
+            "inputs": sorted(s.get("inputs", {}).values()),
+            "dest": s.get("dest"),
             "axis_width": ax[0] if ax else None,
             "axis_n": ax[1] if ax else None,
             "axis_values": ax[2] if ax else None,
@@ -210,19 +288,19 @@ def main(argv=None) -> int:
     print("Разных карт по ссылкам из кода: %d (из них с подтверждённой осью: %d)"
           % (len(per_map), with_axis), file=sys.stderr)
 
-    print("\n%-9s %-14s %-9s %-6s %-5s  %s"
-          % ("КАРТА", "ИМЯ", "ОСЬ", "ТОЧЕК", "РАЗР", "ЗНАЧЕНИЯ ОСИ"))
+    print("\n%-9s %-14s %-9s %-6s %-14s %-8s %s"
+          % ("КАРТА", "ИМЯ", "ОСЬ", "ТОЧЕК", "ВХОДЫ", "РЕЗУЛЬТАТ", "ГДЕ В КОДЕ"))
     for k in sorted(per_map):
         e = per_map[k]
         if args.axis_only and not e["axis_n"]:
             continue
-        vals = e["axis_values"]
-        sv = " ".join(str(v) for v in vals[:11]) if vals else "-"
-        print("0x%05X  %-14s %-9s %-6s %-5s  %s" % (
+        ins = " ".join("0x%04X" % v for v in e.get("inputs") or []) or "-"
+        print("0x%05X  %-14s %-9s %-6s %-14s %-8s 0x%06X" % (
             k, names.get(k, "")[:14],
             ("0x%05X" % e["axis_addr"]) if e["axis_addr"] else "-",
-            e["axis_n"] or "-", ("u%d" % (e["axis_width"] * 8)) if e["axis_width"] else "-",
-            sv))
+            e["axis_n"] or "-", ins,
+            ("0x%04X" % e["dest"]) if e.get("dest") else "-",
+            e["site"] + 0x800000))
 
     if args.out:
         for k, e in per_map.items():

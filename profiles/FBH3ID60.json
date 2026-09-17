@@ -531,19 +531,37 @@
   "evidence": "Диф startpower -> NI_startpower: 81 байт, только эти две вещи плюс контрольные суммы."
  },
  "fuel_trim_curves": {
-  "summary": "Две кривые обогащения по температуре -- этим правят топливо все авторы",
+  "summary": "Две кривые ЗАДАННОЙ ЛЯМБДЫ ПО ОБОРОТАМ -- этим правят топливо все авторы",
   "curves": [
    {
     "header": "0x1955B",
+    "axis": "0x1955C",
     "data": "0x19562",
     "points": 6
    },
    {
     "header": "0x19568",
+    "axis": "0x19569",
     "data": "0x1956F",
     "points": 6
    }
   ],
+  "code": {
+   "site": "0x8551CA",
+   "sequence": [
+    "movbz r4, 0xf87a        ; вариант 0 или 1",
+    "shl   r4, #0x2          ; запись таблицы 4 байта",
+    "mov   r12, [r4+#0x616a] ; смещение кривой",
+    "mov   r13, [r4+#0x616c] ; страница 0x206",
+    "movbz r14, 0xf89e       ; ОБОРОТЫ",
+    "calls 0x833a00          ; интерполяция кривой",
+    "shl   r4, #0x5          ; 128 -> 0x1000 = 1.000",
+    "mov   0x9880, r4"
+   ],
+   "pointer_table": "0x1616A: {0x155B, 0x0206} и 0x1616E: {0x1568, 0x0206} -- пары «смещение, страница». Из-за них прямой поиск указателя ничего не находил, и в профиле стояло «ссылок из кода нет».",
+   "arbitration": "0x85333E: r8 = min(0x9880, 0x98A2). Меньше -- значит богаче, то есть кривая выигрывает везде, где просит богаче. Дальше на 0x853426 результат ещё раз минимизируется с 0x97CA/0x9428/0x94AA и ложится в 0x981E, откуда идёт в заданную лямбду 0x9818/0x8A16.",
+   "neutral": "0x1000 = 1.000; по умолчанию 0x9880 = 0x1000 (0x85519A), то есть «ничего не прошу»"
+  },
   "axis": {
    "addr": "0x1955C",
    "raw": [
@@ -554,25 +572,26 @@
     137,
     162
    ],
-   "factor": 0.75,
-   "offset": -48,
-   "unit": "°C",
+   "factor": 40,
+   "offset": 0,
+   "unit": "об/мин",
    "phys": [
-    -20.25,
-    -1.5,
-    17.25,
-    36.0,
-    54.75,
-    73.5
-   ]
+    1480,
+    2480,
+    3480,
+    4480,
+    5480,
+    6480
+   ],
+   "input": "0xF89E -- обороты делить на 40"
   },
+  "axis_correction": "РАНЬШЕ Я ПИСАЛ, ЧТО ОСЬ ТЕМПЕРАТУРНАЯ (0.75 -48, -20.25..73.5 °C). Неверно. Вход кривой виден в коде -- movbz r14, 0xf89e, это обороты делить на 40, и те же сырые 37..162 дают ровный ряд 1480..6480 об/мин. Правка тюнеров, значит, обогащает НЕ на холодном моторе, а во всём диапазоне оборотов.",
   "value_conversion": {
-   "formula": "alpha = сырое / 128",
+   "formula": "lambda = сырое / 128",
    "neutral_raw": 128,
    "step_percent": 0.78,
-   "semantics": "alpha -- коэффициент избытка воздуха: МЕНЬШЕ 1.000 = БОГАЧЕ, больше = беднее"
+   "semantics": "меньше 1.000 = БОГАЧЕ. Подтверждено кодом: значение уходит в минимум против других запросов лямбды."
   },
-  "evidence": "Шкала и знак установлены управляемым экспериментом на паре нивовских прошивок B103eq09 / B103eq09_1.5: в ChipTuningPRO выставлена alpha=1.5 по всей карте, и в образе 192 байта изменились со 128 ровно на 192. Значит 128 -> 1.000, 192 -> 1.500, то есть alpha = сырое/128.",
   "values_enrichment": {
    "сток / Spectra ori_e3": "1.000 -- нейтраль",
    "csok": "0.906…0.859  -> обогащение +11.6 %",
@@ -584,14 +603,385 @@
    "startpower / NI_startpower": "как csok, +11.6 %",
    "FBH3ID60_L": "+12.5 %"
   },
-  "not_identified": "Заводское имя переменной неизвестно. В нивовской прошивке оси 37,62,87,112,137,162 нет, в DAMOS область расходится, ссылок из кода нет."
+  "evidence": "Шкала и знак установлены управляемым экспериментом на паре нивовских прошивок B103eq09 / B103eq09_1.5: в ChipTuningPRO выставлена alpha=1.5 по всей карте, и в образе 192 байта изменились со 128 ровно на 192. Значит 128 -> 1.000, 192 -> 1.500, то есть alpha = сырое/128.",
+  "not_identified": "Заводского имени нет: в доноре px5ns03d между KRKTE (src 0x1948C) и CWLAMBTS (src 0x194A7) 26 байт не названы. Зато смысл теперь взят из кода, а не из имени."
+ },
+ "mixture_adaptation": {
+  "note": "Пороги и пределы адаптации смеси. Найдены сдвигом дамоса +0xD5 на участке 0x19460..0x194A1 -- и сдвиг не подгонялся: ВСЕ 30 записей подряд попали в ячейки, которые код действительно читает, каждая в своём месте. Двадцать восемь читаются напрямую (extp 0x206 + cmpb/movbz), ещё две -- это карты, и они читаются указателем: FBZFRAT 0x19538 на 0x85470E, KFFDLBTS 0x19576 на 0x855C44. Две записи этого ряда -- TATELL и TMSNOGA -- уже стояли в профиле по другому поводу и сошлись по адресу, что и закрепляет сдвиг независимо.",
+  "shift_warning": "Сдвиг дамоса по области НЕ постоянный: у блока диагностики адсорбера он +0xCE, здесь +0xD5. Поэтому каждая запись отдельно проверена ссылкой из кода, а не взята по одному общему сдвигу.",
+  "items": [
+   {
+    "name": "TATELL",
+    "addr": "0x19535",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 64,
+    "value": 0.0,
+    "desc": "tans-threshold for canister purge control with B_ll = 1",
+    "addr_confirmed": "код: cmpb RL4, 0x1535 @0x8537F8",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TMSKLH",
+    "addr": "0x19536",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 171,
+    "value": 80.25,
+    "desc": "engine temperature threshold for short initial phase LRA when engin hot",
+    "addr_confirmed": "код: cmpb RL4, 0x1536 @0x853680",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TMSNOGA",
+    "addr": "0x19537",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 104,
+    "value": 30.0,
+    "desc": "threshold tms for endless purge control, if mixture adaptation without error",
+    "addr_confirmed": "код: cmpb RL4, 0x1537 @0x853662",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRAOMN",
+    "addr": "0x19543",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 96,
+    "value": 0.75,
+    "desc": "lower limit of correction factor frao",
+    "addr_confirmed": "код: movbz r4, 0x1543 @0x853BDE",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRAOMX",
+    "addr": "0x19544",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 160,
+    "value": 1.25,
+    "desc": "upper limit of correction factor frao",
+    "addr_confirmed": "код: movbz r4, 0x1544 @0x853BEE",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRAORN",
+    "addr": "0x19545",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 96,
+    "value": 0.75,
+    "desc": "reduced lower threshold for frao correction",
+    "addr_confirmed": "код: movbz r4, 0x1545 @0x8544C4",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRAORX",
+    "addr": "0x19546",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 160,
+    "value": 1.25,
+    "desc": "reduced upper threshold for trao correction",
+    "addr_confirmed": "код: movbz r4, 0x1546 @0x8544B4",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRATMN",
+    "addr": "0x19547",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 127,
+    "value": 0.9922,
+    "desc": "lower limit of correction factor frat",
+    "addr_confirmed": "код: movbz r5, 0x1547 @0x854730",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRATMX",
+    "addr": "0x19548",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 128,
+    "value": 1.0,
+    "desc": "upper limit of correction factor frat",
+    "addr_confirmed": "код: movbz r5, 0x1548 @0x854724",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRAUMN",
+    "addr": "0x19549",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 96,
+    "value": 0.75,
+    "desc": "lower limit of correction factor frau",
+    "addr_confirmed": "код: movbz r4, 0x1549 @0x853B9C",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRAUMX",
+    "addr": "0x1954A",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 160,
+    "value": 1.25,
+    "desc": "upper limit of correction factor frau",
+    "addr_confirmed": "код: movbz r4, 0x154a @0x853BAE",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRAURN",
+    "addr": "0x1954B",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 96,
+    "value": 0.75,
+    "desc": "reduced lower threshold for frau correction",
+    "addr_confirmed": "код: movbz r4, 0x154b @0x85436E",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "FRAURX",
+    "addr": "0x1954C",
+    "width_bytes": 1,
+    "factor": 0.0078125,
+    "offset": 0.0,
+    "unit": "-",
+    "raw": 160,
+    "value": 1.25,
+    "desc": "reduced upper threshold fpr frau correction",
+    "addr_confirmed": "код: movbz r4, 0x154c @0x85435E",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "NO1",
+    "addr": "0x1954D",
+    "width_bytes": 1,
+    "factor": 40.0,
+    "offset": 0.0,
+    "unit": "Upm",
+    "raw": 23,
+    "value": 920.0,
+    "desc": "upper engine-speed threshold range 1",
+    "addr_confirmed": "код: cmpb RL4, 0x154d @0x853E98",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "NOLRA",
+    "addr": "0x1954E",
+    "width_bytes": 1,
+    "factor": 1.0,
+    "offset": 0.0,
+    "unit": "",
+    "raw": 36,
+    "value": 36.0,
+    "desc": "codeword for release of adaptation",
+    "addr_confirmed": "код: movbz r4, 0x154e @0x853FB0",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "NU3",
+    "addr": "0x1954F",
+    "width_bytes": 1,
+    "factor": 40.0,
+    "offset": 0.0,
+    "unit": "Upm",
+    "raw": 175,
+    "value": 7000.0,
+    "desc": "lower engine-speed threshold range 3",
+    "addr_confirmed": "код: cmpb RL4, 0x154f @0x853E80",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "RLO2",
+    "addr": "0x19550",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": 80,
+    "value": 60.0,
+    "desc": "upper load threshold of range 2",
+    "addr_confirmed": "код: cmpb RL4, 0x1550 @0x853E3E",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "RLO3",
+    "addr": "0x19551",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": 40,
+    "value": 30.0,
+    "desc": "upper load-signal threshold range 3",
+    "addr_confirmed": "код: cmpb RL4, 0x1551 @0x853F0E",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "RLO3AC",
+    "addr": "0x19552",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": 40,
+    "value": 30.0,
+    "desc": "upper load-signal threshold range 3 with compressor",
+    "addr_confirmed": "код: cmpb RL4, 0x1552 @0x853E64",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "RLU2",
+    "addr": "0x19553",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": 40,
+    "value": 30.0,
+    "desc": "lower load-signal threshold range 2",
+    "addr_confirmed": "код: cmpb RL4, 0x1553 @0x853EDA",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "RLU2AC",
+    "addr": "0x19554",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": 44,
+    "value": 33.0,
+    "desc": "lower load-signal threshold range 2 with compressor",
+    "addr_confirmed": "код: cmpb RL4, 0x1554 @0x853E30",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "RLU3",
+    "addr": "0x19555",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": 27,
+    "value": 20.25,
+    "desc": "lower load-signal threshold range 3",
+    "addr_confirmed": "код: cmpb RL4, 0x1555 @0x853E56",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "RLU4",
+    "addr": "0x19556",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 0.0,
+    "unit": "%",
+    "raw": 80,
+    "value": 60.0,
+    "desc": "lower load threshold of the upper multiplicative section",
+    "addr_confirmed": "код: cmpb RL4, 0x1556 @0x853F72",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TMFRATMN",
+    "addr": "0x19557",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 91,
+    "value": 20.25,
+    "desc": "minimum temperature at it ftklra_w is one",
+    "addr_confirmed": "код: cmpb RL4, 0x1557 @0x853F8E",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "TMFRATUB",
+    "addr": "0x19558",
+    "width_bytes": 1,
+    "factor": 0.75,
+    "offset": 48.0,
+    "unit": "Grad C",
+    "raw": 64,
+    "value": 0.0,
+    "desc": "upper temperature threshold at it ftklra_w is constant",
+    "addr_confirmed": "код: movb RL4, 0x1558 @0x854612",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "CWPKAPP",
+    "addr": "0x19559",
+    "width_bytes": 1,
+    "factor": 1.0,
+    "offset": 0.0,
+    "unit": "",
+    "raw": 0,
+    "value": 0.0,
+    "desc": "code word application of reference pressure for fuel-pressure controller",
+    "addr_confirmed": "код: movbz r4, 0x1559 @0x854FA6",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "KRKTE",
+    "addr": "0x1955A",
+    "width_bytes": 1,
+    "factor": 0.0017793594306049821,
+    "offset": 0.0,
+    "unit": "ms/%",
+    "raw": 93,
+    "value": 0.1655,
+    "desc": "conversion from relative fuel mass rk into effective injection time te",
+    "addr_confirmed": "код: movbz r13, 0x155a @0x855016",
+    "confidence": "подтверждена"
+   },
+   {
+    "name": "CWLAMBTS",
+    "addr": "0x19575",
+    "width_bytes": 1,
+    "factor": 1.0,
+    "offset": 0.0,
+    "unit": "",
+    "raw": 3,
+    "value": 3.0,
+    "desc": "code word: lambda component protection",
+    "addr_confirmed": "код: movbz r4, 0x1575 @0x855BB8",
+    "confidence": "подтверждена"
+   }
+  ]
  },
  "fuel_path_unchanged": {
   "note": "Глобальные топливные константы не менял никто: KRKTE (константа форсунки) = 92 везде, TEMIN = 82, TEMINVA = 107. Карта KFLF (она же 'Альфа', 0x190EC) тоже равна 1.000 во всех 11. Вся правка топлива идёт через кривые 0x1955B/0x19568 и через KFLBTS (лямбда защиты компонентов).",
   "KRKTE": {
-   "addr": "0x19485",
-   "raw": 92,
-   "phys": "0.1637 ms/%"
+   "addr": "0x1955A",
+   "raw": 93,
+   "phys": "0.1655 ms/%"
   },
   "TEMIN": {
    "addr": "0x15E44",
@@ -2153,16 +2543,18 @@
   "quantity": [
    {
     "name": "KRKTE",
-    "addr": "0x19485",
+    "addr": "0x1955A",
     "width": 1,
     "factor": 0.00177936,
     "unit": "мс/%",
-    "stock": 0.1637,
+    "stock": 0.16548,
     "desc": "пересчёт относительной массы топлива rk в эффективное время впрыска te -- постоянная форсунки",
     "confidence": "подтверждена",
     "check": "Проверка физикой сходится. Полный цилиндр 1.6/4 при нормальных условиях -- 517 мг воздуха, то есть 35.2 мг бензина при стехиометрии. te при rk=100 % равно 16.37 мс, отсюда расход форсунки 129 г/мин, то есть около 172 см3/мин -- обычный размер для 1.6. Прямой ссылки кода на этот адрес calref не нашёл, поэтому не 'подтверждена'.",
     "lever": "единственное место, где учитывается размер форсунок; при их замене правится тут",
-    "addr_confirmed": "код: mov r12, #0x1485 @0x842B7E"
+    "addr_confirmed": "код: movbz r13, 0x155a @0x855016",
+    "raw": 93,
+    "retracted_addr": "0x19485 -- внутри плёночной карты 0x19471"
    },
    {
     "name": "FRKAP",
@@ -2193,7 +2585,8 @@
     "0x19568"
    ]
   },
-  "nobody_touched": "KFLF, KRKTE и FRKAP одинаковы во всех восьми прошивках -- обогащали только через KFLBTS"
+  "nobody_touched": "KFLF, KRKTE и FRKAP одинаковы во всех восьми прошивках -- обогащали только через KFLBTS",
+  "KRKTE_correction": "ИСПРАВЛЕНИЕ АДРЕСА. KRKTE стоял на 0x19485 -- это адрес из выравнивания, и он попадает ВНУТРЬ плёночной карты 0x19471..0x194AF (7x9, ось 0x181E4, читается на 0x8523F8). Настоящий адрес 0x1955A: именно его читает код -- movbz r13, 0x155a @0x855016, и результат идёт множителем в 0x006A68. Сдвиг +0xD5 подтверждён на всём ряду из тридцати соседних записей. Сырое значение 93, а не 92; физика от этого не меняется (0.1655 мс/% против 0.1637)."
  },
  "lambda_cat_diag_block": {
   "note": "Блок диагностики катализатора, датчиков кислорода и их подогрева. Найден автоматически: цепочка из 79 подряд идущих скаляров DAMOS при сдвиге -16 попадает в 76 ячеек из 79, которые код действительно читает, и сдвиг единственный.",
