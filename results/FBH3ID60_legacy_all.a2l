@@ -739,6 +739,14 @@ ASAP2_VERSION 1 51
       FNC_VALUES    3 UWORD ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
+    /begin RECORD_LAYOUT RL_3D_A8_SBYTE
+      NO_AXIS_PTS_Y 1 UBYTE
+      NO_AXIS_PTS_X 2 UBYTE
+      AXIS_PTS_Y    3 UBYTE INDEX_INCR DIRECT
+      AXIS_PTS_X    4 UBYTE INDEX_INCR DIRECT
+      FNC_VALUES    5 SBYTE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
     /begin RECORD_LAYOUT RL_GRID_UWORD
       FNC_VALUES 1 UWORD ROW_DIR DIRECT
     /end RECORD_LAYOUT
@@ -983,6 +991,18 @@ ASAP2_VERSION 1 51
       10
       -0
       16383.8
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_19516_Y
+      "rpm"
+      0x19516
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_40_0_rpm
+      10
+      -0
+      10200
     /end AXIS_PTS
 
     /begin AXIS_PTS AX_15688_X
@@ -4273,29 +4293,27 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC KFZWMN
-      "podtverzhdena profil addr 0x14DA4 | Karta minimalnogo ugla zazhiganiya. Izmenena kalibrovschikom."
+      "podtverzhdena profil addr 0x14DA4 | Karta minimalnogo ugla zazhiganiya. Izmenena kalibrovschikom. ADRES -- ZAGOLOVOK: [16][12][os oborotov][os nagruzki], dannye s 0x14DC2. Razvyazka v profile."
       MAP
       0x14DA4
-      RL_GRID_SBYTE
+      RL_3D_A8_SBYTE
       0
       CM_0p75_0_gradKW
       -96
       95.25
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR STD_AXIS
         NO_INPUT_QUANTITY
-        CM_IDENTITY
-        12
-        0
-        11
-        FIX_AXIS_PAR_DIST 0 1 12
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
+        CM_0p75_0
         16
         0
-        15
-        FIX_AXIS_PAR_DIST 0 1 16
+        191.25
+      /end AXIS_DESCR
+      /begin AXIS_DESCR STD_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        12
+        0
+        10200
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -12906,6 +12924,25 @@ ASAP2_VERSION 1 51
       255
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC DTC_CODES
+      "adres podtverzhden | fault code table, 144 words, four entries per code"
+      CURVE
+      0x1653A
+      RL_GRID_UWORD
+      0
+      CM_IDENTITY
+      -0
+      65535
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        144
+        0
+        143
+        FIX_AXIS_PAR_DIST 0 1 144
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC WDKSLN
       "podtverzhdena | Throttle valve angle threshold for idle detection"
       CURVE
@@ -15435,6 +15472,44 @@ ASAP2_VERSION 1 51
       25.5
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC CURVE_19509
+      "adres podtverzhden | curve, input 0x90AC; length taken from the start of the next curve"
+      CURVE
+      0x19509
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        12
+        0
+        11
+        FIX_AXIS_PAR_DIST 0 1 12
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC CURVE_19515
+      "adres podtverzhden | curve over engine speed, input 0xF89E"
+      CURVE
+      0x19520
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_40_0_rpm
+        10
+        0
+        10200
+        AXIS_PTS_REF AX_19516_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC LIMTKOA
       "podtverzhdena | Time threshold to switch off the AC-compressor indefinitly"
       VALUE
@@ -15942,7 +16017,9 @@ ASAP2_VERSION 1 51
         G_full_load_lambda
         G_throttle_air_model
         G_axis_blocks
+        G_cpv_curves
         G_fuel_path
+        G_dtc_table
         G_fuel_path_unchanged
         G_other_regions
         G_saint_venant
@@ -16920,11 +16997,26 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
+    /begin GROUP G_cpv_curves
+      "cpv_curves"
+      /begin REF_CHARACTERISTIC
+        CURVE_19509
+        CURVE_19515
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
     /begin GROUP G_fuel_path
       "Toplivopodacha"
       /begin REF_CHARACTERISTIC
         KFLF
         FRKAP
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_dtc_table
+      "dtc_table"
+      /begin REF_CHARACTERISTIC
+        DTC_CODES
       /end REF_CHARACTERISTIC
     /end GROUP
 

@@ -456,6 +456,24 @@ def main(argv=None) -> int:
                a["offset"], a["n"] * 0 + a["factor"] * ((1 << (8 * a["width"])) - 1)))
 
     # --- карты ---------------------------------------------------------
+    # Оси, которые знает профиль, -- по имени карты. Опись их масштаба не
+    # хранит, и без этого заголовочная карта показывает сырые числа.
+    prof_ax: dict = {}
+
+    def _collect_ax(node):
+        if isinstance(node, dict):
+            nm_ = node.get("name")
+            if nm_ and (isinstance(node.get("x_axis"), dict)
+                        or isinstance(node.get("y_axis"), dict)):
+                prof_ax[nm_] = {"x": node.get("x_axis"), "y": node.get("y_axis")}
+            for v in node.values():
+                _collect_ax(v)
+        elif isinstance(node, list):
+            for v in node:
+                _collect_ax(v)
+
+    _collect_ax(profile)
+
     retracted: list = []
     for m in maps:
         raw_name = m.get("name") or ("MAP_%05X" % m["addr"])
@@ -550,10 +568,37 @@ def main(argv=None) -> int:
                           '        0\n        %d\n        FIX_AXIS_PAR_DIST 0 1 %d\n'
                           '      /end AXIS_DESCR' % (npts, npts - 1, npts))
             else:
+                # Оси заголовочной карты лежат в самом блоке, но ОПИСЬ не
+                # знает их масштаба -- отсюда CM_IDENTITY и сырые числа
+                # вместо оборотов. Если масштаб знает профиль, берём его:
+                # так у KFZWMN ось стала 1000..5000 об/мин вместо 25..125.
+                # ПЕРЕСЧЁТ БЕРЁТСЯ НЕ ПО ТОМУ ЧИСЛУ ТОЧЕК, КОТОРОЕ ТУТ
+                # ОБЪЯВЛЕНО. Счётчики точек читатель берёт из самого блока
+                # (первый счётчик -- строки), а пересчёты -- из AXIS_DESCR
+                # по порядку: первый идёт к столбцам, второй к строкам.
+                # То есть первый AXIS_DESCR надо снабдить пересчётом оси
+                # СТОЛБЦОВ, хотя объявлено в нём число строк. Проверено на
+                # KFZWMN: при «по порядку» обороты выходили с множителем
+                # нагрузки, 19..94 вместо 1000..5000.
+                cand = prof_ax.get(m.get("name") or "") or {}
+                want = m["nx"] if k == 0 else m["ny"]
+                pa = next((v for v in (cand.get("x"), cand.get("y"))
+                           if isinstance(v, dict) and int(v.get("n") or 0) == want),
+                          None)
                 amax = (1 << (8 * aw)) - 1
+                acm = "CM_IDENTITY"
+                if pa and pa.get("factor"):
+                    acm = cm_name(pa["factor"], pa.get("offset") or 0.0,
+                                  pa.get("unit", ""))
+                    b = cm_block(pa["factor"], pa.get("offset") or 0.0,
+                                 pa.get("unit", ""))
+                    if b:
+                        compus.setdefault(acm, b)
+                    amax = pa["factor"] * amax - (pa.get("offset") or 0.0)
                 descr += ('\n      /begin AXIS_DESCR STD_AXIS\n'
-                          '        NO_INPUT_QUANTITY\n        CM_IDENTITY\n        %d\n'
-                          '        0\n        %d\n      /end AXIS_DESCR' % (npts, amax))
+                          '        NO_INPUT_QUANTITY\n        %s\n        %d\n'
+                          '        0\n        %.6g\n      /end AXIS_DESCR'
+                          % (acm, npts, amax))
 
         cmt = "%s %s addr 0x%X" % (m.get("confidence", ""), m.get("source", ""), m["addr"])
         if m.get("addr_confirmed") and m.get("confidence") != "подтверждена":

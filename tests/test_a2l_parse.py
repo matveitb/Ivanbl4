@@ -266,6 +266,30 @@ def main():
     check(tax[0] == -30.75 and tax[-1] == 99.0,
           "RLLRTMO: ось по температуре %s .. %s" % (tax[0], tax[-1]))
 
+    # -- KFZWMN: адрес был ЗАГОЛОВКОМ, а карта читалась как голая сетка
+    #
+    # Из-за этого в карту попадали заголовок и обе оси, а последние
+    # ТРИДЦАТЬ байт данных обрезались -- и эти тридцать правят почти все
+    # авторы. Развязка: 0x14DC2 + 192 = 0x14E82, а 0x14E82 -- заголовок
+    # соседней KFZWMNST. Две карты сходятся встык, зазора нет.
+    Z = geometry.resolve(a2l, "KFZWMN", buf, am)
+    ZS = geometry.resolve(a2l, "KFZWMNST", buf, am)
+    check(Z.data_off == 0x14DC2 and (Z.nx, Z.ny) == (12, 16),
+          "KFZWMN: данные 0x%05X, %dx%d" % (Z.data_off, Z.nx, Z.ny))
+    # KFZWMNST записана по адресу ДАННЫХ, поэтому её заголовок считаем:
+    # данные минус два байта счётчиков и обе оси.
+    check(Z.end + 2 + Z.ny + Z.nx == ZS.data_off,
+          "KFZWMN кончается ровно на заголовке KFZWMNST: 0x%05X + 2 + %d + %d "
+          "= 0x%05X" % (Z.end, Z.ny, Z.nx, ZS.data_off))
+    zys = [round(v) for v in Z.y_axis.values(buf)]
+    zxs = [round(v, 2) for v in Z.x_axis.values(buf)]
+    check(zys[0] == 1000 and zys[-1] == 5000,
+          "KFZWMN: обороты по строкам %d..%d" % (zys[0], zys[-1]))
+    check(zxs[0] == 0.0 and zxs[-1] == 90.0,
+          "KFZWMN: нагрузка по столбцам %g..%g %%" % (zxs[0], zxs[-1]))
+    check(abs(M.read_phys(buf, Z)[0][0] + 9.0) < 1e-9,
+          "KFZWMN: первая ячейка %g град" % M.read_phys(buf, Z)[0][0])
+
     # -- кривая с синтетической осью
     C = geometry.resolve(a2l, "SGA08MDUB", buf, am)
     check(C.ctype == "CURVE" and C.ny == 1,
