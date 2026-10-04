@@ -60,6 +60,13 @@ def _titles() -> dict:
         return {}
     for key, ru in SECTION_TITLES.items():
         out[ident("G_" + translit(key), set())] = ru
+    # смысловые группы (tools/categories.py): заголовок и есть русское имя
+    try:
+        from categories import ORDER
+    except Exception:                                       # noqa: BLE001
+        ORDER = []
+    for ru in ORDER:
+        out[ident("G_" + translit(ru), set())] = ru
     return out
 
 
@@ -175,7 +182,9 @@ class Project:
 
         groups = [g for g in self.a2l.groups.values() if not g.root]
         if groups:
-            for g in sorted(groups, key=lambda g: -len(g.characteristics)):
+            # Порядок групп -- как в описании: генератор кладёт их по тракту
+            # (зажигание, детонация, воздух...), а не по размеру.
+            for g in groups:
                 kept = [n for n in g.characteristics if n in known]
                 if kept:
                     root.children.append(

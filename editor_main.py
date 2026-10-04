@@ -130,7 +130,7 @@ def selftest() -> int:
     import saving
 
     p = proj.Project.open(a2l_path, work)
-    check(len(p.layouts) > 500, "описание разобрано: карт %d" % len(p.layouts))
+    check(len(p.layouts) > 400, "описание разобрано: карт %d" % len(p.layouts))
     # Русские названия лежат ОТДЕЛЬНЫМ файлом рядом с A2L. В сборке он
     # оказывается там только если его туда положили -- проверяем, иначе
     # соберётся .exe, где всё подписано по-бошевски, и заметит это человек.
@@ -141,7 +141,7 @@ def selftest() -> int:
           "русские названия на месте: %d, KFZW -> %s"
           % (len(p.ru), p.title("KFZW")))
     # итог проверки по коду -- тоже отдельный файл рядом с A2L
-    check(len(p.check) > 500 and p.proof("KLLAMFA_0"),
+    check(len(p.check) > 400 and p.proof("KLLAMFA_0"),
           "проверка по коду на месте: %d карт" % len(p.check))
     check(p.csum_table >= 0,
           "таблица сумм найдена: 0x%X" % p.csum_table)

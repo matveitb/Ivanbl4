@@ -84,7 +84,8 @@ _MANUAL = {
     "docs/13 отсечка, масштаб по паспортным 6700": (
         "NMAX NMAXDV DNMAXH TNMAXDV NMXDKPU"),
     "docs/26 тракт ДМРВ, диспетчер по режимам": (
-        "KFKHFM KFPU KFPUSU KFPUNW KFPUSUNW KLAF KFMSNWDK"),
+        "KFKHFM KFPU KFPUSU KFPUNW KFPUSUNW KLAF KFMSNWDK PUKANS KFRLW"),
+    "docs/20, 36 подсос и адаптация расхода": "CWFKMSDKA KIMSALL MSALLMN MSALLMX MSLG",
 }
 MANUAL = {n: doc for doc, names in _MANUAL.items() for n in names.split()}
 
@@ -508,8 +509,11 @@ def main(argv=None) -> int:
             v = "адрес из кода, смысл нечем проверить"
         else:
             v = "кода нет"
-        man = MANUAL.get(base(n))
-        c7 = ctp7.get(n) or ctp7.get(base(n))
+        man = MANUAL.get(n) if not re.search(r"_[0-9A-F]{5}$", n) else None
+        # ТОЛЬКО по точному имени. По имени без суффикса адреса CTP7
+        # доставался и отвергнутому двойнику: ETALAM_10515, WDKSLN_18FCB
+        # ходили в "подтверждено CTP7", хотя CTP7 видел совсем другой адрес.
+        c7 = ctp7.get(n)
         if c7 and v not in ("противоречит", "смысл и место сходятся"):
             ev = ["CTP7: " + c7, "автоматическая проверка: " + v] \
                 + (["разобрано вручную: " + man] if man else []) + ev

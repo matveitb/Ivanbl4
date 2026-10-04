@@ -40,8 +40,24 @@ def main():
     # Порог опущен дважды: сперва убраны карты, лезущие на чужие байты,
     # потом -- все НЕПОДТВЕРЖДЁННЫЕ. Осталось то, на что есть ссылка из
     # кода. Меньше карт, но каждая чем-то подтверждена.
-    check(len(a2l.characteristics) > 500,
+    # Теперь ещё и только ПРОВЕРЕННЫЕ смыслом (docs/37): около 450. Ниже
+    # 400 -- значит фильтр выкинул лишнее.
+    check(len(a2l.characteristics) > 400,
           "карт разобрано: %d" % len(a2l.characteristics))
+    import json
+    import re
+    chk = json.load(open(os.path.join(ROOT, "results", "FBH3ID60_legacy_all.check.json"),
+                         encoding="utf-8"))
+    ok_v = {"смысл и место сходятся", "место доказано рядом",
+            "разобрано вручную", "подтверждено CTP7"}
+    weak = [n for n in a2l.characteristics if chk.get(n, {}).get("verdict") not in ok_v]
+    check(not weak, "в чистом описании только проверенное: без доказательства %s"
+          % (weak[:5] or "ни одной"))
+    twins = [n for n in a2l.characteristics if re.search(r"_[0-9A-F]{5}$", n)
+             and not n.startswith(("MAP_", "CURVE_", "GRID_"))]
+    check(not twins, "двойников со старых адресов нет: %s" % (twins[:5] or "ни одного"))
+    check("RLVMXN" in a2l.characteristics and "RLVSMXN" in a2l.characteristics,
+          "RLVMXN и RLVSMXN под своими именами")
     check(len(a2l.axis_pts) >= 6, "осей-объектов: %d" % len(a2l.axis_pts))
     check(len(a2l.compu) > 60, "пересчётов: %d" % len(a2l.compu))
     check(len(a2l.layouts) >= 13, "раскладок: %d" % len(a2l.layouts))
@@ -325,8 +341,11 @@ def main():
     check("SUA08FEUB" not in a2l.characteristics,
           "SUA08FEUB отозвана: код читает там кривую по t ОЖ")
 
-    # -- кривая с синтетической осью
-    C = geometry.resolve(a2l, "SGA08MDUB", buf, am)
+    # -- кривая с синтетической осью. SGA08MDUB смысла не доказала и в
+    #    чистом описании её нет, поэтому -- из полного
+    a2l_all = model.load(os.path.join(ROOT, "results", "FBH3ID60_legacy_all.a2l"))
+    C = geometry.resolve(a2l_all, "SGA08MDUB", buf,
+                         geometry.detect_addressing(a2l_all, len(buf)))
     check(C.ctype == "CURVE" and C.ny == 1,
           "SGA08MDUB: кривая %dx%d" % (C.nx, C.ny))
 

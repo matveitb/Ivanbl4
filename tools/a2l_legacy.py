@@ -423,6 +423,10 @@ def main(argv=None) -> int:
                     help="образ прошивки: по нему проверяются оси и "
                          "разрешаются перекрытия. Без него описание всё равно "
                          "выпускается, но непроверенным")
+    ap.add_argument("--only-verified", metavar="CHECK_JSON",
+                    help="оставить только карты, у которых проверка смыслом "
+                         "(tools/meaning.py --sidecar) доказала место или смысл; "
+                         "двойники со старых адресов (ИМЯ_АДРЕС) убираются всегда")
     ap.add_argument("--xfer",
                     default=os.path.join(os.path.dirname(os.path.dirname(
                         os.path.abspath(__file__))), "results", "damos_перенос.json"),
@@ -595,7 +599,16 @@ def main(argv=None) -> int:
                     m["unit"] = xv.get("x_unit") or ""
                     if re.search(r"_s[bw]_", xv.get("x_conv", "")):
                         m["signed"] = True
-        if raw_name in prof_named and m["addr"] not in prof_named[raw_name]:
+        # Не спор, если профиль указывает на СЧЁТЧИК этой же карты: так
+        # RLVMXN (профиль 0x182B6, опись 0x182B7) выходила под именем
+        # RLVMXN_182B7, а настоящего RLVMXN в описании не было вовсе.
+        n_pts = m["nx"] * max(1, m.get("ny") or 1)
+        same_from_count = image is not None and any(
+            0 < m["addr"] - pa <= 2
+            and int.from_bytes(image[pa:m["addr"]], "little") == n_pts
+            for pa in prof_named.get(raw_name, ()))
+        if raw_name in prof_named and m["addr"] not in prof_named[raw_name] \
+                and not same_from_count:
             disputed.append((raw_name, m["addr"],
                              sorted(prof_named[raw_name])[0],
                              verdicts.get(raw_name, {}).get("evidence", "")))
@@ -1084,25 +1097,55 @@ def main(argv=None) -> int:
 
     # --- разрешение перекрытий ------------------------------------------
     chars, meta, dropped, unresolved = resolve_overlaps(chars, meta)
+
+    # --- только проверенное -----------------------------------------------
+    # Чистое описание для работы: карта остаётся, только если проверка
+    # смыслом доказала её место или смысл (по коду, рядом с доказанными,
+    # ручным разбором или сверкой с CTP7). Двойник со старого адреса
+    # (ИМЯ_АДРЕС) -- это адрес, который код опроверг, его не оставляем
+    # никогда. Всё выброшенное остаётся в полном описании (_all).
+    unverified: list = []
+    if args.only_verified:
+        chk = json.load(open(args.only_verified, encoding="utf-8"))
+        ok_v = {"смысл и место сходятся", "место доказано рядом",
+                "разобрано вручную", "подтверждено CTP7"}
+        keep_ix = []
+        for i, d in enumerate(meta):
+            n = d["name"]
+            twin = re.search(r"_[0-9A-F]{5}$", n) and not n.startswith(
+                ("MAP_", "CURVE_", "GRID_"))
+            if not twin and (chk.get(n) or {}).get("verdict") in ok_v:
+                keep_ix.append(i)
+            else:
+                unverified.append(n)
+        chars = [chars[i] for i in keep_ix]
+        meta = [meta[i] for i in keep_ix]
     kept = {d["name"] for d in meta}
     for sec in list(groups):
         groups[sec] = [n for n in groups[sec] if n in kept]
 
     # --- группы ---------------------------------------------------------
+    # По смыслу, а не по тому, как карта найдена: зажигание, детонация,
+    # воздух... (tools/categories.py). Порядок -- по тракту, фиксированный.
+    import categories
+    by_cat: dict[str, list[str]] = {}
+    for sec, names in groups.items():
+        for n in names:
+            by_cat.setdefault(categories.category(n, sec), []).append(n)
     group_objs: list[str] = []
     sub_names: list[str] = []
-    for sec in sorted(groups, key=lambda k: (-len(groups[k]), k)):
-        names = groups[sec]
+    for cat in categories.ORDER:
+        names = sorted(by_cat.get(cat, []))
         if not names:
             continue
-        gname = ident("G_" + translit(sec), used)
+        gname = ident("G_" + translit(cat), used)
         sub_names.append(gname)
         refs = "\n".join("        " + n for n in names)
         group_objs.append(
             '\n    /begin GROUP %s\n      "%s"\n'
             '      /begin REF_CHARACTERISTIC\n%s\n      /end REF_CHARACTERISTIC\n'
             '    /end GROUP\n'
-            % (gname, comment(SECTION_TITLES.get(sec, sec)), refs))
+            % (gname, comment(cat), refs))
     if group_objs:
         subs = "\n".join("        " + n for n in sub_names)
         group_objs.insert(0,
@@ -1174,6 +1217,10 @@ def main(argv=None) -> int:
               % (len(axis_fixed), ", ".join(axis_fixed[:4])), file=sys.stderr)
     if ctp7_up:
         print("  ИМЯ ПОДТВЕРЖДЕНО CTP7: %d (%s)" % (len(ctp7_up), ", ".join(ctp7_up)),
+              file=sys.stderr)
+    if args.only_verified:
+        print("  ТОЛЬКО ПРОВЕРЕННОЕ: убрано %d карт без доказанного места или "
+              "смысла (они остаются в полном описании)" % len(unverified),
               file=sys.stderr)
     if retracted:
         print("  ОТОЗВАНО РАЗБОРОМ: %d" % len(retracted), file=sys.stderr)

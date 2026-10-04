@@ -45,7 +45,7 @@ HIDDEN = [
     # окно
     "main_window", "tree", "grid", "plot2d", "plot3d", "palette", "diffview",
     # инструменты проекта, которые ядро зовёт по имени
-    "fwlib", "bosch_csum", "fwdiff", "torque", "a2l_legacy",
+    "fwlib", "bosch_csum", "fwdiff", "torque", "a2l_legacy", "categories",
 ]
 
 DATAS = [

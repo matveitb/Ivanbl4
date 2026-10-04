@@ -56,7 +56,7 @@ def main():
     # Точное число не закрепляем: оно меняется, когда генератор выбрасывает
     # карты, лезущие на чужие байты. Закрепляем то, что должно держаться
     # всегда -- описание разобралось целиком и непусто.
-    check(len(p.layouts) == len(p.a2l.characteristics) > 500,
+    check(len(p.layouts) == len(p.a2l.characteristics) > 400,
           "карт разобрано: %d" % len(p.layouts))
     check(p.csum_table == 0x1FC00,
           "таблица сумм найдена сама: 0x%X" % p.csum_table)
@@ -66,7 +66,9 @@ def main():
     check(t.count == len(p.layouts),
           "в дереве все карты: %d в %d группах" % (t.count, len(t.children)))
     titles = [c.title for c in t.children]
-    check("Моментная модель" in titles and "Цикловое наполнение" in titles,
+    # группы по смыслу и в порядке тракта (tools/categories.py)
+    check("Моментная модель" in titles and "Воздух и наполнение (ДМРВ)" in titles
+          and titles[0] == "Зажигание",
           "группы названы по-русски, среди них: %s" % ", ".join(titles[:3]))
     dup = t.count - len({n for c in t.children for n in c.maps})
     check(dup == 0, "ни одна карта не попала в две группы")
