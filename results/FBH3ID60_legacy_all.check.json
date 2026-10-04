@@ -1,0 +1,3999 @@
+{
+"ADKATNF": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"AGREDRLS": {
+"verdict": "кода нет",
+"evidence": []
+},
+"AHKATMN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8496CA сравнивается с 0x8906 (fak)"
+]
+},
+"AHKATS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"AHKATSB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x849756 сравнивается с 0x8906 (fak)",
+"0x84976E сравнивается с 0x8906 (fak)"
+]
+},
+"AHKTMXT": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"AINTKAN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x868834 вход 0x9084 (nmot)"
+]
+},
+"ANALUN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ANZDYNSH": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"APEKTDX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ATMABKA": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x845E2C вход 0x93FE (t1sxs)",
+"0x845E58 вход 0x93FE (t1sxs)"
+]
+},
+"ATMABKK": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x845E98 вход 0x93FE (t1sxs)",
+"0x845EC4 вход 0x93FE (t1sxs)"
+]
+},
+"ATMTANS": {
+"verdict": "кода нет",
+"evidence": []
+},
+"AVKATFS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"AZKELDYN_0_A": {
+"verdict": "кода нет",
+"evidence": []
+},
+"BTRKHTMS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCAAA": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCAGRF": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCAGRL": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCAGRV": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCAHC": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCBM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCDK": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCDUMMY": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCEGFE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCEV1": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCEV2": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCEV3": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCEV4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCEV5": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCEV6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCFRAO": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCFRAU": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCFRST": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCGE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCHSH": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCHSHE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCHSV": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCHSVE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKAT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKOSE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKPE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKRNT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKROF": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKRTP": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKS1": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKS2": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKS3": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCKS4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCLASH": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCLATP": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCLATV": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCLLR": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCLM": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCLSH": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCLSV": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCLUEA": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCMD01": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCMD02": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCMD03": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCMFA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCMFB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCPH": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCPUA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCRKAT": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDCRKAZ": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCSGROM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCSWE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCTA": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCTES": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCTEVE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCTHM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCTM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCUB": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCVFZ": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCZOE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCZSE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CDCZZZ": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CDKATLK": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"CL30LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL31LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL32LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL33LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL34LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL35LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL36LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL37LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL38LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CL39LINE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLAFRAO": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLAFRAU": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLAHSH": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLAHSV": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLAKAT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLALASH": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLALATP": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLALATV": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLALSH": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CLARKAT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"CURVE_11A2E": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CURVE_19509": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CURVE_19515": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CWDKRNT": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"CWDKROF": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"CWDKRTP": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"CWDLSAHK": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"CWFKMSDKA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CWGGLSV": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"CWLAMBTS": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/32 топливо",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"CWMDAPP": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CWPKAPP": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"CWSAWE": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DETANN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"DETAPN": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DEVTMAGR": {
+"verdict": "кода нет",
+"evidence": []
+},
+"DFAUWKN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BBF4 вход 0x904E (nmot)"
+]
+},
+"DFAWKN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BC2A вход 0x904E (nmot)"
+]
+},
+"DFPSLBIT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"DIAG_FLAGS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DKATCW": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DKROKMX": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DKROKU": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x84FE58 сравнивается с 0xF89E (nmot)"
+]
+},
+"DLURMIN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"DMDKOE": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84014A вход 0xF89E (nmot)"
+]
+},
+"DMLLNGV": {
+"verdict": "кода нет",
+"evidence": []
+},
+"DMLLRIMXN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F866 вход 0x907E (nmot)"
+]
+},
+"DMLLRLMNN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F9D0 вход 0x907E (nmot)"
+]
+},
+"DMLLRLMXN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F9B2 вход 0x907E (nmot)"
+]
+},
+"DMLLRMNN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F370 вход 0x907E (nmot)"
+]
+},
+"DMLLRMXN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F35E вход 0x907E (nmot)"
+]
+},
+"DMSTES": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DNDTEO": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DNDTEU": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DNEVTMOD": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DNLBZ": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DNMAXH": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/13 отсечка, масштаб по паспортным 6700",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"DNSAH": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DNSAL": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DNSATIP": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DNSLL": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DNVSA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DNWEELLS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DNWEK": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DPUPVDK": {
+"verdict": "кода нет",
+"evidence": []
+},
+"DRLKTDP": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DRLKTDPT": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DTC_CODES": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"DTLRTML": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DTVKAML": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DTVKAML2": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DVNG": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F3A0 вход 0x9078 (nmotg)"
+]
+},
+"DVNGV": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F38E вход 0x9078 (nmotg)"
+]
+},
+"DVSA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DWKRMSN": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x84E470 вход 0x9054 (nmot)"
+]
+},
+"DYADS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DYAFVS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DYAVF": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"DZWETA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"DZWSPM": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ENSAKHG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ETADZW": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ETALAM": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"ETALAM_10515": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ETAZWTEN": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"EVTMODO": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FABMDWA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FAGRH": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FALRKTD": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FALRKTT": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FATMRML": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x845B9E вход 0x904C (m)",
+"0x845BF8 вход 0x904C (m)"
+]
+},
+"FDDN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F3B0 вход 0x91EE (nmotd)"
+]
+},
+"FDVANS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x843EAC вход 0x8AB9 (temp)"
+]
+},
+"FFRITMS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84AA74 вход 0x8AB3 (temp)"
+]
+},
+"FFTEV6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FFTFRAO": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FFTFRAU": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FFTFRST": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FFTGE": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FFTHSH": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FFTHSHE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FFTHSV": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FFTHSVE": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FFTKAT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FFTKOSE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FFTKPE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FKADPMN": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKAXAVKAT": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKDISA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKEFMC": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKELDY": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKELDYA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKENDY": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKHLA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKHMD": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FKKVS": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FKODASH": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FKRFTPFMC": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FLRAG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FLRAWG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FLRHG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FMDKHFH": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84D76E вход 0xADA1 (fak)"
+]
+},
+"FMDKHTM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84D782 вход 0x8AB4 (temp)"
+]
+},
+"FNSA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FNSHO": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x851DA8 вход 0xADA1 (fak)"
+]
+},
+"FNSKHLL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FNSSM_0_A": {
+"verdict": "величина сходится",
+"evidence": [
+"0x8499AE сравнивается с 0x94E4 (fak)",
+"0x849AEE сравнивается с 0x94E4 (fak)",
+"0x84A110 сравнивается с 0x94E4 (fak)"
+]
+},
+"FNSSTM": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83F138 вход 0x8AB4 (temp)"
+]
+},
+"FNSTABNV": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FPVMXN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FPVMXN2": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FQTEPT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FQTEVA": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FRAOMN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRAOMX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRAORN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRAORX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRARAG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRARAWG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRARHG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRATMN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRATMX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRAUMN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRAUMX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRAURN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRAURX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRHB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FRINH1": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FRKAP": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FRLFSDP": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FSTHO": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x851A66 вход 0xADA1 (fak)"
+]
+},
+"FSWALUV": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83C67A вход 0x881D (vfzg)"
+]
+},
+"FSZTM": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83E54A вход 0x8AB4 (temp)"
+]
+},
+"FTEADAB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FTEADMX": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FTEFHB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FTEHB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FTMLAKH": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84D4E4 вход 0x8AB4 (temp)"
+]
+},
+"FUGKUE": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FUKNSTM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"FUMRBRK": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FVDASHM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83CC60 вход 0x8AB4 (temp)"
+]
+},
+"FVERZDYN": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"FWFTBRTA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FZN0": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8429FE вход 0x9090 (nmot)"
+]
+},
+"FZN1": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x842A20 вход 0x9090 (nmot)"
+]
+},
+"FZN2": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x842A42 вход 0x9090 (nmot)"
+]
+},
+"FZN3": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x842A64 вход 0x9090 (nmot)"
+]
+},
+"FZN4": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FZN5": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FZN6": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FZN7": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"FZNWN0": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8429F0 вход 0x9090 (nmot)"
+]
+},
+"FZNWN1": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x842A12 вход 0x9090 (nmot)"
+]
+},
+"FZNWN2": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x842A34 вход 0x9090 (nmot)"
+]
+},
+"FZNWN3": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x842A56 вход 0x9090 (nmot)"
+]
+},
+"FZPUSA": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8443B6 вход 0x881D (vfzg)",
+"0x8446C8 вход 0x881D (vfzg)"
+]
+},
+"GFDLDN": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83F8BC вход 0x91EE (nmotd)",
+"0x83F8E8 вход 0x91EE (nmotd)"
+]
+},
+"GRID_116_112DF_4x49": {
+"verdict": "кода нет",
+"evidence": []
+},
+"GRID_326_1637C_16x7": {
+"verdict": "кода нет",
+"evidence": []
+},
+"GRID_528_197BC_10x10": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"IMSDTEVA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"IVDN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F6E2 вход 0x920A (nmotd)"
+]
+},
+"IVDNDTE": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F6B4 вход 0x920A (nmotd)"
+]
+},
+"KATBFMNT": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KATBFN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KATBFNM": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KATBFNP": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KATBFSX": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83A316 сравнивается с 0x890D (fak)",
+"0x83A322 сравнивается с 0x890D (fak)",
+"0x849168 сравнивается с 0x890D (fak)"
+]
+},
+"KATBSG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KATBSH": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KATBSHG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KATMEXML": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x845CB6 вход 0x904C (m)",
+"0x845CD6 вход 0x904C (m)"
+]
+},
+"KDLASHKI": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KE1N": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KE2N": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KE3N": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KE4N": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KE5N": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KE6N": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KE7N": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KE8N": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KEMLN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFABAK": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFABAK_1931E": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFAGRS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFATMLA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFATMZW": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFAVAK": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFAVAK_1935D": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFBAKL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFBAKL_1939C": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFDETATE": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFDLUR2": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFDLURZ": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFDMDARO": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFDMDARU": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFDMDFA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFDMDFAS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFDMDFAU": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFDTMTE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFDTMTR": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFDYESOF": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFDYES_0_A": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFDZWKG": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFEKWTMP": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x84D6E4 вход 0xF89E (nmot)"
+]
+},
+"KFETATE": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFETAZW": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83B07C вход 0xF86B (rel)",
+"0x83B07C вход 0xF89E (nmot)"
+]
+},
+"KFETAZWN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83B094 вход 0xF86B (rel)",
+"0x83B094 вход 0xF89E (nmot)"
+]
+},
+"KFFDLBTS__kandidat": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFFRAT": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFFRMIN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFFTAGRV": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8451D4 вход 0xF89E (nmot)"
+]
+},
+"KFFTDAG": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x845224 вход 0xF89E (nmot)"
+]
+},
+"KFFTEAX": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x857518 вход 0x8AB9 (temp)",
+"0x857518 вход 0xF86A (m)"
+]
+},
+"KFFTV": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFFWK_0_A": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFFWL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFIDTHM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8616B0 вход 0x8AB3 (temp)"
+]
+},
+"KFKHFM": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/26 тракт ДМРВ, диспетчер по режимам",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KFKSWF": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFLASWLR": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFLBTS": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/32 топливо",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KFLF": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/32 топливо",
+"автоматическая проверка: место доказано рядом",
+"0x8517D0 вход 0xF86B (rel)"
+]
+},
+"KFLMSKH": {
+"verdict": "величина сходится",
+"evidence": [
+"0x84D982 вход 0xF86B (rel)",
+"0x84D982 вход 0xF89E (nmot)"
+]
+},
+"KFLUAR2": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFLUARZ": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFLURB1": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFLURB2": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFLURBZ": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFLURM1": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFMAKR": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFMDDAGR": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x85B138 вход 0xF89E (nmot)"
+]
+},
+"KFMDKO": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x840136 вход 0xF89E (nmot)"
+]
+},
+"KFMDS": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/14, 16 моментная модель, сверка с паспортным пиком 4500",
+"автоматическая проверка: кода нет"
+]
+},
+"KFMIDSH0": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83CB24 вход 0xF89E (nmot)"
+]
+},
+"KFMIDSH1": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83CB3C вход 0xF89E (nmot)"
+]
+},
+"KFMIDSH2": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83CB54 вход 0xF89E (nmot)"
+]
+},
+"KFMIDSH3": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83CB6C вход 0xF89E (nmot)"
+]
+},
+"KFMIOP": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83B2A8 вход 0x9094 (nmot)",
+"0x83B604 вход 0x9094 (nmot)"
+]
+},
+"KFMIRED": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFMIRL": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/14, 16 моментная модель, сверка с паспортным пиком 4500",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KFMPED": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83B1C8 вход 0x89F3 (rel)",
+"0x83B1C8 вход 0xF89E (nmot)"
+]
+},
+"KFMSNWDK": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/26 тракт ДМРВ, диспетчер по режимам",
+"автоматическая проверка: кода нет"
+]
+},
+"KFNLLKHM": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x84D408 вход 0x8AB4 (temp)",
+"0x84D408 вход 0xADA1 (fak)"
+]
+},
+"KFPSDMX": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFPU": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/26 тракт ДМРВ, диспетчер по режимам",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KFPUSU": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/26 тракт ДМРВ, диспетчер по режимам",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KFPUSUNW": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/26 тракт ДМРВ, диспетчер по режимам",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KFQTE": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFRI": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFRI2": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFRINH": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFRLW": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFRLW_1B3F3": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFRP": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFRP2": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFRTV": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFRTV2": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFSU": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFSU2": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFSZT": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83E55E вход 0x8A93 (spg)",
+"0x83E55E вход 0xF89E (nmot)"
+]
+},
+"KFTADMS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFTATM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x845888 вход 0xF86B (rel)",
+"0x845888 вход 0xF89E (nmot)"
+]
+},
+"KFTATX": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x856CCA вход 0xF89E (nmot)"
+]
+},
+"KFTEKA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFTEVP": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x857954 вход 0xF89E (nmot)"
+]
+},
+"KFTKONS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8568B2 вход 0x8AB3 (temp)",
+"0x8568B2 вход 0xADA1 (fak)"
+]
+},
+"KFTPKOR": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x847DCC вход 0xF86B (rel)",
+"0x847DCC вход 0xF89E (nmot)"
+]
+},
+"KFTVSA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFTVTEV": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x85796C вход 0x8A93 (spg)",
+"0x85796C вход 0x8AB9 (temp)"
+]
+},
+"KFURL3SU": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFURLSU": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFUSHK": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFVAKL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFWEE": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFWEEK": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFWK_0_A": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFWMABG": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFWMKAT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFZKPUA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KFZMDFA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFZMDFAS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFZMDFAU": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFZW": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/14, 16 моментная модель, сверка с паспортным пиком 4500",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"KFZW2": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFZWMN": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KFZWMNST": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: кода нет"
+]
+},
+"KFZWMS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KFZWNWSUE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFZWOP": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/14, 16 моментная модель, сверка с паспортным пиком 4500",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"KFZWWLNM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KFZWWLTM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KHCTEMN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KHCTEMX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KIFZGAG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KIFZGAWG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KIFZGHG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KIMSALL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KLAF": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/26 тракт ДМРВ, диспетчер по режимам",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KLAFTE": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KLATMLAE": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KLATMZWE": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KLDTMRS": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KLDYMNT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KLESUKKO": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KLKESUKFS": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KLKESUKKO": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KLLAMFA_0": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: величина сходится",
+"0x8551DC вход 0xF89E (nmot)"
+]
+},
+"KLLAMFA_0_A": {
+"verdict": "кода нет",
+"evidence": []
+},
+"KLLAMFA_1": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: величина сходится",
+"0x8551DC вход 0xF89E (nmot)"
+]
+},
+"KLMDLOAD2": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x8402F2 вход 0x8AB4 (temp)"
+]
+},
+"KRAL1N": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84E484 вход 0x9054 (nmot)"
+]
+},
+"KRAL2N": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84E498 вход 0x9054 (nmot)"
+]
+},
+"KRDWA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRDWKLA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRDWSA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRDWSN": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRFHT": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KRFKN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84EEAA вход 0x9054 (nmot)"
+]
+},
+"KRFTP1": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRFTP2": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRFTP3": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRKFKS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRKTE": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/32 топливо",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"KRLMDY": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRMXN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84EE6E вход 0x9054 (nmot)"
+]
+},
+"KRNLZAR": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KRNMDY": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KRVFN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84EE82 вход 0x9054 (nmot)"
+]
+},
+"KRVST": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KSZA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"KSZWE": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"KUMSRL": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/20, 27, 34 наполнение",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"LAMKAML": {
+"verdict": "кода нет",
+"evidence": []
+},
+"LAMKAML2": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"LASWLTM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"LIMTKOA": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"LIMXDNS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F600 вход 0x920C (nmotd)"
+]
+},
+"LIMXVDNS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F5E8 вход 0x920C (nmotd)"
+]
+},
+"LISTM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F48E вход 0x9066 (temp)",
+"0x83F68C вход 0x9066 (temp)"
+]
+},
+"LKRN": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x84EE5A вход 0x9054 (nmot)"
+]
+},
+"LMSTMOT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"LNXQTM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"LURBRL8": {
+"verdict": "кода нет",
+"evidence": []
+},
+"LURKH": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"LURKTM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"LURMIN1": {
+"verdict": "кода нет",
+"evidence": []
+},
+"LURMIN2": {
+"verdict": "кода нет",
+"evidence": []
+},
+"LURMIN3": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_056_10D9A_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_115_112C2_14": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_120_11567_8": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_123_11595_8": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_124_115EC_7": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_125_115FB_7": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_127_11616_8": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_128_11673_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_129_1168B_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_130_11698_12": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_131_116B2_6x6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_132_116E5_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_134_11986_5x6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_137_11A1A_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_139_11A40_10x10": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_152_11AD4_16x12": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_171_124D4_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_172_128BD_21": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_175_14915_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_181_14998_10": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_182_149B8_10": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_183_149D8_10": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_189_14BC5_12": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_208_14F60_8": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_209_14F7F_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_211_14FF7_5": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_212_15005_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_221_15261_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_222_15281_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_223_152A1_6x7": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_224_15311_7": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_225_15331_7": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_226_15362_8x24": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_227_15528_12": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_228_15559_16": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_247_15BCB_7": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_248_15C2D_7": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_261_15F88_12": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_303_1611B_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_309_16156_5": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_394_1854A_5": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_395_1856E_8": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_399_18613_10x8": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_407_18768_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_409_1879A_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_422_188CA_5": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_446_18BBA_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_452_18C2A_8": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_453_18C7C_8": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_454_18CCE_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_456_18CE9_8": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_458_18D3B_8": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_476_18E8E_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_482_18F3D_4": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_484_18F61_4": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_485_18F71_4": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_486_18FA2_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_487_18FB2_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_512_193E0_9": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_521_196F8_5": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_523_19719_8": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_525_1976E_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_526_1977E_5": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_527_1979E_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_533_198B4_5": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_537_19950_14": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_541_19A2F_20": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_543_19A6B_20": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_544_19AAC_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_561_1A692_12": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_565_1A84A_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_566_1A88A_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_568_1A945_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_569_1A965_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_572_1AA3A_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_573_1AB22_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_574_1AC8F_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_575_1ADDB_5": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_576_1AEC3_6": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_577_1AF14_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_578_1B0C2_5": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_585_1B497_8": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_587_1B5E1_6": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_588_1B612_5": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_602_1B8C0_5": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_603_1B91F_5": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MAP_608_1B9EC_4": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_614_1BC7A_8": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MAP_623_1BD71_5": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MDIMX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"MDLF1": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"MDLF2": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"MDLFE1": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"MDLFE2": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"MDST": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"MKLWON": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BB3C вход 0x904E (nmot)"
+]
+},
+"MKLWOWKN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BB1E вход 0x904E (nmot)"
+]
+},
+"MKLWSAN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BB8C вход 0x904E (nmot)"
+]
+},
+"MKLWUN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BBAA вход 0x904E (nmot)"
+]
+},
+"MKLWUWKN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BB66 вход 0x904E (nmot)"
+]
+},
+"MLSUS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84CEA8 вход 0x8AB3 (temp)"
+]
+},
+"MRFAVW": {
+"verdict": "кода нет",
+"evidence": []
+},
+"MSALLMN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84395C сравнивается с 0x9374 (m)"
+]
+},
+"MSALLMX": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x843942 сравнивается с 0x9374 (m)",
+"0x84394A сравнивается с 0x9374 (m)"
+]
+},
+"MSLG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"MSNTATE": {
+"verdict": "кода нет",
+"evidence": []
+},
+"NARASTG": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83A9D4 сравнивается с 0xF89E (nmot)"
+]
+},
+"NDFILOG": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"NDKTSOT": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83A27A сравнивается с 0xF89E (nmot)",
+"0x8490C4 сравнивается с 0xF89E (nmot)"
+]
+},
+"NDKTSUT": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83A270 сравнивается с 0xF89E (nmot)",
+"0x8490B6 сравнивается с 0xF89E (nmot)"
+]
+},
+"NDSVL": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x85076A сравнивается с 0xF89E (nmot)"
+]
+},
+"NFSKHM": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"NFSM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83ED18 вход 0x9066 (temp)"
+]
+},
+"NKTDX": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83A350 сравнивается с 0xF89E (nmot)",
+"0x848C24 сравнивается с 0xF89E (nmot)",
+"0x84960E сравнивается с 0xF89E (nmot)"
+]
+},
+"NLLM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83ED04 вход 0x9066 (temp)",
+"0x868270 вход 0x9066 (temp)",
+"0x86828A вход 0x9066 (temp)"
+]
+},
+"NMAX": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/13 отсечка, масштаб по паспортным 6700",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"NMAXDV": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/13 отсечка, масштаб по паспортным 6700",
+"автоматическая проверка: место доказано рядом",
+"0x83BEA8 сравнивается с 0xF8A0 (nmot)"
+]
+},
+"NMAXPRL": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83BFC0 вход 0xF86B (rel)"
+]
+},
+"NMOTNGAS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"NMXDAEF": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"NMXDKPU": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/13 отсечка, масштаб по паспортным 6700",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"NNSTA": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x833688 вход 0x8AB9 (temp)"
+]
+},
+"NO1": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853E98 сравнивается с 0xF89E (nmot)",
+"0x853F42 сравнивается с 0xF89E (nmot)"
+]
+},
+"NOLRA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"NSLPP": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"NSLPPFS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"NSTNM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x833666 вход 0x8AB4 (temp)"
+]
+},
+"NTANS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83EEC8 вход 0x8AB9 (temp)"
+]
+},
+"NU3": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853E80 сравнивается с 0xF89E (nmot)",
+"0x853F2A сравнивается с 0xF89E (nmot)"
+]
+},
+"NWECVTM": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83E6BA вход 0x9062 (temp)"
+]
+},
+"PAGAVML": {
+"verdict": "кода нет",
+"evidence": []
+},
+"PHLSNHMN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"PHLSNVMN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"PLRHAV": {
+"verdict": "кода нет",
+"evidence": []
+},
+"PLRHML": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"PUKANS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"PVDN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F29E вход 0x920A (nmotd)"
+]
+},
+"PVLDN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F940 вход 0x920A (nmotd)"
+]
+},
+"PVLDNV": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F916 вход 0x920A (nmotd)"
+]
+},
+"PZWKRA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"QDPSLL": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x85077E сравнивается с 0xF86A (m)"
+]
+},
+"REDZEM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83C09A вход 0x8AB4 (temp)"
+]
+},
+"REFINI": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"RKBAUM": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"RKRMX1N": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"RKRMX2N": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"RKVAUM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"RLDKTOT": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83A29C сравнивается с 0xF86B (rel)",
+"0x8490E0 сравнивается с 0xF86B (rel)"
+]
+},
+"RLDKTUT": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83A292 сравнивается с 0xF86B (rel)",
+"0x8490D2 сравнивается с 0xF86B (rel)"
+]
+},
+"RLDSVL": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x850760 сравнивается с 0xF86B (rel)"
+]
+},
+"RLLRHON": {
+"verdict": "кода нет",
+"evidence": []
+},
+"RLLRHUN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"RLLRTMO": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: место доказано рядом",
+"0x84B5D6 вход 0x8AB4 (temp)"
+]
+},
+"RLLRUN": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: величина сходится",
+"0x84B7A4 вход 0xF89E (nmot)"
+]
+},
+"RLLRUN_18AD2": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: место доказано рядом",
+"0x84B7A4 вход 0xF89E (nmot)"
+]
+},
+"RLMNN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83C2F8 вход 0x908A (nmot)"
+]
+},
+"RLMNSAN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83C2E8 вход 0x908A (nmot)"
+]
+},
+"RLNOT": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x843748 вход 0xF89E (nmot)"
+]
+},
+"RLO2": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853E3E сравнивается с 0xF86B (rel)",
+"0x853EE8 сравнивается с 0xF86B (rel)"
+]
+},
+"RLO3": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853F0E сравнивается с 0xF86B (rel)"
+]
+},
+"RLO3AC": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853E64 сравнивается с 0xF86B (rel)"
+]
+},
+"RLU2": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853EDA сравнивается с 0xF86B (rel)"
+]
+},
+"RLU2AC": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853E30 сравнивается с 0xF86B (rel)"
+]
+},
+"RLU3": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853E56 сравнивается с 0xF86B (rel)",
+"0x853F00 сравнивается с 0xF86B (rel)"
+]
+},
+"RLU4": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853F72 сравнивается с 0xF86B (rel)"
+]
+},
+"RLVMXN_182B7": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83B266 вход 0xF89E (nmot)"
+]
+},
+"RLVSMXN_182CE": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83B254 вход 0xF89E (nmot)"
+]
+},
+"SAN12ESUW": {
+"verdict": "кода нет",
+"evidence": []
+},
+"SBF02MFSB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SDK10TEUB": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x834CF4 сравнивается с 0x89F3 (rel)"
+]
+},
+"SDN06LLSB": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83F272 сравнивается с 0x920A (nmotd)"
+]
+},
+"SENZZYL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"SEZ06TMUB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SFR05TEUB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SGA06MFUB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SGA08MDUB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"SKS06ESUB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SLX06TMUW": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SML05DKUB": {
+"verdict": "кода нет",
+"evidence": []
+},
+"SML05LKUB": {
+"verdict": "кода нет",
+"evidence": []
+},
+"SML06TEUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834D08 сравнивается с 0xF86A (m)"
+]
+},
+"SML06TMUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834F46 сравнивается с 0xF86A (m)"
+]
+},
+"SML07TMUW": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SML08LHUB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"SNG06LLSB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"SNM05DKUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834CCA сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM06LHUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834DEC сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM06LLUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834C84 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM06MFUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834E3C сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM07ESUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834E00 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM07LRUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834BF2 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM08DMUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834C94 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM08GKUB": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x851622 сравнивается с 0x9796 (nmot)",
+"0x851622 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM08LHUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834DA0 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM08__UB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834B4A сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM10FEUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834B5A сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM10TEUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834CE0 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM12ESUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834C2A сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM12FEUB_100D5": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834B6A сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM16CIUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834E4C сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM16GKUB_181F8": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834E64 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM16KRUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834B10 сравнивается с 0xF89E (nmot)",
+"0x834D44 сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM16OPUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834B8E сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM16ZUUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834B9E сравнивается с 0xF89E (nmot)"
+]
+},
+"SNM24ZUUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834BAE сравнивается с 0xF89E (nmot)"
+]
+},
+"SNS06LLSB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"SNS206LLSB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83F5C8 вход 0x920C (nmotd)"
+]
+},
+"SQM05TEUB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SRL03MFUW": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"SRL04DYUB": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x834B38 сравнивается с 0xF86B (rel)",
+"0x834D6C сравнивается с 0xF86B (rel)"
+]
+},
+"SRL04KRUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834B24 сравнивается с 0xF86B (rel)",
+"0x834D58 сравнивается с 0xF86B (rel)"
+]
+},
+"SRL06LHUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834DD8 сравнивается с 0xF86B (rel)"
+]
+},
+"SRL06LRUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834C02 сравнивается с 0xF86B (rel)"
+]
+},
+"SRL08DMUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834C62 сравнивается с 0xF86B (rel)"
+]
+},
+"SRL11OPUW": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"SRL12ESUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834C3E сравнивается с 0xF86B (rel)"
+]
+},
+"SRL12GKUB_1821F": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834E7C сравнивается с 0xF86B (rel)"
+]
+},
+"SRL12ZUUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834BBE сравнивается с 0xF86B (rel)"
+]
+},
+"SRL16ZUUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834BCE сравнивается с 0xF86B (rel)"
+]
+},
+"ST107TMUB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ST307TMUB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"STA06ESUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834F1E сравнивается с 0x8AB9 (temp)"
+]
+},
+"STM04__UB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834D30 сравнивается с 0x8AB4 (temp)"
+]
+},
+"STM05SAUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834EBA сравнивается с 0x8AB4 (temp)"
+]
+},
+"STM05TMUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834D80 сравнивается с 0x8AB3 (temp)"
+]
+},
+"STM06LLUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834EA6 сравнивается с 0x8AB4 (temp)"
+]
+},
+"STM06__UB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834E92 сравнивается с 0x8AB4 (temp)"
+]
+},
+"STM08DMUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834E28 сравнивается с 0x8AB4 (temp)"
+]
+},
+"STM08LEUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834DC8 сравнивается с 0x8AB4 (temp)"
+]
+},
+"STM09ESUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834E14 сравнивается с 0x8AB4 (temp)"
+]
+},
+"STM12ESUB": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x834F06 сравнивается с 0x8AB4 (temp)"
+]
+},
+"STS06TMUW": {
+"verdict": "кода нет",
+"evidence": []
+},
+"STS12ESUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834EF6 сравнивается с 0x8AB3 (temp)"
+]
+},
+"STW06MDUB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x834EE2 сравнивается с 0x8AB4 (temp)"
+]
+},
+"SZANSSM2": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TABGMSVU": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TABGSTG": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x847EDA сравнивается с 0x88ED (temp)"
+]
+},
+"TARAU": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: место доказано рядом",
+"0x84B63E сравнивается с 0x8AB9 (temp)"
+]
+},
+"TASHS": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"TATELL": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8537F8 сравнивается с 0x8AB9 (temp)"
+]
+},
+"TATEMSN": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TC6TECI": {
+"verdict": "кода нет",
+"evidence": []
+},
+"TC6TECL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TC6TECNL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TC6TECP": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TC6TECRF": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TC6TECRM": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TC6TECT": {
+"verdict": "кода нет",
+"evidence": []
+},
+"TEMIN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"TFRMB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"THHA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"THHA2": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"THHAWU": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"THSHA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"THSHKTK": {
+"verdict": "кода нет",
+"evidence": []
+},
+"THSVKTA": {
+"verdict": "кода нет",
+"evidence": []
+},
+"THVA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"THVA2": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"THVAWU": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TKATSA": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83E938 сравнивается с 0x88ED (temp)"
+]
+},
+"TKOAMNN": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом",
+"0x856928 вход 0x98CE (nmot)"
+]
+},
+"TKOAMXN": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом",
+"0x85695C вход 0x98CE (nmot)"
+]
+},
+"TKOEMNN": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом",
+"0x856942 вход 0x98CE (nmot)"
+]
+},
+"TLLASH": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x848340 сравнивается с 0x94C3 (t100msxs)",
+"0x8483DA сравнивается с 0x94C3 (t100msxs)"
+]
+},
+"TLRHS": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"TMASO": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TMAXKAT": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x849022 сравнивается с 0x88ED (temp)"
+]
+},
+"TMDYNA": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x84F706 сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMFRATMN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853F8E сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMFRATUB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TMINKAT": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84902C сравнивается с 0x88ED (temp)"
+]
+},
+"TMKOAO": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом",
+"0x8568D8 сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMKOAU": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом",
+"0x8568DE сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMLRTMS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x86072E вход 0x8AB3 (temp)"
+]
+},
+"TMNEB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x849B42 сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMNKATT": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83A25E сравнивается с 0x88ED (temp)",
+"0x84909E сравнивается с 0x88ED (temp)"
+]
+},
+"TMOHSMN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84A42C сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMRA1": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: место доказано рядом",
+"0x84B6AE сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMRA2": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: место доказано рядом",
+"0x84B6DC сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMSKLH": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853680 сравнивается с 0x8AB3 (temp)"
+]
+},
+"TMSNOGA": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x853662 сравнивается с 0x8AB3 (temp)"
+]
+},
+"TMSUKTD": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x848C34 сравнивается с 0x8AB3 (temp)",
+"0x849150 сравнивается с 0x8AB3 (temp)",
+"0x8495EA сравнивается с 0x8AB3 (temp)"
+]
+},
+"TMSV": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x849A66 сравнивается с 0x8AB4 (temp)"
+]
+},
+"TMSVA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TMTE": {
+"verdict": "величина сходится",
+"evidence": [
+"0x856A54 сравнивается с 0x8AB4 (temp)"
+]
+},
+"TNACMX": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"TNLSGM": {
+"verdict": "кода нет",
+"evidence": []
+},
+"TNMAXDV": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/13 отсечка, масштаб по паспортным 6700",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"TREHS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TRSA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TSALASH": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TSTEAA": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83A170 сравнивается с 0x88FA (t100msxs)",
+"0x847DE0 сравнивается с 0x88FA (t100msxs)"
+]
+},
+"TTEVAZ": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x857FDC сравнивается с 0x99B0 (t100msxs)",
+"0x857FF0 сравнивается с 0x99B0 (t100msxs)",
+"0x8580CC сравнивается с 0x99B0 (t100msxs)"
+]
+},
+"TUSCHUB": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TUSEINV": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TUSHSMIN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TUSSA": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TVCO": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TVDTEB": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x85875E сравнивается с 0x8A6B (t100msxs)"
+]
+},
+"TVDTEE": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x85874A сравнивается с 0x8A6B (t100msxs)"
+]
+},
+"TVDTEVP": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TVDTEVZ": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TVFSAM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8407E0 вход 0x90B0 (temp)"
+]
+},
+"TVFSAMR": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x840800 вход 0x90B0 (temp)"
+]
+},
+"TVFSEM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8407F0 вход 0x90B0 (temp)"
+]
+},
+"TVFSEMR": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x840810 вход 0x90B0 (temp)"
+]
+},
+"TVHSH": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TVHSV": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TVHSVMX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TVKOA": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"TVKOE": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом"
+]
+},
+"TVKUPHS": {
+"verdict": "кода нет",
+"evidence": []
+},
+"TVKUPRS": {
+"verdict": "кода нет",
+"evidence": []
+},
+"TVLBTS": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TVLRHMN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x847D82 сравнивается с 0xADB5 (t100msxs)"
+]
+},
+"TVLRHMX": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x847D60 сравнивается с 0xADB5 (t100msxs)"
+]
+},
+"TVSATM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83E6A6 вход 0x9062 (temp)"
+]
+},
+"TVSUM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84560C вход 0x8AB4 (temp)"
+]
+},
+"TVUB": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"TV_LAMFA": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: адрес из кода, смысл нечем проверить"
+]
+},
+"TWDKATST": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TWKTDLP": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"TWLRTMS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x860540 вход 0x8AB3 (temp)",
+"0x860662 вход 0x8AB3 (temp)"
+]
+},
+"UBHS": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84A50E сравнивается с 0x8A93 (spg)",
+"0x84A712 сравнивается с 0x8A93 (spg)",
+"0x84A80C сравнивается с 0x8A93 (spg)"
+]
+},
+"UDKRGOFS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"UDKRTP": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"UDKSNO": {
+"verdict": "кода нет",
+"evidence": []
+},
+"UDKSNU": {
+"verdict": "кода нет",
+"evidence": []
+},
+"UEVERG": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"UHSN": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"USHLEAN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x847F0A сравнивается с 0x88F2 (spg)"
+]
+},
+"USHRICH": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x847F20 сравнивается с 0x88F2 (spg)"
+]
+},
+"USHSTGMX": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"USHSTSOLL": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"USSCHUB": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x848410 сравнивается с 0x88F2 (spg)"
+]
+},
+"VKOAO": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом",
+"0x856844 сравнивается с 0x881D (vfzg)"
+]
+},
+"VKOAU": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: место доказано рядом",
+"0x85684A сравнивается с 0x881D (vfzg)"
+]
+},
+"VSAA": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83E8A4 сравнивается с 0x881D (vfzg)"
+]
+},
+"WDKHKDN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x844676 вход 0xF89E (nmot)"
+]
+},
+"WDKHKN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x844696 вход 0xF89E (nmot)"
+]
+},
+"WDKKOAN_0": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: величина сходится",
+"0x85685E вход 0x98CE (nmot)"
+]
+},
+"WDKKOAN_1": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/31 кондиционер",
+"автоматическая проверка: величина сходится",
+"0x85685E вход 0x98CE (nmot)"
+]
+},
+"WDKKOEN": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x85687E вход 0x98CE (nmot)"
+]
+},
+"WDKSLN": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: величина сходится",
+"0x8506EC вход 0xF89E (nmot)"
+]
+},
+"WDKSLN_18FCB": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: место доказано рядом",
+"0x8506EC вход 0xF89E (nmot)"
+]
+},
+"WDKUGDN": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x843724 вход 0x908E (nmot)"
+]
+},
+"WDKUGDN_15672": {
+"verdict": "кода нет",
+"evidence": []
+},
+"WDKVLN_0": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: величина сходится",
+"0x8506CA вход 0xF89E (nmot)"
+]
+},
+"WDKVLN_1": {
+"verdict": "разобрано вручную",
+"evidence": [
+"разобрано вручную: docs/33 полная нагрузка",
+"автоматическая проверка: величина сходится",
+"0x8506CA вход 0xF89E (nmot)"
+]
+},
+"WEAN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8516FE вход 0x9796 (nmot)"
+]
+},
+"WEEM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8516B6 вход 0x979A (temp)"
+]
+},
+"WEEMRFAN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x85164C вход 0x9796 (nmot)"
+]
+},
+"WEESTM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8516E4 вход 0x979A (temp)"
+]
+},
+"WEESTN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x8516D2 вход 0xF89E (nmot)"
+]
+},
+"WFRL": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"WPHN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83DA0C вход 0x9088 (nmot)"
+]
+},
+"WPUAVLN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x844332 вход 0xF89E (nmot)",
+"0x84440A вход 0xF89E (nmot)"
+]
+},
+"WPUAVLSN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x84434C вход 0xF89E (nmot)",
+"0x844426 вход 0xF89E (nmot)"
+]
+},
+"ZATMAML": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ZATMKML": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ZATMRML": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ZBTEML": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZDKATAD": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZDKATAF": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZDKATSH": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZDKTBD": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZDKTBF": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZDSH1GS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZDSHGS": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZFAUWKN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BC6A вход 0x904E (nmot)"
+]
+},
+"ZFAWKN": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x83BCA0 вход 0x904E (nmot)"
+]
+},
+"ZINMAXRL": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83C024 вход 0xF86B (rel)"
+]
+},
+"ZKFRAOA": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ZKFRAUA": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ZKMDWAM": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x840778 вход 0x90B0 (temp)"
+]
+},
+"ZKRKATA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"ZKRKAZA": {
+"verdict": "адрес из кода, смысл нечем проверить",
+"evidence": []
+},
+"ZKTABTU": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ZKTDRL": {
+"verdict": "место доказано рядом",
+"evidence": []
+},
+"ZLRHML": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ZMRFABN": {
+"verdict": "кода нет",
+"evidence": []
+},
+"ZNSMST": {
+"verdict": "смысл и место сходятся",
+"evidence": [
+"0x83ED74 вход 0x9066 (temp)"
+]
+},
+"ZZWEETM": {
+"verdict": "место доказано рядом",
+"evidence": [
+"0x851602 вход 0x8AB3 (temp)"
+]
+}
+}

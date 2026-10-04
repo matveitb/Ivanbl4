@@ -83,6 +83,9 @@ class MapTree(QtWidgets.QWidget):
                % (self.project.title(name), L.data_off,
                   "s" if L.signed else "u",
                   L.width * 8, L.factor, L.unit, self.project.desc(name)))
+        pr = self.project.proof(name) if hasattr(self.project, "proof") else ""
+        if pr:
+            tip += "\n" + pr
         over = self.project.overlaps(name)
         if over:
             tip += "\nделит байты с: " + ", ".join(over[:6])

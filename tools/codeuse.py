@@ -144,12 +144,18 @@ def scan(data: bytes, lo: int = 0x20000, hi: int | None = None) -> dict:
                         # регистр, получат его на сравнении ниже
                 continue
             mi = IDX.match(op)
-            if mi:
+            if mi and int(mi.group(1)) != 0:       # r0 -- стек, не таблица
                 a = cal_addr(int(mi.group(2), 16), cur_page)
                 if a is not None:
                     add(a, {"site": site, "kind": "table",
                             "index_reg": int(mi.group(1)),
                             "text": ins.text()})
+                    # Загрузка ИЗ ТАБЛИЦЫ в регистр аргумента: это указатель
+                    # на карту, выбранный по индексу. Так читаются KLLAMFA,
+                    # WDKVLN, WDKKOAN -- прямого указателя на них в коде нет.
+                    rn = reg_no(ops[0]) if i == 1 else None
+                    if mn == "mov" and rn in (12, 13, 14, 15):
+                        regs[rn] = ("tbl", a, site)
 
         # -- непосредственные значения: указатели и страницы
         if mn == "mov" and len(ops) == 2 and ops[1].startswith("#"):
@@ -179,6 +185,17 @@ def scan(data: bytes, lo: int = 0x20000, hi: int | None = None) -> dict:
             ins_ram = sorted(v[1] for v in snap.values() if v[0] == "ram")
             for lo_r, hi_r in ((12, 13), (14, 15)):
                 p = snap.get(lo_r)
+                if not p or p[0] != "tbl":
+                    continue
+                q = snap.get(hi_r)
+                paged = bool(q and q[0] == "tbl" and q[1] == p[1] + 2)
+                for tgt in table_targets(data, p[1], paged):
+                    add(tgt, {"site": site, "kind": "ptr", "target": ops[-1],
+                              "page": None, "inputs": ins_ram,
+                              "dest": _dest(dis, data, off + ins.length),
+                              "via_table": p[1], "text": ins.text()})
+            for lo_r, hi_r in ((12, 13), (14, 15)):
+                p = snap.get(lo_r)
                 if not p or p[0] != "imm":
                     continue
                 q = snap.get(hi_r)
@@ -203,6 +220,31 @@ def scan(data: bytes, lo: int = 0x20000, hi: int | None = None) -> dict:
                 page = None
         off += ins.length
     return uses
+
+
+def table_targets(data: bytes, base: int, paged: bool, limit: int = 8) -> list:
+    """
+    Прочитать таблицу указателей из образа.
+
+    paged -- записи по четыре байта {смещение, страница}, как у KLLAMFA
+    (0x1616A = {0x155B, 0x0206}); иначе по два байта, смещение через DPP,
+    как у WDKKOAN (0x12926 = {0x1A01, 0x1A09}). Читаем, пока записи похожи
+    на указатели в калибровку, но не больше limit: конца таблица не помечает.
+    """
+    out = []
+    step = 4 if paged else 2
+    for k in range(limit):
+        q = base + k * step
+        if q + step > len(data):
+            break
+        off_ = int.from_bytes(data[q:q + 2], "little")
+        pg = int.from_bytes(data[q + 2:q + 4], "little") if paged else None
+        a = cal_addr(off_, pg) if paged else (
+            cal_addr(off_, None) if off_ >= 0x80 else None)
+        if a is None:
+            break
+        out.append(a)
+    return out
 
 
 def _dest(dis, data, off, look: int = 4):

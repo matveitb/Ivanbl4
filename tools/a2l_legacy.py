@@ -379,7 +379,17 @@ def main(argv=None) -> int:
                     help="образ прошивки: по нему проверяются оси и "
                          "разрешаются перекрытия. Без него описание всё равно "
                          "выпускается, но непроверенным")
+    ap.add_argument("--xfer",
+                    default=os.path.join(os.path.dirname(os.path.dirname(
+                        os.path.abspath(__file__))), "results", "damos_перенос.json"),
+                    help="перенос дамоса: оттуда берётся масштаб осей")
     args = ap.parse_args(argv)
+
+    xfer_ax = {}
+    if args.xfer and os.path.exists(args.xfer):
+        for v in json.load(open(args.xfer, encoding="utf-8")).get("variables", []):
+            if v.get("x_conv"):
+                xfer_ax[v["name"]] = v
 
     image = None
     if args.firmware:
@@ -524,6 +534,21 @@ def main(argv=None) -> int:
             if rd(a0) == n_ and all(pts[i] < pts[i + 1] for i in range(n_ - 1)):
                 m["addr"] = m["data_addr"] = a0 + cw
                 axis_fixed.append(raw_name)
+                # МАСШТАБ ОСИ. У осей дамоса собственный пересчёт пуст, а
+                # величина записана как пересчёт ОСИ: x_factor и x_unit,
+                # смещение -- в имени пересчёта (o48). Без этого SNM16OPUB
+                # показывалась 11..163 вместо 440..6520 об/мин. Что ось
+                # действительно этой величины, проверено отдельно по входам
+                # из кода (tools/meaning.py).
+                xv = xfer_ax.get(raw_name)
+                if xv and (m.get("factor") or 1.0) == 1.0 \
+                        and (xv.get("x_factor") or 1.0) != 1.0:
+                    m["factor"] = float(xv["x_factor"])
+                    mo = re.search(r"_o(\d+(?:p\d+)?)", xv.get("x_conv", ""))
+                    m["shift"] = float(mo.group(1).replace("p", ".")) if mo else 0.0
+                    m["unit"] = xv.get("x_unit") or ""
+                    if re.search(r"_s[bw]_", xv.get("x_conv", "")):
+                        m["signed"] = True
         if raw_name in prof_named and m["addr"] not in prof_named[raw_name]:
             disputed.append((raw_name, m["addr"],
                              sorted(prof_named[raw_name])[0],

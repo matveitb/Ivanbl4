@@ -53,6 +53,7 @@ DATAS = [
     # Русские названия карт лежат ОТДЕЛЬНЫМ файлом (сам A2L ASCII-only), и
     # забыть его -- значит собрать .exe, где всё подписано по-бошевски.
     (os.path.join(ROOT, "results", "FBH3ID60_legacy.ru.json"), "results"),
+    (os.path.join(ROOT, "results", "FBH3ID60_legacy.check.json"), "results"),
 ]
 
 a = Analysis(

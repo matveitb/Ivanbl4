@@ -82,6 +82,23 @@ def _load_ru(a2l_path: str) -> dict:
         return {}
 
 
+def _load_check(a2l_path: str) -> dict:
+    """
+    Чем доказана каждая карта -- итог tools/meaning.py.
+
+    Без этого файла разница между "смысл и место доказаны кодом" и "имя
+    пришло из выравнивания, проверить нечем" видна только в моих отчётах,
+    а не там, где человек правит карту. Нет файла -- молчим.
+    """
+    path = os.path.splitext(a2l_path)[0] + ".check.json"
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+        return {k: v for k, v in d.items() if isinstance(v, dict)}
+    except Exception:                                       # noqa: BLE001
+        return {}
+
+
 @dataclass
 class TreeNode:
     title: str
@@ -108,6 +125,7 @@ class Project:
     csum_table: int = -1
     group_mode: str = "auto"        # auto -- из описания, user -- своя
     ru: dict = field(default_factory=dict)   # имя в A2L -> русское название
+    check: dict = field(default_factory=dict)  # имя -> чем доказана (meaning.py)
     _overlaps: dict = None          # считается лениво, при первом спросе
 
     # -- открытие --------------------------------------------------------
@@ -122,6 +140,7 @@ class Project:
         p.layouts = geometry.resolve_all(a2l, data, am)
         p.csum_table = saving.find_table(data)
         p.ru = _load_ru(a2l_path)
+        p.check = _load_check(a2l_path)
         p.load_project_file()
         return p
 
@@ -263,6 +282,15 @@ class Project:
         """
         ru = self.ru.get(name)
         return "%s (%s)" % (ru, name) if ru else name
+
+    def proof(self, name: str) -> str:
+        """Одной строкой и с доказательствами: чем подтверждена карта."""
+        c = self.check.get(name)
+        if not c:
+            return ""
+        lines = ["Проверка по коду: " + c.get("verdict", "")]
+        lines += ["  " + e for e in c.get("evidence", [])[:3]]
+        return "\n".join(lines)
 
     def desc(self, name: str) -> str:
         ch = self.a2l.characteristics.get(name)

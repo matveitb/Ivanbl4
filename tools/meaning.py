@@ -52,6 +52,7 @@ import geometry                                             # noqa: E402
 import model                                                # noqa: E402
 
 AXIS_LOOKUP = "0x0074da"
+AXIS_NAME = re.compile(r"^S[A-Z0-9]{2}\d{2}[A-Z_]{2}[US][BW]$")
 
 # Шаг 1. Разобрано по коду вручную, каждая -- с доказательством в docs/.
 ANCHORS = {
@@ -63,6 +64,29 @@ ANCHORS = {
     0x89F3: ("rel", 0.390625, 0.0, "0x8506CE: сравнение с WDKVLN/WDKSLN"),
     0x881D: ("vfzg", 1.25, 0.0, "0x856840: окно VKOAO/VKOAU"),
 }
+
+
+# Разобрано вручную: смысл выведен из кода рассуждением, которое эта
+# проверка не повторит (физика, сверка с паспортом, вся цепочка вызовов).
+# Ручная отметка НЕ ПЕРЕКРЫВАЕТ автоматическое противоречие: если код
+# скажет другое, приговор останется "противоречит" и потребует разбора.
+_MANUAL = {
+    "docs/31 кондиционер": (
+        "LIMTKOA TKOAMNN TKOAMXN TKOEMNN TMKOAO TMKOAU TNACMX TVKOA TVKOE "
+        "VKOAO VKOAU WDKKOAN_0 WDKKOAN_1 WDKKOEN"),
+    "docs/33 полная нагрузка": (
+        "WDKSLN WDKVLN_0 WDKVLN_1 KLLAMFA_0 KLLAMFA_1 TV_LAMFA KFZWMN "
+        "KFZWMNST RLLRTMO RLLRUN TARAU TASHS TLRHS TMRA1 TMRA2 DTC_CODES"),
+    "docs/32 топливо": "KRKTE KFLBTS KFFDLBTS CWLAMBTS KFLF",
+    "docs/20, 27, 34 наполнение": "RLNOT KUMSRL",
+    "docs/14, 16 моментная модель, сверка с паспортным пиком 4500": (
+        "KFMIRL KFMDS KFMIOP KFZWOP KFZW"),
+    "docs/13 отсечка, масштаб по паспортным 6700": (
+        "NMAX NMAXDV DNMAXH TNMAXDV NMXDKPU"),
+    "docs/26 тракт ДМРВ, диспетчер по режимам": (
+        "KFKHFM KFPU KFPUSU KFPUNW KFPUSUNW KLAF KFMSNWDK"),
+}
+MANUAL = {n: doc for doc, names in _MANUAL.items() for n in names.split()}
 
 
 def parse_conv(c: str):
@@ -181,9 +205,12 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Проверка смысла карт по коду")
     ap.add_argument("--a2l", required=True)
     ap.add_argument("--fw", required=True)
-    ap.add_argument("--xfer", default=os.path.join(ROOT, "out", "xfer_FBH3ID60.json"))
+    ap.add_argument("--xfer", default=os.path.join(ROOT, "results", "damos_перенос.json"))
     ap.add_argument("--profile", default=os.path.join(ROOT, "profiles", "FBH3ID60.json"))
     ap.add_argument("--out")
+    ap.add_argument("--sidecar", action="store_true",
+                    help="записать рядом с A2L файл <a2l>.check.json -- его "
+                         "показывает редактор в подсказке у каждой карты")
     a = ap.parse_args(argv)
 
     buf = open(a.fw, "rb").read()
@@ -216,7 +243,9 @@ def main(argv=None) -> int:
                     # Сосед без разбираемой величины (кодовое слово,
                     # счётчик) МЕСТО ТОЖЕ ДОКАЗЫВАЕТ: сдвинься выравнивание
                     # на него -- совпадения величины не получилось бы вовсе.
-                    c = parse_conv(order[j].get("conv", ""))
+                    oj = order[j]
+                    c = parse_conv(oj.get("conv", "") or (
+                        oj.get("x_conv", "") if AXIS_NAME.match(oj["name"]) else ""))
                     if c is not None and same(c, mine):
                         return False
         return True
@@ -252,6 +281,12 @@ def main(argv=None) -> int:
         v = xfer.get(b)
         if v:
             if which == "self":
+                # У осей дамоса собственный пересчёт ПУСТ, величина лежит в
+                # x_conv (так у всех 73). Без этого ось на верном месте
+                # оставалась непроверенной, а при сдвиге её соседи -- нет, и
+                # сдвинутый вариант ряда начинал выигрывать.
+                if not v.get("conv") and AXIS_NAME.match(b):
+                    return parse_conv(v.get("x_conv", ""))
                 return parse_conv(v.get("conv", ""))
             return parse_conv(v.get(which + "_conv", ""))
         p = prof.get(b)
@@ -322,10 +357,17 @@ def main(argv=None) -> int:
         for r in recs:
             if r["kind"] == "read" and r.get("partner") in known:
                 o.append(("self", known[r["partner"]], r["site"], r["partner"]))
-            elif r["kind"] == "ptr" and r.get("target") != AXIS_LOOKUP:
+            elif r["kind"] == "ptr":
+                # Ось сравнивается СО СВОЕЙ величиной: вход поиска по оси
+                # оборотов -- это обороты. Раньше вход оси сверялся с её
+                # "осями", которых у оси нет, и шестьдесят осей висели без
+                # проверки.
+                is_axis = bool(AXIS_NAME.match(base(n))) \
+                    or r.get("target") == AXIS_LOOKUP
                 for i in r.get("inputs") or []:
                     if i in known:
-                        o.append(("axis", known[i], r["site"], i))
+                        o.append(("self" if is_axis else "axis",
+                                  known[i], r["site"], i))
         obs[n] = (o, bool(recs) or body)
 
     def score(name, o):
@@ -439,11 +481,24 @@ def main(argv=None) -> int:
             v = "адрес из кода, смысл нечем проверить"
         else:
             v = "кода нет"
+        man = MANUAL.get(base(n))
+        if man and v not in ("противоречит", "смысл и место сходятся"):
+            ev = ["разобрано вручную: " + man,
+                  "автоматическая проверка: " + v] + ev
+            v = "разобрано вручную"
         rec = {"verdict": v, "ok": ok, "bad": bad, "evidence": ev[:6]}
         if ri is not None:
             rec["run"] = {"members": len(runs[ri]), "confirmed": run_ok[ri][0],
                           "scores": {str(k): list(x) for k, x in run_ok[ri][1].items()}}
         verdicts[n] = rec
+
+    if a.sidecar:
+        side = os.path.splitext(a.a2l)[0] + ".check.json"
+        with open(side, "w", encoding="utf-8") as fh:
+            json.dump({n: {"verdict": v["verdict"], "evidence": v["evidence"][:3]}
+                       for n, v in sorted(verdicts.items())},
+                      fh, ensure_ascii=False, indent=0)
+        print("записано %s" % side)
 
     cnt = collections.Counter(v["verdict"] for v in verdicts.values())
     print("словарь ОЗУ: %d ячеек (%d якорей)" % (len(known), len(ANCHORS)))

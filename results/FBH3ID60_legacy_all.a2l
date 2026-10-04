@@ -39,10 +39,34 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.0234375
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_4_0_kgh
+      "scale 4"
+      RAT_FUNC "%.1f" "kg/h"
+      COEFFS 0 1 0 0 0 4
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_100_0_Umins
+      "scale 100"
+      RAT_FUNC "%.1f" "U/min/s"
+      COEFFS 0 1 0 0 0 100
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_40_0_Upm
       "scale 40"
       RAT_FUNC "%.1f" "Upm"
       COEFFS 0 1 0 0 0 40
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p0625_0
+      "scale 0.0625"
+      RAT_FUNC "%.3f" "-"
+      COEFFS 0 1 0 0 0 0.0625
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p75_48_GradC
+      "scale 0.75"
+      RAT_FUNC "%.3f" "Grad C"
+      COEFFS 0 1 48 0 0 0.75
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p5_0
@@ -69,6 +93,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.00390625
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p217_0_ms2
+      "scale 0.217"
+      RAT_FUNC "%.3f" "m/s^2"
+      COEFFS 0 1 0 0 0 0.217
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p09803921569_0
       "scale 0.0980392"
       RAT_FUNC "%.3f" ""
@@ -91,6 +121,12 @@ ASAP2_VERSION 1 51
       "scale 0.1"
       RAT_FUNC "%.3f" "ms"
       COEFFS 0 1 0 0 0 0.1
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_10_0_Umin
+      "scale 10"
+      RAT_FUNC "%.1f" "U/min"
+      COEFFS 0 1 0 0 0 10
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p3906_0
@@ -127,12 +163,6 @@ ASAP2_VERSION 1 51
       "scale 0.02"
       RAT_FUNC "%.3f" "s"
       COEFFS 0 1 0 0 0 0.02
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_0p0625_0
-      "scale 0.0625"
-      RAT_FUNC "%.3f" "-"
-      COEFFS 0 1 0 0 0 0.0625
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p001953125_n0p75
@@ -303,16 +333,16 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.000390625
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_5_50_GradC
+      "scale 5"
+      RAT_FUNC "%.1f" "Grad C"
+      COEFFS 0 1 50 0 0 5
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p01220703125_0_Upm
       "scale 0.012207"
       RAT_FUNC "%.3f" "%/Upm"
       COEFFS 0 1 0 0 0 0.01220703125
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_10_0_Umin
-      "scale 10"
-      RAT_FUNC "%.1f" "U/min"
-      COEFFS 0 1 0 0 0 10
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p09764705882_0
@@ -321,22 +351,10 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.09764705882
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p75_48_GradC
-      "scale 0.75"
-      RAT_FUNC "%.3f" "Grad C"
-      COEFFS 0 1 48 0 0 0.75
-    /end COMPU_METHOD
-
     /begin COMPU_METHOD CM_5_0_GradC
       "scale 5"
       RAT_FUNC "%.1f" "Grad C"
       COEFFS 0 1 0 0 0 5
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_5_50_GradC
-      "scale 5"
-      RAT_FUNC "%.1f" "Grad C"
-      COEFFS 0 1 50 0 0 5
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_8_0_Ohm
@@ -435,6 +453,12 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.09103840683
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p1_0_kgh
+      "scale 0.1"
+      RAT_FUNC "%.3f" "kg/h"
+      COEFFS 0 1 0 0 0 0.1
+    /end COMPU_METHOD
+
     /begin COMPU_METHOD CM_0p07421875_0
       "scale 0.0742188"
       RAT_FUNC "%.3f" "-"
@@ -529,12 +553,6 @@ ASAP2_VERSION 1 51
       "scale 0.00177936"
       RAT_FUNC "%.3f" "ms/%"
       COEFFS 0 1 0 0 0 0.001779359431
-    /end COMPU_METHOD
-
-    /begin COMPU_METHOD CM_4_0_kgh
-      "scale 4"
-      RAT_FUNC "%.1f" "kg/h"
-      COEFFS 0 1 0 0 0 4
     /end COMPU_METHOD
 
     /begin COMPU_METHOD CM_0p00152588_0_otopornogomoment
@@ -663,12 +681,6 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.00078125
     /end COMPU_METHOD
 
-    /begin COMPU_METHOD CM_0p1_0_kgh
-      "scale 0.1"
-      RAT_FUNC "%.3f" "kg/h"
-      COEFFS 0 1 0 0 0 0.1
-    /end COMPU_METHOD
-
     /begin COMPU_METHOD CM_0p001525878906_0_ugladrossely
       "scale 0.00152588"
       RAT_FUNC "%.3f" "% ugla drosselya"
@@ -701,16 +713,16 @@ ASAP2_VERSION 1 51
       FNC_VALUES 1 UBYTE ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
+    /begin RECORD_LAYOUT RL_GRID_SBYTE
+      FNC_VALUES 1 SBYTE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
     /begin RECORD_LAYOUT RL_3D_A8_UBYTE
       NO_AXIS_PTS_Y 1 UBYTE
       NO_AXIS_PTS_X 2 UBYTE
       AXIS_PTS_Y    3 UBYTE INDEX_INCR DIRECT
       AXIS_PTS_X    4 UBYTE INDEX_INCR DIRECT
       FNC_VALUES    5 UBYTE ROW_DIR DIRECT
-    /end RECORD_LAYOUT
-
-    /begin RECORD_LAYOUT RL_GRID_SBYTE
-      FNC_VALUES 1 SBYTE ROW_DIR DIRECT
     /end RECORD_LAYOUT
 
     /begin RECORD_LAYOUT RL_2D_A16_UWORD
@@ -1102,9 +1114,9 @@ ASAP2_VERSION 1 51
       0x10071
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_4_0_kgh
       0
-      255
+      1020
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1121,9 +1133,9 @@ ASAP2_VERSION 1 51
       0x10077
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_4_0_kgh
       0
-      255
+      1020
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1140,9 +1152,9 @@ ASAP2_VERSION 1 51
       0x1007D
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_4_0_kgh
       0
-      255
+      1020
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1157,11 +1169,11 @@ ASAP2_VERSION 1 51
       "adres podtverzhden damos-veroyatno addr 0x10086 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x85 @0x834C6C | Datapoint distribution, speed gradient, 6 datapoints"
       CURVE
       0x10086
-      RL_GRID_UBYTE
+      RL_GRID_SBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_100_0_Umins
+      -12800
+      12700
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1178,9 +1190,9 @@ ASAP2_VERSION 1 51
       0x1008D
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1197,9 +1209,9 @@ ASAP2_VERSION 1 51
       0x10093
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1216,9 +1228,9 @@ ASAP2_VERSION 1 51
       0x1009A
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1235,9 +1247,9 @@ ASAP2_VERSION 1 51
       0x100A2
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1254,9 +1266,9 @@ ASAP2_VERSION 1 51
       0x100AB
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1273,9 +1285,9 @@ ASAP2_VERSION 1 51
       0x100B4
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1292,9 +1304,9 @@ ASAP2_VERSION 1 51
       0x100BD
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1311,9 +1323,9 @@ ASAP2_VERSION 1 51
       0x100C8
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1330,9 +1342,9 @@ ASAP2_VERSION 1 51
       0x100D5
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1349,9 +1361,9 @@ ASAP2_VERSION 1 51
       0x100E2
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1368,9 +1380,9 @@ ASAP2_VERSION 1 51
       0x100F3
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1387,9 +1399,9 @@ ASAP2_VERSION 1 51
       0x10104
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1406,9 +1418,9 @@ ASAP2_VERSION 1 51
       0x10115
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1425,9 +1437,9 @@ ASAP2_VERSION 1 51
       0x1012E
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p0625_0
       0
-      255
+      15.9375
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1444,9 +1456,9 @@ ASAP2_VERSION 1 51
       0x10134
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p75_0
       0
-      255
+      191.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1463,9 +1475,9 @@ ASAP2_VERSION 1 51
       0x1013B
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p75_0
       0
-      255
+      191.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1482,9 +1494,9 @@ ASAP2_VERSION 1 51
       0x10142
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p75_0
       0
-      255
+      191.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1501,9 +1513,9 @@ ASAP2_VERSION 1 51
       0x1014B
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p75_0
       0
-      255
+      191.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1520,9 +1532,9 @@ ASAP2_VERSION 1 51
       0x10158
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p75_0
       0
-      255
+      191.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1539,9 +1551,9 @@ ASAP2_VERSION 1 51
       0x10165
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p75_0
       0
-      255
+      191.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1558,9 +1570,9 @@ ASAP2_VERSION 1 51
       0x10176
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -1858,11 +1870,11 @@ ASAP2_VERSION 1 51
       "podtverzhdena damos addr 0x1062A"
       CURVE
       0x1062A
-      RL_GRID_UBYTE
+      RL_GRID_SBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p217_0_ms2
+      -27.776
+      27.559
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -2263,11 +2275,11 @@ ASAP2_VERSION 1 51
       "adres podtverzhden damos-veroyatno addr 0x10F02 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf01 @0x83F1DE | Datapoint distribution, set-speed deviation, 06 datapoints., idle-speed control."
       CURVE
       0x10F02
-      RL_GRID_UBYTE
+      RL_GRID_SBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_10_0_Umin
+      -1280
+      1270
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -2567,11 +2579,11 @@ ASAP2_VERSION 1 51
       "adres podtverzhden damos-veroyatno addr 0x10F90 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf8f @0x83F266 | 10 Sst."
       CURVE
       0x10F90
-      RL_GRID_UBYTE
+      RL_GRID_SBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_10_0_Umin
+      -1280
+      1270
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -4229,9 +4241,9 @@ ASAP2_VERSION 1 51
       0x14D7A
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p0234375_0
       0
-      255
+      5.97656
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6275,9 +6287,9 @@ ASAP2_VERSION 1 51
       0x181A3
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p3921568627_0_DK
       0
-      255
+      100
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6294,9 +6306,9 @@ ASAP2_VERSION 1 51
       0x181AE
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p5_0
       0
-      255
+      127.5
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6313,9 +6325,9 @@ ASAP2_VERSION 1 51
       0x181B5
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p0078125_0
       0
-      255
+      1.99219
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6351,9 +6363,9 @@ ASAP2_VERSION 1 51
       0x181C2
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p0078125_0
       0
-      255
+      1.99219
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6370,9 +6382,9 @@ ASAP2_VERSION 1 51
       0x181C9
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_4_0_kgh
       0
-      255
+      1020
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6389,9 +6401,9 @@ ASAP2_VERSION 1 51
       0x181D0
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_4_0_kgh
       0
-      255
+      1020
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6408,9 +6420,9 @@ ASAP2_VERSION 1 51
       0x181D7
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6427,9 +6439,9 @@ ASAP2_VERSION 1 51
       0x181DE
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6446,9 +6458,9 @@ ASAP2_VERSION 1 51
       0x181E5
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6465,9 +6477,9 @@ ASAP2_VERSION 1 51
       0x181ED
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6484,9 +6496,9 @@ ASAP2_VERSION 1 51
       0x181F8
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6503,9 +6515,9 @@ ASAP2_VERSION 1 51
       0x18209
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6522,9 +6534,9 @@ ASAP2_VERSION 1 51
       0x1821A
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p75_0
       0
-      255
+      191.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6541,9 +6553,9 @@ ASAP2_VERSION 1 51
       0x1821F
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p75_0
       0
-      255
+      191.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6560,9 +6572,9 @@ ASAP2_VERSION 1 51
       0x1822C
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_5_50_GradC
+      -50
+      1225
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6579,9 +6591,9 @@ ASAP2_VERSION 1 51
       0x18234
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_5_50_GradC
+      -50
+      1225
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6598,9 +6610,9 @@ ASAP2_VERSION 1 51
       0x1823C
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6617,9 +6629,9 @@ ASAP2_VERSION 1 51
       0x18243
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6636,9 +6648,9 @@ ASAP2_VERSION 1 51
       0x18248
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6655,9 +6667,9 @@ ASAP2_VERSION 1 51
       0x1824E
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6674,9 +6686,9 @@ ASAP2_VERSION 1 51
       0x18254
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6693,9 +6705,9 @@ ASAP2_VERSION 1 51
       0x1825B
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6712,9 +6724,9 @@ ASAP2_VERSION 1 51
       0x18262
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6731,9 +6743,9 @@ ASAP2_VERSION 1 51
       0x1826B
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6750,9 +6762,9 @@ ASAP2_VERSION 1 51
       0x18274
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6769,9 +6781,9 @@ ASAP2_VERSION 1 51
       0x1827E
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -6788,9 +6800,9 @@ ASAP2_VERSION 1 51
       0x1828B
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
-      0
-      255
+      CM_0p75_48_GradC
+      -48
+      143.25
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -9571,9 +9583,9 @@ ASAP2_VERSION 1 51
       0x19079
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_40_0_Upm
       0
-      255
+      10200
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -10608,9 +10620,9 @@ ASAP2_VERSION 1 51
       0x19BE8
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p000244140625_0
       0
-      255
+      0.0622559
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
@@ -10627,9 +10639,9 @@ ASAP2_VERSION 1 51
       0x19BF6
       RL_GRID_UBYTE
       0
-      CM_IDENTITY
+      CM_0p1_0_kgh
       0
-      255
+      25.5
       /begin AXIS_DESCR FIX_AXIS
         NO_INPUT_QUANTITY
         CM_IDENTITY
