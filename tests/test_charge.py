@@ -166,6 +166,23 @@ def main():
             got = damos.width_of(d.conv(v2.conv_w))
             check(got == want, "ширина %s: %s" % (name, got))
 
+    # -- цепочка от ДМРВ до наполнения, разобранная по коду (docs/36)
+    stock = open(os.path.join(ROOT, "firmware", "FBH3ID60_stok.bin"), "rb").read()
+    w = lambda a: int.from_bytes(stock[a:a + 2], "little")
+    lin = [w(0x15260 + 2 * i) for i in range(512)]
+    ofs = w(0x15660)
+    # индекс = АЦП/2 (0x842C2A), 10 бит на 5 В: 1.0 В -- индекс 102
+    check(lin[102] == ofs,
+          "ДМРВ: при 1.0 В таблица равна смещению (%d = %d) -- ноль расхода" % (lin[102], ofs))
+    check(all(lin[i] <= lin[i + 1] for i in range(511)), "тарировка ДМРВ не убывает")
+    idle = (lin[int(1.45 / 5 * 1024) // 2] - ofs) / 10
+    check(8 < idle < 16, "на холостых (1.45 В) расход %.1f кг/ч" % idle)
+    # rl_w = (ml + подсос) * 0x2155 / ((nmot*4 * KUMSRL) >> 8), шаг rl_w 0.0234375 %
+    # (0x843A08..0x843A9E). В процентах на кг/ч и об/мин это 1/KUMSRL.
+    k = 0.0234375 * 10 * 0x2155 * 256 / (4 * stock[0x1157C])
+    check(abs(k - 1 / (stock[0x1157C] * KUMSRL_F)) / k < 0.001,
+          "rl = %.1f * расход[кг/ч] / обороты -- то же, что расход / (обороты * KUMSRL)" % k)
+
     print()
     if fails:
         print("ПРОВАЛЕНО: %d" % len(fails))
