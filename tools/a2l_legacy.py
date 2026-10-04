@@ -200,7 +200,36 @@ RETRACTED = {
                 "лежит внутри KFMSNWDK со смещением 0x65 -- нечётным, то "
                 "есть даже не на границе ячейки словной карты. А конец "
                 "KFMSNWDK совпадает с началом KLAF байт в байт"),
+    "MAP_493_19081_8": (0x19081,
+                "это не кривая, а ДВЕ ОСИ подряд: 0x19081 и 0x1908A, обе "
+                "читает поиск по оси 0x8337cc (0x8515EE вход нагрузка, "
+                "0x8515D6 вход t ОЖ). Сканер принял вторую ось за данные "
+                "первой"),
+    "SUA08FEUB": (0x11A2D,
+                "ПРОВЕРКА СМЫСЛОМ: на 0x856EA4 код читает с соседнего байта "
+                "кривую mov r12,#0x1a2e / movbz r13,0x8ab4 / calls 0x00716a -- "
+                "вход ТЕМПЕРАТУРА ОЖ, а по имени это ось другой величины на 8 "
+                "точек. И в байтах её нет: по 0x11A2D лежит 7, дальше 6 и шесть "
+                "точек температуры. Сами 0x11A2C и 0x11A2D код читает как "
+                "одиночные байты (0x856F16, 0x856F0C)"),
+    "SNM16OPUW": (0x148D2,
+                "не ось: по 0x148D2 почти одни нули, а настоящая SNM16OPUW "
+                "(обороты 440..6520) лежит на 0x100F2 и читается на 0x834B86. "
+                "К 0x148D2 код обращается только с индексом, [r4+#0x48d2], -- "
+                "таблица там есть, но под именем оси её держать нельзя"),
+    "MAP_160_11F22_8": (0x11F22,
+                "тоже две оси оборотов: 0x11F22 и 0x11F2B, обе читает поиск "
+                "по оси 0x0075d2 (0x86631A и 0x866304, вход 0xF89E). Вторая "
+                "ось принята за данные первой"),
 }
+
+# Ось из дамоса записана АДРЕСОМ СЧЁТЧИКА: [n][точка 1]...[точка n]. Если
+# объявить её n ячейками с этого адреса, редактор покажет счётчик вместо
+# первой точки и потеряет последнюю -- а правка "первой ячейки" перепишет
+# ЧИСЛО ТОЧЕК и сломает ось. Так было у 52 осей. Сдвигаем начало за
+# счётчик, но только если образ это подтверждает: счётчик равен числу
+# точек, а точки строго растут.
+AXIS_NAME = re.compile(r"^S[A-Z0-9]{2}\d{2}[A-Z_]{2}[US][BW]$")
 
 
 # Вес доказательства. Перекрывающиеся карты не могут быть верны обе:
@@ -475,11 +504,26 @@ def main(argv=None) -> int:
     _collect_ax(profile)
 
     retracted: list = []
+    axis_fixed: list = []
     for m in maps:
         raw_name = m.get("name") or ("MAP_%05X" % m["addr"])
         if raw_name in RETRACTED and m["addr"] == RETRACTED[raw_name][0]:
             retracted.append((raw_name, m["addr"], RETRACTED[raw_name][1]))
             continue
+        if image is not None and AXIS_NAME.match(raw_name) \
+                and m.get("layout") == "bare_grid":
+            n_ = m["nx"] * max(1, m.get("ny") or 1)
+            cw = 2 if raw_name.endswith("W") else 1
+            a0 = m["addr"]
+            # оси со знаком (..SB, ..SW): SNG06LLSB -- это -30, -10, -1, 0,
+            # 1, 2, и как беззнаковые они "не растут"
+            sg = raw_name[-2] == "S"
+            rd = lambda q: int.from_bytes(image[q:q + cw], "little")
+            rds = lambda q: int.from_bytes(image[q:q + cw], "little", signed=sg)
+            pts = [rds(a0 + cw * (i + 1)) for i in range(n_)]
+            if rd(a0) == n_ and all(pts[i] < pts[i + 1] for i in range(n_ - 1)):
+                m["addr"] = m["data_addr"] = a0 + cw
+                axis_fixed.append(raw_name)
         if raw_name in prof_named and m["addr"] not in prof_named[raw_name]:
             disputed.append((raw_name, m["addr"],
                              sorted(prof_named[raw_name])[0],
@@ -661,8 +705,12 @@ def main(argv=None) -> int:
 
     _named(profile)
     before = len(maps)
+    # Сравниваем и с адресом ДАННЫХ: профиль знает RLNOT по данным
+    # 0x11587, а сканер -- по заголовку 0x11580. Сравнивая только заголовок,
+    # мы теряли RLNOT целиком, и в описании оставалось безымянное MAP_122.
     maps = [m for m in maps
-            if not (m["addr"] in named and str(m.get("name", "")).startswith("MAP_"))]
+            if not ((m["addr"] in named or m.get("data_addr") in named)
+                    and str(m.get("name", "")).startswith("MAP_"))]
     if before != len(maps):
         print("  безымянных карт заменено именами из профиля: %d"
               % (before - len(maps)), file=sys.stderr)
@@ -1035,6 +1083,9 @@ def main(argv=None) -> int:
         for owner, tag, a_, n_, w_ in bad_axes:
             print("    %-12s ось %s по %s: %d точек по %d байт не возрастают"
                   % (owner, tag, a_, n_, w_), file=sys.stderr)
+    if axis_fixed:
+        print("  ОСЕЙ, СДВИНУТЫХ ЗА СЧЁТЧИК: %d (%s ...)"
+              % (len(axis_fixed), ", ".join(axis_fixed[:4])), file=sys.stderr)
     if retracted:
         print("  ОТОЗВАНО РАЗБОРОМ: %d" % len(retracted), file=sys.stderr)
         for nm_, a_, why in sorted(retracted):

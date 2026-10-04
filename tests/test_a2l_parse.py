@@ -290,6 +290,41 @@ def main():
     check(abs(M.read_phys(buf, Z)[0][0] + 9.0) < 1e-9,
           "KFZWMN: первая ячейка %g град" % M.read_phys(buf, Z)[0][0])
 
+    # -- первая ячейка не должна быть СЧЁТЧИКОМ ТОЧЕК
+    #
+    # Ось из дамоса записана адресом счётчика: [n][точка 1]..[точка n].
+    # Объявленная n ячейками с этого адреса, она показывает счётчик вместо
+    # первой точки, теряет последнюю, а правка "первой ячейки" переписывает
+    # число точек и ломает ось. Так было у 61 оси и у RLNOT, где редактор
+    # показывал ось оборотов вместо значений. Два известных совпадения --
+    # данные, которые честно начинаются с числа, равного числу точек, --
+    # перечислены поимённо.
+    COINCIDENT = {
+        "MAP_132_116E5_4",  # [4][24 55 98 184][4 10 15 20] -- данные с четвёрки
+        "SDK10TEUB",        # 10 точек, и первая из них равна 10
+    }
+    cnt_first = [n for n, x in lays.items()
+                 if x.ny == 1 and x.nx >= 3 and x.width == 1
+                 and buf[x.data_off] == x.nx and buf[x.data_off + 1] > 0
+                 and all(buf[x.data_off + 1 + i] < buf[x.data_off + 2 + i]
+                         for i in range(x.nx - 2))
+                 and n not in COINCIDENT]
+    check(not cnt_first, "кривых, у которых первая ячейка -- счётчик точек: "
+          "%d %s" % (len(cnt_first), cnt_first[:4]))
+    SO = geometry.resolve(a2l, "SNM16OPUB", buf, am)
+    check(SO.data_off == 0x100F3 and SO.nx == 16,
+          "SNM16OPUB: точки с 0x%05X, %d штук" % (SO.data_off, SO.nx))
+
+    # -- RLNOT: значения, а не ось
+    RN = geometry.resolve(a2l, "RLNOT", buf, am)
+    rnv = [round(v, 2) for v in M.read_phys(buf, RN)[0]]
+    check(RN.data_off == 0x11587 and rnv[0] == 45.0 and rnv[-1] == 65.25,
+          "RLNOT: данные 0x%05X, %s..%s %%" % (RN.data_off, rnv[0], rnv[-1]))
+
+    # -- проверка смыслом нашла и убрала SUA08FEUB
+    check("SUA08FEUB" not in a2l.characteristics,
+          "SUA08FEUB отозвана: код читает там кривую по t ОЖ")
+
     # -- кривая с синтетической осью
     C = geometry.resolve(a2l, "SGA08MDUB", buf, am)
     check(C.ctype == "CURVE" and C.ny == 1,

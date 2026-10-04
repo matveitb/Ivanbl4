@@ -1005,6 +1005,18 @@ ASAP2_VERSION 1 51
       10200
     /end AXIS_PTS
 
+    /begin AXIS_PTS AX_11581_Y
+      "rpm"
+      0x11581
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_40_0_rpm
+      6
+      -0
+      10200
+    /end AXIS_PTS
+
     /begin AXIS_PTS AX_15688_X
       "% ugla drosselya"
       0x15688
@@ -1053,10 +1065,22 @@ ASAP2_VERSION 1 51
       799.207
     /end AXIS_PTS
 
+    /begin AXIS_PTS AX_11A2F_Y
+      "Grad C"
+      0x11A2F
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_0p75_48_GradC
+      6
+      -48
+      143.25
+    /end AXIS_PTS
+
     /begin CHARACTERISTIC SGA08MDUB
-      "podtverzhdena damos addr 0x10067 | base point distribution of actual gear 8 b.pt."
+      "podtverzhdena damos addr 0x10068 | base point distribution of actual gear 8 b.pt."
       CURVE
-      0x10067
+      0x10068
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1073,9 +1097,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SML05DKUB
-      "podtverzhdena damos addr 0x10070 | base point distribution air mass"
+      "podtverzhdena damos addr 0x10071 | base point distribution air mass"
       CURVE
-      0x10070
+      0x10071
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1092,9 +1116,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SML05LKUB
-      "podtverzhdena damos addr 0x10076"
+      "podtverzhdena damos addr 0x10077"
       CURVE
-      0x10076
+      0x10077
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1111,9 +1135,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SML08LHUB
-      "podtverzhdena damos addr 0x1007C | ml dependet basic point (number 8)"
+      "podtverzhdena damos addr 0x1007D | ml dependet basic point (number 8)"
       CURVE
-      0x1007C
+      0x1007D
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1130,9 +1154,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNG06LLSB
-      "adres podtverzhden damos-veroyatno addr 0x10085 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x85 @0x834C6C | Datapoint distribution, speed gradient, 6 datapoints"
+      "adres podtverzhden damos-veroyatno addr 0x10086 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x85 @0x834C6C | Datapoint distribution, speed gradient, 6 datapoints"
       CURVE
-      0x10085
+      0x10086
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1149,9 +1173,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM05DKUB
-      "podtverzhdena damos addr 0x1008C | base point distribution nmot"
+      "podtverzhdena damos addr 0x1008D | base point distribution nmot"
       CURVE
-      0x1008C
+      0x1008D
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1168,9 +1192,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM06LLUB
-      "podtverzhdena damos addr 0x10092 | distribution of engine speed"
+      "podtverzhdena damos addr 0x10093 | distribution of engine speed"
       CURVE
-      0x10092
+      0x10093
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1187,9 +1211,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM07LRUB
-      "podtverzhdena damos addr 0x10099"
+      "podtverzhdena damos addr 0x1009A"
       CURVE
-      0x10099
+      0x1009A
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1206,9 +1230,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM08DMUB
-      "podtverzhdena damos addr 0x100A1 | Datapoint distribution in DMD, 8 speed datapoints"
+      "podtverzhdena damos addr 0x100A2 | Datapoint distribution in DMD, 8 speed datapoints"
       CURVE
-      0x100A1
+      0x100A2
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1225,9 +1249,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM08LHUB
-      "podtverzhdena damos addr 0x100AA | nmot dependet basic point (number 8)"
+      "podtverzhdena damos addr 0x100AB | nmot dependet basic point (number 8)"
       CURVE
-      0x100AA
+      0x100AB
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1244,9 +1268,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM08__UB
-      "podtverzhdena damos addr 0x100B3 | Base point distribution engine speed, 8 base points"
+      "podtverzhdena damos addr 0x100B4 | Base point distribution engine speed, 8 base points"
       CURVE
-      0x100B3
+      0x100B4
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1263,9 +1287,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM10FEUB
-      "podtverzhdena damos addr 0x100BC"
+      "podtverzhdena damos addr 0x100BD"
       CURVE
-      0x100BC
+      0x100BD
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1282,9 +1306,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM12ESUB
-      "podtverzhdena damos addr 0x100C7 | Distribution for the engine speed nmot"
+      "podtverzhdena damos addr 0x100C8 | Distribution for the engine speed nmot"
       CURVE
-      0x100C7
+      0x100C8
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1300,10 +1324,10 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC SNM12FEUB
-      "podtverzhdena damos addr 0x100D4 | set points of WDKSMX, WDKUGDN"
+    /begin CHARACTERISTIC SNM12FEUB_100D5
+      "podtverzhdena damos addr 0x100D5 | set points of WDKSMX, WDKUGDN"
       CURVE
-      0x100D4
+      0x100D5
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1320,9 +1344,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM16CIUB
-      "podtverzhdena damos addr 0x100E1 | Base point distribution of engine speed, 16 base pts."
+      "podtverzhdena damos addr 0x100E2 | Base point distribution of engine speed, 16 base pts."
       CURVE
-      0x100E1
+      0x100E2
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1339,9 +1363,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM16OPUB
-      "podtverzhdena damos addr 0x100F2"
+      "podtverzhdena damos addr 0x100F3"
       CURVE
-      0x100F2
+      0x100F3
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1358,9 +1382,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM16ZUUB
-      "podtverzhdena damos addr 0x10103 | datapoint distribution engine speed, 16 datapoints"
+      "podtverzhdena damos addr 0x10104 | datapoint distribution engine speed, 16 datapoints"
       CURVE
-      0x10103
+      0x10104
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1377,9 +1401,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM24ZUUB
-      "podtverzhdena damos addr 0x10114 | datapoint distribution of engine speed, 24 datapoints"
+      "podtverzhdena damos addr 0x10115 | datapoint distribution of engine speed, 24 datapoints"
       CURVE
-      0x10114
+      0x10115
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1396,9 +1420,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SQM05TEUB
-      "podtverzhdena damos addr 0x1012D | air mass quotient dependet basic point (number =5)"
+      "podtverzhdena damos addr 0x1012E | air mass quotient dependet basic point (number =5)"
       CURVE
-      0x1012D
+      0x1012E
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1415,9 +1439,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL06LHUB
-      "podtverzhdena damos addr 0x10133"
+      "podtverzhdena damos addr 0x10134"
       CURVE
-      0x10133
+      0x10134
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1434,9 +1458,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL06LRUB
-      "podtverzhdena damos addr 0x1013A"
+      "podtverzhdena damos addr 0x1013B"
       CURVE
-      0x1013A
+      0x1013B
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1453,9 +1477,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL08DMUB
-      "podtverzhdena damos addr 0x10141"
+      "podtverzhdena damos addr 0x10142"
       CURVE
-      0x10141
+      0x10142
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1472,9 +1496,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL12ESUB
-      "podtverzhdena damos addr 0x1014A | Distribution for the relative air charge rl"
+      "podtverzhdena damos addr 0x1014B | Distribution for the relative air charge rl"
       CURVE
-      0x1014A
+      0x1014B
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1491,9 +1515,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL12ZUUB
-      "podtverzhdena damos addr 0x10157 | datapoint distribution relative air charge, 12 datapoints"
+      "podtverzhdena damos addr 0x10158 | datapoint distribution relative air charge, 12 datapoints"
       CURVE
-      0x10157
+      0x10158
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1510,9 +1534,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL16ZUUB
-      "podtverzhdena damos addr 0x10164 | datapoint distribution relative charge, 16 datapoints"
+      "podtverzhdena damos addr 0x10165 | datapoint distribution relative charge, 16 datapoints"
       CURVE
-      0x10164
+      0x10165
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1529,9 +1553,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM12ESUB
-      "podtverzhdena damos addr 0x10175 | Distribution for the engine coolant temperature tmot"
+      "podtverzhdena damos addr 0x10176 | Distribution for the engine coolant temperature tmot"
       CURVE
-      0x10175
+      0x10176
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -1831,9 +1855,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SBF02MFSB
-      "podtverzhdena damos addr 0x10629"
+      "podtverzhdena damos addr 0x1062A"
       CURVE
-      0x10629
+      0x1062A
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -2236,9 +2260,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNS06LLSB
-      "adres podtverzhden damos-veroyatno addr 0x10F01 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf01 @0x83F1DE | Datapoint distribution, set-speed deviation, 06 datapoints., idle-speed control."
+      "adres podtverzhden damos-veroyatno addr 0x10F02 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf01 @0x83F1DE | Datapoint distribution, set-speed deviation, 06 datapoints., idle-speed control."
       CURVE
-      0x10F01
+      0x10F02
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -2540,9 +2564,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SDN06LLSB
-      "adres podtverzhden damos-veroyatno addr 0x10F8F | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf8f @0x83F266 | 10 Sst."
+      "adres podtverzhden damos-veroyatno addr 0x10F90 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0xf8f @0x83F266 | 10 Sst."
       CURVE
-      0x10F8F
+      0x10F90
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -3039,24 +3063,6 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_122_11580_6
-      "adres podtverzhden mapscan addr 0x11580 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1580 @0x843740"
-      CURVE
-      0x11580
-      RL_2D_A8_UBYTE
-      0
-      CM_IDENTITY
-      0
-      255
-      /begin AXIS_DESCR STD_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        6
-        0
-        255
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
     /begin CHARACTERISTIC MAP_123_11595_8
       "adres podtverzhden mapscan addr 0x11595 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1595 @0x845110"
       CURVE
@@ -3312,25 +3318,6 @@ ASAP2_VERSION 1 51
         6
         0
         255
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC SUA08FEUB
-      "podtverzhdena damos addr 0x11A2D"
-      CURVE
-      0x11A2D
-      RL_GRID_UBYTE
-      0
-      CM_IDENTITY
-      0
-      255
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        7
-        0
-        6
-        FIX_AXIS_PAR_DIST 0 1 7
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -3758,24 +3745,6 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC MAP_160_11F22_8
-      "adres podtverzhden mapscan addr 0x11F22 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1f22 @0x86630E"
-      CURVE
-      0x11F22
-      RL_2D_A8_UBYTE
-      0
-      CM_IDENTITY
-      0
-      255
-      /begin AXIS_DESCR STD_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        8
-        0
-        255
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
     /begin CHARACTERISTIC KFLURB1
       "somnitelnaya damos-somnitelno addr 0x11FDE | map for engine roughness - reference base value"
       MAP
@@ -4069,25 +4038,6 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC SNM16OPUW_148D2
-      "adres podtverzhden damos-veroyatno addr 0x148D2 | IMYA NE PODTVERZHDENO, adres: kod: mov r8, [r4+#0x48d2] @0x8330C6 | set point distribution engine speed"
-      CURVE
-      0x148D2
-      RL_GRID_UBYTE
-      0
-      CM_IDENTITY
-      0
-      255
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        16
-        0
-        15
-        FIX_AXIS_PAR_DIST 0 1 16
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
     /begin CHARACTERISTIC MAP_175_14915_6
       "veroyatnaya mapscan addr 0x14915"
       CURVE
@@ -4274,9 +4224,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL03MFUW
-      "adres podtverzhden damos-veroyatno addr 0x14D78 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x4d78 @0x83C3B2"
+      "adres podtverzhden damos-veroyatno addr 0x14D7A | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x4d78 @0x83C3B2"
       CURVE
-      0x14D78
+      0x14D7A
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6320,9 +6270,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SDK10TEUB
-      "podtverzhdena damos addr 0x181A2 | wdkba dependet basic point (number 10)"
+      "podtverzhdena damos addr 0x181A3 | wdkba dependet basic point (number 10)"
       CURVE
-      0x181A2
+      0x181A3
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6339,9 +6289,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SEZ06TMUB
-      "podtverzhdena damos addr 0x181AD | Datapoint distribution of ignition timing efficiency"
+      "podtverzhdena damos addr 0x181AE | Datapoint distribution of ignition timing efficiency"
       CURVE
-      0x181AD
+      0x181AE
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6358,9 +6308,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SFR05TEUB
-      "podtverzhdena damos addr 0x181B4 | frmit dependet basic point (number 5)"
+      "podtverzhdena damos addr 0x181B5 | frmit dependet basic point (number 5)"
       CURVE
-      0x181B4
+      0x181B5
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6377,9 +6327,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SGA06MFUB
-      "podtverzhdena damos addr 0x181BA"
+      "podtverzhdena damos addr 0x181BB"
       CURVE
-      0x181BA
+      0x181BB
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6396,9 +6346,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SKS06ESUB
-      "podtverzhdena damos addr 0x181C1 | Distribution for the start adaption factor kstaa"
+      "podtverzhdena damos addr 0x181C2 | Distribution for the start adaption factor kstaa"
       CURVE
-      0x181C1
+      0x181C2
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6415,9 +6365,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SML06TEUB
-      "podtverzhdena damos addr 0x181C8 | ml dependet basic point (number 6)"
+      "podtverzhdena damos addr 0x181C9 | ml dependet basic point (number 6)"
       CURVE
-      0x181C8
+      0x181C9
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6434,9 +6384,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SML06TMUB
-      "podtverzhdena damos addr 0x181CF | ml dependet basic point (number 6)"
+      "podtverzhdena damos addr 0x181D0 | ml dependet basic point (number 6)"
       CURVE
-      0x181CF
+      0x181D0
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6453,9 +6403,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM06LHUB
-      "podtverzhdena damos addr 0x181D6"
+      "podtverzhdena damos addr 0x181D7"
       CURVE
-      0x181D6
+      0x181D7
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6472,9 +6422,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM06MFUB
-      "podtverzhdena damos addr 0x181DD"
+      "podtverzhdena damos addr 0x181DE"
       CURVE
-      0x181DD
+      0x181DE
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6491,9 +6441,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM07ESUB
-      "podtverzhdena damos addr 0x181E4 | Base point distribution of engine speed, 7 base pts."
+      "podtverzhdena damos addr 0x181E5 | Base point distribution of engine speed, 7 base pts."
       CURVE
-      0x181E4
+      0x181E5
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6510,9 +6460,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM10TEUB
-      "podtverzhdena damos addr 0x181EC | nmot dependet basic point (number 10)"
+      "podtverzhdena damos addr 0x181ED | nmot dependet basic point (number 10)"
       CURVE
-      0x181EC
+      0x181ED
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6528,10 +6478,10 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC SNM16GKUB
-      "podtverzhdena damos addr 0x181F7 | Datapoint distribution mixture control 16 nmot datapoints"
+    /begin CHARACTERISTIC SNM16GKUB_181F8
+      "podtverzhdena damos addr 0x181F8 | Datapoint distribution mixture control 16 nmot datapoints"
       CURVE
-      0x181F7
+      0x181F8
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6548,9 +6498,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM16KRUB
-      "podtverzhdena damos addr 0x18208 | datapoint distribution engine speed, 16 datapoints"
+      "podtverzhdena damos addr 0x18209 | datapoint distribution engine speed, 16 datapoints"
       CURVE
-      0x18208
+      0x18209
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6567,9 +6517,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SRL04KRUB
-      "podtverzhdena damos addr 0x18219 | datapoint distribution relative charge, 4 datapoints"
+      "podtverzhdena damos addr 0x1821A | datapoint distribution relative charge, 4 datapoints"
       CURVE
-      0x18219
+      0x1821A
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6585,10 +6535,10 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC SRL12GKUB
-      "podtverzhdena damos addr 0x1821E"
+    /begin CHARACTERISTIC SRL12GKUB_1821F
+      "podtverzhdena damos addr 0x1821F"
       CURVE
-      0x1821E
+      0x1821F
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6605,9 +6555,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ST107TMUB
-      "podtverzhdena damos addr 0x1822B | tabgmst dependet basic point (number 7)"
+      "podtverzhdena damos addr 0x1822C | tabgmst dependet basic point (number 7)"
       CURVE
-      0x1822B
+      0x1822C
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6624,9 +6574,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC ST307TMUB
-      "podtverzhdena damos addr 0x18233 | tkatmst dependet basic point (number 7)"
+      "podtverzhdena damos addr 0x18234 | tkatmst dependet basic point (number 7)"
       CURVE
-      0x18233
+      0x18234
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6643,9 +6593,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STA06ESUB
-      "podtverzhdena damos addr 0x1823B | Distribution for the air temperature in the intake manifold"
+      "podtverzhdena damos addr 0x1823C | Distribution for the air temperature in the intake manifold"
       CURVE
-      0x1823B
+      0x1823C
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6662,9 +6612,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM04__UB
-      "podtverzhdena damos addr 0x18242"
+      "podtverzhdena damos addr 0x18243"
       CURVE
-      0x18242
+      0x18243
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6681,9 +6631,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM05SAUB
-      "podtverzhdena damos addr 0x18247 | base point distribution"
+      "podtverzhdena damos addr 0x18248 | base point distribution"
       CURVE
-      0x18247
+      0x18248
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6700,9 +6650,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM05TMUB
-      "podtverzhdena damos addr 0x1824D | tmst dependet basic point (number 5)"
+      "podtverzhdena damos addr 0x1824E | tmst dependet basic point (number 5)"
       CURVE
-      0x1824D
+      0x1824E
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6719,9 +6669,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM06LLUB
-      "podtverzhdena damos addr 0x18253 | Datapoint distribution, engine temperature, 6 datapoints"
+      "podtverzhdena damos addr 0x18254 | Datapoint distribution, engine temperature, 6 datapoints"
       CURVE
-      0x18253
+      0x18254
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6738,9 +6688,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM06__UB
-      "podtverzhdena damos addr 0x1825A | Datapoint distribution, engine temperature, 6 datapoints"
+      "podtverzhdena damos addr 0x1825B | Datapoint distribution, engine temperature, 6 datapoints"
       CURVE
-      0x1825A
+      0x1825B
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6757,9 +6707,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM08DMUB
-      "podtverzhdena damos addr 0x18261"
+      "podtverzhdena damos addr 0x18262"
       CURVE
-      0x18261
+      0x18262
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6776,9 +6726,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM08LEUB
-      "podtverzhdena damos addr 0x1826A"
+      "podtverzhdena damos addr 0x1826B"
       CURVE
-      0x1826A
+      0x1826B
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6795,9 +6745,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STM09ESUB
-      "podtverzhdena damos addr 0x18273 | Base point distribution of engine temperature, 9 base pts."
+      "podtverzhdena damos addr 0x18274 | Base point distribution of engine temperature, 9 base pts."
       CURVE
-      0x18273
+      0x18274
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6814,9 +6764,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STS12ESUB
-      "podtverzhdena damos addr 0x1827D | Distribution for engine coolant temperature at start"
+      "podtverzhdena damos addr 0x1827E | Distribution for engine coolant temperature at start"
       CURVE
-      0x1827D
+      0x1827E
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -6833,9 +6783,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC STW06MDUB
-      "podtverzhdena damos addr 0x1828A"
+      "podtverzhdena damos addr 0x1828B"
       CURVE
-      0x1828A
+      0x1828B
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -9616,9 +9566,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SNM08GKUB
-      "adres podtverzhden damos-veroyatno addr 0x19078 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1078 @0x8429E8 | Datapoint distribution mixture control 8 nmot datapoints"
+      "adres podtverzhden damos-veroyatno addr 0x19079 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1078 @0x8429E8 | Datapoint distribution mixture control 8 nmot datapoints"
       CURVE
-      0x19078
+      0x19079
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -9631,24 +9581,6 @@ ASAP2_VERSION 1 51
         0
         7
         FIX_AXIS_PAR_DIST 0 1 8
-      /end AXIS_DESCR
-    /end CHARACTERISTIC
-
-    /begin CHARACTERISTIC MAP_493_19081_8
-      "adres podtverzhden mapscan addr 0x19081 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1081 @0x8515DE"
-      CURVE
-      0x19081
-      RL_2D_A8_UBYTE
-      0
-      CM_IDENTITY
-      0
-      255
-      /begin AXIS_DESCR STD_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
-        8
-        0
-        255
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -10671,9 +10603,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SLX06TMUW
-      "adres podtverzhden damos-veroyatno addr 0x19BE6 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1be6 @0x834F66 | lamsbg dependet basic point (number 6)"
+      "adres podtverzhden damos-veroyatno addr 0x19BE8 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1be6 @0x834F66 | lamsbg dependet basic point (number 6)"
       CURVE
-      0x19BE6
+      0x19BE8
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -10690,9 +10622,9 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC SML07TMUW
-      "adres podtverzhden damos-veroyatno addr 0x19BF4 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1bf4 @0x834F4E | ml dependet basic point (number 7)"
+      "adres podtverzhden damos-veroyatno addr 0x19BF6 | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x1bf4 @0x834F4E | ml dependet basic point (number 7)"
       CURVE
-      0x19BF4
+      0x19BF6
       RL_GRID_UBYTE
       0
       CM_IDENTITY
@@ -15781,19 +15713,19 @@ ASAP2_VERSION 1 51
     /begin CHARACTERISTIC RLNOT
       "podtverzhdena | Podmena napolneniya pri otkaze. Imenno etot mehanizm sposoben derzhat nevernoe napolnenie skolko ugodno dolgo, v otlichie ot oshibki prognoza, zhivuschey 2-5 ciklov."
       CURVE
-      0x11580
+      0x11587
       RL_GRID_UBYTE
       0
       CM_0p75_0
       -0
       191.25
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_IDENTITY
+        CM_40_0_rpm
         6
         0
-        5
-        FIX_AXIS_PAR_DIST 0 1 6
+        10200
+        AXIS_PTS_REF AX_11581_Y
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -15943,6 +15875,33 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFPUSUNW
+      "podtverzhdena | to zhe pri oboih (rezhim 3) -- vsya v edinicah"
+      MAP
+      0x113C1
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+      /begin AXIS_DESCR FIX_AXIS
+        NO_INPUT_QUANTITY
+        CM_IDENTITY
+        14
+        0
+        13
+        FIX_AXIS_PAR_DIST 0 1 14
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin CHARACTERISTIC KFKHFM
       "podtverzhdena | korrekciya harakteristiki DMRV, oboroty x napolnenie"
       MAP
@@ -15989,6 +15948,25 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC CURVE_11A2E
+      "adres podtverzhden | curve over coolant temperature, result to 0x9910"
+      CURVE
+      0x11A35
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_48_GradC
+        6
+        0
+        143.25
+        AXIS_PTS_REF AX_11A2F_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin GROUP G_ALL
       "??? ?????"
       ROOT
@@ -16005,20 +15983,20 @@ ASAP2_VERSION 1 51
         G_scanner_somnitelnaya
         G_torque_model
         G_second_lambda
-        G_cyclic_charge
         G_lambda_control_thresholds
         G_maps
+        G_cyclic_charge
         G_full_load_enrichment
         G_hfm_path
         G_scalars
         G_scanner_neodnoznachnaya
         G_transient_fuel
-        G_axes_resolved_from_code
-        G_full_load_lambda
         G_throttle_air_model
-        G_axis_blocks
         G_cpv_curves
         G_fuel_path
+        G_full_load_lambda
+        G_axes_resolved_from_code
+        G_code_found
         G_dtc_table
         G_fuel_path_unchanged
         G_other_regions
@@ -16303,10 +16281,8 @@ ASAP2_VERSION 1 51
         FFTKPE
         MAP_152_11AD4_16x12
         ANALUN
-        MAP_160_11F22_8
         MAP_171_124D4_6
         MAP_172_128BD_21
-        SNM16OPUW_148D2
         NDFILOG
         MAP_183_149D8_10
         SRL03MFUW
@@ -16374,7 +16350,6 @@ ASAP2_VERSION 1 51
         MAP_485_18F71_4
         MAP_486_18FA2_4
         SNM08GKUB
-        MAP_493_19081_8
         WEAN
         WEEM
         WEEMRFAN
@@ -16428,6 +16403,7 @@ ASAP2_VERSION 1 51
         SML05DKUB
         SML05LKUB
         SML08LHUB
+        SNM05DKUB
         SNM06LLUB
         SNM07LRUB
         SNM08DMUB
@@ -16435,13 +16411,17 @@ ASAP2_VERSION 1 51
         SNM08__UB
         SNM10FEUB
         SNM12ESUB
+        SNM12FEUB_100D5
         SNM16CIUB
+        SNM16OPUB
+        SNM16ZUUB
         SNM24ZUUB
         SQM05TEUB
         SRL06LHUB
         SRL06LRUB
         SRL08DMUB
         SRL12ESUB
+        SRL12ZUUB
         SRL16ZUUB
         STM12ESUB
         KFMPED
@@ -16461,7 +16441,6 @@ ASAP2_VERSION 1 51
         KLMDLOAD2
         FABMDWA
         KFAGRS
-        SUA08FEUB
         KFDLURZ
         KFLURM1
         KFFWK_0_A
@@ -16482,13 +16461,17 @@ ASAP2_VERSION 1 51
         SEZ06TMUB
         SFR05TEUB
         SGA06MFUB
+        SKS06ESUB
         SML06TEUB
         SML06TMUB
         SNM06LHUB
         SNM06MFUB
+        SNM07ESUB
         SNM10TEUB
+        SNM16GKUB_181F8
         SNM16KRUB
         SRL04KRUB
+        SRL12GKUB_1821F
         ST107TMUB
         ST307TMUB
         STA06ESUB
@@ -16860,20 +16843,6 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
-    /begin GROUP G_cyclic_charge
-      "Ciklovoe napolnenie"
-      /begin REF_CHARACTERISTIC
-        MAP_122_11580_6
-        KUMSRL
-        CWFKMSDKA
-        KIMSALL
-        MSALLMN
-        MSALLMX
-        MSLG
-        RLNOT
-      /end REF_CHARACTERISTIC
-    /end GROUP
-
     /begin GROUP G_lambda_control_thresholds
       "lambda_control_thresholds"
       /begin REF_CHARACTERISTIC
@@ -16902,6 +16871,19 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
+    /begin GROUP G_cyclic_charge
+      "Ciklovoe napolnenie"
+      /begin REF_CHARACTERISTIC
+        KUMSRL
+        CWFKMSDKA
+        KIMSALL
+        MSALLMN
+        MSALLMX
+        MSLG
+        RLNOT
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
     /begin GROUP G_full_load_enrichment
       "full_load_enrichment"
       /begin REF_CHARACTERISTIC
@@ -16921,6 +16903,7 @@ ASAP2_VERSION 1 51
         GRID_116_112DF_4x49
         KFPU
         KFPUSU
+        KFPUSUNW
         KFKHFM
         PUKANS
       /end REF_CHARACTERISTIC
@@ -16951,7 +16934,6 @@ ASAP2_VERSION 1 51
     /begin GROUP G_transient_fuel
       "Perehodnye rezhimy, plenka"
       /begin REF_CHARACTERISTIC
-        SNM07ESUB
         KFABAK
         KFAVAK
         KFBAKL
@@ -16959,41 +16941,12 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
-    /begin GROUP G_axes_resolved_from_code
-      "Osi, vosstanovlennye po kodu"
-      /begin REF_CHARACTERISTIC
-        SNM16OPUB
-        SNM16ZUUB
-        SRL12ZUUB
-        SRL11OPUW
-      /end REF_CHARACTERISTIC
-    /end GROUP
-
-    /begin GROUP G_full_load_lambda
-      "Lyambda polnoy nagruzki"
-      /begin REF_CHARACTERISTIC
-        SNM16GKUB
-        SRL12GKUB
-        KFFDLBTS__kandidat
-        TVLBTS
-      /end REF_CHARACTERISTIC
-    /end GROUP
-
     /begin GROUP G_throttle_air_model
       "Drossel, model vozduha"
       /begin REF_CHARACTERISTIC
-        SNM12FEUB
         KFMSNWDK
         WDKUGDN
         KFRLW
-      /end REF_CHARACTERISTIC
-    /end GROUP
-
-    /begin GROUP G_axis_blocks
-      "Osi"
-      /begin REF_CHARACTERISTIC
-        SNM05DKUB
-        SKS06ESUB
       /end REF_CHARACTERISTIC
     /end GROUP
 
@@ -17010,6 +16963,28 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         KFLF
         FRKAP
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_full_load_lambda
+      "Lyambda polnoy nagruzki"
+      /begin REF_CHARACTERISTIC
+        KFFDLBTS__kandidat
+        TVLBTS
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_axes_resolved_from_code
+      "Osi, vosstanovlennye po kodu"
+      /begin REF_CHARACTERISTIC
+        SRL11OPUW
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
+    /begin GROUP G_code_found
+      "code_found"
+      /begin REF_CHARACTERISTIC
+        CURVE_11A2E
       /end REF_CHARACTERISTIC
     /end GROUP
 

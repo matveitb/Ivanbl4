@@ -82,7 +82,14 @@ def _sub_uses_second_token(src: str) -> dict:
         name, pat = m.group(1), m.group(2)
         if name in uses:
             continue
-        uses[name] = bool(SECOND_TOKEN_FIELDS & set(re.findall(r'\w+', pat)))
+        # ";" в шаблоне -- это и есть переход ко второму слову. Без этой
+        # проверки [rwm+#data16] (смещение берётся подконструктором
+        # DataImmW после ";") считался двухбайтовым: mov r12,[r4+#0x616a]
+        # занимал 2 байта вместо 4, и линейный разбор сбивался на
+        # следующей же инструкции -- поэтому mov r13,[r4+#0x616c] читался
+        # как "band", а таблицы указателей не находились.
+        uses[name] = (";" in pat) or bool(
+            SECOND_TOKEN_FIELDS & set(re.findall(r'\w+', pat)))
     return uses
 
 
