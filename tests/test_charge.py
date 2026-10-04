@@ -183,6 +183,20 @@ def main():
     check(abs(k - 1 / (stock[0x1157C] * KUMSRL_F)) / k < 0.001,
           "rl = %.1f * расход[кг/ч] / обороты -- то же, что расход / (обороты * KUMSRL)" % k)
 
+    # -- модель впускного коллектора (docs/38): (ps - KFPRG) * KFURL = rl
+    pirg = [w(0x1AA54 + 2 * i) * 0.0390625 for i in range(10)]
+    furl = [w(0x1AB3C + 2 * i) * 4.57763671875e-06 for i in range(10)]
+    check(stock[0x1AA34] == stock[0x1AA35] == 10 and stock[0x1AB1C] == stock[0x1AB1D] == 10,
+          "KFPRG и KFURL: заголовки 10x10")
+    check(15 < min(pirg) and max(pirg) < 120,
+          "остаточные газы %.0f..%.0f гПа" % (min(pirg), max(pirg)))
+    rl_atm = [(1013 - p_) * f_ for p_, f_ in zip(pirg, furl)]
+    check(all(75 < r < 100 for r in rl_atm),
+          "при атмосферном давлении наполнение %.0f..%.0f %%" % (min(rl_atm), max(rl_atm)))
+    rows = [stock[0x1AA54 + 20 * r:0x1AA54 + 20 * r + 20] for r in range(10)]
+    check(all(r_ == rows[0] for r_ in rows),
+          "строки по углу распредвала одинаковые: фазовращателя нет")
+
     print()
     if fails:
         print("ПРОВАЛЕНО: %d" % len(fails))

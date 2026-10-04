@@ -597,6 +597,24 @@ ASAP2_VERSION 1 51
       COEFFS 0 1 0 0 0 0.75
     /end COMPU_METHOD
 
+    /begin COMPU_METHOD CM_0p25_0_rpm
+      "scale 0.25"
+      RAT_FUNC "%.3f" "rpm"
+      COEFFS 0 1 0 0 0 0.25
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_0p5_0_GradKW
+      "scale 0.5"
+      RAT_FUNC "%.3f" "Grad KW"
+      COEFFS 0 1 0 0 0 0.5
+    /end COMPU_METHOD
+
+    /begin COMPU_METHOD CM_4p577636719En06_0_hPa
+      "scale 4.57764e-06"
+      RAT_FUNC "%.3f" "%/hPa"
+      COEFFS 0 1 0 0 0 4.577636719e-06
+    /end COMPU_METHOD
+
     /begin RECORD_LAYOUT RL_AXIS_U8
       NO_AXIS_PTS_X 1 UBYTE
       AXIS_PTS_X    2 UBYTE INDEX_INCR DIRECT
@@ -1217,6 +1235,54 @@ ASAP2_VERSION 1 51
       12
       -48
       143.25
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_1AA40_X
+      "rpm"
+      0x1AA40
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p25_0_rpm
+      10
+      -0
+      16383.8
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_1AA36_Y
+      "Grad KW"
+      0x1AA36
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_0p5_0_GradKW
+      10
+      -0
+      127.5
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_1AB28_X
+      "rpm"
+      0x1AB28
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UWORD
+      0
+      CM_0p25_0_rpm
+      10
+      -0
+      16383.8
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_1AB1E_Y
+      "Grad KW"
+      0x1AB1E
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_0p5_0_GradKW
+      10
+      -0
+      127.5
     /end AXIS_PTS
 
     /begin CHARACTERISTIC SNM05DKUB
@@ -8943,6 +9009,93 @@ ASAP2_VERSION 1 51
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KFPRG
+      "podtverzhdena | davlenie ostatochnyh gazov vo vpuske: vychitaetsya iz davleniya v kollektore pered pereschetom v napolnenie"
+      MAP
+      0x1AA54
+      RL_GRID_UWORD
+      0
+      CM_0p0390625_0_hPa
+      -0
+      2559.96
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p25_0_rpm
+        10
+        0
+        16383.8
+        AXIS_PTS_REF AX_1AA40_X
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p5_0_GradKW
+        10
+        0
+        127.5
+        AXIS_PTS_REF AX_1AA36_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KFURL
+      "podtverzhdena | koefficient perescheta davleniya vo vpuske v napolnenie cilindra (po suti napolnyaemost po oborotam)"
+      MAP
+      0x1AB3C
+      RL_GRID_UWORD
+      0
+      CM_4p577636719En06_0_hPa
+      -0
+      0.299995
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p25_0_rpm
+        10
+        0
+        16383.8
+        AXIS_PTS_REF AX_1AB28_X
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p5_0_GradKW
+        10
+        0
+        127.5
+        AXIS_PTS_REF AX_1AB1E_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC SRM_VOL
+      "podtverzhdena | konstanta modeli kollektora: delitel skorosti integratora davleniya (chem bolshe, tem medlennee davlenie dogonyaet DMRV)"
+      VALUE
+      0x15662
+      RL_GRID_UWORD
+      0
+      CM_IDENTITY
+      -0
+      65535
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FLT_SRM
+      "podtverzhdena | koefficient filtra dlya davleniya ostatochnyh gazov i koefficienta perescheta"
+      VALUE
+      0x11579
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC FLT_HFM
+      "podtverzhdena | koefficient filtra sglazhennogo rashoda DMRV 0x930C (dlya proverki pravdopodobiya, ne dlya napolneniya)"
+      VALUE
+      0x11578
+      RL_GRID_UBYTE
+      0
+      CM_IDENTITY
+      -0
+      255
+    /end CHARACTERISTIC
+
     /begin GROUP G_ALL
       "??? ?????"
       ROOT
@@ -9017,18 +9170,22 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         CWFKMSDKA
         FDVANS
+        FLT_HFM
+        FLT_SRM
         FWFTBRTA
         FZPUSA
         HFM_LIN
         HFM_LIN_OFS
         KFKHFM
         KFMSNWDK
+        KFPRG
         KFPU
         KFPUSU
         KFPUSUNW
         KFRLW
         KFSU
         KFSU2
+        KFURL
         KIMSALL
         KLAF
         KUMSRL
@@ -9042,6 +9199,7 @@ ASAP2_VERSION 1 51
         RLNOT
         RLVMXN
         RLVSMXN
+        SRM_VOL
         TVSUM
         WDKHKDN
         WDKHKN

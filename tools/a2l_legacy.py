@@ -182,6 +182,7 @@ SECTION_TITLES = {
     "ac_compressor": "Кондиционер",
     "overrun_fuel_cut": "Отсечка на принудительном холостом",
     "max_charge_at_wot": "Наполнение на полной нагрузке",
+    "intake_manifold_model": "Модель впускного коллектора",
     "immobilizer": "Иммобилайзер",
     "flag_tables": "Таблицы флагов",
     "scalars": "Одиночные величины",
@@ -257,6 +258,12 @@ RETRACTED = {
                 "0x15F6C, ось температуры ОЖ 0x15F74 и карта 4x4 на 0x15F78. "
                 "Её же показывает CTP7 как 'обедняющий коэфф. повторного "
                 "пуска' -- все 16 значений и обе оси сходятся (docs/35)"),
+    "FVRMDYN": (0x11579,
+                "пять байт поверх четырёх отдельных величин: код читает "
+                "0x11579 как коэффициент фильтра модели коллектора (movbz "
+                "r12,0x1579 / shl #8 / calls 0x006cae, 0x843182 и 0x8431AE), "
+                "а 0x1157A..0x1157D -- это CWFKMSDKA, KIMSALL, KUMSRL и "
+                "MSALLMN, каждая со своей ссылкой из кода (docs/20, docs/38)"),
     "KFAGRS": (0x1171F,
                "одна 'карта 12x16' поверх нескольких разных объектов: начинается "
                "внутри KST_COLD_MUL (заголовок 0x116FE, данные 0x11712..0x11759, "
@@ -820,8 +827,12 @@ def main(argv=None) -> int:
     # записи на одни и те же 256 байт. Та же история у RLVMXN и RLVSMXN,
     # где профиль указывает на счётчик, а опись на первое значение: это не
     # спор об адресе, а одна и та же карта с двух концов.
-    done_addr = {m["addr"] for m in maps}
-    done_addr |= {m["data_addr"] for m in maps if m.get("data_addr")}
+    # отозванные записи места не занимают: на месте FVRMDYN профиль кладёт
+    # коэффициент фильтра FLT_SRM
+    live = [m for m in maps if not (m.get("name") in RETRACTED
+                                    and RETRACTED[m["name"]][0] == m["addr"])]
+    done_addr = {m["addr"] for m in live}
+    done_addr |= {m["data_addr"] for m in live if m.get("data_addr")}
     extra = []
     merged: list = []
 

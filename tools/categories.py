@@ -136,6 +136,7 @@ EXPLICIT = {
     "KFRLW": AIR, "RLNOT": AIR, "RLVMXN": AIR, "RLVSMXN": AIR,
     "MSLG": AIR, "MSALLMN": AIR, "MSALLMX": AIR, "KIMSALL": AIR,
     "CWFKMSDKA": AIR, "KFMIRL": TORQ,
+    "KFPRG": AIR, "KFURL": AIR, "SRM_VOL": AIR, "FLT_SRM": AIR, "FLT_HFM": AIR,
     # смесь и полная нагрузка
     "KLLAMFA_0": MIX, "KLLAMFA_1": MIX, "WDKVLN_0": MIX, "WDKVLN_1": MIX,
     "WDKSLN": IDLE, "TV_LAMFA": MIX, "KFLBTS": MIX, "KFFDLBTS": MIX,
@@ -182,7 +183,7 @@ EXPLICIT = {
 SECTION = {
     "torque_model": TORQ, "knock_control": KNOCK, "cyclic_charge": AIR,
     "hfm_path": AIR, "throttle_air_model": AIR, "saint_venant": AIR,
-    "max_charge_at_wot": AIR, "fuel_path": INJ, "fuel_trim_curves": INJ,
+    "max_charge_at_wot": AIR, "intake_manifold_model": AIR, "fuel_path": INJ, "fuel_trim_curves": INJ,
     "transient_fuel": TRANS, "full_load_lambda": MIX,
     "full_load_enrichment": MIX, "alpha_map_KFLF": MIX,
     "lambda_control_thresholds": LAM, "mixture_adaptation": LAM,

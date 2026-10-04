@@ -86,6 +86,7 @@ _MANUAL = {
     "docs/26 тракт ДМРВ, диспетчер по режимам": (
         "KFKHFM KFPU KFPUSU KFPUNW KFPUSUNW KLAF KFMSNWDK PUKANS KFRLW"),
     "docs/20, 36 подсос и адаптация расхода": "CWFKMSDKA KIMSALL MSALLMN MSALLMX MSLG",
+    "docs/38 модель впускного коллектора": "KFPRG KFURL SRM_VOL FLT_SRM FLT_HFM",
 }
 MANUAL = {n: doc for doc, names in _MANUAL.items() for n in names.split()}
 
