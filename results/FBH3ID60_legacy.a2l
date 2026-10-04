@@ -1195,6 +1195,30 @@ ASAP2_VERSION 1 51
       10200
     /end AXIS_PTS
 
+    /begin AXIS_PTS AX_1827E_X
+      "Grad C"
+      0x1827E
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_0p75_48_GradC
+      12
+      -48
+      143.25
+    /end AXIS_PTS
+
+    /begin AXIS_PTS AX_10176_Y
+      "Grad C"
+      0x10176
+      NO_INPUT_QUANTITY
+      RL_AXIS_BARE_UBYTE
+      0
+      CM_0p75_48_GradC
+      12
+      -48
+      143.25
+    /end AXIS_PTS
+
     /begin CHARACTERISTIC SGA08MDUB
       "podtverzhdena damos addr 0x10068 | base point distribution of actual gear 8 b.pt."
       CURVE
@@ -6774,7 +6798,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC WEEM
-      "adres podtverzhden damos-veroyatno addr 0x1909B | IMYA NE PODTVERZHDENO, adres: kod: mov r12, #0x109b @0x8516AA | correction of prestorage angle"
+      "podtverzhdena damos-veroyatno addr 0x1909B | correction of prestorage angle | smysl podtverzhden CTP7: Korrekciya fazy vpryska (pravka 0 -> 102)"
       CURVE
       0x1909B
       RL_GRID_UBYTE
@@ -7027,19 +7051,19 @@ ASAP2_VERSION 1 51
       1.99219
       /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_0p75_0
-        12
-        0
-        191.25
-        AXIS_PTS_REF SRL12_GK
-      /end AXIS_DESCR
-      /begin AXIS_DESCR COM_AXIS
-        NO_INPUT_QUANTITY
         CM_40_0_rpm
         16
         0
         10200
         AXIS_PTS_REF SNM16_GK
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_0
+        12
+        0
+        191.25
+        AXIS_PTS_REF SRL12_GK
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -8868,7 +8892,7 @@ ASAP2_VERSION 1 51
       255
     /end CHARACTERISTIC
 
-    /begin CHARACTERISTIC KFFDLBTS__kandidat
+    /begin CHARACTERISTIC KFFDLBTS
       "podtverzhdena |"
       MAP
       0x19576
@@ -8877,21 +8901,21 @@ ASAP2_VERSION 1 51
       CM_0p0078125_0
       -0
       1.99219
-      /begin AXIS_DESCR FIX_AXIS
+      /begin AXIS_DESCR COM_AXIS
         NO_INPUT_QUANTITY
-        CM_IDENTITY
-        12
-        0
-        11
-        FIX_AXIS_PAR_DIST 0 1 12
-      /end AXIS_DESCR
-      /begin AXIS_DESCR FIX_AXIS
-        NO_INPUT_QUANTITY
-        CM_IDENTITY
+        CM_40_0_rpm
         16
         0
-        15
-        FIX_AXIS_PAR_DIST 0 1 16
+        10200
+        AXIS_PTS_REF SNM16_GK
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_0
+        12
+        0
+        191.25
+        AXIS_PTS_REF SRL12_GK
       /end AXIS_DESCR
     /end CHARACTERISTIC
 
@@ -11834,6 +11858,112 @@ ASAP2_VERSION 1 51
       255
     /end CHARACTERISTIC
 
+    /begin CHARACTERISTIC KF_LAM_WARM
+      "podtverzhdena | sostav smesi pri progreve, lyambda-regulirovanie aktivno: stroki -- TOZH (0x8AB4), podryad -- TOZH pri puske (0x8AB3)"
+      MAP
+      0x19344
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_48_GradC
+        12
+        0
+        143.25
+        AXIS_PTS_REF AX_1827E_X
+      /end AXIS_DESCR
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_48_GradC
+        12
+        0
+        143.25
+        AXIS_PTS_REF AX_10176_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KL_LAM_OPEN
+      "podtverzhdena | korrekciya sostava smesi pri neaktivnom lyambda-regulirovanii, po TOZH"
+      CURVE
+      0x193D4
+      RL_GRID_SBYTE
+      0
+      CM_0p0078125_0
+      -1
+      1
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_48_GradC
+        12
+        0
+        143.25
+        AXIS_PTS_REF AX_10176_Y
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC LAM_RICH_MAX
+      "podtverzhdena | predel bogatoy smesi. Vtoroy variant lezhit ryadom, 0x1190E, vybor po bitu 0xFD0C.13"
+      VALUE
+      0x1190D
+      RL_GRID_UBYTE
+      0
+      CM_0p0078125_0
+      -0
+      1.99219
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC KABAKL_S
+      "podtverzhdena | koefficient ubyvaniya obogascheniya na razgone, korotkaya sostavlyayuschaya"
+      VALUE
+      0x118F9
+      RL_GRID_UBYTE
+      0
+      CM_0p00390625_0
+      -0
+      0.996094
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DTH_ACC_ENR
+      "podtverzhdena | porog vklyucheniya obogascheniya pri razgone, po TOZH"
+      CURVE
+      0x1B4F0
+      RL_GRID_SWORD
+      0
+      CM_0p046875_0
+      -1536
+      1536
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_48_GradC
+        9
+        0
+        191.25
+        AXIS_PTS_REF STM09_WF
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
+    /begin CHARACTERISTIC DTH_DEC_LEAN
+      "podtverzhdena | porog vklyucheniya obedneniya pri zamedlenii, po TOZH"
+      CURVE
+      0x1B502
+      RL_GRID_SWORD
+      0
+      CM_0p046875_0
+      -1536
+      1536
+      /begin AXIS_DESCR COM_AXIS
+        NO_INPUT_QUANTITY
+        CM_0p75_48_GradC
+        9
+        0
+        191.25
+        AXIS_PTS_REF STM09_WF
+      /end AXIS_DESCR
+    /end CHARACTERISTIC
+
     /begin GROUP G_ALL
       "??? ?????"
       ROOT
@@ -11843,8 +11973,8 @@ ASAP2_VERSION 1 51
         G_lambda_cat_diag_block
         G_knock_control
         G_canister_purge
-        G_mixture_adaptation
         G_ctp7_confirmed
+        G_mixture_adaptation
         G_ac_compressor
         G_overrun_fuel_cut
         G_torque_model
@@ -11855,10 +11985,10 @@ ASAP2_VERSION 1 51
         G_full_load_enrichment
         G_hfm_path
         G_scalars
+        G_full_load_lambda
         G_throttle_air_model
         G_cpv_curves
         G_fuel_path
-        G_full_load_lambda
         G_axes_resolved_from_code
         G_code_found
         G_dtc_table
@@ -12003,7 +12133,6 @@ ASAP2_VERSION 1 51
         MAP_486_18FA2_4
         SNM08GKUB
         WEAN
-        WEEM
         WEEMRFAN
         WEESTM
         ZZWEETM
@@ -12075,7 +12204,6 @@ ASAP2_VERSION 1 51
         SRL12ESUB
         SRL12ZUUB
         SRL16ZUUB
-        STM12ESUB
         KFMPED
         NMAXPRL
         NMXDAEF
@@ -12116,10 +12244,8 @@ ASAP2_VERSION 1 51
         SNM06LHUB
         SNM06MFUB
         SNM10TEUB
-        SNM16GKUB_181F8
         SNM16KRUB
         SRL04KRUB
-        SRL12GKUB_1821F
         ST107TMUB
         ST307TMUB
         STA06ESUB
@@ -12130,7 +12256,6 @@ ASAP2_VERSION 1 51
         STM06__UB
         STM08DMUB
         STM08LEUB
-        STS12ESUB
         STW06MDUB
         RLVMXN_182B7
         RLVSMXN_182CE
@@ -12179,6 +12304,7 @@ ASAP2_VERSION 1 51
         KFLMSKH
         KFWEE
         KFWEEK
+        WEEM
         WEESTN
         KFFWL
         FUKNSTM
@@ -12366,6 +12492,40 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
+    /begin GROUP G_ctp7_confirmed
+      "ctp7_confirmed"
+      /begin REF_CHARACTERISTIC
+        STM12ESUB
+        STS12ESUB
+        KST_COLD
+        KST_HOT
+        KST_HOT_MUL
+        KST_COLD_MUL
+        KST_COLD_NMUL
+        KST_RESTART
+        KF_TI_NONLIN
+        TMOT_ADAPT
+        NMIN_MISF
+        NMAX_MISF
+        TMOT_FAN_HYS
+        TAN_FAN
+        TMOT_FAN1
+        TMOT_FAN2
+        TMOT_FAN3
+        TMOT_FAN4
+        TMOT_FAN5
+        HFM_LIN
+        HFM_LIN_OFS
+        LS_CONFIG
+        KF_LAM_WARM
+        KL_LAM_OPEN
+        LAM_RICH_MAX
+        KABAKL_S
+        DTH_ACC_ENR
+        DTH_DEC_LEAN
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
     /begin GROUP G_mixture_adaptation
       "mixture_adaptation"
       /begin REF_CHARACTERISTIC
@@ -12397,32 +12557,6 @@ ASAP2_VERSION 1 51
         CWPKAPP
         KRKTE
         CWLAMBTS
-      /end REF_CHARACTERISTIC
-    /end GROUP
-
-    /begin GROUP G_ctp7_confirmed
-      "ctp7_confirmed"
-      /begin REF_CHARACTERISTIC
-        KST_COLD
-        KST_HOT
-        KST_HOT_MUL
-        KST_COLD_MUL
-        KST_COLD_NMUL
-        KST_RESTART
-        KF_TI_NONLIN
-        TMOT_ADAPT
-        NMIN_MISF
-        NMAX_MISF
-        TMOT_FAN_HYS
-        TAN_FAN
-        TMOT_FAN1
-        TMOT_FAN2
-        TMOT_FAN3
-        TMOT_FAN4
-        TMOT_FAN5
-        HFM_LIN
-        HFM_LIN_OFS
-        LS_CONFIG
       /end REF_CHARACTERISTIC
     /end GROUP
 
@@ -12575,6 +12709,16 @@ ASAP2_VERSION 1 51
       /end REF_CHARACTERISTIC
     /end GROUP
 
+    /begin GROUP G_full_load_lambda
+      "Lyambda polnoy nagruzki"
+      /begin REF_CHARACTERISTIC
+        SNM16GKUB_181F8
+        SRL12GKUB_1821F
+        KFFDLBTS
+        TVLBTS
+      /end REF_CHARACTERISTIC
+    /end GROUP
+
     /begin GROUP G_throttle_air_model
       "Drossel, model vozduha"
       /begin REF_CHARACTERISTIC
@@ -12597,14 +12741,6 @@ ASAP2_VERSION 1 51
       /begin REF_CHARACTERISTIC
         KFLF
         FRKAP
-      /end REF_CHARACTERISTIC
-    /end GROUP
-
-    /begin GROUP G_full_load_lambda
-      "Lyambda polnoy nagruzki"
-      /begin REF_CHARACTERISTIC
-        KFFDLBTS__kandidat
-        TVLBTS
       /end REF_CHARACTERISTIC
     /end GROUP
 

@@ -199,11 +199,16 @@ def main(argv=None) -> int:
     ap.add_argument("--base",
                     help="прошивка ДО правки в CTP7: одиночная величина, которую "
                          "правили, опознаётся по тому, что её байты изменились")
+    ap.add_argument("--base-cte",
+                    help="экспорт CTP7 той прошивки, что в --base. С ним правка "
+                         "засчитывается, только если таблица CTP7 тоже изменилась "
+                         "и связь с нашей картой держится в обеих выгрузках")
     ap.add_argument("--json")
     a = ap.parse_args(argv)
 
     buf = open(a.bin, "rb").read()
     base = open(a.base, "rb").read() if a.base else None
+    base_cte = {c["name"]: c for c in parse_cte(a.base_cte)} if a.base_cte else None
     a2l = model.load(a.a2l)
     am = geometry.detect_addressing(a2l, len(buf))
     lay = geometry.resolve_all(a2l, buf, am)
@@ -299,21 +304,69 @@ def main(argv=None) -> int:
         # Правка решает там, где значение не решает: из кандидатов годится
         # тот, чьи байты отличаются от прошивки до правки, и только если
         # такой один.
+        #
+        # Одного этого мало. Во втором раунде "ISS=0" = 143.25 прилипло к
+        # порогу вентилятора: его как раз поставили на 143.25, а сам ISS=0
+        # не трогали. Поэтому с --base-cte требуется ещё, чтобы изменилась и
+        # таблица CTP7, а связь (то же значение или обратная величина)
+        # держалась в ОБЕИХ выгрузках -- до правки и после.
         def edited(n):
             L = ours[n][3]
             return base is not None and buf[L.data_off:L.end] != base[L.data_off:L.end]
 
-        if (len(cf) == 1 or uniform) and exact:
-            ax_ok = [e for e in exact if axis_ok(e[0])]
-            ed = [e for e in exact if edited(e[0])]
-            if len(ax_ok) == 1 and len(cf) > 1:
-                exact = ax_ok
-            elif len(ed) == 1:
-                verdict = "СОВПАЛО ПО ПРАВКЕ: %s (байты изменились, значение сходится)" % ed[0][0]
+        before = base_cte.get(c["name"]) if base_cte else None
+        ctp_changed = base_cte is None or (before is not None
+                                           and flat(before["values"]) != cf)
+
+        def relation(L):
+            """'exact', ('inverse', k) или None -- по обеим выгрузкам сразу."""
+            pairs = [(buf, cf)]
+            if before is not None:
+                pairs.append((base, flat(before["values"])))
+            ph, rw, tg = [], [], []
+            for b_, t_ in pairs:
+                try:
+                    v = flat(M.read_phys(b_, L))
+                except Exception:                           # noqa: BLE001
+                    return None
+                if len(v) != len(t_):
+                    return None
+                # ориентация у однородной таблицы не важна, а у прежней
+                # выгрузки сверяем как набор чисел
+                v, t_ = sorted(v), sorted(t_)
+                ph += v
+                tg += t_
+                f = L.factor or 1.0
+                rw += [round((x + L.offset) / f) for x in v]
+            half = abs(L.factor) * 0.51 + 1e-6
+            if all(abs(x - y) <= min(half, max(0.06, 0.01 * abs(y))) for x, y in zip(ph, tg)):
+                return "exact"
+            n_ = len(cf)
+            parts = [(rw[i:i + n_], tg[i:i + n_][::-1]) for i in range(0, len(rw), n_)]
+            k = inverse(sum((p[0] for p in parts), []), sum((p[1] for p in parts), []))
+            return ("inverse", k) if k else None
+
+        if (len(cf) == 1 or uniform) and base is not None and ctp_changed:
+            hits = []
+            for n, (vals, xs, ys, L) in ours.items():
+                if L.nx * L.ny == len(cf) and edited(n):
+                    rel = relation(L)
+                    if rel:
+                        hits.append((n, rel))
+            if len(hits) == 1:
+                n, rel = hits[0]
+                verdict = "СОВПАЛО ПО ПРАВКЕ: %s (байты изменились, %s)" % (
+                    n, "значение сходится" if rel == "exact"
+                    else "у CTP7 = %.4g / байт" % rel[1])
                 print("%-58s %s" % (c["name"][:58], verdict))
                 report.append({"ctp7": c["name"], "hash": c["hash"],
-                               "verdict": verdict, "ours": [ed[0][0]]})
+                               "verdict": verdict, "ours": [n]})
                 continue
+
+        if (len(cf) == 1 or uniform) and exact:
+            ax_ok = [e for e in exact if axis_ok(e[0])]
+            if len(ax_ok) == 1 and len(cf) > 1:
+                exact = ax_ok
             else:
                 verdict = ("ПО ЗНАЧЕНИЮ НЕ ОПОЗНАТЬ (%s); совпадает с: %s" % (
                     "одна величина" if len(cf) == 1 else "все значения одинаковы",

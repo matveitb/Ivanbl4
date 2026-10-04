@@ -43,12 +43,19 @@ def check(cond, msg):
         fails.append(msg)
 
 
-def run(base):
+BIN2 = os.path.join(CT, "FBH3ID60-E2_Mod_by_Mpower_test2.bin")
+CTE2 = os.path.join(CT, "FBH3ID60-E2_Mod_by_Mpower_test2.cte")
+STOCK = os.path.join(ROOT, "firmware", "FBH3ID60_stok.bin")
+
+
+def run(base, bin_=BIN, cte=CTE, base_cte=None):
     with tempfile.TemporaryDirectory() as td:
         out = os.path.join(td, "m.json")
-        argv = ["--bin", BIN, "--a2l", A2L, "--json", out, CTE]
+        argv = ["--bin", bin_, "--a2l", A2L, "--json", out, cte]
         if base:
             argv[:0] = ["--base", base]
+        if base_cte:
+            argv[:0] = ["--base-cte", base_cte]
         with contextlib.redirect_stdout(io.StringIO()):
             ctematch.main(argv)
         return {r["ctp7"]: r for r in json.load(open(out, encoding="utf-8"))}
@@ -95,6 +102,15 @@ def main():
     check(verdict("Тарировка ДМРВ") == "СОВПАЛО: HFM_LIN",
           "тарировка ДМРВ = HFM_LIN, все 512 точек")
 
+    # -- после исправления ориентации обе карты защиты компонентов сходятся
+    #    сами, без транспонирования (в MPower KFLBTS -- сплошная 1.000, её
+    #    держат оси; KFFDLBTS -- "лесенка" из 0 и 1)
+    check(verdict("Состав смеси для защиты нейтрализатора") == "СОВПАЛО: KFLBTS, оси совпали",
+          "KFLBTS: %s" % verdict("Состав смеси для защиты нейтрализатора"))
+    check(verdict("Множитель корр. ALF для защиты нейтрализатора")
+          == "СОВПАЛО: KFFDLBTS, оси совпали",
+          "KFFDLBTS = множитель ALF: %s" % verdict("Множитель корр. ALF для защиты нейтрализатора"))
+
     # -- KFZW: значения сошлись, а ось нагрузки у CTP7 соседняя (0x1014A,
     #    кончается на 90 %), код берёт 0x10157 (до 99.75 %). Если когда-нибудь
     #    "совпадут оси" -- значит, мы переехали на чужую ось.
@@ -126,7 +142,7 @@ def main():
               "%s = %s по правке" % (ctp, ours))
 
     got = sum(1 for v in r.values() if v["verdict"].startswith("СОВПАЛО"))
-    check(got >= 51, "таблиц CTP7 опознано: %d из %d" % (got, len(r)))
+    check(got >= 56, "таблиц CTP7 опознано: %d из %d" % (got, len(r)))
 
     # -- а теперь то, что проверка обязана НЕ найти
     check(verdict("Макс. богатая смесь").startswith("ПО ЗНАЧЕНИЮ НЕ ОПОЗНАТЬ"),
@@ -137,6 +153,64 @@ def main():
     same = run(BIN)        # "до правки" = та же прошивка: правок нет вовсе
     n_ed = sum(1 for v in same.values() if "ПО ПРАВКЕ" in v["verdict"])
     check(n_ed == 0, "без правок ничего не опознано 'по правке': %d" % n_ed)
+
+    # -- второй раунд: владелец поправил в CTP7 всё, что по значению не
+    #    различалось (firmware/ctp7/FBH3ID60-E2_Mod_by_Mpower_test2.*)
+    r2 = run(BIN, BIN2, CTE2, CTE)
+    for ctp, ours in [
+        ("Порог по дросселю для режима полной нагрузки", "WDKVLN_0"),
+        ("Порог по дросселю для режима полной нагрузки 2", "WDKVLN_1"),
+        ("Состав смеси в режиме полной мощности", "KLLAMFA_0"),
+        ("Состав смеси в режиме полной мощности 2", "KLLAMFA_1"),
+        ("Минимальный расчетный УОЗ", "KFZWMS"),
+        ("Мин. открытие дросселя, обеспечивающее макс. наполнение", "WDKUGDN"),
+        ("Макс. богатая смесь", "LAM_RICH_MAX"),
+        ("Коррекция фазы впрыска", "WEEM"),
+        ("Коэффициент убывания обогащения (Short)", "KABAKL_S"),
+        ("Коррекция сост.смеси при неактивном лямбда-регулировании", "KL_LAM_OPEN"),
+        ("Порог ТОЖ для включения вентилятора, режим 1", "TMOT_FAN1"),
+        ("Порог ТОЖ для включения вентилятора, режим 2", "TMOT_FAN2"),
+        ("Порог ТОЖ для включения вентилятора, режим 3", "TMOT_FAN3"),
+        ("Порог ТОЖ для включения вентилятора, режим 4", "TMOT_FAN4"),
+    ]:
+        check(r2[ctp]["verdict"].startswith("СОВПАЛО ПО ПРАВКЕ: " + ours + " "),
+              "раунд 2: %s = %s" % (ctp, ours))
+    check(r2["Состав смеси на частичных нагрузках"]["verdict"]
+          == "СОВПАЛО ПО ПРАВКЕ: KFLF (байты изменились, у CTP7 = 128 / байт)",
+          "KFLF: CTP7 показывает 128/байт -- 1/лямбда")
+    for ctp, ours in [("Множитель корр. ALF для защиты нейтрализатора", "KFFDLBTS"),
+                      ("Состав смеси при прогреве, L-регулирование активно", "KF_LAM_WARM"),
+                      ("Порог включения обогащения при ускорении", "DTH_ACC_ENR"),
+                      ("Порог включения обеднения при замедлении", "DTH_DEC_LEAN")]:
+        check(r2[ctp]["verdict"] == "СОВПАЛО: %s, оси совпали" % ours,
+              "раунд 2: %s = %s" % (ctp, ours))
+    # TMOT_FAN3 поставили на 143.25 -- ровно столько, сколько стоит в
+    # ISS=0. Байты изменились у порога вентилятора, а таблица ISS=0 у CTP7
+    # осталась прежней: это НЕ правка ISS=0.
+    check(not r2["Условие выхода из регулирования (ISS=0)"]["verdict"].startswith("СОВПАЛО"),
+          "ISS=0 не прилипает к поправленному на то же значение TMOT_FAN3: %s"
+          % r2["Условие выхода из регулирования (ISS=0)"]["verdict"])
+    both = sum(1 for k in r if r[k]["verdict"].startswith("СОВПАЛО")
+               or r2[k]["verdict"].startswith("СОВПАЛО"))
+    check(both >= 70, "за два раунда опознано: %d из %d" % (both, len(r)))
+    clash = [k for k in r if r[k]["verdict"].startswith("СОВПАЛО")
+             and r2[k]["verdict"].startswith("СОВПАЛО") and r[k]["ours"] != r2[k]["ours"]]
+    check(not clash, "раунды не спорят между собой: %s" % clash)
+
+    # -- ориентация всех карт, которые код вызывает с заголовком, -- по коду
+    import orient                                           # noqa: E402
+    stock = open(STOCK, "rb").read()
+    a2l_all = model.load(A2L)
+    lay_s = geometry.resolve_all(a2l_all, stock,
+                                 geometry.detect_addressing(a2l_all, len(stock)))
+    by_data = {L.data_off: (n, L) for n, L in lay_s.items()}
+    wrong = []
+    for site, tgt, d, h in orient.calls(stock):
+        if d in by_data:
+            n, L = by_data[d]
+            if L.ny > 1 and L.nx != L.ny and stock[h] != L.nx:
+                wrong.append(n)
+    check(not wrong, "все карты читаются той стороной, что и в коде: %s" % (wrong or "да"))
 
     # -- плёнка читается правильной стороной: подряд 7 точек по оборотам
     buf = open(BIN, "rb").read()
