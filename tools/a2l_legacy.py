@@ -53,6 +53,24 @@ AXES = {
     # точек ось сдвигалась на байт и первая точка уезжала в конец.
     "SNM08_KO": dict(addr=0x119D9, n=8, width=1, factor=40.0, offset=0.0,
                      unit="rpm", desc="engine speed for A/C compressor, 8 points"),
+    # Оси, которые показал экспорт CTP7 (docs/35), а код подтвердил: каждая
+    # передаётся процедуре 0x833FFC как заголовок карты (r14/r15) или
+    # считается в индекс от своей входной величины.
+    #   KFWEE/KFWEEK  -- 0x85167C: заголовок 0x19078 (обороты, подряд),
+    #                    индекс нагрузки 0x9798 от оси 0x19081 (0xF86B);
+    #   KFDMDFA/S/U   -- 0x83BCC2..: заголовок 0x181DD (обороты, подряд);
+    #   плёнка KFABAK.. -- 0x852318..: заголовок 0x181E4 (обороты, подряд),
+    #                    индекс температуры ОЖ 0x90AA от оси 0x18273 (0x8AB4).
+    "SNM08_WE": dict(addr=0x19078, n=8, width=1, factor=40.0, offset=0.0,
+                     unit="rpm", desc="engine speed for KFWEE, 8 points"),
+    "SRL08_WE": dict(addr=0x19081, n=8, width=1, factor=0.75, offset=0.0,
+                     unit="%", desc="relative load for KFWEE, 8 points"),
+    "SNM06_DM": dict(addr=0x181DD, n=6, width=1, factor=40.0, offset=0.0,
+                     unit="rpm", desc="engine speed for KFDMDFA, 6 points"),
+    "SNM07_WF": dict(addr=0x181E4, n=7, width=1, factor=40.0, offset=0.0,
+                     unit="rpm", desc="engine speed for wall film maps, 7 points"),
+    "STM09_WF": dict(addr=0x18273, n=9, width=1, factor=0.75, offset=48.0,
+                     unit="Grad C", desc="coolant temperature for wall film maps, 9 points"),
 }
 
 # Какая карта какими осями пользуется: (ось строк = X, ось столбцов = Y)
@@ -62,6 +80,13 @@ MAP_AXES = {
     "KFZWMS": ("SNM16_ZU", "SRL12_ZU"),
     "KFZWOP": ("SNM16_OP", "SRL11_OP"),
     "KFLBTS": ("SNM16_GK", "SRL12_GK"),
+    "KFWEE":  ("SRL08_WE", "SNM08_WE"),
+    "KFWEEK": ("SRL08_WE", "SNM08_WE"),
+    # строки у фильтра момента -- номер (у CTP7 0..5), величина не
+    # установлена: оставляем ось-индекс, а не выдумываем
+    "KFDMDFA":  (None, "SNM06_DM"),
+    "KFDMDFAS": (None, "SNM06_DM"),
+    "KFDMDFAU": (None, "SNM06_DM"),
 }
 
 RU = {
@@ -221,6 +246,21 @@ RETRACTED = {
                 "тоже две оси оборотов: 0x11F22 и 0x11F2B, обе читает поиск "
                 "по оси 0x0075d2 (0x86631A и 0x866304, вход 0xF89E). Вторая "
                 "ось принята за данные первой"),
+    "MSNTATE": (0x15F6D,
+                "словная кривая по НЕЧЁТНОМУ адресу -- на C167 слово так не "
+                "читается. Код на 0x8519EE и 0x8519F6 берёт байты 0x15F6A и "
+                "0x15F6B как счётчики (4 и 4), за ними ось из четырёх слов "
+                "0x15F6C, ось температуры ОЖ 0x15F74 и карта 4x4 на 0x15F78. "
+                "Её же показывает CTP7 как 'обедняющий коэфф. повторного "
+                "пуска' -- все 16 значений и обе оси сходятся (docs/35)"),
+    "KFAGRS": (0x1171F,
+               "одна 'карта 12x16' поверх нескольких разных объектов: начинается "
+               "внутри KST_COLD_MUL (заголовок 0x116FE, данные 0x11712..0x11759, "
+               "все 72 значения совпали с CTP7), дальше ось температуры на "
+               "0x1175A, три кривые, которые код читает по отдельности "
+               "(0x11775, 0x11781, 0x11787 через 0x0077b6) и заголовок 0x11793 "
+               "следующей карты (0x007312). Имя -- рециркуляция ОГ, которой "
+               "на этом моторе нет (docs/35)"),
 }
 
 # Ось из дамоса записана АДРЕСОМ СЧЁТЧИКА: [n][точка 1]...[точка n]. Если
@@ -515,6 +555,8 @@ def main(argv=None) -> int:
 
     retracted: list = []
     axis_fixed: list = []
+    ctp7 = dict((profile.get("ctp7_confirmed") or {}).get("matches") or {})
+    ctp7_up: list = []
     for m in maps:
         raw_name = m.get("name") or ("MAP_%05X" % m["addr"])
         if raw_name in RETRACTED and m["addr"] == RETRACTED[raw_name][0]:
@@ -556,6 +598,16 @@ def main(argv=None) -> int:
             # без "@": ident() всё равно заменит его подчёркиванием, и
             # задуманное ИМЯ@АДРЕС выходило как ИМЯ_АДРЕС -- пишем сразу так
             raw_name = "%s_%05X" % (raw_name, m["addr"])
+        elif raw_name in ctp7 and m.get("confidence") == "адрес подтверждён":
+            # Адрес держит код, а имя пришло выравниванием чужого дамоса и
+            # доверия не заслуживало. CTP7 показывает по этому адресу те же
+            # значения под тем же смыслом -- это вторая, независимая
+            # сверка, и имени теперь можно верить (docs/35). Спорным
+            # записям (ИМЯ_АДРЕС) это не положено -- они обработаны выше.
+            m["confidence"] = "подтверждена"
+            m["note"] = ((m.get("note") or "") + " | смысл подтверждён CTP7: "
+                         + ctp7[raw_name]).lstrip(" |")
+            ctp7_up.append(raw_name)
         nm = ident(raw_name, used)
         # Карта, которой профиль не знает, идёт в группу по достоверности:
         # шестьсот безымянных находок одной кучей -- это не дерево.
@@ -622,7 +674,12 @@ def main(argv=None) -> int:
             if k == 1 and not is3d:
                 break
             # у нас ширина = ось Y (столбцы), высота = ось X (строки)
-            if pair:
+            if pair and (pair[1] if k == 0 else pair[0]) is None:
+                descr += ('\n      /begin AXIS_DESCR FIX_AXIS\n'
+                          '        NO_INPUT_QUANTITY\n        CM_IDENTITY\n        %d\n'
+                          '        0\n        %d\n        FIX_AXIS_PAR_DIST 0 1 %d\n'
+                          '      /end AXIS_DESCR' % (npts, npts - 1, npts))
+            elif pair:
                 ref = pair[1] if k == 0 else pair[0]
                 a = AXES[ref]
                 acm = cm_name(a["factor"], a["offset"], a["unit"])
@@ -1111,6 +1168,9 @@ def main(argv=None) -> int:
     if axis_fixed:
         print("  ОСЕЙ, СДВИНУТЫХ ЗА СЧЁТЧИК: %d (%s ...)"
               % (len(axis_fixed), ", ".join(axis_fixed[:4])), file=sys.stderr)
+    if ctp7_up:
+        print("  ИМЯ ПОДТВЕРЖДЕНО CTP7: %d (%s)" % (len(ctp7_up), ", ".join(ctp7_up)),
+              file=sys.stderr)
     if retracted:
         print("  ОТОЗВАНО РАЗБОРОМ: %d" % len(retracted), file=sys.stderr)
         for nm_, a_, why in sorted(retracted):

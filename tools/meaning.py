@@ -89,6 +89,31 @@ _MANUAL = {
 MANUAL = {n: doc for doc, names in _MANUAL.items() for n in names.split()}
 
 
+def ctp7_names(profile: dict) -> dict:
+    """
+    Карты, которые узнал ChipTuningPRO 7 (docs/35): наше имя -> имя у CTP7.
+
+    Это сверка со стороны, независимая и от дамоса, и от моего разбора:
+    CTP7 показывает те же значения и те же оси под своим названием. Как и
+    ручная отметка, она НЕ ПЕРЕКРЫВАЕТ противоречие с кодом.
+    """
+    out = {}
+    sec = profile.get("ctp7_confirmed") or {}
+    out.update(sec.get("matches") or {})
+
+    def walk(o):
+        if isinstance(o, dict):
+            if o.get("name") and isinstance(o.get("ctp7"), str):
+                out.setdefault(o["name"], o["ctp7"])
+            for v in o.values():
+                walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+    walk(profile)
+    return out
+
+
 def parse_conv(c: str):
     """'nmot_ub_q40' -> ('nmot', 40.0, 0.0). Не разобрали -- None."""
     if not c:
@@ -262,7 +287,9 @@ def main(argv=None) -> int:
         elif isinstance(o, list):
             for v in o:
                 walk(v)
-    walk(json.load(open(a.profile, encoding="utf-8")))
+    profile = json.load(open(a.profile, encoding="utf-8"))
+    walk(profile)
+    ctp7 = ctp7_names(profile)
 
     def base(n):
         return re.sub(r"_[0-9A-F]{5}$", "", n)
@@ -482,7 +509,12 @@ def main(argv=None) -> int:
         else:
             v = "кода нет"
         man = MANUAL.get(base(n))
-        if man and v not in ("противоречит", "смысл и место сходятся"):
+        c7 = ctp7.get(n) or ctp7.get(base(n))
+        if c7 and v not in ("противоречит", "смысл и место сходятся"):
+            ev = ["CTP7: " + c7, "автоматическая проверка: " + v] \
+                + (["разобрано вручную: " + man] if man else []) + ev
+            v = "подтверждено CTP7"
+        elif man and v not in ("противоречит", "смысл и место сходятся"):
             ev = ["разобрано вручную: " + man,
                   "автоматическая проверка: " + v] + ev
             v = "разобрано вручную"
