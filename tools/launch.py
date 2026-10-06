@@ -25,7 +25,7 @@ launch -- лаунч-контроль (2-step) для FBH3ID60 / Bosch M7.9.7.
     0x17007  --        u8   резерв, 0xFF
 
     python3 tools/launch.py show    FW.bin
-    python3 tools/launch.py apply   FW.bin -o FW_lc.bin --nmax 4200
+    python3 tools/launch.py apply   FW.bin -o FW_lc.bin --nmax 4000
     python3 tools/launch.py set     FW_lc.bin -o FW_lc2.bin --nmax 4500
     python3 tools/launch.py remove  FW_lc.bin -o FW_back.bin
     python3 tools/launch.py listing FW_lc.bin
@@ -82,7 +82,7 @@ NMAX_ADDR = 0x14BB4          # стоковая отсечка, только д�
 
 FIELDS = [
     # имя      смещение ширина множ.     сдвиг  ед.       по умолчанию
-    ("LCNMAX",   0, 2, 0.25,      0.0, "об/мин", 4200.0),
+    ("LCNMAX",   0, 2, 0.25,      0.0, "об/мин", 4000.0),
     ("LCDNH",    2, 2, 0.25,      0.0, "об/мин", 200.0),
     ("LCVMAX",   4, 1, 1.25,      0.0, "км/ч",   2.5),
     ("LCWDKMN",  5, 1, 0.390625,  0.0, "%",      70.0),
@@ -366,7 +366,7 @@ def main(argv=None) -> int:
     ap.add_argument("action", choices=["show", "apply", "set", "remove", "listing"])
     ap.add_argument("firmware", nargs="?")
     ap.add_argument("-o", "--out")
-    ap.add_argument("--nmax", type=float, help="обороты отсечки, об/мин (4200)")
+    ap.add_argument("--nmax", type=float, help="обороты отсечки, об/мин (4000)")
     ap.add_argument("--dn", type=float, help="гистерезис, об/мин (200)")
     ap.add_argument("--vmax", type=float, help="скорость не выше, км/ч (2.5)")
     ap.add_argument("--wdk", type=float, help="дроссель не ниже, %% (70)")
