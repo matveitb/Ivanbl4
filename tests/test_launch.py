@@ -256,19 +256,75 @@ def test_code_basis(stock):
           "отключение цилиндров по моменту ограничено порогом REDZEM (0x8875)")
     redzem = list(stock[0x183E4:0x183E9])
     check(stock[0x183DE] == 5 and redzem == [5] * 5,
-          "REDZEM = 5 при любой ОЖ: по моменту подача не отключается "
-          "(ступеней всего 4)")
+          "REDZEM = 5 при любой ОЖ: ступень (0x9160 + 500..600)/1000 не "
+          "больше 4 -- по моменту подача не отключается (сложение -- в ПЗУ)")
     t = body(stock, 0x3BF2E, 0x3BF4C)
     check("mov r12, 0x9158" in t and "mov r13, 0x4bb2" in t
           and "calls 0x0067d8" in t and "bset 0xfd16.2" in t
-          and "mov 0x9154, ZEROS" in t,
-          "жёсткая ветвь ограничителя: только 0xFD16.2 и момент 0x9154 = 0")
+          and "bset 0xfd16.1" in t and "mov 0x9154, ZEROS" in t,
+          "жёсткая ветвь ограничителя: 0xFD16.2, 0xFD16.1 и момент 0x9154 = 0")
     reads = [x for _a, x in text(stock, 0x20000, 0x6C000)
              if "fd16.2" in x and not x.startswith(("bset", "bclr"))]
     check(not reads, "0xFD16.2 в образе никто не читает")
     t = body(stock, 0x3BF6A, 0x3BF7E)
     check("mov r13, 0xf8a0" in t and "calls 0x0067d8" in t,
           "0x0067d8 прибавляет: им же к оборотам добавляется прогноз")
+
+
+def test_injectors(stock):
+    print("\n-- от 0x8874 до форсунок")
+    w16 = lambda o: stock[o] | (stock[o + 1] << 8)              # noqa: E731
+    check(w16(0x1291C + 2 * 3) == 0x4E56 and w16(0x12912) == 0x4CC0,
+          "автомат 0x854CA2: состояние 3 ведёт на сборку маски 0x854E56")
+    t = body(stock, 0x54E56, 0x54E7C)
+    check("movb RL4, [r5+#0x1916]" in t and "movb 0x8a20, RL4" in t,
+          "маска гашения 0x8A20 берётся из таблицы шаблонов 0x11916")
+    t = body(stock, 0x54F8A, 0x54FA2)
+    check("movb 0x8a21, ONES" in t and "movb 0x8a21, RL4" in t,
+          "итоговая маска 0x8A21 = 0x8A20 (или 0xFF при 0x9869)")
+    t = body(stock, 0x416F0, 0x416F8)
+    check("movbz r4, 0x8a21" in t and "mov 0xfd8a, r4" in t,
+          "планировщик впрыска копирует маску в 0xFD8A")
+    writes = [x for _a, x in text(stock, 0x20000, 0x6C000) if x.startswith(
+        ("mov 0xfd8a", "movb 0xfd8a", "bset 0xfd8a", "bclr 0xfd8a", "bmov 0xfd8a"))]
+    check(writes == ["mov 0xfd8a, r4"], "других записей 0xFD8A нет")
+    t = body(stock, 0x41942, 0x4195A)
+    check("jnb 0xfd8a.0, 0x84195a" in t and "mov r5, T7" in t
+          and "sub r5, #0x1" in t and "mov CC30, r5" in t,
+          "бит 0xFD8A.0 стоит -> CC30 = T7-1: событие форсунки отменено")
+    t = body(stock, 0x41942, 0x41B00)
+    check(all("jnb 0xfd8a.%d" % b in t for b in range(4)),
+          "так же гасятся остальные три цилиндра (0xFD8A.1..3)")
+    seg0 = [x for _a, x in text(stock, 0x54BB8, 0x54FA2) + text(stock, 0x416F0, 0x42520)
+            if x.startswith(("calls 0x00", "jmps 0x00"))]
+    check(not seg0, "на пути автомат -> планировщик нет вызовов во внутреннее ПЗУ")
+    tables = []
+    for p in sorted(glob.glob(os.path.join(ROOT, "firmware", "*.bin"))):
+        d = open(p, "rb").read()
+        if launch.state(d) in ("stock", "patched"):
+            tables.append(set(d[0x11916:0x11936]) == {0xFF})
+    check(tables and all(tables),
+          "таблица 0x11916 сплошь 0xFF во всех FBH3ID60: любое 0x8874 > 0 "
+          "гасит все четыре цилиндра")
+
+
+def test_rom(stock):
+    print("\n-- внешняя флешка и внутреннее ПЗУ")
+    w16 = lambda d, o: d[o] | (d[o + 1] << 8)                   # noqa: E731
+    check(w16(stock, 0x8000) == 0x3012 and w16(stock, 0x8002) == 0x0083,
+          "заголовок 0x808000: точка входа 0x833012 -- первые 64 КБ прочитаны")
+    t = body(stock, 0x3301A, 0x3302C)
+    check("jnb 0xff12.10" in t and "mov SYSCON, #0xe60c" in t,
+          "старт 0x833012 пишет SYSCON, сохраняя ROMEN (внутреннее ПЗУ в сегменте 0)")
+    lada = fw("B103eq09.bin")
+    rec = lambda d: [d[0x1FC00 + k] for k in range(32)]          # noqa: E731
+    check(rec(stock) == rec(lada) and w16(stock, 0x1FC08) == 0xF5CF,
+          "записи сумм на 0x0000..0x7FFF одинаковы у Kia и ВАЗ B103EQ09 -- "
+          "одно и то же ПЗУ процессора")
+    targets = {x.split()[1] for _a, x in text(stock, 0x20000, 0x6C000)
+               if x.startswith("calls 0x00")}
+    check(targets and all(0x0700 <= int(a, 16) < 0x8000 for a in targets),
+          "все %d процедур сегмента 0 лежат в 0x0000..0x7FFF" % len(targets))
 
 
 def test_bytes():
@@ -414,6 +470,8 @@ def test_images():
 def main():
     stock = fw("FBH3ID60_stok.bin")
     test_code_basis(stock)
+    test_injectors(stock)
+    test_rom(stock)
     test_bytes()
     test_behaviour(stock)
     test_images()
