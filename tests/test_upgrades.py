@@ -44,7 +44,8 @@ def main():
     check("mov r4, 0x4bb6" in body and "mov r4, 0x4bb4" in body,
           "NMAXDV: код выбирает между 0x14BB6 и 0x14BB4 (NMAX)")
     check("mov r13, 0x4bb2" in body and "calls 0x0067d8" in body,
-          "DNMAXH: 0x14BB2 идёт в вычитание из выбранного предела")
+          "DNMAXH: 0x14BB2 идёт в 0x0067d8 вместе с выбранным пределом "
+          "(сложение: жёсткий порог = предел + DNMAXH, docs/40)")
     check("cmp r4, 0xf8a0" in body,
           "результат сравнивается с 0xF8A0 -- ещё одно доказательство, "
           "что это обороты, а не расход")

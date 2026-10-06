@@ -5931,7 +5931,7 @@ ASAP2_VERSION 1 51
     /end CHARACTERISTIC
 
     /begin CHARACTERISTIC DNMAXH
-      "podtverzhdena | Gisterezis zhestkogo ogranicheniya: toplivo vozvraschaetsya na NMAX minus 120 ob/min. Odinakov vo vseh vosmi proshivkah."
+      "podtverzhdena | Zapas zhestkogo ogranicheniya: zhestkaya vetv srabatyvaet vyshe predela na DNMAXH (NMAX + 120). Odinakov vo vseh vosmi proshivkah. POPRAVKA (docs/40): 0x0067d8 pribavlyaet, a ne vychitaet."
       VALUE
       0x14BB2
       RL_GRID_UWORD
