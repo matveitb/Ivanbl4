@@ -60,23 +60,54 @@ def test_elm_grammar():
     rows = E.data_bytes(E.clean_lines("BUS INIT: ...OK\r410C1AF8\r\r>"))
     check(E.find_reply(rows, 1, 0x0C, 2) == [0x1A, 0xF8],
           "без пробелов и с BUS INIT")
-    rows = E.data_bytes(E.clean_lines("84 F1 10 41 0C 1A F8 C4\r\r>"))
+    def row(*bs):
+        """Строка ответа с верной суммой в конце."""
+        return " ".join("%02X" % x for x in list(bs) + [sum(bs) & 0xFF])
+
+    rows = E.data_bytes(E.clean_lines(row(0x84, 0xF1, 0x17, 0x41, 0x0C, 0x1A,
+                                          0xF8) + "\r\r>"))
     check(E.find_reply(rows, 1, 0x0C, 2) == [0x1A, 0xF8],
-          "с заголовками KWP: «84 F1 10 41 0C ...»")
+          "с заголовками KWP: «84 F1 17 41 0C 1A F8 сумма»")
+    bad = "84 F1 17 41 0C 1A F8 00\r\r>"
+    check(E.find_reply(E.data_bytes(E.clean_lines(bad)), 1, 0x0C, 2) is None,
+          "неверная сумма -- строка отброшена")
     rows = E.data_bytes(E.clean_lines(
-        "84F1184 10C04D2xx\r84F110410C1AF8C4\r\r>".replace("xx", "00")))
-    check(E.find_reply(rows, 1, 0x0C, 2, src=0x10) == [0x1A, 0xF8],
-          "ответили коробка (18) и двигатель (10) -- взят двигатель")
-    rows = E.data_bytes(E.clean_lines("48 6B 10 41 0C 1A F8 C2\r\r>"))
-    check(E.find_reply(rows, 1, 0x0C, 2, src=0x10) == [0x1A, 0xF8],
-          "заголовок ISO 9141: «48 6B 10 ...»")
-    rows = E.data_bytes(E.clean_lines("83 F1 10 41 0C 1A F8 C3\r\r>"))
+        row(0x84, 0xF1, 0x18, 0x41, 0x0C, 0x04, 0xD2) + "\r" +
+        row(0x84, 0xF1, 0x17, 0x41, 0x0C, 0x1A, 0xF8) + "\r\r>"))
+    check(E.find_reply(rows, 1, 0x0C, 2, src=0x17) == [0x1A, 0xF8],
+          "ответили коробка (18) и двигатель (17) -- взят двигатель")
+    rows = E.data_bytes(E.clean_lines(row(0x48, 0x6B, 0x17, 0x41, 0x0C, 0x1A,
+                                          0xF8) + "\r\r>"))
+    check(E.find_reply(rows, 1, 0x0C, 2, src=0x17) == [0x1A, 0xF8],
+          "заголовок ISO 9141: «48 6B 17 ...»")
+    rows = E.data_bytes(E.clean_lines(row(0x83, 0xF1, 0x17, 0x41, 0x0C, 0x1A,
+                                          0xF8) + "\r\r>"))
     check(E.find_reply(rows, 1, 0x0C, 2) == [0x1A, 0xF8],
           "длина в заголовке не сходится -- данные берутся по факту")
-    rows = E.data_bytes(E.clean_lines("85F11062123501E7xx\r\r>".replace(
-        "xx", "AA")))
+    rows = E.data_bytes(E.clean_lines(row(0x48, 0x6B, 0x17, 0x62, 0x12, 0x35,
+                                          0x01, 0xE7) + "\r\r>"))
     check(E.find_reply(rows, 0x22, [0x12, 0x35], 2) == [0x01, 0xE7],
           "режим 22: «62 12 35 01 E7» -> АЦП 0x1E7")
+    rows = E.data_bytes(E.clean_lines(row(0x83, 0xF1, 0x17, 0x63, 0x00, 0x10)
+                                      + "\r\r>"))
+    check(E.find_reply(rows, 0x23, [], 2) == [0x00, 0x10],
+          "чтение памяти: «63 00 10» -> 0x1000, λ 1.000")
+    for txt, want in (("BUS INIT: ...ERROR\r\r>", "BUS INIT: ERROR"),
+                      ("BUS INIT: ERROR\r\r>", "BUS INIT: ERROR"),
+                      ("BUS INIT: ...\rERROR\r\r>", "BUS INIT: ERROR"),
+                      ("BUS INIT: ...\rUNABLE TO CONNECT\r\r>",
+                       "BUS INIT: ERROR"),
+                      ("SEARCHING...\rUNABLE TO CONNECT\r\r>",
+                       "UNABLE TO CONNECT"),
+                      ("LV RESET\r\r>", "LV RESET")):
+        err = E.is_error(E.clean_lines(txt))
+        check(err == want and E.is_fatal(err),
+              "«%s» -> «%s», нужна новая инициализация"
+              % (txt.split("\r\r")[0].replace("\r", " | "), err))
+    check(E.clean_lines("BUS INIT: OK\r410C1AF8\r\r>") == ["410C1AF8"],
+          "«BUS INIT: OK» быстрой инициализации вычищен")
+    check(not E.is_fatal("NO DATA") and not E.is_fatal("ERROR"),
+          "NO DATA -- не повод переподключаться")
     lines = E.clean_lines("NO DATA\r\r>")
     check(E.is_error(lines) == "NO DATA"
           and E.find_reply(E.data_bytes(lines), 1, 0x0C, 2) is None,
@@ -92,11 +123,24 @@ def test_elm_grammar():
               "%02X" % p for p in sorted(sup)))
     check(obd.bitmap_for(sup, 0x00) == bytes([0xBE, 0x1F, 0xA8, 0x13]),
           "и обратно")
-    for pid in (0x03, 0x05, 0x06, 0x07, 0x0C, 0x10, 0x11):
+    for pid in (0x03, 0x05, 0x06, 0x07, 0x0C, 0x11):
         v = {0x03: 2, 0x05: 88, 0x06: -3.125, 0x07: 4.6875, 0x0C: 3000.25,
-             0x10: 45.67, 0x11: 100 * 51 / 255}[pid]
+             0x11: 100 * 51 / 255}[pid]
         got = obd.PIDS[pid].decode(obd.encode(pid, v))
         check(abs(got - v) < 1e-9, "PID %02X туда и обратно: %g" % (pid, got))
+    # PID 10: блок шлёт floor(ml/9)*25 -- шаг 0.25 г/с, всегда вниз;
+    # разбор возвращает середину ступеньки, ошибка в среднем ноль
+    errs = []
+    for k in range(2000):
+        gs = 2.0 + k * 0.0371
+        errs.append(obd.PIDS[0x10].decode(obd.encode(0x10, gs)) - gs)
+    mean = sum(errs) / len(errs)
+    # остаётся только округление самого блока до целых 0.1 кг/ч (-0.014)
+    check(abs(mean) < 0.02 and max(abs(e) for e in errs) <= 0.14,
+          "PID 10: средняя ошибка %+.3f г/с, наибольшая %.3f -- ступенька "
+          "блока учтена" % (mean, max(abs(e) for e in errs)))
+    check(obd.PIDS[0x10].decode(bytes([0xFF, 0xFF])) is None,
+          "PID 10 = FFFF -- упор, значения нет")
 
 
 def test_elm_driver():
@@ -109,7 +153,7 @@ def test_elm_driver():
     e = E.Elm327(fe, clock=clk)
     msgs = []
     e.init("0", msgs.append)
-    check("ELM327 v1.5" in e.version and e.protocol == "A5",
+    check("ELM327 v1.5" in e.version and e.protocol == "A3",
           "инициализация: %s, протокол %s" % (e.version, e.protocol))
     sup = e.supported_pids()
     check({0x0C, 0x10, 0x11, 0x06, 0x07, 0x05, 0x03} <= sup,
@@ -157,12 +201,29 @@ def test_isp2():
     p = W.Isp2Parser()
     check(p.feed(half[:3]) == [] and len(p.feed(half[3:])) == 1,
           "пакет, разрезанный посередине, собирается")
+    # настоящие пакеты из открытых разборщиков (RomRaider, Evo-live-map)
+    out = W.Isp2Parser().feed(bytes.fromhex("B28243130A60B2824713015"
+                                            "1B2874313036B" + "0000" * 5))
+    check(len(out) == 3 and abs(out[0].lam - 1.876) < 1e-9
+          and out[1].status == W.O2 and abs(out[1].raw - 20.9) < 1e-9
+          and abs(out[2].lam - 0.991) < 1e-9,
+          "настоящие пакеты: λ 1.876, O2 20.9 %%, λ 0.991 -- %s" % [
+              (r.status, r.lam, r.raw) for r in out])
+    two = W.isp2_packet(0.85, sensors=2)
+    out = W.Isp2Parser().feed(two + two)
+    check(len(out) == 2, "LM-2 / цепочка из двух датчиков: по показанию на "
+          "пакет, а не вперемешку")
+    check(W.Isp2Parser().feed(bytes.fromhex("B2824231000024"))[0].status
+          == W.ERROR, "множитель AFR 4.9 -- слово битое, не «λ 0.536»")
+    out = W.Isp2Parser().feed(W.isp2_packet(None, func=4, L=731))
+    check(out[0].status == W.WARMUP and abs(out[0].raw - 73.1) < 1e-9,
+          "прогрев: 73.1 %% рабочей температуры")
 
 
 def test_ascii():
     print("-- УДК: текст")
     p = W.AsciiParser()
-    out = p.feed(b"14.70\r\n1,000\r\nAFR: 13.23\r\nhello\r\n22.5")
+    out = p.feed(b"14.70\r\n1,000\r\n13.23\r\nhello\r\n22.5")
     check(len(out) == 3, "три строки с числами, мусорная пропущена, "
           "незаконченная ждёт")
     check(abs(out[0].lam - 1.0) < 1e-9 and abs(out[1].lam - 1.0) < 1e-9
@@ -175,6 +236,41 @@ def test_ascii():
     check(abs(p.feed(b"14.7\n")[0].lam - 1.0) < 1e-9, "явно AFR")
     check(W.AsciiParser().feed(b"99\n")[0].lam is None,
           "AFR 99 -- не лямбда, а ошибка")
+    check(W.AsciiParser().feed(b"Board: VBatt 13.8 Temp 35 deg C\r\n") == [],
+          "строка со словами в начале -- не показание (а то 13.8 В "
+          "записалось бы как AFR)")
+    out = W.AsciiParser().feed(b"1.000\tReady\tNo-errors\r"
+                               b"0.850\tWarming\tNo-errors\r"
+                               b"0.950\tReady\tHeater open\r")
+    check([r.status for r in out] == [W.OK, W.WARMUP, W.ERROR]
+          and out[0].lam == 1.0,
+          "AEM с полями состояния: годно, прогрев, ошибка")
+    check(W.AsciiParser().feed(W.isp2_packet(1.0) * 40 + b"\r\n") == [],
+          "двоичный поток при выбранном тексте -- ни одного показания")
+
+
+def test_plx_zt2():
+    print("-- УДК: PLX и Zeitronix")
+    p = W.PlxParser()
+    out = p.feed(W.plx_packet(0.95) + W.plx_packet(1.10, instance=1)
+                 + W.plx_packet(0.90))
+    lams = [r.lam for r in out]
+    check(len(lams) == 2 and abs(lams[0] - 0.95) < 0.003
+          and abs(lams[1] - 0.90) < 0.003,
+          "PLX: второй модуль (номер 1) не подмешан: %s"
+          % [round(x, 3) for x in lams])
+    broken = bytearray(W.plx_packet(0.95))
+    del broken[3]
+    out = W.PlxParser().feed(bytes(broken) + W.plx_packet(1.05))
+    check(len(out) == 1 and abs(out[0].lam - 1.05) < 0.003,
+          "PLX: пакет с потерянным байтом выброшен целиком, следующий цел")
+    out = W.PlxParser().feed(W.plx_packet(0.95)[:-1] + W.plx_packet(1.0))
+    check(len(out) == 1 and abs(out[0].lam - 1.0) < 0.003,
+          "PLX: потерян конец пакета -- начало берётся от последнего 0x80")
+    out = W.ZeitronixParser().feed(b"\x55" + W.zt2_packet(0.92)
+                                   + W.zt2_packet(1.0)[:7])
+    check(len(out) == 1 and abs(out[0].lam - 0.92) < 0.004,
+          "Zeitronix: мусор перед пакетом, недописанный хвост ждёт")
 
 
 def test_schedule():
@@ -292,10 +388,10 @@ def test_mode22():
         msgs = []
         e.init("0", msgs.append)
         if use22:
-            check(e.ecus == {0x10, 0x18} and e.ecu == 0x10
+            check(e.ecus == {0x17, 0x18} and e.ecu == 0x17
                   and not e.count_suffix,
-                  "ответили двигатель и коробка: беру 10, число ответов не "
-                  "шлю (%s)" % "; ".join(msgs[-1:]))
+                  "ответили двигатель (17, как в прошивке) и коробка: беру "
+                  "17, число ответов не шлю (%s)" % "; ".join(msgs[-1:]))
         sup = e.supported_pids()
         dids = livelog.probe_dids(e)
         check((dids == set(obd.DIDS)) == use22,
@@ -319,6 +415,110 @@ def test_mode22():
     check(d22 < 0.015 and d22 < d01,
           "с АЦП ключ точнее: расхождение %.1f %% против %.1f %% по расходу "
           "с пульсациями" % (d22 * 100, d01 * 100))
+
+
+def test_sessions_and_faults():
+    print("-- две двери блока, сбои шины и адаптера")
+    p = P.Project.open(A2L, V2M)
+    fm = udk.FuelModel.from_project(p)
+    car = fakecar.FakeCar(fm)
+
+    # автопоиск попал в KWP, чтение памяти работает: АЦП и заданная лямбда
+    clk = fakecar.VirtualClock(0.0)
+    e = E.Elm327(fakecar.FakeElm(car, clk, auto_iso=False, mem23=True),
+                 clock=clk)
+    e.init("0")
+    msgs = []
+    sup, dids, mems = livelog.prepare(e, msgs.append)
+    check(e.protocol == "A5" and not dids and mems == set(obd.MEMS),
+          "KWP: режима 22 нет (7F 22 12), память читается: %s; %s"
+          % (" ".join("%06X" % a for a in sorted(mems)), "; ".join(msgs)))
+    check("отказ блока: 7F 22 12" in e.stats.last_error or e.stats.errors,
+          "отказ «7F 22 12» распознан как отказ, а не мусор")
+    L = livelog.LiveLogger(e, fakecar.FakeWideband(car, clk), W.Isp2Parser(),
+                           clock=clk, supported=sup, dids=dids, mems=mems)
+    L.run_for(car.period - 5)
+    log = L.rec.snapshot()
+    roles = udk.detect_roles(log, None)
+    check(roles["lcmd"] == ("ecu", obd.MEMS[0x381818].name)
+          and roles["adc"] == ("ecu", obd.MEMS[0x38103C].name),
+          "в логе заданная лямбда и АЦП из памяти")
+    res = udk.analyze(fm, log, None, roles, udk.Settings(target="hfm"))
+    check(any("из блока" in n for n in res.notes),
+          "расчёт берёт заданную лямбду из блока, а не из модели")
+    check(len(_node_devs(fm, res, udksim.err_lean_top)) >= 6
+          and max(_node_devs(fm, res, udksim.err_lean_top)) < 0.02,
+          "и находит ошибку ДМРВ: до %.1f %%"
+          % (max(_node_devs(fm, res, udksim.err_lean_top)) * 100))
+
+    # автопоиск попал в KWP, памяти нет -- сам переходит на ISO 9141
+    clk = fakecar.VirtualClock(0.0)
+    e = E.Elm327(fakecar.FakeElm(car, clk, auto_iso=False, mem23=False),
+                 clock=clk)
+    e.init("0")
+    msgs = []
+    sup, dids, mems = livelog.prepare(e, msgs.append)
+    check(e.protocol == "3" and dids == set(obd.DIDS) and not mems,
+          "KWP без памяти -> переподключился по ISO 9141, режим 22 есть "
+          "(%s)" % "; ".join(msgs[:1]))
+
+    # человек сам выбрал KWP -- не трогаем
+    clk = fakecar.VirtualClock(0.0)
+    e = E.Elm327(fakecar.FakeElm(car, clk, protocol="kwp"), clock=clk)
+    e.init("5")
+    sup, dids, mems = livelog.prepare(e)
+    check(e.protocol == "5" and not dids and not mems,
+          "выбран KWP руками -- остаёмся на нём, пишем по PID")
+
+    # шина не поднялась (зажигание выключено)
+    clk = fakecar.VirtualClock(0.0)
+    e = E.Elm327(fakecar.FakeElm(car, clk, fail_inits=1), clock=clk)
+    try:
+        e.init("0")
+        check(False, "без шины init обязан отказаться")
+    except E.ElmError as exc:
+        check("UNABLE TO CONNECT" in str(exc),
+              "нет шины -- понятная ошибка: %s" % exc)
+    e.init("0")
+    check(e.ecu == 0x17, "со второй попытки связь есть")
+
+    # адаптер сбросился посреди записи -- логгер переподключился сам
+    clk = fakecar.VirtualClock(0.0)
+    fe = fakecar.FakeElm(car, clk, lv_reset_at=60)
+    e = E.Elm327(fe, clock=clk)
+    e.init("0")
+    sup, dids, mems = livelog.prepare(e)
+    L = livelog.LiveLogger(e, None, None, clock=clk, supported=sup,
+                           dids=dids, mems=mems)
+    L.run_for(60)
+    rpm = L.rec.channels[obd.PIDS[0x0C].name]
+    gap = max(b - a for a, b in zip(rpm.t, rpm.t[1:]))
+    check(L.reconnects == 1 and rpm.t[-1] > 55 and gap < 10,
+          "LV RESET: переподключился %d раз, запись шла дальше (дыра %.1f с)"
+          % (L.reconnects, gap))
+    check(e.headers_ok if hasattr(e, "headers_ok") else e.ecu == 0x17,
+          "после сброса заголовки снова включены, адрес двигателя тот же")
+
+    # оборвался Bluetooth: старый порт мёртв, открываем новый
+    clk = fakecar.VirtualClock(0.0)
+    ports = []
+
+    def reopen():
+        fe = fakecar.FakeElm(car, clk)
+        ports.append(fe)
+        return fe
+    e = E.Elm327(reopen(), clock=clk, reopen=reopen)
+    e.init("0")
+    sup, dids, mems = livelog.prepare(e)
+    L = livelog.LiveLogger(e, None, None, clock=clk, supported=sup,
+                           dids=dids, mems=mems)
+    L.run_for(20)
+    ports[0].close()
+    L.run_for(40)
+    rpm = L.rec.channels[obd.PIDS[0x0C].name]
+    check(len(ports) == 2 and L.reconnects == 1 and rpm.t[-1] > 55,
+          "обрыв порта: открыт новый, запись продолжилась (%d порта)"
+          % len(ports))
 
 
 def test_threads():
@@ -349,9 +549,11 @@ def main():
     test_elm_driver()
     test_isp2()
     test_ascii()
+    test_plx_zt2()
     test_schedule()
     test_end_to_end()
     test_mode22()
+    test_sessions_and_faults()
     test_threads()
     print()
     if fails:

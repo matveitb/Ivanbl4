@@ -38,8 +38,10 @@ DEMO = "demo"
 WIFI = "wifi"
 NONE = "none"
 
-PROTOCOLS = [("0", "сам (ATSP0)"), ("5", "KWP2000 быстрый старт (ATSP5)"),
-             ("4", "KWP2000 5 бод (ATSP4)"), ("3", "ISO 9141-2 (ATSP3)")]
+PROTOCOLS = [("0", "сам (ATSP0)"),
+             ("3", "ISO 9141-2 (ATSP3): режим 22, АЦП ДМРВ"),
+             ("5", "KWP2000 быстрый (ATSP5): чтение памяти"),
+             ("4", "KWP2000 5 бод (ATSP4)")]
 BAUDS = [0, 38400, 115200, 9600, 230400, 57600, 500000]
 
 GAUGES = [
@@ -88,7 +90,8 @@ class Session:
             import fakecar
             if self.fm is None:
                 raise E.ElmError("для имитатора нужна открытая прошивка")
-            self.car = fakecar.FakeCar(self.fm)
+            if getattr(self, "car", None) is None:
+                self.car = fakecar.FakeCar(self.fm)
             return fakecar.FakeElm(self.car, time.monotonic, realtime=True)
         if c["elm"] == WIFI:
             host, _, port = c.get("wifi", "192.168.0.10:35000").partition(":")
@@ -116,30 +119,45 @@ class Session:
                                         realtime=True), parser
         baud = c.get("wb_baud") or parser.baud
         self.say("УДК: %s, %d бод, %s" % (c["wb"], baud, parser.name))
-        return E.SerialTransport(c["wb"], baud), parser
+        try:
+            return E.SerialTransport(c["wb"], baud), parser
+        except Exception as exc:                            # noqa: BLE001
+            raise E.ElmError("порт УДК %s не открылся: %s" % (c["wb"], exc))
+
+    def _wb_reopen(self):
+        c = self.cfg
+        if c["wb"] in (NONE, DEMO):
+            return None
+        baud = c.get("wb_baud") or wideband.PARSERS[c["wb_proto"]].baud
+        return lambda: E.SerialTransport(c["wb"], baud)
 
     def _connect(self) -> None:
         try:
             t = self._transport_elm()
-            self.elm = E.Elm327(t)
+            # после обрыва Bluetooth/Wi-Fi старый порт мёртв -- логгер
+            # откроет его заново этим же способом
+            self.elm = E.Elm327(t, reopen=self._transport_elm)
             self.elm.init(self.cfg.get("proto", "0"), self.say)
-            sup = self.elm.supported_pids()
+            sup, dids, mems = livelog.prepare(self.elm, self.say)
             self.say("блок отдаёт PID: %s" % " ".join(
                 "%02X" % p for p in sorted(sup)))
             miss = [obd.PIDS[p].title for p in (0x0C, 0x10, 0x11)
                     if p not in sup]
             if miss:
                 self.say("ВНИМАНИЕ: блок не отдаёт " + ", ".join(miss))
-            dids = livelog.probe_dids(self.elm)
-            self.say("режим 22: %s" % (", ".join(
-                obd.DIDS[d].title for d in sorted(dids)) if dids else
-                "блок не отвечает, пишу по обычным PID"))
+            if dids:
+                self.say("режим 22: " + ", ".join(
+                    obd.DIDS[d].title for d in sorted(dids)))
+            elif not mems:
+                self.say("режим 22 и чтение памяти недоступны -- пишу по "
+                         "обычным PID")
             self.wt, parser = self._transport_wb()
             if self.cancelled:
                 raise E.ElmError("остановлено до начала записи")
             self.logger = livelog.LiveLogger(
                 self.elm, self.wt, parser, path=self.cfg["path"],
-                supported=sup, dids=dids)
+                supported=sup, dids=dids, mems=mems)
+            self.logger.wb_reopen = self._wb_reopen()
             self.logger.start()
             if self.cancelled:          # «Стоп» нажали, пока запускались
                 self.logger.stop()
@@ -194,6 +212,7 @@ class LoggerDialog(QtWidgets.QDialog):
         self.session = None
         self.last_path = ""
         self._last_calc = 0.0
+        self._calc_every = 2.0     # растёт с длиной лога, см. tick()
 
         left = QtWidgets.QWidget()
         lv = QtWidgets.QVBoxLayout(left)
@@ -459,9 +478,15 @@ class LoggerDialog(QtWidgets.QDialog):
             L.error = ""
         self._gauges(L)
         now = time.monotonic()
-        if now - self._last_calc > 2.0:
-            self._last_calc = now
+        if now - self._last_calc > self._calc_every:
+            t0 = time.monotonic()
             self._tables(L)
+            took = time.monotonic() - t0
+            self._last_calc = time.monotonic()
+            # Расчёт идёт в потоке окна. На длинном логе он занимает доли
+            # секунды, и пересчитывать каждые 2 с -- значит дёргать окно.
+            # Пауза -- не меньше 2 с и не меньше двадцати расчётов.
+            self._calc_every = max(2.0, 20 * took)
 
     # -- приборы -------------------------------------------------------------------
 

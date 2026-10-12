@@ -70,6 +70,7 @@ class Truth:
     cut: bool = False        # топливо перекрыто
     adc: float = 0.0         # АЦП ДМРВ, 10 бит: номер точки тарировки × 2
     rl: float = 0.0          # наполнение по блоку, %
+    lcmd: float = 1.0        # заданная лямбда (0x9818)
 
 
 def _rl_true(rpm: float, tps: float) -> float:
@@ -161,7 +162,7 @@ def run(fm_ecu, sensor_raw, err=err_lean_top, drive=DRIVE, seed=1,
                 stft = max(-stft_max, min(stft_max, stft))
             out.append(Truth(t, rpm, tps, ml, lam, stft, ltft, ect,
                              t < enrich_until, closed, cut,
-                             min(1023.0, fi * 2), rl))
+                             min(1023.0, fi * 2), rl, lcmd))
             t += step
     return out
 

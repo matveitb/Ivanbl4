@@ -32,10 +32,28 @@ def _u16(b) -> int:
 def _fuel_status(b) -> float | None:
     """
     PID 0x03, первый байт: 1 -- разомкнутый (ещё не готов), 2 --
-    замкнутый по зонду, 4 -- разомкнутый по нагрузке или сбросу топлива,
-    8 -- разомкнутый из-за неисправности, 16 -- замкнутый с неисправностью.
+    замкнутый по зонду, 4 -- разомкнутый по нагрузке, сбросу топлива или
+    цели, отличной от 1.000, 8 -- разомкнутый из-за неисправности. 16 наш
+    блок не шлёт никогда (andb #0xEF, 0x84B8C8).
+
+    Осторожно: байт 0x8939 при части условий сохраняет прошлое значение
+    (0x84B89E), и «2» может остаться, когда регулятор уже выключен. Точнее
+    -- DID 1216 из режима 22.
     """
     return float(b[0])
+
+
+def _maf_gs(b) -> float | None:
+    """
+    PID 0x10. Блок шлёт floor(ml / 9) × 25, ml -- целое в 0.1 кг/ч
+    (0x864BEC): ответ меньше настоящего на 0…0.8 кг/ч, в среднем на 0.4
+    (1/9 г/с). Эта середина и возвращается. 0xFFFF -- упор (ml ≥ 0x5C28),
+    значения нет.
+    """
+    raw = _u16(b)
+    if raw == 0xFFFF:
+        return None
+    return raw / 100.0 + 1.0 / 9.0
 
 
 PIDS = {p.pid: p for p in (
@@ -57,8 +75,7 @@ PIDS = {p.pid: p for p in (
         lambda b: b[0] / 2.0 - 64, "угол"),
     Pid(0x0F, "Intake air temperature", "°C", 1,
         lambda b: b[0] - 40.0, "температура воздуха"),
-    Pid(0x10, "Mass air flow rate", "g/s", 2,
-        lambda b: _u16(b) / 100.0, "расход воздуха"),
+    Pid(0x10, "Mass air flow rate", "g/s", 2, _maf_gs, "расход воздуха"),
     Pid(0x11, "Throttle position", "%", 1,
         lambda b: b[0] * 100 / 255, "дроссель"),
     Pid(0x14, "O2 sensor 1 voltage", "V", 2,
@@ -90,6 +107,52 @@ DIDS = {d.did: d for d in (
     Did(0x1216, "Closed loop active", "", 1,
         lambda b: float((b[0] >> 1) & 1), "регулятор по зонду"),
 )}
+
+
+@dataclass(frozen=True)
+class Mem:
+    """
+    Чтение памяти, KWP-сервис 0x23: запрос «23 AA AA AA LL», ответ
+    «63 данные» (младший байт первым -- копия памяти C167).
+
+    Есть только в заводской KWP-сессии (быстрая инициализация, протокол 5
+    у ELM): обработчик 0x8382E8 проверяет лишь длину запроса и класс
+    адреса, ключа не просит. Класс 1 -- внешнее ОЗУ 0x380000-0x387FFF, то
+    есть данные 0x8000-0xBFFF через DPP2 = 0xE0. Пропустит ли запрос
+    диспетчер сегмента 0, которого в дампе нет, -- проверяется на машине:
+    логгер пробует при подключении.
+    """
+    addr: int
+    name: str
+    unit: str
+    nbytes: int
+    decode: Callable
+    title: str = ""
+
+
+def _le16(b) -> int:
+    return b[0] | (b[1] << 8)
+
+
+MEMS = {m.addr: m for m in (
+    # заданная лямбда 0x9818: 0x1000 = 1.000 (docs/32, 0x84B948)
+    Mem(0x381818, "Lambda target ECU", "λ", 2,
+        lambda b: _le16(b) / 4096.0, "заданная λ"),
+    # сырой АЦП ДМРВ 0x903C, то же, что DID 1235
+    Mem(0x38103C, "MAF sensor ADC", "counts", 2,
+        lambda b: float(_le16(b) & 0x3FF), "АЦП ДМРВ"),
+)}
+
+
+def encode23(addr: int, value: float) -> bytes:
+    """Значение -> байты ответа сервиса 0x23 (для имитатора)."""
+    if addr == 0x381818:
+        v = int(round(value * 4096))
+    elif addr == 0x38103C:
+        v = int(round(value))
+    else:
+        raise KeyError("адрес %06X не описан" % addr)
+    return max(0, min(0xFFFF, v)).to_bytes(2, "little")
 
 
 def encode22(did: int, value: float) -> bytes:
@@ -133,13 +196,30 @@ PLAN_22 = [
     ((1, 0x07), 8),
     ((1, 0x05), 20),
 ]
+# KWP-сессия с чтением памяти: АЦП и заданная лямбда из ОЗУ, остальное
+# -- режим 01 (режима 22 в этой сессии нет)
+PLAN_MEM = [
+    ((0x23, 0x38103C), 1),   # АЦП ДМРВ
+    ((1, 0x0C), 1),
+    ((1, 0x11), 1),
+    ((1, 0x10), 2),
+    ((0x23, 0x381818), 2),   # заданная лямбда
+    ((1, 0x06), 2),
+    ((1, 0x03), 4),
+    ((1, 0x07), 8),
+    ((1, 0x05), 20),
+]
 DEFAULT_PLAN = PLAN_01
 
 
 def describe(key):
     """(режим, номер) -> описание величины: Pid или Did."""
     mode, ident = key
-    return PIDS.get(ident) if mode == 1 else DIDS.get(ident)
+    if mode == 1:
+        return PIDS.get(ident)
+    if mode == 0x22:
+        return DIDS.get(ident)
+    return MEMS.get(ident)
 
 
 def supported_from_bitmaps(bitmaps: dict) -> set:
@@ -174,7 +254,10 @@ def encode(pid: int, value: float) -> bytes:
     if pid == 0x0C:
         return clamp(value * 4, 0xFFFF).to_bytes(2, "big")
     if pid == 0x10:
-        return clamp(value * 100, 0xFFFF).to_bytes(2, "big")
+        # как блок: ml в 0.1 кг/ч, floor(ml / 9) × 25
+        ml10 = int(value * 3.6 * 10)
+        raw = 0xFFFF if ml10 >= 0x5C28 else (ml10 // 9) * 25
+        return raw.to_bytes(2, "big")
     if pid in (0x05, 0x0F):
         return bytes([clamp(value + 40)])
     if pid in (0x06, 0x07):

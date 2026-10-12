@@ -103,11 +103,77 @@ def probe_dids(elm) -> set:
     return out
 
 
-def plan_for(dids: set) -> list:
+def probe_mem(elm) -> set:
+    """
+    Чтение памяти (KWP 0x23): какие адреса блок отдаёт. Есть только в
+    заводской KWP-сессии; по коду ключа не просит, но диспетчер сегмента 0
+    в дампе не виден -- поэтому проба. Не ответил -- не спрашиваем.
+    """
+    out = set()
+    for addr, m in obd.MEMS.items():
+        if elm.query23(addr, m.nbytes) is not None:
+            out.add(addr)
+    return out
+
+
+def plan_for(dids: set, mems: set | None = None) -> list:
+    if mems and 0x38103C in mems:
+        return obd.PLAN_MEM
     return obd.PLAN_22 if 0x1235 in dids else obd.PLAN_01
 
 
-def schedule(plan, supported: set | None, dids: set | None = None) -> list:
+def prepare(elm, say=None) -> tuple[set, set, set]:
+    """
+    После init: что блок отдаёт и каким путём его снимать.
+
+    У блока две двери на K-линии (docs/41). Медленная инициализация (ISO
+    9141-2, протокол 3) открывает OBD-сессию: там режим 22 с сырым АЦП
+    ДМРВ. Быстрая (KWP2000, протокол 5) -- заводскую: режима 22 нет, но
+    есть чтение памяти, а через него и АЦП, и заданная лямбда. Если
+    человек выбрал «сам» и ELM попал в KWP, где память не читается, --
+    переподключаемся по ISO 9141 ради режима 22.
+
+    Возвращает (PID режима 01, DID режима 22, адреса памяти).
+    """
+    say = say or (lambda m: None)
+    sup = elm.supported_pids()
+    dids = probe_dids(elm)
+    mems = set()
+    kwp = elm.protocol[-1:] in ("4", "5")
+    if not dids and kwp:
+        mems = probe_mem(elm)
+        if mems:
+            say("чтение памяти работает: %s" % ", ".join(
+                obd.MEMS[a].title for a in sorted(mems)))
+        elif elm.proto_user == "0":
+            say("режим 22 есть только после медленной инициализации -- "
+                "переподключаюсь по ISO 9141")
+            try:
+                _switch_to_iso(elm, say)
+                sup = elm.supported_pids()
+                dids = probe_dids(elm)
+            except Exception as exc:                        # noqa: BLE001
+                say("ISO 9141 не вышло (%s), остаюсь на KWP" % exc)
+                elm.init("5", say)
+                sup = elm.supported_pids()
+    return sup, dids, mems
+
+
+def _switch_to_iso(elm, say) -> None:
+    """
+    Перейти с KWP на ISO 9141. Блок держит KWP-сессию до 5 с тишины
+    (P3max), и медленная инициализация до этого не пройдёт: если первая
+    попытка не удалась, ждём и пробуем ещё раз.
+    """
+    try:
+        elm.init("3", say)
+    except Exception:                                       # noqa: BLE001
+        time.sleep(5.5)
+        elm.init("3", say)
+
+
+def schedule(plan, supported: set | None, dids: set | None = None,
+             mems: set | None = None) -> list:
     """
     План опроса -> круг запросов (режим, номер). Вес w -- величина
     спрашивается раз в w кругов; круги склеиваются в цепочку длиной
@@ -119,6 +185,8 @@ def schedule(plan, supported: set | None, dids: set | None = None) -> list:
             return False
         if mode == 1:
             return supported is None or ident in supported
+        if mode == 0x23:
+            return mems is not None and ident in mems
         return dids is not None and ident in dids
     plan = [(k, w) for k, w in plan if ok(k)]
     if not plan:
@@ -147,11 +215,13 @@ class EcuPoller:
     plan: list = field(default_factory=lambda: list(obd.DEFAULT_PLAN))
     supported: set | None = None
     dids: set | None = None
+    mems: set | None = None
     order: list = field(default_factory=list)
     pos: int = 0
 
     def __post_init__(self):
-        self.order = schedule(self.plan, self.supported, self.dids)
+        self.order = schedule(self.plan, self.supported, self.dids,
+                              self.mems)
         if not self.order:
             raise ValueError("блок не поддерживает ни одного нужного PID")
 
@@ -163,8 +233,10 @@ class EcuPoller:
         t0 = self.clock()
         if mode == 1:
             body = self.elm.query(1, ident, p.nbytes)
-        else:
+        elif mode == 0x22:
             body = self.elm.query22(ident, p.nbytes)
+        else:
+            body = self.elm.query23(ident, p.nbytes)
         t1 = self.clock()
         if body is None:
             return
@@ -217,20 +289,24 @@ class LiveLogger:
 
     def __init__(self, elm, wb_transport=None, wb_parser=None,
                  path: str = "", clock=None, plan=None,
-                 supported: set | None = None, dids: set | None = None):
+                 supported: set | None = None, dids: set | None = None,
+                 mems: set | None = None):
         self._clock = clock or time.monotonic
         self.t_start = self._clock()
         self.rec = Recorder(path)
         self.elm = elm
         if plan is None:
-            plan = plan_for(dids or set())
+            plan = plan_for(dids or set(), mems)
         self.ecu = EcuPoller(elm, self.rec, self.clock, list(plan),
-                             supported, dids)
+                             supported, dids, mems)
         self.wb = (WbReader(wb_transport, wb_parser, self.rec, self.clock)
                    if wb_transport is not None else None)
         self._stop = threading.Event()
         self._threads: list = []
         self.error = ""
+        self.wb_reopen = None       # как открыть порт УДК заново
+        self._fails = 0
+        self.reconnects = 0
 
     def clock(self) -> float:
         return self._clock() - self.t_start
@@ -247,25 +323,37 @@ class LiveLogger:
         for th in self._threads:
             th.start()
 
+    def _ecu_tick(self) -> None:
+        """
+        Один запрос к блоку. Если адаптер сбросился (LV RESET), зажигание
+        выключали, шина или Bluetooth отвалились -- поднять заново и
+        продолжать в тот же файл.
+        """
+        before = self.elm.stats.answered
+        self.ecu.step()
+        self._fails = 0 if self.elm.stats.answered > before else self._fails + 1
+        if self.elm.stats.fatal or self._fails >= 30:
+            self.error = ("связь с блоком потеряна (%s), переподключаюсь"
+                          % (self.elm.stats.fatal or self.elm.stats.last_error))
+            self._fails = 0
+            try:
+                self.elm.reinit()
+                self.reconnects += 1
+            except Exception as exc:                        # noqa: BLE001
+                self.error = "переподключение не удалось: %s" % exc
+                self.elm.stats.fatal = "переподключение не удалось"
+                self._sleep(2.0)
+
+    def _sleep(self, sec: float) -> None:
+        if self._clock is time.monotonic:
+            time.sleep(sec)
+        elif hasattr(self._clock, "advance"):
+            self._clock.advance(sec)
+
     def _ecu_loop(self) -> None:
-        fails = 0
         while not self._stop.is_set():
             try:
-                before = self.elm.stats.answered
-                self.ecu.step()
-                fails = 0 if self.elm.stats.answered > before else fails + 1
-                if self.elm.stats.fatal or fails >= 30:
-                    # адаптер сбросился (LV RESET), зажигание выключали,
-                    # шина отвалилась -- поднять заново и продолжать
-                    self.error = ("связь с блоком потеряна (%s), "
-                                  "переподключаюсь" % (self.elm.stats.fatal
-                                                       or self.elm.stats.last_error))
-                    fails = 0
-                    try:
-                        self.elm.reinit()
-                    except Exception as exc:                # noqa: BLE001
-                        self.error = "переподключение не удалось: %s" % exc
-                        time.sleep(2.0)
+                self._ecu_tick()
             except Exception as exc:                        # noqa: BLE001
                 self.error = "ELM: %s" % exc
                 time.sleep(0.5)
@@ -275,8 +363,21 @@ class LiveLogger:
             try:
                 self.wb.step(0.1)
             except Exception as exc:                        # noqa: BLE001
+                # выдернули переходник, отвалился Bluetooth -- порт мёртв;
+                # если умеем открыть заново -- открываем и пишем дальше
                 self.error = "УДК: %s" % exc
-                time.sleep(0.5)
+                time.sleep(1.0)
+                if self.wb_reopen is not None:
+                    try:
+                        self.wb.t.close()
+                    except Exception:                       # noqa: BLE001
+                        pass
+                    try:
+                        self.wb.t = self.wb_reopen()
+                        self.error = "УДК: порт открыт заново"
+                    except Exception as exc2:               # noqa: BLE001
+                        self.error = "УДК: порт не открывается: %s" % exc2
+                        time.sleep(2.0)
 
     def stop(self) -> None:
         self._stop.set()
@@ -294,7 +395,7 @@ class LiveLogger:
     def run_for(self, seconds: float) -> None:
         end = self.clock() + seconds
         while self.clock() < end:
-            self.ecu.step()
+            self._ecu_tick()
             if self.wb is not None:
                 self.wb.step(0.0)
 

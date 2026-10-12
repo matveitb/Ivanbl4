@@ -81,16 +81,39 @@ class FakeCar:
         return {0x1235: s.adc, 0x1285: s.ml, 0x1283: s.rl,
                 0x1216: 1.0 if s.closed else 0.0}[did]
 
+    def mem_value(self, addr: int, t: float) -> float:
+        s = self.at(t)
+        return {0x381818: s.lcmd, 0x38103C: s.adc}[addr]
+
 
 class FakeElm(Transport):
-    """ELM327 v1.5 на K-линии, ровно настолько, насколько нужно логгеру."""
+    """
+    ELM327 v1.5 на K-линии и наш блок за ним -- ровно настолько, насколько
+    нужно логгеру, и с теми особенностями, что нашлись в коде (docs/41):
+
+    * у блока две двери. Медленная инициализация (ISO 9141-2, протокол 3)
+      -- OBD-сессия: режим 01 и режим 22. Быстрая (KWP2000, протокол 5) --
+      заводская: режим 01, на режим 22 отказ «7F 22 12», чтение памяти 0x23
+      (если mem23);
+    * автопоиск ELM (ATSP0) пробует ISO 9141 раньше KWP, если блок его
+      понимает (auto_iso);
+    * двигатель подписывается адресом 0x17, коробка (tcm) -- 0x18 и
+      отвечает первой;
+    * неподдержанный PID -- молчание, ELM пишет NO DATA;
+    * сбои по заказу: fail_inits -- столько раз шина не поднимется
+      («BUS INIT: ...ERROR»), lv_reset_at -- на таком по счёту запросе
+      адаптер сбросится («LV RESET», настройки к заводским).
+    """
 
     name = "имитатор ELM327"
 
     def __init__(self, car: FakeCar, clock, latency: float = 0.11,
                  realtime: bool = False, supported=None,
                  count_suffix: bool = True, mode22: bool = True,
-                 tcm: bool = False, protocol: str = "kwp"):
+                 tcm: bool = False, protocol: str = "auto",
+                 auto_iso: bool = True, mem23: bool = False,
+                 src: int = 0x17, fail_inits: int = 0,
+                 lv_reset_at: int = 0):
         self.car = car
         self.clock = clock
         self.latency = latency
@@ -98,22 +121,41 @@ class FakeElm(Transport):
         self.supported = set(supported or DEFAULT_SUPPORTED)
         self.count_suffix = count_suffix
         self.mode22 = mode22
-        self.tcm = tcm               # коробка-автомат тоже отвечает, и первой
-        self.protocol = protocol     # "kwp" или "iso9141" -- вид заголовков
-        self.headers = False
+        self.tcm = tcm
+        self.auto_iso = auto_iso if protocol in ("auto", "iso9141") else False
+        self.mem23 = mem23
+        self.src = src
+        self.fail_inits = fail_inits
+        self.lv_reset_at = lv_reset_at
         self.inbuf = b""
         self.out = b""
         self.ready_at = 0.0
+        self.requests = 0
+        self.closed = False
+        self._defaults()
+
+    def _defaults(self) -> None:
         self.echo = True
         self.spaces = True
-        self.bus_up = False
-        self.requests = 0
+        self.headers = False
+        self.sp = "0"                 # что задано ATSP
+        self.session = None           # "iso" | "kwp" -- после поднятия шины
+        self.dpn = "0"
+
+    # -- транспорт ---------------------------------------------------------
 
     def write(self, data: bytes) -> None:
+        if self.closed:
+            raise OSError("порт закрыт")
         self.inbuf += data
         while b"\r" in self.inbuf:
             line, self.inbuf = self.inbuf.split(b"\r", 1)
-            cmd = line.decode("ascii", "replace").strip().upper()
+            cmd = line.decode("ascii", "replace").replace("\x7f", "")
+            cmd = cmd.strip().upper()
+            if not cmd:
+                # байт-прерыватель или пустая строка: приглашение без ответа
+                self.out += b"\r>"
+                continue
             reply, delay = self._answer(cmd)
             text = ((cmd + "\r") if self.echo else "") + reply + "\r\r>"
             self.out += text.encode("ascii")
@@ -123,6 +165,8 @@ class FakeElm(Transport):
                 self.clock.advance(delay)
 
     def read(self, timeout: float) -> bytes:
+        if self.closed:
+            raise OSError("порт закрыт")
         if self.realtime and self.out:
             wait = self.ready_at - time.monotonic()
             if wait > timeout:
@@ -135,90 +179,136 @@ class FakeElm(Transport):
         data, self.out = self.out, b""
         return data
 
-    def flush_input(self) -> None:
-        pass
+    def flush_input(self) -> bytes:
+        return b""
+
+    def close(self) -> None:
+        self.closed = True
+
+    # -- адаптер -------------------------------------------------------------
 
     def _hex(self, bs) -> str:
         sep = " " if self.spaces else ""
         return sep.join("%02X" % b for b in bs)
+
+    def _frame(self, src: int, data: list) -> str:
+        """Строка ответа как у ELM: с заголовком и суммой или без."""
+        if not self.headers:
+            return self._hex(data)
+        if self.session == "kwp":
+            row = [0x80 | len(data), 0xF1, src] + data
+        else:
+            row = [0x48, 0x6B, src] + data
+        return self._hex(row + [sum(row) & 0xFF])
+
+    def _bring_up(self) -> tuple[str, float, bool]:
+        """Поднять шину по ATSP: (что напечатать, сколько ушло, удалось)."""
+        if self.fail_inits > 0:
+            self.fail_inits -= 1
+            if self.sp in ("0",):
+                return "SEARCHING...\rUNABLE TO CONNECT", 6.0, False
+            return "BUS INIT: ...ERROR", 3.0, False
+        sp = self.sp
+        if sp == "0" or sp.startswith("A"):
+            first = sp[1:] if sp.startswith("A") else ""
+            if first == "5" or (first == "" and not self.auto_iso):
+                self.session, self.dpn = "kwp", "A5"
+                return "SEARCHING...", 3.5, True
+            self.session, self.dpn = "iso", "A3"
+            return "SEARCHING...", 2.6, True
+        if sp in ("3", "4"):
+            self.session, self.dpn = "iso", sp
+            return "BUS INIT: ...OK", 2.5, True
+        self.session, self.dpn = "kwp", "5"
+        return "BUS INIT: OK", 0.3, True
 
     def _answer(self, cmd: str) -> tuple[str, float]:
         c = cmd.replace(" ", "")
         if c.startswith("AT"):
             a = c[2:]
             if a in ("Z", "WS"):
-                self.echo = True
-                self.bus_up = False
+                self._defaults()
                 return "\r\rELM327 v1.5", 0.8
-            if a.startswith("E"):
+            if a in ("E0", "E1"):
                 self.echo = a == "E1"
-            elif a.startswith("S") and a[1:] in ("0", "1"):
+            elif a in ("S0", "S1"):
                 self.spaces = a == "S1"
             elif a in ("H0", "H1"):
                 self.headers = a == "H1"
+            elif a.startswith("SP"):
+                self.sp = a[2:] or "0"
+                self.session = None
             elif a == "I":
                 return "ELM327 v1.5", 0.01
             elif a == "DPN":
-                return "A5" if self.protocol == "kwp" else "A3", 0.01
+                return self.dpn, 0.01
             elif a == "RV":
                 return "12.6V", 0.01
             return "OK", 0.01
-        if not c:
-            return "", 0.01
         if not all(ch in "0123456789ABCDEF" for ch in c):
             return "?", 0.01
         self.requests += 1
+        if self.lv_reset_at and self.requests == self.lv_reset_at:
+            self._defaults()
+            return "LV RESET", 0.5
         prefix = ""
         delay = self.latency
-        if not self.bus_up:
-            prefix = "SEARCHING...\r"
-            delay += 2.5
-            self.bus_up = True
+        if self.session is None:
+            text, d, ok = self._bring_up()
+            delay += d
+            if not ok:
+                return text, delay
+            prefix = text + "\r"
         if len(c) % 2 == 1:
             if not self.count_suffix:
                 return "?", 0.01
+            one = True
             c = c[:-1]
         else:
             # без числа ответов ELM ждёт других блоков до таймаута
+            one = False
             delay += 0.05
         t = self.clock() if not self.realtime else time.monotonic()
-        if len(c) == 6 and c[:4] == "2212" and self.mode22:
-            did = int(c[2:], 16)
-            if did in obd.DIDS:
-                body = obd.encode22(did, self.car.did_value(did, t))
-                return prefix + self._frame(
-                    0x10, [0x62, 0x12, did & 0xFF] + list(body)), delay
+        mode = c[:2]
+        if mode == "22":
+            if self.session != "iso":
+                return prefix + self._frame(self.src, [0x7F, 0x22, 0x12]), delay
+            if len(c) == 6 and c[2:4] == "12" and self.mode22:
+                did = int(c[2:], 16)
+                if did in obd.DIDS:
+                    body = obd.encode22(did, self.car.did_value(did, t))
+                    return prefix + self._frame(
+                        self.src, [0x62, 0x12, did & 0xFF] + list(body)), delay
             return prefix + "NO DATA", delay
-        if len(c) != 4 or c[:2] != "01":
+        if mode == "23":
+            if self.session != "kwp" or not self.mem23 or len(c) != 10:
+                return prefix + "NO DATA", delay
+            addr, n = int(c[2:8], 16), int(c[8:10], 16)
+            if addr in obd.MEMS and n == obd.MEMS[addr].nbytes:
+                body = obd.encode23(addr, self.car.mem_value(addr, t))
+                return prefix + self._frame(self.src, [0x63] + list(body)), delay
+            return prefix + self._frame(self.src, [0x7F, 0x23, 0x31]), delay
+        if len(c) != 4 or mode != "01":
             return prefix + "NO DATA", delay
         pid = int(c[2:], 16)
         lines = []
         if self.tcm and pid in (0x00, 0x0C):
-            # коробка отвечает первой: «обороты» у неё свои
+            # коробка отвечает первой: «обороты» у неё свои, а расхода в
+            # её списке PID нет
             data = ([0x41, 0x00, 0x88, 0x18, 0x00, 0x00] if pid == 0x00 else
                     [0x41, 0x0C] + list(obd.encode(0x0C, 1234.0)))
             lines.append(self._frame(0x18, data))
         if pid == 0x00 or (pid in (0x20, 0x40) and pid in self.supported):
             body = obd.bitmap_for(self.supported, pid)
-            lines.append(self._frame(0x10, [0x41, pid] + list(body)))
+            lines.append(self._frame(self.src, [0x41, pid] + list(body)))
         elif pid in self.supported and pid in obd.PIDS:
             body = obd.encode(pid, self.car.pid_value(pid, t))
-            lines.append(self._frame(0x10, [0x41, pid] + list(body)))
+            lines.append(self._frame(self.src, [0x41, pid] + list(body)))
         if not lines:
             return prefix + "NO DATA", delay
-        if len(cmd.replace(" ", "")) % 2 == 1:
+        if one:
             lines = lines[:1]          # «1» в конце: вернуть первый ответ
         return prefix + "\r".join(lines), delay
-
-    def _frame(self, src: int, data: list) -> str:
-        """Строка ответа как у ELM: с заголовком и суммой или без."""
-        if not self.headers:
-            return self._hex(data)
-        if self.protocol == "kwp":
-            row = [0x80 | len(data), 0xF1, src] + data
-        else:
-            row = [0x48, 0x6B, src] + data
-        return self._hex(row + [sum(row) & 0xFF])
 
 
 class FakeWideband(Transport):
@@ -244,13 +334,18 @@ class FakeWideband(Transport):
     def _packet(self, t: float) -> bytes:
         s = self.car.at(t - self.lag)
         lam = min(s.lam, 1.6)
+        warm = t < self.warm_until
         if self.proto == "isp2":
-            if t < self.warm_until:
-                return wideband.isp2_packet(None, func=4)
+            if warm:
+                return wideband.isp2_packet(None, func=4, L=550)
             return wideband.isp2_packet(lam)
-        if t < self.warm_until:
+        if warm:
             return b""
-        return ("%.2f\r\n" % (lam * 14.7)).encode("ascii")
+        if self.proto == "plx":
+            return wideband.plx_packet(min(lam, 1.36))
+        if self.proto == "zt2":
+            return wideband.zt2_packet(lam)
+        return ("%.1f\r\n" % (lam * 14.7)).encode("ascii")
 
     def read(self, timeout: float) -> bytes:
         now = self._now()

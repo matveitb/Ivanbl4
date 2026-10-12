@@ -16,9 +16,17 @@ ELM327: разговор с блоком через адаптер.
 Адаптеры только с Bluetooth Low Energy COM-портом не являются, и через
 них ничего не выйдет -- это сказано в окне, а не оставлено на догадку.
 
-Ответ разбирается терпимо: эхо, пробелы, «SEARCHING...», «BUS INIT»,
-несколько строк, заголовки -- всё вычищается, остаются байты данных.
-Ищется в них пара «41 PID», и берутся байты после неё.
+Правила, которые здесь соблюдаются (ELM327 datasheet, ELM327DSK):
+
+* писать только после «>»: любой байт, пришедший, пока адаптер занят,
+  прерывает его -- в том числе его собственный поиск протокола;
+* пустую строку не слать никогда: на неё ELM повторяет прошлую команду;
+* «BUS INIT: ...ERROR», «UNABLE TO CONNECT», «LV RESET» -- адаптер
+  потерял шину или настройки, нужна новая инициализация; они
+  распознаются ДО того, как служебный текст вычищается из ответа;
+* заголовки включены (ATH1): на функциональный запрос может ответить и
+  коробка-автомат, ответ берётся только от адреса двигателя, а сумма в
+  конце строки проверяется.
 """
 
 from __future__ import annotations
@@ -29,16 +37,22 @@ import time
 from dataclasses import dataclass, field
 
 PROMPT = b">"
-ERRORS = ("NO DATA", "UNABLE TO CONNECT", "BUS INIT: ...ERROR",
-          "BUS INIT: ERROR", "BUS ERROR", "BUS BUSY", "CAN ERROR", "STOPPED",
-          "ERROR", "BUFFER FULL", "FB ERROR", "DATA ERROR", "LV RESET", "?")
+ERRORS = ("NO DATA", "UNABLE TO CONNECT", "BUS INIT: ERROR", "BUS ERROR",
+          "BUS BUSY", "CAN ERROR", "STOPPED", "BUFFER FULL", "FB ERROR",
+          "DATA ERROR", "<DATA ERROR", "LV RESET", "ACT ALERT", "!ACT ALERT",
+          "LP ALERT", "ERROR", "ERR", "?")
 # после этих адаптер потерял настройки или шину -- нужна новая инициализация
-FATAL = ("LV RESET", "UNABLE TO CONNECT", "BUS INIT: ...ERROR",
-         "BUS INIT: ERROR")
-ENGINE = 0x10                  # адрес блока двигателя на K-линии
-NOISE = re.compile(r"SEARCHING\.*|BUS INIT:\s*\.*\s*OK|BUS INIT:?\s*\.*",
-                   re.I)
+FATAL = ("LV RESET", "UNABLE TO CONNECT", "BUS INIT: ERROR", "ERR",
+         "LP ALERT", "ACT ALERT", "!ACT ALERT")
+# Адрес двигателя в ответах. Наш блок, по прошивке, подписывается 0x17
+# (0x8366C0, 0x836DFA), но бывают 0x10 и 0x11 -- поэтому двигатель
+# выбирается не по адресу, а по смыслу: тот, кто объявляет расход воздуха.
+ENGINES = (0x10, 0x11, 0x17)
 HEX = re.compile(r"^[0-9A-Fa-f]+$")
+_BUS_OK = re.compile(r"^BUS INIT:\s*\.*\s*OK$", re.I)
+_BUS_BAD = re.compile(r"^BUS INIT:\s*\.*\s*(ERROR|UNABLE TO CONNECT)$", re.I)
+_BUS_BARE = re.compile(r"^BUS INIT:\s*\.*$", re.I)
+_SEARCH = re.compile(r"^SEARCHING\.*$", re.I)
 
 
 class ElmError(Exception):
@@ -48,7 +62,11 @@ class ElmError(Exception):
 # -- транспорт ---------------------------------------------------------------
 
 class Transport:
-    """Байты туда и обратно. read возвращает то, что пришло, хоть пусто."""
+    """
+    Байты туда и обратно. read возвращает то, что пришло, хоть пусто;
+    обрыв связи -- исключение, а не пустота. flush_input возвращает то, что
+    выбросил: среди мусора бывает «LV RESET», и его нельзя потерять.
+    """
 
     name = ""
 
@@ -58,8 +76,8 @@ class Transport:
     def read(self, timeout: float) -> bytes:
         raise NotImplementedError
 
-    def flush_input(self) -> None:
-        pass
+    def flush_input(self) -> bytes:
+        return b""
 
     def close(self) -> None:
         pass
@@ -86,8 +104,9 @@ class SerialTransport(Transport):
         return self.s.read(n if n else 1) + (
             self.s.read(self.s.in_waiting) if self.s.in_waiting else b"")
 
-    def flush_input(self) -> None:
-        self.s.reset_input_buffer()
+    def flush_input(self) -> bytes:
+        n = self.s.in_waiting
+        return self.s.read(n) if n else b""
 
     def close(self) -> None:
         try:
@@ -100,6 +119,7 @@ class TcpTransport(Transport):
     def __init__(self, host: str = "192.168.0.10", port: int = 35000):
         self.name = "%s:%d" % (host, port)
         self.sock = socket.create_connection((host, port), timeout=5.0)
+        self.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
     def write(self, data: bytes) -> None:
         self.sock.sendall(data)
@@ -107,19 +127,28 @@ class TcpTransport(Transport):
     def read(self, timeout: float) -> bytes:
         self.sock.settimeout(max(0.001, timeout))
         try:
-            return self.sock.recv(4096)
+            data = self.sock.recv(4096)
         except socket.timeout:
             return b""
+        if not data:
+            # recv вернул пусто без таймаута -- адаптер закрыл соединение
+            raise ElmError("Wi-Fi адаптер закрыл соединение")
+        return data
 
-    def flush_input(self) -> None:
+    def flush_input(self) -> bytes:
+        out = b""
         self.sock.setblocking(False)
         try:
-            while self.sock.recv(4096):
-                pass
+            while True:
+                chunk = self.sock.recv(4096)
+                if not chunk:
+                    break
+                out += chunk
         except (BlockingIOError, socket.error):
             pass
         finally:
             self.sock.setblocking(True)
+        return out
 
     def close(self) -> None:
         try:
@@ -143,17 +172,41 @@ def list_serial_ports() -> list[tuple[str, str]]:
 # -- разбор ответа ------------------------------------------------------------
 
 def clean_lines(text: str, cmd: str = "") -> list[str]:
-    """Строки ответа без эха, приглашения и служебного шума."""
+    """
+    Строки ответа без эха, приглашения и служебного шума.
+
+    «SEARCHING...» и «BUS INIT: OK» выбрасываются. Неудача инициализации
+    шины, наоборот, сводится к одной строке «BUS INIT: ERROR» -- в каком бы
+    виде её ни напечатал адаптер: одной строкой, с точками или без, или
+    «BUS INIT: ...» и «ERROR» следующей строкой.
+    """
     out = []
+    bare = False
     for raw in re.split(r"[\r\n]+", text.replace(">", "\r")):
         line = raw.strip()
         if not line:
             continue
         if cmd and line.replace(" ", "").upper() == cmd.replace(" ", "").upper():
             continue                                        # эхо
-        line = NOISE.sub("", line).strip()
-        if line:
-            out.append(line)
+        if _SEARCH.match(line) or _BUS_OK.match(line):
+            bare = False
+            continue
+        if _BUS_BAD.match(line):
+            out.append("BUS INIT: ERROR")
+            bare = False
+            continue
+        if _BUS_BARE.match(line):
+            bare = True
+            continue
+        if bare:
+            bare = False
+            u = line.upper()
+            if u in ("ERROR", "UNABLE TO CONNECT"):
+                out.append("BUS INIT: ERROR")
+                continue
+            if u == "OK":
+                continue
+        out.append(line)
     return out
 
 
@@ -167,6 +220,11 @@ def data_bytes(lines: list[str]) -> list[list[int]]:
         if HEX.match(s) and len(s) % 2 == 0:
             out.append([int(s[i:i + 2], 16) for i in range(0, len(s), 2)])
     return out
+
+
+def checksum_ok(row: list[int]) -> bool:
+    """Последний байт строки с заголовком -- сумма всех предыдущих."""
+    return len(row) >= 2 and (sum(row[:-1]) & 0xFF) == row[-1]
 
 
 def frame(row: list[int]) -> tuple[int | None, list[int]]:
@@ -207,13 +265,16 @@ def find_reply(rows: list[list[int]], mode: int, pid, n: int,
     Найти ответ «mode+0x40 PID данные». pid -- байт или список байтов
     (у режима 22 их два). Если строки с заголовками, а src задан, берётся
     только ответ этого блока: на функциональный запрос может ответить и
-    коробка-автомат, и её обороты -- не обороты двигателя.
+    коробка-автомат, и её обороты -- не обороты двигателя. Строка с
+    заголовком и неверной суммой отбрасывается.
     """
     head = [mode + 0x40] + _ident(pid)
     for row in rows:
         who, data = frame(row)
         if who is not None:
             if src is not None and who != src:
+                continue
+            if not checksum_ok(row):
                 continue
             if data[:len(head)] == head and len(data) >= len(head) + n:
                 return data[len(head):len(head) + n]
@@ -227,12 +288,21 @@ def find_reply(rows: list[list[int]], mode: int, pid, n: int,
 
 
 def is_error(lines: list[str]) -> str:
+    """Первая строка-ошибка адаптера (в порядке ERRORS -- длинные раньше)."""
     for line in lines:
         u = line.upper()
         for e in ERRORS:
             if u == e or u.startswith(e):
+                if e == "ERR" and not re.match(r"^ERR\d", u):
+                    continue
                 return line
     return ""
+
+
+def is_fatal(err: str) -> bool:
+    u = err.upper()
+    return any(u == f or u.startswith(f) for f in FATAL) and not (
+        u.startswith("ERR") and not re.match(r"^ERR\d", u))
 
 
 # -- адаптер -------------------------------------------------------------------
@@ -246,6 +316,7 @@ class ElmStats:
     last_error: str = ""
     fatal: str = ""            # ошибка, после которой нужна новая инициализация
     latency: float = 0.0       # с, скользящее среднее
+    reinits: int = 0
 
     def note(self, dt: float) -> None:
         self.latency = dt if not self.latency else 0.9 * self.latency + 0.1 * dt
@@ -256,9 +327,14 @@ class Elm327:
     """
     Разговор с адаптером. Не потокобезопасен: им пользуется один поток
     опроса, и это сознательно -- ELM всё равно отвечает строго по одному.
+
+    reopen -- как открыть транспорт заново (после обрыва Bluetooth или
+    Wi-Fi старый уже мёртв). Без него переподключение работает только на
+    том же транспорте.
     """
     t: Transport
     clock: object = time.monotonic
+    reopen: object = None
     version: str = ""
     protocol: str = ""
     stats: ElmStats = field(default_factory=ElmStats)
@@ -267,31 +343,71 @@ class Elm327:
     ecu: int | None = None        # адрес двигателя, если видны заголовки
     ecus: set = field(default_factory=set)    # кто ответил на 0100
     proto_req: str = "0"
+    proto_user: str = "0"         # что выбрал человек: «0» -- сам
+    physical: bool = False        # запросы адресуются двигателю, а не всем
+
+    # -- обмен -----------------------------------------------------------------
 
     def command(self, cmd: str, timeout: float = 2.0) -> str:
-        """Отправить строку, прочитать до приглашения. Текст ответа."""
-        self.t.flush_input()
-        self.t.write((cmd + "\r").encode("ascii"))
-        buf = b""
-        # таймауты -- по настоящим часам, даже если метки времени ставит
-        # другая шкала (имитатор в проверках): иначе ожидание не кончится
-        end = time.monotonic() + timeout
-        while True:
-            left = end - time.monotonic()
-            if left <= 0:
-                break
-            chunk = self.t.read(min(0.05, left))
-            if chunk:
-                buf += chunk
-                if PROMPT in chunk:
-                    break
+        """
+        Отправить строку, прочитать до приглашения. Текст ответа.
+
+        Если адаптер пишет «SEARCHING...» или «BUS INIT», он занят своей
+        инициализацией шины -- ждём дольше, а не обрываем его следующей
+        командой. Если приглашения так и нет, ждём ещё немного, потом
+        прерываем адаптер одним байтом и дочитываем до «>»: следующая
+        команда должна начаться с чистого листа, а не получить чужой
+        запоздалый ответ.
+        """
+        try:
+            junk = self.t.flush_input()
+            if junk and (b"LV RESET" in junk or b"ELM327" in junk):
+                self.stats.fatal = "LV RESET"
+            self.t.write((cmd + "\r").encode("ascii"))
+            buf = b""
+            # таймауты -- по настоящим часам, даже если метки времени
+            # ставит другая шкала (имитатор в проверках)
+            start = time.monotonic()
+            end = start + timeout
+            while time.monotonic() < end:
+                chunk = self.t.read(min(0.05, max(0.001, end - time.monotonic())))
+                if chunk:
+                    buf += chunk
+                    if PROMPT in chunk:
+                        break
+                    if b"SEARCHING" in buf or b"BUS INIT" in buf:
+                        end = max(end, start + 20.0)
+            if PROMPT not in buf:
+                buf += self._resync()
+        except ElmError:
+            raise
+        except Exception as exc:                            # noqa: BLE001
+            # pyserial, сокет: обрыв Bluetooth, выдернутый USB, Wi-Fi
+            raise ElmError("связь с адаптером оборвалась: %s" % exc)
         # у части PIC-клонов в потоке проскакивают нулевые байты
         text = buf.replace(b"\x00", b"").decode("ascii", "replace")
         self.log.append((cmd, text.strip()))
         del self.log[:-40]
+        if "LV RESET" in text.upper():
+            self.stats.fatal = "LV RESET"
         if PROMPT not in buf:
             raise ElmError("адаптер не ответил на «%s» за %.1f с" % (cmd, timeout))
         return text
+
+    def _resync(self) -> bytes:
+        """Дождаться «>», при необходимости прервав адаптер одним байтом."""
+        buf = b""
+        end = time.monotonic() + 2.0
+        while time.monotonic() < end and PROMPT not in buf:
+            buf += self.t.read(0.05)
+        if PROMPT in buf:
+            return buf
+        # байт-прерыватель: управляющие символы адаптер в команду не берёт
+        self.t.write(b"\x7F")
+        end = time.monotonic() + 2.0
+        while time.monotonic() < end and PROMPT not in buf:
+            buf += self.t.read(0.05)
+        return buf
 
     # -- подключение -------------------------------------------------------
 
@@ -299,9 +415,18 @@ class Elm327:
         """
         Сброс и настройка. protocol -- номер для ATSP: «0» -- искать самому,
         «5» -- KWP2000 быстрый старт, «4» -- KWP 5 бод, «3» -- ISO 9141.
+        Найденный протокол запоминается: при переподключении он пробуется
+        первым (ATSP A5), и полный поиск не нужен.
         """
         say = log or (lambda m: None)
+        if not protocol.startswith("A"):
+            self.proto_user = protocol
         self.proto_req = protocol
+        self.count_suffix = True
+        self.ecu = None
+        self.ecus = set()
+        self.physical = False
+        self.stats.fatal = ""
         try:
             txt = self.command("ATZ", 4.0)
         except ElmError:
@@ -313,23 +438,35 @@ class Elm327:
         say("адаптер: " + (self.version or "?"))
         # Без пробелов -- на треть меньше байт на ответ, по Bluetooth это
         # заметно. Заголовки включены: по ним видно, какой блок ответил.
-        for c in ("ATE0", "ATL0", "ATS0", "ATH1"):
+        for c in ("ATE0", "ATL0", "ATS0"):
             self.command(c, 2.0)
+        if "OK" not in self.command("ATH1", 2.0).upper():
+            say("адаптер не включил заголовки -- блоки не различить")
         self.command("ATAT1", 2.0)       # у части клонов «?» -- не страшно
         self.command("ATSP" + protocol, 2.0)
         # первый запрос будит K-линию: инициализация шины занимает секунды.
         # Без числа ответов: надо увидеть ВСЕ блоки, которые отзовутся
         say("связь с блоком...")
-        txt = self.command("0100", 15.0)
+        txt = self.command("0100", 20.0)
         lines = clean_lines(txt, "0100")
         rows = data_bytes(lines)
-        self.ecus = set()
+        from obd import supported_from_bitmaps
+        maps = {}
         for row in rows:
             who, data = frame(row)
-            if who is not None and data[:2] == [0x41, 0x00]:
-                self.ecus.add(who)
+            if (who is not None and data[:2] == [0x41, 0x00]
+                    and len(data) >= 6 and checksum_ok(row)):
+                maps[who] = data[2:6]
+        self.ecus = set(maps)
         if self.ecus:
-            self.ecu = ENGINE if ENGINE in self.ecus else min(self.ecus)
+            # двигатель -- кто объявляет расход воздуха (PID 0x10); у
+            # коробки его нет
+            maf = sorted(w for w, b in maps.items()
+                         if 0x10 in supported_from_bitmaps({0: b}))
+            known = [w for w in maf if w in ENGINES]
+            self.ecu = (known or maf or
+                        [w for w in sorted(self.ecus) if w in ENGINES] or
+                        sorted(self.ecus))[0]
             if len(self.ecus) > 1:
                 # ответят несколько -- «первый ответ» может оказаться
                 # чужим; ждём всех и выбираем свой по адресу
@@ -346,7 +483,25 @@ class Elm327:
         except (ElmError, IndexError):
             self.protocol = "?"
         say("протокол: %s" % self.protocol)
+        digit = self.protocol[-1:] if self.protocol else ""
+        if protocol == "0" and digit in "345" and digit:
+            # дальше -- сначала найденный, поиск только если он не пойдёт
+            self.proto_req = "A" + digit
         return self.version
+
+    def use_physical(self, on: bool) -> bool:
+        """
+        Адресовать запросы двигателю напрямую (KWP: ATSH 81 <ECU> F1) или
+        всем (C1 33 F1). Нужен, если режим 22 блок отдаёт только по своему
+        адресу. Возвращает, получилось ли.
+        """
+        if not self.protocol or self.protocol[-1:] not in "45" or self.ecu is None:
+            return False
+        hdr = ("81 %02X F1" % self.ecu) if on else "C1 33 F1"
+        ok = "OK" in self.command("ATSH " + hdr, 2.0).upper()
+        self.command("ATWM %s 3E" % hdr, 2.0)
+        self.physical = on and ok
+        return ok
 
     def supported_pids(self) -> set:
         from obd import supported_from_bitmaps
@@ -362,13 +517,16 @@ class Elm327:
 
     # -- запросы -----------------------------------------------------------
 
-    def query(self, mode: int, pid, n: int,
-              timeout: float = 1.0) -> list[int] | None:
+    def query(self, mode: int, pid, n: int, timeout: float = 1.0,
+              echo=None) -> list[int] | None:
         """
         Один запрос режима mode. pid -- байт (режим 01) или список байтов
-        (режим 22: [0x12, 0x35]). Байты данных или None.
+        (режим 22: [0x12, 0x35]). echo -- что блок повторяет в ответе
+        после mode+0x40; по умолчанию то же, что спросили (у 0x23 -- ничего).
+        Байты данных или None.
         """
         cmd = "%02X" % mode + "".join("%02X" % b for b in _ident(pid))
+        reply_id = _ident(pid) if echo is None else list(echo)
         if self.count_suffix:
             cmd += "1"
         t0 = self.clock()
@@ -378,23 +536,38 @@ class Elm327:
         except ElmError as exc:
             self.stats.errors += 1
             self.stats.last_error = str(exc)
+            if "оборвалась" in str(exc) or "закрыл" in str(exc):
+                self.stats.fatal = str(exc)
             return None
         lines = clean_lines(txt, cmd)
         rows = data_bytes(lines)
-        body = find_reply(rows, mode, pid, n, self.ecu)
+        body = find_reply(rows, mode, reply_id, n, self.ecu)
+        if (body is not None and self.ecu is not None and rows
+                and all(frame(r)[0] is None for r in rows)):
+            # заголовки были, а теперь нет -- адаптер сбросился (LV RESET
+            # без единого слова), и адрес блока больше не проверяется
+            self.stats.fatal = "адаптер сбросил настройки"
         if body is None:
             err = is_error(lines)
-            if any(err.upper().startswith(f) for f in FATAL):
+            if is_fatal(err):
                 self.stats.fatal = err
             if err.strip() == "?" and self.count_suffix:
                 # клон не понимает число ответов в конце -- больше не шлём
                 self.count_suffix = False
-                return self.query(mode, pid, n, timeout)
+                return self.query(mode, pid, n, timeout, echo)
+            neg = [r for r in (frame(x)[1] for x in rows)
+                   if len(r) >= 3 and r[0] == 0x7F and r[1] == mode]
+            if neg:
+                # отрицательный ответ блока: сервис или величина не даны
+                self.stats.errors += 1
+                self.stats.last_error = "отказ блока: 7F %02X %02X" % (
+                    mode, neg[0][2])
+                return None
             if err.upper().startswith("NO DATA"):
                 self.stats.no_data += 1
             else:
                 self.stats.errors += 1
-                self.stats.last_error = err or " ".join(lines)
+                self.stats.last_error = err or " ".join(lines) or "пусто"
             return None
         self.stats.answered += 1
         self.stats.note(self.clock() - t0)
@@ -405,10 +578,30 @@ class Elm327:
         """Режим 22 (данные по идентификатору): «22 12 35» -> «62 12 35 ..»."""
         return self.query(0x22, [did >> 8, did & 0xFF], n, timeout)
 
+    def query23(self, addr: int, n: int,
+                timeout: float = 1.0) -> list[int] | None:
+        """Чтение памяти: «23 AA AA AA LL» -> «63 данные»."""
+        return self.query(0x23, [(addr >> 16) & 0xFF, (addr >> 8) & 0xFF,
+                                 addr & 0xFF, n], n, timeout, echo=[])
+
     def reinit(self, log=None) -> None:
-        """Заново поднять адаптер и шину: после «LV RESET», смены зажигания."""
+        """
+        Заново поднять адаптер и шину: после «LV RESET», выключенного
+        зажигания, обрыва Bluetooth или Wi-Fi. Если транспорт умеет
+        открываться заново -- открывается заново.
+        """
+        self.stats.reinits += 1
         self.stats.fatal = ""
+        physical = self.physical
+        if self.reopen is not None:
+            try:
+                self.t.close()
+            except Exception:                               # noqa: BLE001
+                pass
+            self.t = self.reopen()
         self.init(self.proto_req, log)
+        if physical:
+            self.use_physical(True)
 
     def raw(self, hexstr: str, timeout: float = 1.0) -> list[list[int]]:
         """Произвольный запрос: строки байтов ответа, как есть."""
@@ -424,29 +617,35 @@ def connect_serial(port: str, baud: int | None = None,
     """
     Открыть COM-порт и подобрать скорость. У Bluetooth-порта скорость
     роли не играет, у USB-адаптеров бывает 38400 (обычно), 115200, 9600.
+    Порт открывается один раз, скорость меняется на открытом: Bluetooth
+    при каждом открытии заново поднимает радиоканал, а это секунды.
     """
     say = log or (lambda m: None)
     rates = [baud] if baud else [38400, 115200, 9600, 230400, 57600, 500000]
+    try:
+        t = SerialTransport(port, rates[0])
+    except Exception as exc:                                # noqa: BLE001
+        raise ElmError("порт %s не открылся: %s" % (port, exc))
     last = None
     for b in rates:
         try:
-            t = SerialTransport(port, b)
-        except Exception as exc:                            # noqa: BLE001
-            raise ElmError("порт %s не открылся: %s" % (port, exc))
-        try:
+            t.set_baud(b)
+            time.sleep(0.05)
+            t.flush_input()
             # мусорные байты, а не пустая строка: на пустую ELM повторяет
             # прошлую команду. Ответ «?» с приглашением -- значит, слышит
-            t.flush_input()
             t.write(b"\x7F\x7F\r")
             buf = b""
             end = time.monotonic() + 1.0
             while time.monotonic() < end and PROMPT not in buf:
                 buf += t.read(0.05)
-            if PROMPT in buf:
+            # «>» должен быть последним: на чужой скорости в мусоре он
+            # попадается случайно
+            if buf.rstrip().endswith(PROMPT):
                 say("порт %s: адаптер отвечает на %d" % (port, b))
                 return t
         except Exception as exc:                            # noqa: BLE001
             last = exc
-        t.close()
+    t.close()
     raise ElmError("на %s адаптер не ответил ни на одной скорости%s"
                    % (port, (": %s" % last) if last else ""))

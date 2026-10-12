@@ -83,8 +83,11 @@ class LogFile:
 
     @property
     def duration(self) -> float:
+        """От первого показания до последнего -- время в файле не обязано
+        начинаться с нуля (у Car Scanner это секунды от полуночи)."""
         ends = [c.t[-1] for c in self.channels.values() if c.t]
-        return max(ends) if ends else 0.0
+        starts = [c.t[0] for c in self.channels.values() if c.t]
+        return max(ends) - min(starts) if ends else 0.0
 
     @property
     def name(self) -> str:
@@ -276,9 +279,43 @@ def parse_text(text: str, path: str = "", dt: float = 0.1) -> LogFile:
     else:
         log = _parse_wide(head, body, comma_decimal, dt)
     log.path = path
+    if log.fmt == "long" and log.t0 is None:
+        _clock_from_name(log, path)
     if not log.channels:
         raise ValueError("в логе не нашлось ни одного числового столбца")
     return log
+
+
+_NAME_STAMP = re.compile(r"(\d{4})-(\d{2})-(\d{2})[ _T](\d{2})-(\d{2})-(\d{2})")
+
+
+def _clock_from_name(log: LogFile, path: str) -> None:
+    """
+    Car Scanner последних версий пишет в SECONDS секунды от местной
+    полуночи, а в имя файла -- дату и время начала («2024-11-30 19-36-35»).
+    Если первое показание через 0-10 минут после времени из имени, значит
+    так и есть: тогда известны часы, и лог можно свести с логом УДК по ним.
+    Время в каналах остаётся как было.
+    """
+    m = _NAME_STAMP.search(os.path.basename(path or ""))
+    if not m:
+        return
+    y, mo, d, hh, mm, ss = (int(x) for x in m.groups())
+    name_sec = hh * 3600 + mm * 60 + ss
+    starts = [c.t[0] for c in log.channels.values() if c.t]
+    if not starts:
+        return
+    first = min(starts)
+    if 0 <= first - name_sec <= 600:
+        try:
+            day = _dt.datetime(y, mo, d, tzinfo=_dt.timezone.utc).timestamp()
+        except ValueError:
+            return
+        # t0 -- абсолютный момент нулевой секунды шкалы файла: полночь дня
+        log.t0, log.t0_kind = day, "epoch"
+        log.note = (log.note + "; " if log.note else "") + \
+            "часы взяты из имени файла: секунды от полуночи %04d-%02d-%02d" % (
+                y, mo, d)
 
 
 def read_log(path: str, dt: float = 0.1) -> LogFile:

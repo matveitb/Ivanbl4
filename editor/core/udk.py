@@ -89,6 +89,7 @@ ROLES = [
     ("ltft", "Адаптация (LTFT)", False),
     ("ect", "Температура ОЖ", False),
     ("adc", "АЦП ДМРВ (точный ключ тарировки)", False),
+    ("lcmd", "Заданная лямбда из блока", False),
 ]
 ROLE_TITLES = {r: t for r, t, _ in ROLES}
 
@@ -97,6 +98,8 @@ _PAT = {
     "maf": (r"\bmaf\b|mass air|air ?flow|air mass|расход возд|массов\w* расход|дмрв|\bml\b",
             r"volt|напряж|\(v\)|, ?в$|voltage|correct|коррек|adc|ацп|counts"),
     "adc": (r"(maf|дмрв|hfm).*(adc|ацп)|(adc|ацп).*(maf|дмрв|hfm)", r"$^"),
+    "lcmd": (r"lambda target|target lambda|заданн\w* (λ|лямбд)|"
+             r"цел\w* (λ|лямбд)", r"command|equivalence"),
     "tps": (r"throttle|дросс|\btps\b|\bдз\b",
             r"relative|относит|command|задан|педал|pedal|accel|\bb\)|\bb$|volt|напряж"),
     "lam": (r"lambda|лямбд|λ|\bудк\b|\bшдк\b|\bafr\b|wideband|\blc-?[12]\b|wbo2|air.?fuel|соста\w+ смеси",
@@ -498,6 +501,9 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
     if ch["adc"] is not None:
         res.notes.append("ключ тарировки ДМРВ -- сырой АЦП «%s», без "
                          "поправки пульсаций" % ch["adc"].name)
+    if ch["lcmd"] is not None:
+        res.notes.append("заданная лямбда -- из блока, «%s», а не из модели "
+                         "прошивки" % ch["lcmd"].name)
 
     spans = _transients(ch["tps"], st, ch["rpm"])
     starts = [a for a, _ in spans]
@@ -555,6 +561,12 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
                if ch["adc"] is not None else None)
         rl = fm.rl(rpm, maf)
         lcmd, fl = fm.lam_cmd(rpm, tps, rl, st.bts)
+        if ch["lcmd"] is not None:
+            # блок сам сказал, чего хотел (чтение памяти 0x9818) -- это
+            # точнее любой модели: учтены и защита компонентов, и переходы
+            got = logio.sample(ch["lcmd"], t, g)
+            if got is not None and 0.5 < got < 1.5:
+                lcmd = got
         trims = (1 + (stft or 0.0) / 100) * (1 + (ltft or 0.0) / 100)
         out.append(Sample(t, rpm, maf, tps, lam, stft, ltft, fl, lcmd, rl,
                           lam * trims / lcmd, adc))
@@ -641,9 +653,19 @@ def find_offset(ecu: logio.LogFile, wb: logio.LogFile, roles: dict,
     ev_ecu = [x + st.lag for x in ev_ecu]
 
     clock = None
-    if (ecu.t0 is not None and wb.t0 is not None
-            and ecu.t0_kind == wb.t0_kind):
-        clock = wb.t0 - ecu.t0
+    if ecu.t0 is not None and wb.t0 is not None:
+        if ecu.t0_kind == wb.t0_kind:
+            clock = wb.t0 - ecu.t0
+        elif {ecu.t0_kind, wb.t0_kind} == {"day", "epoch"}:
+            # у одного дата и время, у другого только время: сравниваем
+            # время суток (даты в «epoch» -- местные, как в логах)
+            def sod(log):
+                return log.t0 % 86400 if log.t0_kind == "epoch" else log.t0
+            clock = sod(wb) - sod(ecu)
+            if clock > 43200:
+                clock -= 86400
+            elif clock < -43200:
+                clock += 86400
 
     if len(ev_ecu) >= 2 and len(ev_wb) >= 2:
         # допуск -- не меньше шага, с которым ELM опрашивает дроссель
@@ -800,7 +822,9 @@ def correct_hfm(fm: FuelModel, samples: list[Sample], st: Settings,
         # АЦП -- точное место в таблице (индекс = АЦП / 2, docs/36); без
         # него -- обратный поиск по расходу, сдвинутый на поправку пульсаций
         if s.adc is not None:
-            return min(max(s.adc / 2.0, 0.0), float(n - 1))
+            # блок берёт HFM_LIN[АЦП >> 1] без интерполяции (0x842C2A):
+            # нечётный отсчёт относится к той же точке, что и чётный
+            return min(max(float(int(s.adc) >> 1), 0.0), float(n - 1))
         return fm.hfm_index(s.maf)
     acc = _accumulate(xs, used, key, lambda s: s.e)
     for i, x in enumerate(xs):

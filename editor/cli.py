@@ -154,21 +154,23 @@ def cmd_log(a) -> int:
             return 2
         car = fakecar.FakeCar(fm)
 
-    if a.elm == "demo":
-        t = fakecar.FakeElm(car, time.monotonic, realtime=True)
-    elif a.elm.startswith("wifi"):
-        _, _, addr = a.elm.partition(":")
-        host, _, port = (addr or "192.168.0.10:35000").partition(":")
-        t = E.TcpTransport(host, int(port or 35000))
-    else:
-        t = E.connect_serial(a.elm, a.baud, print)
-    e = E.Elm327(t)
+    def open_elm():
+        if a.elm == "demo":
+            return fakecar.FakeElm(car, time.monotonic, realtime=True)
+        if a.elm.startswith("wifi"):
+            _, _, addr = a.elm.partition(":")
+            host, _, port = (addr or "192.168.0.10:35000").partition(":")
+            return E.TcpTransport(host, int(port or 35000))
+        return E.connect_serial(a.elm, a.baud, print)
+    e = E.Elm327(open_elm(), reopen=open_elm)
     e.init(a.proto, print)
-    sup = e.supported_pids()
+    sup, dids, mems = livelog.prepare(e, print)
     print("блок отдаёт PID: " + " ".join("%02X" % p for p in sorted(sup)))
-    dids = livelog.probe_dids(e)
     print("режим 22: " + (", ".join(obd.DIDS[d].title for d in sorted(dids))
-                          or "нет, пишу по обычным PID"))
+                          or "нет"))
+    if mems:
+        print("чтение памяти: " + ", ".join(obd.MEMS[m].title
+                                            for m in sorted(mems)))
 
     wt = parser = None
     if a.wb:
@@ -181,7 +183,9 @@ def cmd_log(a) -> int:
             wt = E.SerialTransport(a.wb, a.wb_baud or parser.baud)
     out = a.out or time.strftime("лог_%Y-%m-%d_%H-%M-%S.csv")
     L = livelog.LiveLogger(e, wt, parser, path=out, supported=sup,
-                           dids=dids)
+                           dids=dids, mems=mems)
+    if a.wb and a.wb != "demo":
+        L.wb_reopen = lambda: E.SerialTransport(a.wb, a.wb_baud or parser.baud)
     L.start()
     print("пишу в %s, Ctrl+C -- стоп" % out)
     names = {"об/мин": obd.PIDS[0x0C].name, "г/с": obd.PIDS[0x10].name,
@@ -267,8 +271,9 @@ def main(argv=None) -> int:
     p.add_argument("--baud", type=int, default=0,
                    help="скорость COM-порта ELM; 0 -- подобрать")
     p.add_argument("--proto", default="0", choices=["0", "3", "4", "5"],
-                   help="ATSP: 0 -- искать, 5 -- KWP быстрый, 4 -- KWP 5 бод, "
-                        "3 -- ISO 9141")
+                   help="ATSP: 0 -- искать (по умолчанию), 3 -- ISO 9141 "
+                        "(режим 22, АЦП ДМРВ), 5 -- KWP быстрый (чтение "
+                        "памяти, если блок даст), 4 -- KWP 5 бод")
     p.add_argument("--wb", help="порт УДК (COM4) или demo; без него -- "
                                 "только блок")
     p.add_argument("--wb-proto", default="isp2",
