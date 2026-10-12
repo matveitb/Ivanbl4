@@ -78,12 +78,19 @@ def _rl_true(rpm: float, tps: float) -> float:
 
 
 def run(fm_ecu, sensor_raw, err=err_lean_top, drive=DRIVE, seed=1,
-        ltft=3.0, step=0.02, pk=None) -> list[Truth]:
+        ltft=3.0, step=0.02, pk=None, by_code: bool = False,
+        stft_max: float = 25.0) -> list[Truth]:
     """
     Прогнать поездку. fm_ecu -- прошивка блока (FuelModel), sensor_raw --
     тарировка, которой на самом деле соответствует датчик (исходная).
     pk(обороты, дроссель) -- поправка пульсаций, на которую блок множит
     расход до того, как отдать его в OBD.
+
+    by_code -- когда работает регулятор по зонду. По умолчанию -- как
+    принято думать: на полной нагрузке выключен. by_code=True -- как
+    по коду блока (0x84BB04, docs/41): выключает его не полная нагрузка,
+    а цель, отличная от ровно 1.000, и нагрузка выше 99.75 %. У v2M цель
+    на полном газе 1.000 -- и регулятор там работает.
     """
     rnd = random.Random(seed)
     fac, ofs = fm_ecu.hfm_factor, fm_ecu.hfm_ofs
@@ -135,7 +142,11 @@ def run(fm_ecu, sensor_raw, err=err_lean_top, drive=DRIVE, seed=1,
             rl = fm_ecu.rl(rpm, ml)
             lcmd, fl = fm_ecu.lam_cmd(rpm, tps, rl)
             cut = tps < 1.0 and rpm > 1400
-            if fl or cut or ect < 70:
+            if by_code:
+                off = cut or ect < 70 or abs(lcmd - 1.0) > 1e-9 or rl >= 99.75
+            else:
+                off = fl or cut or ect < 70
+            if off:
                 stft = 0.0
                 closed = False
             else:
@@ -147,7 +158,7 @@ def run(fm_ecu, sensor_raw, err=err_lean_top, drive=DRIVE, seed=1,
             if closed:
                 # интегратор узкого зонда: тянет к единице за ~0.4 с
                 stft += (lam - 1.0) * 100 * step / 0.4
-                stft = max(-25.0, min(25.0, stft))
+                stft = max(-stft_max, min(stft_max, stft))
             out.append(Truth(t, rpm, tps, ml, lam, stft, ltft, ect,
                              t < enrich_until, closed, cut,
                              min(1023.0, fi * 2), rl))

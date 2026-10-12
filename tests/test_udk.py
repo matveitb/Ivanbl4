@@ -130,6 +130,15 @@ def test_formats():
     k, unit = udk.maf_scale(L.channels["Расход воздуха"])
     check(k == 1.0 and unit == "кг/ч", "расход в кг/ч понят по подписи")
 
+    cs = ('"SECONDS";"PID";"VALUE";"UNITS";"LATITUDE";"LONGTITUDE";\n'
+          '"86399.5";"Engine RPM";"800";"rpm";"";"";\n'
+          '"0.5";"Engine RPM";"810";"rpm";"";"";\n')
+    L = logio.parse_text(cs)
+    t = L.channels["Engine RPM"].t
+    check(t[1] - t[0] == 1.0,
+          "Car Scanner: секунды от полуночи, переход через полночь, "
+          "лишние столбцы координат")
+
     L = logio.parse_text("rpm;maf\n800;3,1\n810;3,2\n820;3,3\n", dt=0.25)
     check(L.channels["rpm"].t == [0.0, 0.25, 0.5] and "шаг" in L.note,
           "без столбца времени -- по номеру строки, и это сказано")
@@ -294,6 +303,51 @@ def test_keep_target():
           "KLLAMFA -- λ %.3f (%.3f…%.3f)" % (after, lo2, hi2))
 
 
+def test_closed_at_wot():
+    print("-- v2M: регулятор по зонду работает и на полном газе (по коду)")
+    p = P.Project.open(A2L, V2M)
+    fm = udk.FuelModel.from_project(p)
+    sensor = list(fm.hfm_raw)
+    tr = udksim.run(fm, sensor, ltft=0.0, by_code=True)
+    wot = [s for s in tr if fm.full_load(s.rpm, s.tps) and s.rpm > 4500
+           and not s.enrich and s.ect >= 70]
+    lam_wot = sum(s.lam for s in wot) / len(wot)
+    stft_wot = sum(s.stft for s in wot) / len(wot)
+    check(abs(lam_wot - 1.0) < 0.02 and stft_wot > 8,
+          "УДК на полном газе почти 1.000 (%.3f) -- ошибку прячет STFT %+.1f %%"
+          % (lam_wot, stft_wot))
+    ecu = logio.parse_text(udksim.ecu_log_carscanner(tr, seed=31), "ecu.csv")
+    wb = logio.parse_text(udksim.wb_log(tr, offset=0.0, seed=32), "wb.csv")
+    roles = udk.detect_roles(ecu, wb)
+    res = udk.analyze(fm, ecu, wb, roles, udk.Settings(target="hfm"))
+    udk.apply(p, res)
+    fm2 = udk.FuelModel.from_project(p)
+    tr2 = udksim.run(fm2, sensor, ltft=0.0, by_code=True)
+    wot2 = [s for s in tr2 if fm2.full_load(s.rpm, s.tps) and s.rpm > 4500
+            and not s.enrich and s.ect >= 70]
+    stft2 = sum(s.stft for s in wot2) / len(wot2)
+    check(abs(stft2) < 3.0,
+          "после поправки ДМРВ STFT на полном газе %+.1f %% вместо %+.1f %%: "
+          "ошибка найдена через коррекцию, а не через УДК" % (stft2, stft_wot))
+    # регулятор упёрся (предел 10 %): УДК видит остаток, коррекция -- свою
+    # часть, вместе -- вся ошибка
+    tr3 = udksim.run(fm, sensor, ltft=0.0, by_code=True, stft_max=10.0)
+    wot3 = [s for s in tr3 if fm.full_load(s.rpm, s.tps) and s.rpm > 5500
+            and not s.enrich and s.ect >= 70]
+    check(sum(s.lam for s in wot3) / len(wot3) > 1.04,
+          "коррекция упёрлась в 10 %% -- УДК показывает бедно: %.3f"
+          % (sum(s.lam for s in wot3) / len(wot3)))
+    ecu = logio.parse_text(udksim.ecu_log_carscanner(tr3, seed=33), "ecu.csv")
+    wb = logio.parse_text(udksim.wb_log(tr3, offset=0.0, seed=34), "wb.csv")
+    res = udk.analyze(fm, ecu, wb, udk.detect_roles(ecu, wb),
+                      udk.Settings(target="hfm"))
+    top = [n for n in res.nodes if n.status == "по данным"
+           and fm.hfm_flow(int(n.x)) > 250]
+    check(top and all(n.new > 1.10 for n in top),
+          "и тогда ошибка найдена целиком: %s" % " ".join(
+              "%.3f" % n.new for n in top))
+
+
 def test_guards():
     print("-- пределы и неполные логи")
     p = P.Project.open(A2L, V2M)
@@ -360,6 +414,7 @@ def main():
     test_offset_and_hfm()
     test_kllamfa()
     test_keep_target()
+    test_closed_at_wot()
     test_guards()
     print()
     if fails:

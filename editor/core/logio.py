@@ -293,8 +293,10 @@ def _finish_times(times: list, kinds: set) -> tuple[list, float | None, str]:
         return times, None, ""
     kind = "epoch" if "epoch" in kinds else ("day" if "day" in kinds else "")
     out = list(times)
-    if kind == "day":
-        # переход через полночь: время вдруг уменьшилось на полсуток с лишним
+    if kind in ("day", ""):
+        # Переход через полночь: время вдруг уменьшилось на полсуток с
+        # лишним. Бывает и у просто секунд: Car Scanner последних версий
+        # пишет в SECONDS секунды от местной полуночи.
         add = 0.0
         prev = out[0]
         for i, x in enumerate(out):
