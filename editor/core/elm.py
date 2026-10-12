@@ -157,16 +157,142 @@ class TcpTransport(Transport):
             pass
 
 
-def list_serial_ports() -> list[tuple[str, str]]:
-    """[(порт, описание)] -- что есть в системе. Без pyserial -- пусто."""
+# -- какие порты есть и какой из них адаптер ------------------------------------
+
+# Bluetooth-порт Windows: SPP-служба 1101 под BTHENUM. В конце -- адрес
+# устройства: у исходящего порта настоящий, у входящего -- нули.
+#   BTHENUM\{00001101-0000-1000-8000-00805F9B34FB}_LOCALMFG&0002\7&2B1A8F16&0&001DA5686E0D_C00000000
+_BT = re.compile(r"BTHENUM", re.I)
+_BT_MAC = re.compile(r"&([0-9A-F]{12})_[0-9A-F]+$", re.I)
+# так обычно зовутся ELM327 по Bluetooth
+_ELM_NAME = re.compile(r"obd|elm|v-?link|vgate|konnwei|veepeak|icar|"
+                       r"scan|car|diag|spp", re.I)
+
+
+@dataclass
+class PortInfo:
+    device: str             # COM5
+    description: str        # как Windows его называет
+    kind: str = "other"     # bt-out | bt-in | bt | usb | other
+    bt_name: str = ""       # имя спаренного устройства: OBDII, V-LINK...
+    mac: str = ""
+
+    @property
+    def label(self) -> str:
+        if self.kind == "bt-out":
+            return "%s · Bluetooth%s · исходящий" % (
+                self.device, " «%s»" % self.bt_name if self.bt_name else "")
+        if self.kind == "bt-in":
+            return "%s · Bluetooth · входящий — не этот" % self.device
+        if self.kind == "bt":
+            return "%s · Bluetooth" % self.device
+        desc = re.sub(r"\s*\(%s\)\s*$" % re.escape(self.device), "",
+                      self.description or "").strip()
+        return "%s · %s" % (self.device, desc) if desc else self.device
+
+    @property
+    def rank(self) -> int:
+        """Чем меньше, тем вероятнее адаптер: им список и начинается."""
+        if self.kind == "bt-out":
+            return 0 if _ELM_NAME.search(self.bt_name) else 1
+        return {"bt": 2, "usb": 3, "other": 4, "bt-in": 9}.get(self.kind, 5)
+
+
+def _bt_name(mac: str) -> str:
+    """
+    Имя спаренного Bluetooth-устройства по адресу -- то, что Windows
+    показывает в «Bluetooth и устройства». Лежит в реестре, читается без
+    прав администратора. Не Windows или ключа нет -- пусто.
+    """
+    try:
+        import winreg
+    except ImportError:
+        return ""
+    key = (r"SYSTEM\CurrentControlSet\Services\BTHPORT\Parameters"
+           r"\Devices\%s" % mac.lower())
+    try:
+        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, key) as k:
+            v, _ = winreg.QueryValueEx(k, "Name")
+    except OSError:
+        return ""
+    if isinstance(v, (bytes, bytearray)):
+        v = bytes(v).split(b"\0")[0].decode("utf-8", "replace")
+    return str(v).strip()
+
+
+def classify_port(device: str, description: str = "", hwid: str = "",
+                  name_of=_bt_name) -> PortInfo:
+    p = PortInfo(device, "" if description in (None, "n/a") else description)
+    hw = hwid or ""
+    if _BT.search(hw):
+        m = _BT_MAC.search(hw)
+        if m and int(m.group(1), 16) == 0:
+            p.kind = "bt-in"
+        elif m:
+            p.kind = "bt-out"
+            p.mac = m.group(1).upper()
+            p.bt_name = name_of(p.mac)
+        else:
+            p.kind = "bt"
+    elif re.search(r"bluetooth", p.description, re.I):
+        p.kind = "bt"
+    elif hw.upper().startswith(("USB", "FTDIBUS")) or re.search(
+            r"usb|ch34\d|ftdi|cp210|pl2303", p.description, re.I):
+        p.kind = "usb"
+    return p
+
+
+def port_infos() -> list[PortInfo]:
+    """Порты системы, адаптер вероятнее всего -- первым. Без pyserial -- []."""
     try:
         from serial.tools import list_ports
     except Exception:                                       # noqa: BLE001
         return []
-    out = []
-    for p in sorted(list_ports.comports(), key=lambda p: p.device):
-        out.append((p.device, p.description or ""))
-    return out
+    out = [classify_port(p.device, p.description or "", p.hwid or "")
+           for p in list_ports.comports()]
+    return sorted(out, key=lambda p: (p.rank, len(p.device), p.device))
+
+
+def list_serial_ports() -> list[tuple[str, str]]:
+    """[(порт, подпись)] -- что есть в системе. Без pyserial -- пусто."""
+    return [(p.device, p.label) for p in port_infos()]
+
+
+def find_elm(ports: list[PortInfo], opener=None, log=None,
+             cancelled=lambda: False) -> str | None:
+    """
+    Перебрать порты и найти тот, где отвечает ELM327: ATI -> «ELM327».
+    Входящие Bluetooth-порты не трогаются -- адаптер на них не ответит.
+    Открытие исходящего порта само поднимает связь с адаптером, это
+    несколько секунд; если адаптер выключен (зажигание), Windows ждёт
+    дольше -- поэтому сначала самые вероятные.
+    """
+    say = log or (lambda m: None)
+    opener = opener or (lambda dev: connect_serial(dev, None, say))
+    for p in sorted(ports, key=lambda p: p.rank):
+        if cancelled():
+            return None
+        if p.kind == "bt-in":
+            continue
+        say("пробую %s..." % p.label)
+        try:
+            t = opener(p.device)
+        except Exception as exc:                            # noqa: BLE001
+            say("  %s: %s" % (p.device, exc))
+            continue
+        try:
+            txt = Elm327(t).command("ATI", 2.0)
+        except Exception as exc:                            # noqa: BLE001
+            txt = ""
+            say("  %s: %s" % (p.device, exc))
+        finally:
+            t.close()
+        ans = " ".join(clean_lines(txt, "ATI"))
+        if re.search(r"ELM\s*32[37]", ans, re.I):
+            say("адаптер на %s: %s" % (p.device, ans))
+            return p.device
+        say("  %s: отвечает, но не ELM327 (%r)" % (p.device, ans[:30]))
+    return None
 
 
 # -- разбор ответа ------------------------------------------------------------

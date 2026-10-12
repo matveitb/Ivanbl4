@@ -154,6 +154,19 @@ def cmd_log(a) -> int:
         import project as proj
         import udk
         fm = udk.FuelModel.from_project(proj.Project.open(a.a2l, a.bin))
+    if a.elm in ("auto", "list"):
+        ports = E.port_infos()
+        print("COM-порты:" if ports else "COM-портов нет")
+        for p in ports:
+            print("  " + p.label)
+        if a.elm == "list":
+            return 0
+        found = E.find_elm(ports, log=print)
+        if not found:
+            print("ELM327 не нашёлся: зажигание включено? адаптер спарен в "
+                  "Windows? его не держит телефон?", file=sys.stderr)
+            return 2
+        a.elm = found
     car = None
     if a.elm == "demo" or a.wb == "demo":
         import fakecar
@@ -282,7 +295,8 @@ def main(argv=None) -> int:
 
     p = sub.add_parser("log", help="снять лог: ELM327 (и ШДК) в один файл")
     p.add_argument("--elm", required=True,
-                   help="COM3, /dev/ttyUSB0, wifi[:host:port] или demo")
+                   help="COM3, /dev/ttyUSB0, wifi[:host:port], auto -- найти "
+                        "самому, list -- показать порты, demo -- имитатор")
     p.add_argument("--baud", type=int, default=0,
                    help="скорость COM-порта ELM; 0 -- подобрать")
     p.add_argument("--proto", default="0", choices=["0", "3", "4", "5"],

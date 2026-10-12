@@ -141,6 +141,50 @@ def main():
               and (lg is None or not lg.running),
               "после отмены запись не началась: %s" % d.session.state)
 
+        # Bluetooth: порты подписаны по-человечески, «Найти адаптер»
+        # выбирает нужный, входящий порт отвергается с объяснением
+        import elm as E
+        import logger_window as LW
+        bt = r"BTHENUM\{00001101-0000-1000-8000-00805F9B34FB}_LOCALMFG&"
+        desc = "Стандартный последовательный порт по соединению Bluetooth (%s)"
+        fake = [E.classify_port("COM6", desc % "COM6",
+                                bt + r"0000\7&1&0&000000000000_00000000",
+                                lambda m: ""),
+                E.classify_port("COM5", desc % "COM5",
+                                bt + r"0002\7&1&0&001DA5686E0D_C00000000",
+                                lambda m: "OBDII")]
+        real = (E.port_infos, E.find_elm)
+
+        def fake_find(ports, log=None, **kw):
+            log("пробую COM5...")
+            return "COM5"
+        E.port_infos = lambda: sorted(fake, key=lambda p: p.rank)
+        E.find_elm = fake_find
+        try:
+            d.refresh_ports()
+            # выбранным остаётся прошлый выбор (имитатор), если он есть
+            check(d.cb_elm.itemText(0) == "COM5 · Bluetooth «OBDII» · исходящий"
+                  and d.cb_elm.itemData(0) == "COM5",
+                  "в списке адаптер подписан именем и «исходящий», он первым: "
+                  "%s" % d.cb_elm.itemText(0))
+            d.cb_elm.setCurrentIndex(d.cb_elm.findData("COM6"))
+            d.find_adapter()
+            pump(1.0)
+            check(d.cb_elm.currentData() == "COM5"
+                  and "нашёл: COM5" in d.messages.toPlainText(),
+                  "«Найти адаптер» выбрал COM5 сам")
+            d.cb_elm.setCurrentIndex(d.cb_elm.findData("COM6"))
+            d.cb_wb.setCurrentIndex(d.cb_wb.findData("none"))
+            d.start()
+            pump(1.5)
+            last = d.messages.toPlainText().splitlines()[-1]
+            check(d.session.state == "failed" and "входящий порт" in last,
+                  "входящий порт Bluetooth -- понятный отказ: %s" % last[9:90])
+        finally:
+            E.port_infos, E.find_elm = real
+            check(LW.E is E, "окно пользуется тем же модулем elm")
+            d.refresh_ports()
+
         # плохой порт -- понятная ошибка, окно не висит
         d.cb_elm.addItem("нет такого", "COM_NO_SUCH_PORT_99")
         d.cb_elm.setCurrentIndex(d.cb_elm.count() - 1)

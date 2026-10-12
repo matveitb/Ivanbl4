@@ -369,6 +369,50 @@ def test_end_to_end():
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def test_ports():
+    print("-- порты: какой из них адаптер")
+    bt = r"BTHENUM\{00001101-0000-1000-8000-00805F9B34FB}_LOCALMFG&"
+    out_hw = bt + r"0002\7&2B1A8F16&0&001DA5686E0D_C00000000"
+    in_hw = bt + r"0000\7&2B1A8F16&0&000000000000_00000000"
+    desc = "Стандартный последовательный порт по соединению Bluetooth (%s)"
+    names = {"001DA5686E0D": "OBDII"}
+    ps = [E.classify_port("COM6", desc % "COM6", in_hw, names.get),
+          E.classify_port("COM1", "Последовательный порт (COM1)",
+                          r"ACPI\PNP0501\1", names.get),
+          E.classify_port("COM5", desc % "COM5", out_hw, names.get),
+          E.classify_port("COM3", "USB-SERIAL CH340 (COM3)",
+                          "USB VID:PID=1A86:7523 SER= LOCATION=1-2",
+                          names.get)]
+    lab = {p.device: p.label for p in ps}
+    check(lab["COM5"] == "COM5 · Bluetooth «OBDII» · исходящий"
+          and "входящий" in lab["COM6"] and lab["COM3"] == "COM3 · USB-SERIAL CH340",
+          "подписи: %s" % " | ".join(lab[d] for d in ("COM5", "COM6", "COM3")))
+    order = [p.device for p in sorted(ps, key=lambda p: p.rank)]
+    check(order[0] == "COM5" and order[-1] == "COM6",
+          "Bluetooth-адаптер первым, входящий порт последним: %s"
+          % " ".join(order))
+
+    p = P.Project.open(A2L, V2M)
+    car = fakecar.FakeCar(udk.FuelModel.from_project(p))
+    tried = []
+
+    def opener(dev):
+        tried.append(dev)
+        if dev == "COM5":
+            return fakecar.FakeElm(car, fakecar.VirtualClock(0.0))
+        raise E.ElmError("на %s адаптер не ответил ни на одной скорости" % dev)
+    msgs = []
+    found = E.find_elm(ps, opener=opener, log=msgs.append)
+    check(found == "COM5" and tried[0] == "COM5" and "COM6" not in tried,
+          "«Найти адаптер»: ELM327 на COM5 найден с первой попытки, входящий "
+          "порт не трогали (%s)" % msgs[-1])
+    tried.clear()
+    found = E.find_elm([q for q in ps if q.device != "COM5"], opener=opener)
+    check(found is None and tried == ["COM3", "COM1"],
+          "без адаптера -- None, перебраны все, кроме входящего: %s"
+          % " ".join(tried))
+
+
 def test_narrowband():
     print("-- без ШДК: УДК и STFT из PID 14 -> расчёт по коррекциям")
     p = P.Project.open(A2L, V2M)
@@ -608,6 +652,7 @@ def main():
     test_ascii()
     test_plx_zt2()
     test_schedule()
+    test_ports()
     test_narrowband()
     test_end_to_end()
     test_mode22()

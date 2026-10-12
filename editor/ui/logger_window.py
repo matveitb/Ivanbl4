@@ -104,7 +104,19 @@ class Session:
             host, _, port = c.get("wifi", "192.168.0.10:35000").partition(":")
             self.say("Wi-Fi: %s:%s" % (host, port or "35000"))
             return E.TcpTransport(host, int(port or 35000))
-        return E.connect_serial(c["elm"], c.get("baud") or None, self.say)
+        info = next((p for p in E.port_infos() if p.device == c["elm"]), None)
+        if info is not None and info.kind == "bt-in":
+            raise E.ElmError(
+                "%s -- входящий порт Bluetooth: через него адаптер не "
+                "отвечает. Выберите порт с пометкой «исходящий» или нажмите "
+                "«Найти адаптер»" % c["elm"])
+        try:
+            return E.connect_serial(c["elm"], c.get("baud") or None, self.say)
+        except E.ElmError as exc:
+            raise E.ElmError(
+                "%s. Проверьте: зажигание включено, выбран порт адаптера "
+                "(у Bluetooth -- «исходящий»), его не держит другая "
+                "программа или телефон. Или нажмите «Найти адаптер»" % exc)
 
     def _transport_wb(self):
         c = self.cfg
@@ -290,16 +302,23 @@ class LoggerDialog(QtWidgets.QDialog):
         f = QtWidgets.QFormLayout(g)
         self.cb_elm = QtWidgets.QComboBox()
         self.cb_elm.setToolTip(
-            "COM-порт: USB-адаптер или Bluetooth (сначала спарить в Windows, "
-            "тогда он виден как COM). Адаптеры только с Bluetooth LE "
-            "COM-портом не становятся -- с ними не выйдет.")
+            "COM-порт: USB-адаптер или Bluetooth. Bluetooth-адаптер сначала "
+            "спарить в Windows -- тогда у него появляется COM-порт, и здесь "
+            "он подписан своим именем и словом «исходящий». Адаптеры только "
+            "с Bluetooth LE COM-портом не становятся -- с ними не выйдет.")
         ref = QtWidgets.QToolButton()
         ref.setText("↻")
         ref.setToolTip("обновить список портов")
         ref.clicked.connect(self.refresh_ports)
+        self.btn_find = QtWidgets.QPushButton("Найти адаптер")
+        self.btn_find.setToolTip(
+            "Перебрать COM-порты и найти тот, где отвечает ELM327. Зажигание "
+            "должно быть включено: адаптер питается от разъёма.")
+        self.btn_find.clicked.connect(self.find_adapter)
         h = QtWidgets.QHBoxLayout()
         h.addWidget(self.cb_elm, 1)
         h.addWidget(ref)
+        h.addWidget(self.btn_find)
         f.addRow("Подключение", h)
         self.ed_wifi = QtWidgets.QLineEdit("192.168.0.10:35000")
         f.addRow("Wi-Fi адрес", self.ed_wifi)
@@ -375,16 +394,17 @@ class LoggerDialog(QtWidgets.QDialog):
     # -- порты ---------------------------------------------------------------
 
     def refresh_ports(self) -> None:
-        ports = E.list_serial_ports()
+        # подписи -- с именем Bluetooth-устройства и «исходящий/входящий»;
+        # самый вероятный адаптер -- первым и выбран по умолчанию
+        self.ports = E.port_infos()
         cur_e = self.cb_elm.currentData()
         cur_w = self.cb_wb.currentData()
         self.cb_elm.clear()
         self.cb_wb.clear()
         self.cb_wb.addItem("нет: смесь по УДК (родной зонд)", NONE)
-        for dev, desc in ports:
-            text = "%s  %s" % (dev, desc) if desc else dev
-            self.cb_elm.addItem(text, dev)
-            self.cb_wb.addItem(text, dev)
+        for p in self.ports:
+            self.cb_elm.addItem(p.label, p.device)
+            self.cb_wb.addItem(p.label, p.device)
         self.cb_elm.addItem("Wi-Fi адаптер", WIFI)
         self.cb_elm.addItem("Имитатор: модель мотора", DEMO)
         self.cb_wb.addItem("Имитатор: модель мотора", DEMO)
@@ -395,6 +415,67 @@ class LoggerDialog(QtWidgets.QDialog):
             i = cb.findData(want) if want else -1
             if i >= 0:
                 cb.setCurrentIndex(i)
+
+    def find_adapter(self) -> None:
+        """Перебор портов в фоне: открытие Bluetooth-порта -- секунды."""
+        if getattr(self, "_finder", None) is not None:
+            return
+        if self.session is not None and self.session.state in (
+                "connecting", "running"):
+            self.say("сначала «Стоп»: порт занят записью")
+            return
+        self.refresh_ports()
+        if not self.ports:
+            self.say("COM-портов нет. Bluetooth-адаптер сначала спарьте в "
+                     "Windows, USB -- подключите, потом ↻")
+            return
+        q: queue.Queue = queue.Queue()
+        ports = list(self.ports)
+
+        def run():
+            try:
+                dev = E.find_elm(ports, log=q.put)
+            except Exception as exc:                        # noqa: BLE001
+                q.put("ОШИБКА: %s" % exc)
+                dev = None
+            q.put(("done", dev))
+
+        self._finder = (threading.Thread(target=run, daemon=True), q)
+        self._finder[0].start()
+        self.btn_find.setEnabled(False)
+        self.btn_start.setEnabled(False)
+        self.say("ищу адаптер: перебираю порты, на каждый -- до десятка "
+                 "секунд")
+        self._find_timer = QtCore.QTimer(self)
+        self._find_timer.setInterval(200)
+        self._find_timer.timeout.connect(self._find_tick)
+        self._find_timer.start()
+
+    def _find_tick(self) -> None:
+        _th, q = self._finder
+        while True:
+            try:
+                m = q.get_nowait()
+            except queue.Empty:
+                return
+            if isinstance(m, tuple):
+                self._find_timer.stop()
+                self._finder = None
+                self.btn_find.setEnabled(True)
+                self.btn_start.setEnabled(True)
+                dev = m[1]
+                if dev:
+                    i = self.cb_elm.findData(dev)
+                    if i >= 0:
+                        self.cb_elm.setCurrentIndex(i)
+                    self.say("нашёл: %s. Жмите «Подключить и писать»" % dev)
+                else:
+                    self.say("ELM327 не нашёлся. Проверьте: зажигание "
+                             "включено, адаптер спарен в Windows (у него "
+                             "есть исходящий COM-порт), его не держит "
+                             "другая программа или телефон")
+                return
+            self.say(m)
 
     def _wb_proto_changed(self) -> None:
         self.cb_wbk.setEnabled(self.cb_wbp.currentData() == "ascii")
