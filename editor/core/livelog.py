@@ -90,13 +90,37 @@ class Recorder:
                 self.fh = None
 
 
-def schedule(plan, supported: set | None) -> list[int]:
+def probe_dids(elm) -> set:
     """
-    План опроса -> круг запросов. Вес w -- PID спрашивается раз в w кругов;
-    круги склеиваются в одну цепочку длиной наименьшего общего кратного.
+    Какие величины режима 22 блок отдаёт на этой машине. По коду они есть
+    (docs/41), но достаётся ли режим 22 через ELM -- проверяется здесь:
+    не ответил -- в план не попадёт.
     """
-    plan = [(p, w) for p, w in plan
-            if p in obd.PIDS and (supported is None or p in supported)]
+    out = set()
+    for did, d in obd.DIDS.items():
+        if elm.query22(did, d.nbytes) is not None:
+            out.add(did)
+    return out
+
+
+def plan_for(dids: set) -> list:
+    return obd.PLAN_22 if 0x1235 in dids else obd.PLAN_01
+
+
+def schedule(plan, supported: set | None, dids: set | None = None) -> list:
+    """
+    План опроса -> круг запросов (режим, номер). Вес w -- величина
+    спрашивается раз в w кругов; круги склеиваются в цепочку длиной
+    наименьшего общего кратного.
+    """
+    def ok(key):
+        mode, ident = key
+        if obd.describe(key) is None:
+            return False
+        if mode == 1:
+            return supported is None or ident in supported
+        return dids is not None and ident in dids
+    plan = [(k, w) for k, w in plan if ok(k)]
     if not plan:
         return []
     n = 1
@@ -122,20 +146,25 @@ class EcuPoller:
     clock: object
     plan: list = field(default_factory=lambda: list(obd.DEFAULT_PLAN))
     supported: set | None = None
+    dids: set | None = None
     order: list = field(default_factory=list)
     pos: int = 0
 
     def __post_init__(self):
-        self.order = schedule(self.plan, self.supported)
+        self.order = schedule(self.plan, self.supported, self.dids)
         if not self.order:
             raise ValueError("блок не поддерживает ни одного нужного PID")
 
     def step(self) -> None:
-        pid = self.order[self.pos % len(self.order)]
+        key = self.order[self.pos % len(self.order)]
         self.pos += 1
-        p = obd.PIDS[pid]
+        mode, ident = key
+        p = obd.describe(key)
         t0 = self.clock()
-        body = self.elm.query(1, pid, p.nbytes)
+        if mode == 1:
+            body = self.elm.query(1, ident, p.nbytes)
+        else:
+            body = self.elm.query22(ident, p.nbytes)
         t1 = self.clock()
         if body is None:
             return
@@ -188,13 +217,15 @@ class LiveLogger:
 
     def __init__(self, elm, wb_transport=None, wb_parser=None,
                  path: str = "", clock=None, plan=None,
-                 supported: set | None = None):
+                 supported: set | None = None, dids: set | None = None):
         self._clock = clock or time.monotonic
         self.t_start = self._clock()
         self.rec = Recorder(path)
         self.elm = elm
-        self.ecu = EcuPoller(elm, self.rec, self.clock,
-                             list(plan or obd.DEFAULT_PLAN), supported)
+        if plan is None:
+            plan = plan_for(dids or set())
+        self.ecu = EcuPoller(elm, self.rec, self.clock, list(plan),
+                             supported, dids)
         self.wb = (WbReader(wb_transport, wb_parser, self.rec, self.clock)
                    if wb_transport is not None else None)
         self._stop = threading.Event()
@@ -223,10 +254,18 @@ class LiveLogger:
                 before = self.elm.stats.answered
                 self.ecu.step()
                 fails = 0 if self.elm.stats.answered > before else fails + 1
-                if fails >= 30:
-                    self.error = ("блок не отвечает 30 запросов подряд: %s"
-                                  % self.elm.stats.last_error)
-                    time.sleep(0.5)
+                if self.elm.stats.fatal or fails >= 30:
+                    # адаптер сбросился (LV RESET), зажигание выключали,
+                    # шина отвалилась -- поднять заново и продолжать
+                    self.error = ("связь с блоком потеряна (%s), "
+                                  "переподключаюсь" % (self.elm.stats.fatal
+                                                       or self.elm.stats.last_error))
+                    fails = 0
+                    try:
+                        self.elm.reinit()
+                    except Exception as exc:                # noqa: BLE001
+                        self.error = "переподключение не удалось: %s" % exc
+                        time.sleep(2.0)
             except Exception as exc:                        # noqa: BLE001
                 self.error = "ELM: %s" % exc
                 time.sleep(0.5)

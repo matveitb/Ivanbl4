@@ -68,6 +68,8 @@ class Truth:
     enrich: bool = False     # обогащение на ускорение
     closed: bool = False     # регулятор по узкому зонду работает
     cut: bool = False        # топливо перекрыто
+    adc: float = 0.0         # АЦП ДМРВ, 10 бит: номер точки тарировки × 2
+    rl: float = 0.0          # наполнение по блоку, %
 
 
 def _rl_true(rpm: float, tps: float) -> float:
@@ -127,7 +129,8 @@ def run(fm_ecu, sensor_raw, err=err_lean_top, drive=DRIVE, seed=1,
             p = pk(rpm, tps) if pk else 1.0
             q_true = _rl_true(rpm, tps) * rpm * fm_ecu.kumsrl
             q_tab = q_true / err(q_true)            # датчик врёт
-            ml = ecu_flow(volt_index(q_tab)) * p    # что насчитал блок
+            fi = volt_index(q_tab)                  # напряжение датчика
+            ml = ecu_flow(fi) * p                   # что насчитал блок
             real = q_true * p
             rl = fm_ecu.rl(rpm, ml)
             lcmd, fl = fm_ecu.lam_cmd(rpm, tps, rl)
@@ -146,7 +149,8 @@ def run(fm_ecu, sensor_raw, err=err_lean_top, drive=DRIVE, seed=1,
                 stft += (lam - 1.0) * 100 * step / 0.4
                 stft = max(-25.0, min(25.0, stft))
             out.append(Truth(t, rpm, tps, ml, lam, stft, ltft, ect,
-                             t < enrich_until, closed, cut))
+                             t < enrich_until, closed, cut,
+                             min(1023.0, fi * 2), rl))
             t += step
     return out
 

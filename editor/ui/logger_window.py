@@ -130,12 +130,16 @@ class Session:
                     if p not in sup]
             if miss:
                 self.say("ВНИМАНИЕ: блок не отдаёт " + ", ".join(miss))
+            dids = livelog.probe_dids(self.elm)
+            self.say("режим 22: %s" % (", ".join(
+                obd.DIDS[d].title for d in sorted(dids)) if dids else
+                "блок не отвечает, пишу по обычным PID"))
             self.wt, parser = self._transport_wb()
             if self.cancelled:
                 raise E.ElmError("остановлено до начала записи")
             self.logger = livelog.LiveLogger(
                 self.elm, self.wt, parser, path=self.cfg["path"],
-                supported=sup)
+                supported=sup, dids=dids)
             self.logger.start()
             if self.cancelled:          # «Стоп» нажали, пока запускались
                 self.logger.stop()
@@ -469,9 +473,13 @@ class LoggerDialog(QtWidgets.QDialog):
             v = last.get(name)
             return v[1] if v and now - v[0] <= fresh else None
 
+        maf = get(obd.PIDS[0x10].name)
+        if maf is None:                      # режим 22: кг/ч в полном разрешении
+            kgh = get(obd.DIDS[0x1285].name)
+            maf = kgh / udk.KGH_PER_GS if kgh is not None else None
         vals = {
             "rpm": get(obd.PIDS[0x0C].name),
-            "maf": get(obd.PIDS[0x10].name),
+            "maf": maf,
             "tps": get(obd.PIDS[0x11].name),
             "lam": get(livelog.LAMBDA_NAME, 1.0),
             "stft": get(obd.PIDS[0x06].name, 5.0),
@@ -482,6 +490,9 @@ class LoggerDialog(QtWidgets.QDialog):
         vals["loop"] = {1: "ждёт", 2: "замкнут", 4: "разомкнут",
                         8: "авария", 16: "замкнут*"}.get(
             int(fs) if fs is not None else -1, None)
+        cl = get(obd.DIDS[0x1216].name, 10.0)
+        if vals["loop"] is None and cl is not None:
+            vals["loop"] = "замкнут" if cl else "разомкнут"
         fm = getattr(self, "fm", None)
         if fm is not None and vals["rpm"] and vals["tps"] is not None:
             ml = (vals["maf"] or 0) * udk.KGH_PER_GS
@@ -503,7 +514,11 @@ class LoggerDialog(QtWidgets.QDialog):
         r = L.rates()
         wb = L.wb
         parts = ["%s %.1f Гц" % (obd.PIDS[p].title, r.get(obd.PIDS[p].name, 0))
-                 for p in (0x0C, 0x10, 0x11)]
+                 for p in (0x0C, 0x10, 0x11)
+                 if r.get(obd.PIDS[p].name) is not None]
+        adc = obd.DIDS[0x1235]
+        if r.get(adc.name) is not None:
+            parts.append("%s %.1f Гц" % (adc.title, r[adc.name]))
         if wb is not None:
             parts.append("УДК %.1f Гц, %s" % (r.get(livelog.LAMBDA_NAME, 0),
                                               wb.status or "нет данных"))

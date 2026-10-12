@@ -75,6 +75,10 @@ python3 -m editor.cli udk --a2l ... --bin ... --log elm.csv [--wb udk.csv] --out
 | `core/logio.py` | чтение логов: Car Scanner, Torque, LogWorks, любой CSV |
 | `core/udk.py` | смесь по УДК: цель по лямбде по коду блока, отбор, поправки |
 | `core/udksim.py` | модель мотора с известной ошибкой ДМРВ — для проверок |
+| `core/elm.py`, `core/obd.py` | ELM327 по COM, Bluetooth и Wi-Fi; PID режима 01 |
+| `core/wideband.py` | УДК: Innovate ISP2, текстовые, PLX |
+| `core/livelog.py` | логгер: опрос по плану, запись построчно на одних часах |
+| `core/fakecar.py` | имитатор ELM и УДК для проверок и демо-режима |
 | `ui/` | окно: дерево, таблица, кривая, поверхность, сравнение, палитра |
 
 Разбор ASAP2 — полноценный, а не регулярка под наш файл: редактор должен
@@ -118,6 +122,8 @@ python3 tests/test_editor_edits.py
 python3 tests/test_editor_ui.py
 python3 tests/test_udk.py
 python3 tests/test_udk_ui.py
+python3 tests/test_livelog.py
+python3 tests/test_logger_ui.py
 ```
 
 Последний идёт на платформе `offscreen` и без PySide6 не проваливается,
@@ -128,6 +134,6 @@ python3 tests/test_udk_ui.py
 Готово: ядро, дерево с группировкой, таблица с правкой, отмена и повтор,
 сохранение с суммами, файл проекта `*.ktp`, кривая и поверхность,
 сравнение прошивок и в окне, и из командной строки, свои группы мышью,
-недавние файлы, смесь по УДК (docs/40).
+недавние файлы, смесь по УДК (docs/40), логгер ELM + УДК (docs/41).
 
 Осталось: научить редактор писать A2L, а не только читать.

@@ -29,9 +29,13 @@ import time
 from dataclasses import dataclass, field
 
 PROMPT = b">"
-ERRORS = ("NO DATA", "UNABLE TO CONNECT", "BUS INIT: ...ERROR", "BUS ERROR",
-          "CAN ERROR", "STOPPED", "ERROR", "BUFFER FULL", "FB ERROR",
-          "DATA ERROR", "?")
+ERRORS = ("NO DATA", "UNABLE TO CONNECT", "BUS INIT: ...ERROR",
+          "BUS INIT: ERROR", "BUS ERROR", "BUS BUSY", "CAN ERROR", "STOPPED",
+          "ERROR", "BUFFER FULL", "FB ERROR", "DATA ERROR", "LV RESET", "?")
+# после этих адаптер потерял настройки или шину -- нужна новая инициализация
+FATAL = ("LV RESET", "UNABLE TO CONNECT", "BUS INIT: ...ERROR",
+         "BUS INIT: ERROR")
+ENGINE = 0x10                  # адрес блока двигателя на K-линии
 NOISE = re.compile(r"SEARCHING\.*|BUS INIT:\s*\.*\s*OK|BUS INIT:?\s*\.*",
                    re.I)
 HEX = re.compile(r"^[0-9A-Fa-f]+$")
@@ -165,15 +169,55 @@ def data_bytes(lines: list[str]) -> list[list[int]]:
     return out
 
 
-def find_reply(rows: list[list[int]], mode: int, pid: int | None,
-               n: int) -> list[int] | None:
+def frame(row: list[int]) -> tuple[int | None, list[int]]:
     """
-    Найти ответ «mode+0x40 PID данные» в любых строках, с заголовком или
-    без. С заголовками KWP строка выглядит как «83 F1 10 41 0C 1A F8 xx»
-    -- пара 41 0C ищется в любом месте, а не только в начале.
+    Разобрать строку с заголовком: (адрес отправителя, данные).
+
+    KWP2000:   80+длина  F1  ECU  данные...  сумма   («84 F1 10 41 0C 1A F8 xx»)
+               80        F1  ECU  длина  данные...  сумма  -- длинный ответ
+    ISO 9141:  48  6B  ECU  данные...  сумма
+    Если заголовка не видно (адаптер отдал их выключенными) -- вся строка
+    данные, отправитель неизвестен.
     """
-    head = [mode + 0x40] + ([pid] if pid is not None else [])
+    if len(row) >= 4 and (row[0] & 0xC0) == 0x80 and row[1] == 0xF1:
+        n = row[0] & 0x3F
+        if n and len(row) == 3 + n + 1:
+            return row[2], row[3:3 + n]
+        if not n and len(row) >= 5 and len(row) == 4 + row[3] + 1:
+            return row[2], row[4:4 + row[3]]
+        # длина в заголовке не сходится со строкой (клон что-то склеил
+        # или потерял) -- данные по факту: всё между заголовком и суммой
+        return row[2], row[3:-1]
+    if len(row) >= 4 and row[0] == 0x48 and row[1] == 0x6B:
+        return row[2], row[3:-1]
+    return None, row
+
+
+def _ident(pid) -> list[int]:
+    if pid is None:
+        return []
+    if isinstance(pid, int):
+        return [pid]
+    return list(pid)
+
+
+def find_reply(rows: list[list[int]], mode: int, pid, n: int,
+               src: int | None = None) -> list[int] | None:
+    """
+    Найти ответ «mode+0x40 PID данные». pid -- байт или список байтов
+    (у режима 22 их два). Если строки с заголовками, а src задан, берётся
+    только ответ этого блока: на функциональный запрос может ответить и
+    коробка-автомат, и её обороты -- не обороты двигателя.
+    """
+    head = [mode + 0x40] + _ident(pid)
     for row in rows:
+        who, data = frame(row)
+        if who is not None:
+            if src is not None and who != src:
+                continue
+            if data[:len(head)] == head and len(data) >= len(head) + n:
+                return data[len(head):len(head) + n]
+            continue
         for i in range(len(row) - len(head) + 1):
             if row[i:i + len(head)] == head:
                 body = row[i + len(head):i + len(head) + n]
@@ -200,6 +244,7 @@ class ElmStats:
     no_data: int = 0
     errors: int = 0
     last_error: str = ""
+    fatal: str = ""            # ошибка, после которой нужна новая инициализация
     latency: float = 0.0       # с, скользящее среднее
 
     def note(self, dt: float) -> None:
@@ -219,6 +264,9 @@ class Elm327:
     stats: ElmStats = field(default_factory=ElmStats)
     count_suffix: bool = True     # «010C1»: ждать один ответ, а не таймаут
     log: list = field(default_factory=list)   # последние обмены для окна
+    ecu: int | None = None        # адрес двигателя, если видны заголовки
+    ecus: set = field(default_factory=set)    # кто ответил на 0100
+    proto_req: str = "0"
 
     def command(self, cmd: str, timeout: float = 2.0) -> str:
         """Отправить строку, прочитать до приглашения. Текст ответа."""
@@ -237,7 +285,8 @@ class Elm327:
                 buf += chunk
                 if PROMPT in chunk:
                     break
-        text = buf.decode("ascii", "replace")
+        # у части PIC-клонов в потоке проскакивают нулевые байты
+        text = buf.replace(b"\x00", b"").decode("ascii", "replace")
         self.log.append((cmd, text.strip()))
         del self.log[:-40]
         if PROMPT not in buf:
@@ -252,25 +301,43 @@ class Elm327:
         «5» -- KWP2000 быстрый старт, «4» -- KWP 5 бод, «3» -- ISO 9141.
         """
         say = log or (lambda m: None)
+        self.proto_req = protocol
         try:
             txt = self.command("ATZ", 4.0)
         except ElmError:
-            # некоторые клоны после ATZ молчат до первого перевода строки
-            txt = self.command("", 2.0)
+            # некоторые клоны после ATZ молчат или не печатают версию;
+            # пустую строку слать нельзя -- ELM повторит прошлую команду
+            txt = self.command("ATI", 2.0)
         m = re.search(r"ELM327\s*v?[\d.]+", txt, re.I)
         self.version = m.group(0) if m else txt.strip().replace("\r", " ")
         say("адаптер: " + (self.version or "?"))
-        # без пробелов -- на треть меньше байт на каждый ответ, по
-        # Bluetooth это заметно; разбор понимает оба вида
-        for c in ("ATE0", "ATL0", "ATS0", "ATH0", "ATAT1"):
+        # Без пробелов -- на треть меньше байт на ответ, по Bluetooth это
+        # заметно. Заголовки включены: по ним видно, какой блок ответил.
+        for c in ("ATE0", "ATL0", "ATS0", "ATH1"):
             self.command(c, 2.0)
+        self.command("ATAT1", 2.0)       # у части клонов «?» -- не страшно
         self.command("ATSP" + protocol, 2.0)
-        # первый запрос будит K-линию: инициализация шины занимает секунды
+        # первый запрос будит K-линию: инициализация шины занимает секунды.
+        # Без числа ответов: надо увидеть ВСЕ блоки, которые отзовутся
         say("связь с блоком...")
-        txt = self.command("0100", 12.0)
+        txt = self.command("0100", 15.0)
         lines = clean_lines(txt, "0100")
         rows = data_bytes(lines)
-        if find_reply(rows, 1, 0x00, 4) is None:
+        self.ecus = set()
+        for row in rows:
+            who, data = frame(row)
+            if who is not None and data[:2] == [0x41, 0x00]:
+                self.ecus.add(who)
+        if self.ecus:
+            self.ecu = ENGINE if ENGINE in self.ecus else min(self.ecus)
+            if len(self.ecus) > 1:
+                # ответят несколько -- «первый ответ» может оказаться
+                # чужим; ждём всех и выбираем свой по адресу
+                self.count_suffix = False
+                say("на запрос отвечают блоки %s, беру %02X" % (
+                    " ".join("%02X" % e for e in sorted(self.ecus)),
+                    self.ecu))
+        if find_reply(rows, 1, 0x00, 4, self.ecu) is None:
             err = is_error(lines) or " ".join(lines) or "пусто"
             raise ElmError("блок не ответил на 0100: " + err)
         try:
@@ -295,10 +362,13 @@ class Elm327:
 
     # -- запросы -----------------------------------------------------------
 
-    def query(self, mode: int, pid: int | None, n: int,
+    def query(self, mode: int, pid, n: int,
               timeout: float = 1.0) -> list[int] | None:
-        """Один запрос режима mode. Байты данных или None."""
-        cmd = "%02X" % mode + ("%02X" % pid if pid is not None else "")
+        """
+        Один запрос режима mode. pid -- байт (режим 01) или список байтов
+        (режим 22: [0x12, 0x35]). Байты данных или None.
+        """
+        cmd = "%02X" % mode + "".join("%02X" % b for b in _ident(pid))
         if self.count_suffix:
             cmd += "1"
         t0 = self.clock()
@@ -311,9 +381,11 @@ class Elm327:
             return None
         lines = clean_lines(txt, cmd)
         rows = data_bytes(lines)
-        body = find_reply(rows, mode, pid, n)
+        body = find_reply(rows, mode, pid, n, self.ecu)
         if body is None:
             err = is_error(lines)
+            if any(err.upper().startswith(f) for f in FATAL):
+                self.stats.fatal = err
             if err.strip() == "?" and self.count_suffix:
                 # клон не понимает число ответов в конце -- больше не шлём
                 self.count_suffix = False
@@ -327,6 +399,16 @@ class Elm327:
         self.stats.answered += 1
         self.stats.note(self.clock() - t0)
         return body
+
+    def query22(self, did: int, n: int,
+                timeout: float = 1.0) -> list[int] | None:
+        """Режим 22 (данные по идентификатору): «22 12 35» -> «62 12 35 ..»."""
+        return self.query(0x22, [did >> 8, did & 0xFF], n, timeout)
+
+    def reinit(self, log=None) -> None:
+        """Заново поднять адаптер и шину: после «LV RESET», смены зажигания."""
+        self.stats.fatal = ""
+        self.init(self.proto_req, log)
 
     def raw(self, hexstr: str, timeout: float = 1.0) -> list[list[int]]:
         """Произвольный запрос: строки байтов ответа, как есть."""
@@ -352,15 +434,15 @@ def connect_serial(port: str, baud: int | None = None,
         except Exception as exc:                            # noqa: BLE001
             raise ElmError("порт %s не открылся: %s" % (port, exc))
         try:
-            t.write(b"\r")
-            time.sleep(0.2)
+            # мусорные байты, а не пустая строка: на пустую ELM повторяет
+            # прошлую команду. Ответ «?» с приглашением -- значит, слышит
             t.flush_input()
-            t.write(b"ATI\r")
+            t.write(b"\x7F\x7F\r")
             buf = b""
             end = time.monotonic() + 1.0
             while time.monotonic() < end and PROMPT not in buf:
                 buf += t.read(0.05)
-            if b"ELM" in buf.upper() or PROMPT in buf:
+            if PROMPT in buf:
                 say("порт %s: адаптер отвечает на %d" % (port, b))
                 return t
         except Exception as exc:                            # noqa: BLE001

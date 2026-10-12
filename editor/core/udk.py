@@ -88,17 +88,20 @@ ROLES = [
     ("stft", "Быстрая коррекция (STFT)", False),
     ("ltft", "Адаптация (LTFT)", False),
     ("ect", "Температура ОЖ", False),
+    ("adc", "АЦП ДМРВ (точный ключ тарировки)", False),
 ]
 ROLE_TITLES = {r: t for r, t, _ in ROLES}
 
 _PAT = {
     "rpm": (r"rpm|об/мин|оборот|engine speed|nmot|частота вращ", r"vehicle|скорост|км/ч|km/h"),
-    "maf": (r"\bmaf\b|mass air|air ?flow|расход возд|массов\w* расход|дмрв|\bml\b",
-            r"volt|напряж|\(v\)|, ?в$|voltage|correct|коррек"),
+    "maf": (r"\bmaf\b|mass air|air ?flow|air mass|расход возд|массов\w* расход|дмрв|\bml\b",
+            r"volt|напряж|\(v\)|, ?в$|voltage|correct|коррек|adc|ацп|counts"),
+    "adc": (r"(maf|дмрв|hfm).*(adc|ацп)|(adc|ацп).*(maf|дмрв|hfm)", r"$^"),
     "tps": (r"throttle|дросс|\btps\b|\bдз\b",
             r"relative|относит|command|задан|педал|pedal|accel|\bb\)|\bb$|volt|напряж"),
     "lam": (r"lambda|лямбд|λ|\bудк\b|\bшдк\b|\bafr\b|wideband|\blc-?[12]\b|wbo2|air.?fuel|соста\w+ смеси",
-            r"command|задан|equivalence|o2 sensor|кислород|volt|напряж|target|цел"),
+            r"command|задан|equivalence|o2 sensor|кислород|volt|напряж|target|цел|"
+            r"control|active|closed|регулят|контур"),
     "stft": (r"short.?term|\bstft\b|кратко|быстр\w* корр", r"bank ?2|банк ?2"),
     "ltft": (r"long.?term|\bltft\b|долго|адаптац", r"bank ?2|банк ?2"),
     "ect": (r"coolant|охлажд|\bож\b|\bтож\b|engine temp|температура двиг|\bect\b",
@@ -126,6 +129,10 @@ def detect_roles(ecu: logio.LogFile, wb: logio.LogFile | None) -> dict:
                     cands.append((src, name))
             if cands:
                 break
+        if role == "maf" and len(cands) > 1:
+            # расход из режима 22 (0.1 кг/ч) точнее OBD-шного (0.25 г/с)
+            ecu_first = [c for c in cands if re.search(r"ecu|эбу", c[1], re.I)]
+            cands = ecu_first or cands
         if role == "lam" and len(cands) > 1:
             # из «лямбды» и «AFR» одного логгера берём лямбду
             lam_first = [c for c in cands
@@ -344,6 +351,7 @@ class Sample:
     lcmd: float
     rl: float
     e: float            # ошибка воздуха
+    adc: float | None = None   # АЦП ДМРВ, если блок его отдал
 
 
 @dataclass
@@ -487,6 +495,9 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
     for r in ("stft", "ltft", "ect"):
         if ch[r] is None:
             res.warnings.append("%s в логе нет" % ROLE_TITLES[r])
+    if ch["adc"] is not None:
+        res.notes.append("ключ тарировки ДМРВ -- сырой АЦП «%s», без "
+                         "поправки пульсаций" % ch["adc"].name)
 
     spans = _transients(ch["tps"], st, ch["rpm"])
     starts = [a for a, _ in spans]
@@ -540,11 +551,13 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
                 if ch["stft"] is not None else None)
         ltft = (logio.sample(ch["ltft"], t, g)
                 if ch["ltft"] is not None else None)
+        adc = (logio.sample(ch["adc"], t, g)
+               if ch["adc"] is not None else None)
         rl = fm.rl(rpm, maf)
         lcmd, fl = fm.lam_cmd(rpm, tps, rl, st.bts)
         trims = (1 + (stft or 0.0) / 100) * (1 + (ltft or 0.0) / 100)
         out.append(Sample(t, rpm, maf, tps, lam, stft, ltft, fl, lcmd, rl,
-                          lam * trims / lcmd))
+                          lam * trims / lcmd, adc))
     return out
 
 
@@ -783,8 +796,13 @@ def correct_hfm(fm: FuelModel, samples: list[Sample], st: Settings,
     xs = list(range(0, n, step))
     if xs[-1] != n - 1:
         xs.append(n - 1)
-    acc = _accumulate(xs, used, lambda s: fm.hfm_index(s.maf),
-                      lambda s: s.e)
+    def key(s):
+        # АЦП -- точное место в таблице (индекс = АЦП / 2, docs/36); без
+        # него -- обратный поиск по расходу, сдвинутый на поправку пульсаций
+        if s.adc is not None:
+            return min(max(s.adc / 2.0, 0.0), float(n - 1))
+        return fm.hfm_index(s.maf)
+    acc = _accumulate(xs, used, key, lambda s: s.e)
     for i, x in enumerate(xs):
         w = acc[i][0]
         q = fm.hfm_flow(x)

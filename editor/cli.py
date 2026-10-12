@@ -166,6 +166,9 @@ def cmd_log(a) -> int:
     e.init(a.proto, print)
     sup = e.supported_pids()
     print("блок отдаёт PID: " + " ".join("%02X" % p for p in sorted(sup)))
+    dids = livelog.probe_dids(e)
+    print("режим 22: " + (", ".join(obd.DIDS[d].title for d in sorted(dids))
+                          or "нет, пишу по обычным PID"))
 
     wt = parser = None
     if a.wb:
@@ -177,7 +180,8 @@ def cmd_log(a) -> int:
         else:
             wt = E.SerialTransport(a.wb, a.wb_baud or parser.baud)
     out = a.out or time.strftime("лог_%Y-%m-%d_%H-%M-%S.csv")
-    L = livelog.LiveLogger(e, wt, parser, path=out, supported=sup)
+    L = livelog.LiveLogger(e, wt, parser, path=out, supported=sup,
+                           dids=dids)
     L.start()
     print("пишу в %s, Ctrl+C -- стоп" % out)
     names = {"об/мин": obd.PIDS[0x0C].name, "г/с": obd.PIDS[0x10].name,

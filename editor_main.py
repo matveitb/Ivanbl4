@@ -228,13 +228,14 @@ def selftest() -> int:
     e.init("0")
     sup = e.supported_pids()
     lp = os.path.join(tmp, "live.csv")
+    dids = livelog.probe_dids(e)
     L = livelog.LiveLogger(e, fakecar.FakeWideband(car, clk),
                            wideband.Isp2Parser(), path=lp, clock=clk,
-                           supported=sup)
+                           supported=sup, dids=dids)
     L.run_for(60.0)
     L.rec.close()
     log2 = logio.read_log(lp)
-    check(len(log2.channels) >= 7,
+    check(len(log2.channels) >= 7 and 0x1235 in dids,
           "логгер: записал и прочёл свой лог, каналов %d" % len(log2.channels))
     try:
         import serial                                       # noqa: F401

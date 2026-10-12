@@ -28,8 +28,10 @@ import udksim
 import wideband
 from elm import Transport
 
+# ровно то, что отдаёт наш блок: PID 00 -> BE 1F B8 11, PID 20 -> 80 00 00 00
+# (обработчик 0x8649D4 и 0x864CAC, docs/41)
 DEFAULT_SUPPORTED = {0x01, 0x03, 0x04, 0x05, 0x06, 0x07, 0x0C, 0x0D, 0x0E,
-                     0x0F, 0x10, 0x11, 0x13, 0x14, 0x15, 0x1C, 0x20}
+                     0x0F, 0x10, 0x11, 0x13, 0x14, 0x15, 0x1C, 0x20, 0x21}
 
 
 class VirtualClock:
@@ -74,6 +76,11 @@ class FakeCar:
             0x14: 0.45,
         }[pid]
 
+    def did_value(self, did: int, t: float) -> float:
+        s = self.at(t)
+        return {0x1235: s.adc, 0x1285: s.ml, 0x1283: s.rl,
+                0x1216: 1.0 if s.closed else 0.0}[did]
+
 
 class FakeElm(Transport):
     """ELM327 v1.5 на K-линии, ровно настолько, насколько нужно логгеру."""
@@ -82,13 +89,18 @@ class FakeElm(Transport):
 
     def __init__(self, car: FakeCar, clock, latency: float = 0.11,
                  realtime: bool = False, supported=None,
-                 count_suffix: bool = True):
+                 count_suffix: bool = True, mode22: bool = True,
+                 tcm: bool = False, protocol: str = "kwp"):
         self.car = car
         self.clock = clock
         self.latency = latency
         self.realtime = realtime
         self.supported = set(supported or DEFAULT_SUPPORTED)
         self.count_suffix = count_suffix
+        self.mode22 = mode22
+        self.tcm = tcm               # коробка-автомат тоже отвечает, и первой
+        self.protocol = protocol     # "kwp" или "iso9141" -- вид заголовков
+        self.headers = False
         self.inbuf = b""
         self.out = b""
         self.ready_at = 0.0
@@ -142,10 +154,12 @@ class FakeElm(Transport):
                 self.echo = a == "E1"
             elif a.startswith("S") and a[1:] in ("0", "1"):
                 self.spaces = a == "S1"
+            elif a in ("H0", "H1"):
+                self.headers = a == "H1"
             elif a == "I":
                 return "ELM327 v1.5", 0.01
             elif a == "DPN":
-                return "A5", 0.01
+                return "A5" if self.protocol == "kwp" else "A3", 0.01
             elif a == "RV":
                 return "12.6V", 0.01
             return "OK", 0.01
@@ -167,17 +181,44 @@ class FakeElm(Transport):
         else:
             # без числа ответов ELM ждёт других блоков до таймаута
             delay += 0.05
+        t = self.clock() if not self.realtime else time.monotonic()
+        if len(c) == 6 and c[:4] == "2212" and self.mode22:
+            did = int(c[2:], 16)
+            if did in obd.DIDS:
+                body = obd.encode22(did, self.car.did_value(did, t))
+                return prefix + self._frame(
+                    0x10, [0x62, 0x12, did & 0xFF] + list(body)), delay
+            return prefix + "NO DATA", delay
         if len(c) != 4 or c[:2] != "01":
             return prefix + "NO DATA", delay
         pid = int(c[2:], 16)
+        lines = []
+        if self.tcm and pid in (0x00, 0x0C):
+            # коробка отвечает первой: «обороты» у неё свои
+            data = ([0x41, 0x00, 0x88, 0x18, 0x00, 0x00] if pid == 0x00 else
+                    [0x41, 0x0C] + list(obd.encode(0x0C, 1234.0)))
+            lines.append(self._frame(0x18, data))
         if pid == 0x00 or (pid in (0x20, 0x40) and pid in self.supported):
             body = obd.bitmap_for(self.supported, pid)
-            return prefix + self._hex([0x41, pid] + list(body)), delay
-        if pid not in self.supported or pid not in obd.PIDS:
+            lines.append(self._frame(0x10, [0x41, pid] + list(body)))
+        elif pid in self.supported and pid in obd.PIDS:
+            body = obd.encode(pid, self.car.pid_value(pid, t))
+            lines.append(self._frame(0x10, [0x41, pid] + list(body)))
+        if not lines:
             return prefix + "NO DATA", delay
-        t = self.clock() if not self.realtime else time.monotonic()
-        body = obd.encode(pid, self.car.pid_value(pid, t))
-        return prefix + self._hex([0x41, pid] + list(body)), delay
+        if len(cmd.replace(" ", "")) % 2 == 1:
+            lines = lines[:1]          # «1» в конце: вернуть первый ответ
+        return prefix + "\r".join(lines), delay
+
+    def _frame(self, src: int, data: list) -> str:
+        """Строка ответа как у ELM: с заголовком и суммой или без."""
+        if not self.headers:
+            return self._hex(data)
+        if self.protocol == "kwp":
+            row = [0x80 | len(data), 0xF1, src] + data
+        else:
+            row = [0x48, 0x6B, src] + data
+        return self._hex(row + [sum(row) & 0xFF])
 
 
 class FakeWideband(Transport):

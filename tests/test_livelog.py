@@ -60,9 +60,23 @@ def test_elm_grammar():
     rows = E.data_bytes(E.clean_lines("BUS INIT: ...OK\r410C1AF8\r\r>"))
     check(E.find_reply(rows, 1, 0x0C, 2) == [0x1A, 0xF8],
           "без пробелов и с BUS INIT")
+    rows = E.data_bytes(E.clean_lines("84 F1 10 41 0C 1A F8 C4\r\r>"))
+    check(E.find_reply(rows, 1, 0x0C, 2) == [0x1A, 0xF8],
+          "с заголовками KWP: «84 F1 10 41 0C ...»")
+    rows = E.data_bytes(E.clean_lines(
+        "84F1184 10C04D2xx\r84F110410C1AF8C4\r\r>".replace("xx", "00")))
+    check(E.find_reply(rows, 1, 0x0C, 2, src=0x10) == [0x1A, 0xF8],
+          "ответили коробка (18) и двигатель (10) -- взят двигатель")
+    rows = E.data_bytes(E.clean_lines("48 6B 10 41 0C 1A F8 C2\r\r>"))
+    check(E.find_reply(rows, 1, 0x0C, 2, src=0x10) == [0x1A, 0xF8],
+          "заголовок ISO 9141: «48 6B 10 ...»")
     rows = E.data_bytes(E.clean_lines("83 F1 10 41 0C 1A F8 C3\r\r>"))
     check(E.find_reply(rows, 1, 0x0C, 2) == [0x1A, 0xF8],
-          "с заголовками KWP: пара 41 0C найдена в середине строки")
+          "длина в заголовке не сходится -- данные берутся по факту")
+    rows = E.data_bytes(E.clean_lines("85F11062123501E7xx\r\r>".replace(
+        "xx", "AA")))
+    check(E.find_reply(rows, 0x22, [0x12, 0x35], 2) == [0x01, 0xE7],
+          "режим 22: «62 12 35 01 E7» -> АЦП 0x1E7")
     lines = E.clean_lines("NO DATA\r\r>")
     check(E.is_error(lines) == "NO DATA"
           and E.find_reply(E.data_bytes(lines), 1, 0x0C, 2) is None,
@@ -165,16 +179,20 @@ def test_ascii():
 
 def test_schedule():
     print("-- план опроса")
-    order = livelog.schedule(obd.DEFAULT_PLAN, None)
-    n = len(order)
-    cnt = {p: order.count(p) for p in set(order)}
+    order = livelog.schedule(obd.PLAN_01, None)
+    cnt = {k[1]: order.count(k) for k in set(order)}
     check(cnt[0x0C] == cnt[0x10] == cnt[0x11] == 40 and cnt[0x05] == 2,
           "обороты, расход, дроссель -- каждый круг, ОЖ -- раз в 20: %s"
           % {"%02X" % k: v for k, v in sorted(cnt.items())})
-    order = livelog.schedule(obd.DEFAULT_PLAN, {0x0C, 0x10, 0x11})
-    check(set(order) == {0x0C, 0x10, 0x11},
+    order = livelog.schedule(obd.PLAN_01, {0x0C, 0x10, 0x11})
+    check({k[1] for k in order} == {0x0C, 0x10, 0x11},
           "неподдержанные PID не спрашиваются")
-    check(n == len(livelog.schedule(obd.DEFAULT_PLAN, None)), "план стабилен")
+    order = livelog.schedule(obd.PLAN_22, None, set())
+    check(all(m == 1 for m, _ in order),
+          "режим 22 не ответил -- его величины не спрашиваются")
+    check(livelog.plan_for({0x1235}) is obd.PLAN_22
+          and livelog.plan_for(set()) is obd.PLAN_01,
+          "есть АЦП ДМРВ -- план с ним, нет -- обычный")
 
 
 def test_end_to_end():
@@ -234,6 +252,75 @@ def test_end_to_end():
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def _node_devs(fm, res, err):
+    devs = []
+    for n in res.nodes:
+        q = fm.hfm_flow(int(n.x))
+        if n.status != "по данным" or q < 60:
+            continue
+        qt = q
+        for _ in range(50):
+            qt = q * err(qt)
+        devs.append(abs(n.new - err(qt)))
+    return devs
+
+
+def test_mode22():
+    print("-- режим 22: сырой АЦП ДМРВ и коробка, отвечающая первой")
+    p = P.Project.open(A2L, V2M)
+    fm = udk.FuelModel.from_project(p)
+
+    # поправка пульсаций, как у KFPUSU: до +13 % на широком дросселе.
+    # Расход в OBD уже умножен на неё, а АЦП -- нет
+    def pk(rpm, tps):
+        return 1.0 + 0.13 * min(1.0, tps / 100.0) * min(1.0, rpm / 6000.0)
+
+    import udksim as US
+    tr = US.run(fm, fm.hfm_raw, ltft=0.0, pk=pk)
+
+    class Car(fakecar.FakeCar):
+        def __init__(self):
+            self.truth = tr
+            self.dt = tr[1].t - tr[0].t
+            self.period = len(tr) * self.dt
+    car = Car()
+    results = {}
+    for use22 in (False, True):
+        clk = fakecar.VirtualClock(0.0)
+        fe = fakecar.FakeElm(car, clk, mode22=use22, tcm=True)
+        e = E.Elm327(fe, clock=clk)
+        msgs = []
+        e.init("0", msgs.append)
+        if use22:
+            check(e.ecus == {0x10, 0x18} and e.ecu == 0x10
+                  and not e.count_suffix,
+                  "ответили двигатель и коробка: беру 10, число ответов не "
+                  "шлю (%s)" % "; ".join(msgs[-1:]))
+        sup = e.supported_pids()
+        dids = livelog.probe_dids(e)
+        check((dids == set(obd.DIDS)) == use22,
+              "режим 22 %s: %s" % ("есть" if use22 else "нет",
+                                   " ".join("%04X" % d for d in sorted(dids))))
+        L = livelog.LiveLogger(e, fakecar.FakeWideband(car, clk), W.Isp2Parser(),
+                               clock=clk, supported=sup, dids=dids)
+        L.run_for(car.period - 1.0)
+        log = L.rec.snapshot()
+        rpm = log.channels[obd.PIDS[0x0C].name].v
+        check(1234.0 not in rpm, "обороты коробки (1234) в лог не попали")
+        roles = udk.detect_roles(log, None)
+        if use22:
+            check(roles["adc"] == ("ecu", obd.DIDS[0x1235].name)
+                  and roles["maf"] == ("ecu", obd.DIDS[0x1285].name),
+                  "ключ -- АЦП, расход -- из режима 22: %s, %s"
+                  % (roles["adc"], roles["maf"]))
+        res = udk.analyze(fm, log, None, roles, udk.Settings(target="hfm"))
+        results[use22] = _node_devs(fm, res, US.err_lean_top)
+    d01, d22 = max(results[False]), max(results[True])
+    check(d22 < 0.015 and d22 < d01,
+          "с АЦП ключ точнее: расхождение %.1f %% против %.1f %% по расходу "
+          "с пульсациями" % (d22 * 100, d01 * 100))
+
+
 def test_threads():
     print("-- потоками, по настоящим часам")
     p = P.Project.open(A2L, V2M)
@@ -264,6 +351,7 @@ def main():
     test_ascii()
     test_schedule()
     test_end_to_end()
+    test_mode22()
     test_threads()
     print()
     if fails:
