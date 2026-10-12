@@ -1,19 +1,25 @@
 #!/usr/bin/env python3
 """
-Логгер: блок через ELM и УДК через свой порт -- в один файл, на одних часах.
+Логгер: блок через ELM, и ШДК через свой порт, если он есть, -- в один
+файл, на одних часах.
 
-Зачем свой, а не Car Scanner. Car Scanner не видит УДК вовсе, и лог УДК
-приходится снимать отдельно и потом сводить по времени. Здесь оба
-источника пишутся одним процессом по одним часам, и сводить нечего:
-остаётся только задержка самого датчика, она задаётся при расчёте.
+Главное, ради чего он нужен, -- смесь по УДК, родному узкому зонду. Тогда
+ШДК не нужен вовсе: ошибка ДМРВ видна в коррекциях, и логгер спрашивает
+их каждый круг. PID 0x14 отдаёт напряжение УДК и STFT одним ответом, так
+что видно и то, упёрлась ли коррекция. Car Scanner делит запросы поровну
+между всем, что выбрано; здесь -- по нужде.
+
+Если ШДК есть, его лог пишется тем же процессом по тем же часам, и
+сводить нечего: остаётся только задержка самого датчика, она задаётся
+при расчёте.
 
 Как устроено:
 
-* поток ELM -- спрашивает PID по плану: обороты, расход и дроссель каждый
-  круг, STFT через круг, LTFT и ОЖ редко. По K-линии на всё про всё около
+* поток ELM -- спрашивает PID по плану: обороты, расход, дроссель, УДК со
+  STFT каждый круг, LTFT и ОЖ редко. По K-линии на всё про всё около
   десяти запросов в секунду, и делить их поровну с температурой ОЖ --
   расточительство;
-* поток УДК -- читает порт, разбирает протокол, пишет годную лямбду;
+* поток ШДК -- читает порт, разбирает протокол, пишет годную лямбду;
 * запись -- сразу в файл, построчно, в том же формате, что у Car Scanner
   ("SECONDS";"PID";"VALUE";"UNITS"). Поэтому лог читается тем же
   разбором, падение программы не теряет снятое, а метка времени у
@@ -26,6 +32,7 @@
 from __future__ import annotations
 
 import os
+import random
 import threading
 import time
 from dataclasses import dataclass, field
@@ -33,7 +40,8 @@ from dataclasses import dataclass, field
 import logio
 import obd
 
-LAMBDA_NAME = "УДК лямбда"
+# ШДК, если подключён. УДК -- родной узкий зонд -- приходит от блока, PID 0x14
+LAMBDA_NAME = "ШДК лямбда"
 LAMBDA_UNIT = "λ"
 
 
@@ -116,10 +124,20 @@ def probe_mem(elm) -> set:
     return out
 
 
-def plan_for(dids: set, mems: set | None = None) -> list:
+def plan_for(dids: set, mems: set | None = None, wb: bool = False) -> list:
+    """
+    План по тому, что умеет блок. С ШДК смесь меряет он, и УДК со STFT
+    спрашиваются через круг -- чаще достаются обороты, дроссель и АЦП:
+    по ним лямбда раскладывается по узлам. Без ШДК STFT -- это и есть
+    измерение, его каждый круг.
+    """
     if mems and 0x38103C in mems:
-        return obd.PLAN_MEM
-    return obd.PLAN_22 if 0x1235 in dids else obd.PLAN_01
+        plan = obd.PLAN_MEM
+    else:
+        plan = obd.PLAN_22 if 0x1235 in dids else obd.PLAN_01
+    if wb:
+        plan = [(k, 2 if k == (1, 0x14) else w) for k, w in plan]
+    return plan
 
 
 def prepare(elm, say=None) -> tuple[set, set, set]:
@@ -179,6 +197,13 @@ def schedule(plan, supported: set | None, dids: set | None = None,
     спрашивается раз в w кругов; круги склеиваются в цепочку длиной
     наименьшего общего кратного.
     """
+    return [k for r in schedule_rounds(plan, supported, dids, mems)
+            for k in r]
+
+
+def schedule_rounds(plan, supported: set | None, dids: set | None = None,
+                    mems: set | None = None) -> list:
+    """То же, но по кругам: список кругов, в каждом -- запросы."""
     def ok(key):
         mode, ident = key
         if obd.describe(key) is None:
@@ -188,17 +213,15 @@ def schedule(plan, supported: set | None, dids: set | None = None,
         if mode == 0x23:
             return mems is not None and ident in mems
         return dids is not None and ident in dids
-    plan = [(k, w) for k, w in plan if ok(k)]
+    plan = [(k if ok(k) else obd.FALLBACK.get(k), w) for k, w in plan]
+    plan = [(k, w) for k, w in plan if k is not None and ok(k)]
     if not plan:
         return []
     n = 1
     for _, w in plan:
         n = n * w // _gcd(n, w)
     n = min(n, 120)
-    out = []
-    for k in range(n):
-        out.extend(p for p, w in plan if k % w == 0)
-    return out
+    return [[p for p, w in plan if k % w == 0] for k in range(n)]
 
 
 def _gcd(a: int, b: int) -> int:
@@ -220,13 +243,27 @@ class EcuPoller:
     pos: int = 0
 
     def __post_init__(self):
-        self.order = schedule(self.plan, self.supported, self.dids,
-                              self.mems)
+        self.rounds = schedule_rounds(self.plan, self.supported, self.dids,
+                                      self.mems)
+        self.order = [k for r in self.rounds for k in r]
         if not self.order:
             raise ValueError("блок не поддерживает ни одного нужного PID")
+        self._rnd = random.Random(7)
+        self._queue: list = []
+        self._round = 0
 
     def step(self) -> None:
-        key = self.order[self.pos % len(self.order)]
+        # Порядок внутри круга каждый раз свой. Регулятор по узкому зонду
+        # качает STFT с периодом около секунды, круг опроса -- тоже около
+        # секунды, и при ровном порядке STFT читался бы раз за разом в одной
+        # фазе, как стробоскопом: например, всегда около нуля. Тогда и
+        # среднее врёт, и ровный ноль похож на разомкнутый контур.
+        if not self._queue:
+            r = list(self.rounds[self._round % len(self.rounds)])
+            self._round += 1
+            self._rnd.shuffle(r)
+            self._queue = r
+        key = self._queue.pop(0)
         self.pos += 1
         mode, ident = key
         p = obd.describe(key)
@@ -240,9 +277,14 @@ class EcuPoller:
         t1 = self.clock()
         if body is None:
             return
+        t = (t0 + t1) / 2
         v = p.decode(bytes(body))
         if v is not None:
-            self.rec.add(p.name, p.unit, (t0 + t1) / 2, v)
+            self.rec.add(p.name, p.unit, t, v)
+        for name, unit, dec in getattr(p, "extra", ()):
+            v = dec(bytes(body))
+            if v is not None:
+                self.rec.add(name, unit, t, v)
 
 
 @dataclass
@@ -296,7 +338,7 @@ class LiveLogger:
         self.rec = Recorder(path)
         self.elm = elm
         if plan is None:
-            plan = plan_for(dids or set(), mems)
+            plan = plan_for(dids or set(), mems, wb_transport is not None)
         self.ecu = EcuPoller(elm, self.rec, self.clock, list(plan),
                              supported, dids, mems)
         self.wb = (WbReader(wb_transport, wb_parser, self.rec, self.clock)
@@ -304,7 +346,7 @@ class LiveLogger:
         self._stop = threading.Event()
         self._threads: list = []
         self.error = ""
-        self.wb_reopen = None       # как открыть порт УДК заново
+        self.wb_reopen = None       # как открыть порт ШДК заново
         self._fails = 0
         self.reconnects = 0
 
@@ -365,7 +407,7 @@ class LiveLogger:
             except Exception as exc:                        # noqa: BLE001
                 # выдернули переходник, отвалился Bluetooth -- порт мёртв;
                 # если умеем открыть заново -- открываем и пишем дальше
-                self.error = "УДК: %s" % exc
+                self.error = "ШДК: %s" % exc
                 time.sleep(1.0)
                 if self.wb_reopen is not None:
                     try:
@@ -374,9 +416,9 @@ class LiveLogger:
                         pass
                     try:
                         self.wb.t = self.wb_reopen()
-                        self.error = "УДК: порт открыт заново"
+                        self.error = "ШДК: порт открыт заново"
                     except Exception as exc2:               # noqa: BLE001
-                        self.error = "УДК: порт не открывается: %s" % exc2
+                        self.error = "ШДК: порт не открывается: %s" % exc2
                         time.sleep(2.0)
 
     def stop(self) -> None:

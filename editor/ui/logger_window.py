@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-Окно «Снять лог»: ELM и УДК в один файл, и сразу видно, что творится.
+Окно «Снять лог»: блок через ELM327, а если есть ШДК -- и он, в один
+файл, и сразу видно, что творится.
 
 Слева -- к чему подключаться: порт адаптера (COM, Bluetooth-COM, Wi-Fi
-или имитатор), порт УДК и его протокол, куда писать файл. Справа --
-приборы и таблицы, которые наполняются по ходу езды: что показывает УДК
-на полном газе по оборотам и сколько секунд набралось в каждом узле
-тарировки ДМРВ. Когда набралось -- «Стоп» и «Открыть в расчёте».
+или имитатор), порт ШДК и его протокол (если ШДК нет -- «нет», смесь
+считается по УДК, родному узкому зонду, и коррекциям), куда писать файл.
+Справа -- приборы и таблицы, которые наполняются по ходу езды: ошибка
+воздуха на полном газе по оборотам и сколько секунд набралось в каждом
+узле тарировки ДМРВ. Когда набралось -- «Стоп» и «Открыть в расчёте».
 
 Подключение и опрос идут в своих потоках, окно только раз в треть
 секунды заглядывает в их состояние. Так окно не замирает, пока K-линия
@@ -48,14 +50,16 @@ GAUGES = [
     ("rpm", "Обороты", "%.0f"),
     ("maf", "Расход, г/с", "%.1f"),
     ("tps", "Дроссель, %", "%.0f"),
-    ("lam", "λ УДК", "%.3f"),
-    ("lcmd", "Цель λ", "%.3f"),
-    ("err", "Ошибка воздуха", "%+.1f %%"),
+    ("o2v", "УДК, В", "%.2f"),
     ("stft", "STFT, %", "%+.1f"),
     ("ltft", "LTFT, %", "%+.1f"),
-    ("ect", "ОЖ, °C", "%.0f"),
+    ("err", "Ошибка воздуха", "%+.1f %%"),
     ("loop", "Контур", "%s"),
+    ("ect", "ОЖ, °C", "%.0f"),
+    ("lam", "λ ШДК", "%.3f"),
+    ("lcmd", "Цель λ", "%.3f"),
 ]
+GAUGE_COLS = 6
 
 
 def default_log_path() -> str:
@@ -91,7 +95,10 @@ class Session:
             if self.fm is None:
                 raise E.ElmError("для имитатора нужна открытая прошивка")
             if getattr(self, "car", None) is None:
-                self.car = fakecar.FakeCar(self.fm)
+                # как v2M на деле: контур замкнут и на полном газе,
+                # регулятор -- «качели» по узкому зонду
+                self.car = fakecar.FakeCar(self.fm, by_code=True,
+                                           nb_ctrl=True)
             return fakecar.FakeElm(self.car, time.monotonic, realtime=True)
         if c["elm"] == WIFI:
             host, _, port = c.get("wifi", "192.168.0.10:35000").partition(":")
@@ -112,17 +119,18 @@ class Session:
             car = getattr(self, "car", None)
             if car is None:
                 if self.fm is None:
-                    raise E.ElmError("для имитатора УДК нужна прошивка")
-                car = self.car = fakecar.FakeCar(self.fm)
+                    raise E.ElmError("для имитатора ШДК нужна прошивка")
+                car = self.car = fakecar.FakeCar(self.fm, by_code=True,
+                                                 nb_ctrl=True)
             return fakecar.FakeWideband(car, time.monotonic,
                                         proto=c["wb_proto"],
                                         realtime=True), parser
         baud = c.get("wb_baud") or parser.baud
-        self.say("УДК: %s, %d бод, %s" % (c["wb"], baud, parser.name))
+        self.say("ШДК: %s, %d бод, %s" % (c["wb"], baud, parser.name))
         try:
             return E.SerialTransport(c["wb"], baud), parser
         except Exception as exc:                            # noqa: BLE001
-            raise E.ElmError("порт УДК %s не открылся: %s" % (c["wb"], exc))
+            raise E.ElmError("порт ШДК %s не открылся: %s" % (c["wb"], exc))
 
     def _wb_reopen(self):
         c = self.cfg
@@ -145,6 +153,9 @@ class Session:
                     if p not in sup]
             if miss:
                 self.say("ВНИМАНИЕ: блок не отдаёт " + ", ".join(miss))
+            if 0x14 not in sup:
+                self.say("PID 14 нет: STFT -- по PID 06, напряжения УДК не "
+                         "будет, упор коррекции видно хуже")
             if dids:
                 self.say("режим 22: " + ", ".join(
                     obd.DIDS[d].title for d in sorted(dids)))
@@ -205,7 +216,7 @@ class LoggerDialog(QtWidgets.QDialog):
     def __init__(self, project=None, settings: QtCore.QSettings = None,
                  parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Снять лог: ELM + УДК")
+        self.setWindowTitle("Снять лог")
         self.resize(1180, 760)
         self.project = project
         self.qs = settings
@@ -303,7 +314,11 @@ class LoggerDialog(QtWidgets.QDialog):
         return g
 
     def _build_wb(self) -> QtWidgets.QGroupBox:
-        g = QtWidgets.QGroupBox("УДК")
+        g = QtWidgets.QGroupBox("ШДК, если есть")
+        g.setToolTip(
+            "Широкополосный датчик со своим контроллером. Не обязателен: "
+            "без него смесь считается по УДК -- родному узкому зонду -- и "
+            "коррекциям STFT и LTFT, их блок отдаёт сам.")
         f = QtWidgets.QFormLayout(g)
         self.cb_wb = QtWidgets.QComboBox()
         f.addRow("Порт", self.cb_wb)
@@ -353,7 +368,7 @@ class LoggerDialog(QtWidgets.QDialog):
             val.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             bl.addWidget(cap)
             bl.addWidget(val)
-            grid.addWidget(box, i // 5, i % 5)
+            grid.addWidget(box, i // GAUGE_COLS, i % GAUGE_COLS)
             self.gauges[key] = val
         return w
 
@@ -365,7 +380,7 @@ class LoggerDialog(QtWidgets.QDialog):
         cur_w = self.cb_wb.currentData()
         self.cb_elm.clear()
         self.cb_wb.clear()
-        self.cb_wb.addItem("нет: УДК не подключён", NONE)
+        self.cb_wb.addItem("нет: смесь по УДК (родной зонд)", NONE)
         for dev, desc in ports:
             text = "%s  %s" % (dev, desc) if desc else dev
             self.cb_elm.addItem(text, dev)
@@ -507,6 +522,7 @@ class LoggerDialog(QtWidgets.QDialog):
             "maf": maf,
             "tps": get(obd.PIDS[0x11].name),
             "lam": get(livelog.LAMBDA_NAME, 1.0),
+            "o2v": get(obd.PIDS[0x14].name, 3.0),
             "stft": get(obd.PIDS[0x06].name, 5.0),
             "ltft": get(obd.PIDS[0x07].name, 30.0),
             "ect": get(obd.PIDS[0x05].name, 60.0),
@@ -524,16 +540,24 @@ class LoggerDialog(QtWidgets.QDialog):
             lcmd, _fl = fm.lam_cmd(vals["rpm"], vals["tps"],
                                    fm.rl(vals["rpm"], ml))
             vals["lcmd"] = lcmd
-            if vals["lam"] is not None:
-                trims = ((1 + (vals["stft"] or 0) / 100)
-                         * (1 + (vals["ltft"] or 0) / 100))
-                vals["err"] = (vals["lam"] * trims / lcmd - 1) * 100
+        trims = ((1 + (vals["stft"] or 0) / 100)
+                 * (1 + (vals["ltft"] or 0) / 100))
+        if vals["lam"] is not None and vals.get("lcmd"):
+            vals["err"] = (vals["lam"] * trims / vals["lcmd"] - 1) * 100
+        elif vals["stft"] is not None and vals["loop"] != "разомкнут":
+            # без ШДК: в замкнутом контуре λ = 1, ошибка -- в коррекциях
+            vals["err"] = (trims - 1) * 100
         for key, _title, fmt in GAUGES:
             v = vals.get(key)
             lab = self.gauges[key]
             lab.setText("–" if v is None else (fmt % v))
+            c = None
             if key == "lam" and v is not None:
                 c = palette.heat(0.5 + max(-0.5, min(0.5, (v - 1.0) * 3)))
+            elif key == "o2v" and v is not None:
+                # узкий зонд: выше 0.45 В -- богато, ниже -- бедно
+                c = palette.heat(0.2 if v > 0.45 else 0.8)
+            if c is not None:
                 lab.setStyleSheet("background:%s; color:%s; border-radius:4px;"
                                   % (c.name(), palette.text_on(c).name()))
         r = L.rates()
@@ -541,11 +565,11 @@ class LoggerDialog(QtWidgets.QDialog):
         parts = ["%s %.1f Гц" % (obd.PIDS[p].title, r.get(obd.PIDS[p].name, 0))
                  for p in (0x0C, 0x10, 0x11)
                  if r.get(obd.PIDS[p].name) is not None]
-        adc = obd.DIDS[0x1235]
-        if r.get(adc.name) is not None:
-            parts.append("%s %.1f Гц" % (adc.title, r[adc.name]))
+        for p in (obd.PIDS[0x14], obd.PIDS[0x06], obd.DIDS[0x1235]):
+            if r.get(p.name) is not None:
+                parts.append("%s %.1f Гц" % (p.title, r[p.name]))
         if wb is not None:
-            parts.append("УДК %.1f Гц, %s" % (r.get(livelog.LAMBDA_NAME, 0),
+            parts.append("ШДК %.1f Гц, %s" % (r.get(livelog.LAMBDA_NAME, 0),
                                               wb.status or "нет данных"))
         st = L.elm.stats
         parts.append("ответов %d из %d, задержка %.0f мс" % (
@@ -555,11 +579,12 @@ class LoggerDialog(QtWidgets.QDialog):
 
     def _tables(self, L) -> None:
         fm = getattr(self, "fm", None)
-        if fm is None or L.wb is None:
+        if fm is None:
             return
         log = L.rec.snapshot()
         roles = udk.detect_roles(log, None)
-        if not all(roles[r] for r in ("rpm", "maf", "tps", "lam")):
+        if not all(roles[r] for r in ("rpm", "maf", "tps")) or not (
+                roles["lam"] or roles["stft"]):
             return
         try:
             res = udk.analyze(fm, log, None, roles,
@@ -567,17 +592,30 @@ class LoggerDialog(QtWidgets.QDialog):
         except Exception:                                   # noqa: BLE001
             return
         t = self.tbl_bands
-        heads = ["Обороты", "с", "λ средняя", "цель", "ошибка воздуха"]
+        if res.narrow:
+            heads = ["Обороты", "с", "контур замкнут", "STFT", "LTFT",
+                     "ошибка воздуха", "STFT в упоре"]
+        else:
+            heads = ["Обороты", "с", "λ средняя", "цель", "ошибка воздуха"]
+        ecol = heads.index("ошибка воздуха")
         t.setColumnCount(len(heads))
         t.setHorizontalHeaderLabels(heads)
         t.setRowCount(len(res.bands))
         for r, b in enumerate(res.bands):
-            row = ["%.0f–%.0f" % (b.lo, b.hi), "%.1f" % b.time,
-                   "%.3f" % b.lam, "%.3f" % b.lcmd,
-                   "%+.1f %%" % ((b.err - 1) * 100)]
+            has = b.closed > 0
+            err = "%+.1f %%" % ((b.err - 1) * 100) if has else "–"
+            if res.narrow:
+                row = ["%.0f–%.0f" % (b.lo, b.hi), "%.1f" % b.time,
+                       "%.0f %%" % (b.closed * 100),
+                       "%+.1f %%" % b.stft if has else "–",
+                       "%+.1f %%" % b.ltft if has else "–", err,
+                       "%.0f %%" % (b.sat * 100) if has else "–"]
+            else:
+                row = ["%.0f–%.0f" % (b.lo, b.hi), "%.1f" % b.time,
+                       "%.3f" % b.lam, "%.3f" % b.lcmd, err]
             for c, text in enumerate(row):
                 it = QtWidgets.QTableWidgetItem(text)
-                if c == 4:
+                if c == ecol and has:
                     col = palette.heat(0.5 + max(-0.5, min(0.5,
                                                            (b.err - 1) * 2)))
                     it.setBackground(col)
@@ -592,11 +630,14 @@ class LoggerDialog(QtWidgets.QDialog):
         t.setRowCount(len(nodes))
         need = res.settings.min_time
         for r, n in enumerate(nodes):
+            ready = "да" if n.time >= need else "мало"
+            if n.time >= need and n.sat >= udk.SAT_SHARE:
+                ready = "упор STFT"
             row = [n.label, "%.1f" % n.time, "%+.1f %%" % ((n.err - 1) * 100),
-                   "да" if n.time >= need else "мало"]
+                   ready]
             for c, text in enumerate(row):
                 it = QtWidgets.QTableWidgetItem(text)
-                if c == 3 and n.time < need:
+                if c == 3 and ready != "да":
                     it.setForeground(QtGui.QColor("#9b1c1c"))
                 t.setItem(r, c, it)
         t.resizeColumnsToContents()

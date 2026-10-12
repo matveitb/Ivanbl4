@@ -3,8 +3,12 @@
 Окно «Смесь по УДК».
 
 Слева -- откуда брать и как считать: логи, каналы, что править, пороги
-отбора. Справа -- что вышло: поправка по узлам, лямбда на полном газе по
-оборотам и полный отчёт текстом. Внизу две кнопки, и порядок у них
+отбора. Справа -- что вышло: поправка по узлам, смесь на полном газе по
+оборотам и полный отчёт текстом.
+
+Считает двумя способами, сам по логу. Нет ШДК -- по УДК, родному узкому
+зонду: пока контур замкнут, ошибка ДМРВ видна в коррекциях STFT и LTFT.
+Есть ШДК (в логе ЭБУ или отдельным логом) -- по его лямбде. Внизу две кнопки, и порядок у них
 намеренный: сначала «Посчитать» -- посмотреть, потом «Записать» -- в
 прошивку, открытую в редакторе.
 
@@ -95,7 +99,9 @@ class UdkDialog(QtWidgets.QDialog):
         self.tabs.addTab(self.txt, "Отчёт")
 
         self.summary = QtWidgets.QLabel(
-            "Откройте лог ЭБУ. Если УДК писал свой лог -- откройте и его.")
+            "Откройте лог ЭБУ: Car Scanner или наш логгер. ШДК не нужен -- "
+            "по родному зонду (УДК) смесь считается через коррекции STFT и "
+            "LTFT. Если есть ШДК со своим логом -- откройте и его.")
         self.summary.setWordWrap(True)
         self.summary.setTextFormat(QtCore.Qt.TextFormat.RichText)
         self.summary.setStyleSheet("padding:4px;")
@@ -151,21 +157,21 @@ class UdkDialog(QtWidgets.QDialog):
         b1.clicked.connect(self.ask_ecu)
         self.ed_wb = QtWidgets.QLineEdit()
         self.ed_wb.setReadOnly(True)
-        self.ed_wb.setPlaceholderText("не нужен, если УДК в логе ЭБУ")
+        self.ed_wb.setPlaceholderText("ШДК, если есть; без него -- по УДК")
         b2 = QtWidgets.QPushButton("Открыть...")
         b2.clicked.connect(self.ask_wb)
         b3 = QtWidgets.QToolButton()
         b3.setText("×")
-        b3.setToolTip("убрать лог УДК")
+        b3.setToolTip("убрать лог ШДК")
         b3.clicked.connect(self.drop_wb)
         self.sp_offset = QtWidgets.QDoubleSpinBox()
         self.sp_offset.setRange(-86400, 86400)
         self.sp_offset.setDecimals(2)
         self.sp_offset.setSuffix(" с")
         self.sp_offset.setToolTip(
-            "время ЭБУ = время УДК + сдвиг. «Подобрать» находит его сам: "
+            "время ЭБУ = время ШДК + сдвиг. «Подобрать» находит его сам: "
             "по моментам, когда после наката открыли газ и топливо "
-            "вернулось -- УДК в этот миг падает из бедного упора.")
+            "вернулось -- ШДК в этот миг падает из бедного упора.")
         self.btn_off = QtWidgets.QPushButton("Подобрать")
         self.btn_off.clicked.connect(self.find_offset)
         self.lb_off = QtWidgets.QLabel("")
@@ -174,13 +180,13 @@ class UdkDialog(QtWidgets.QDialog):
         f.addWidget(QtWidgets.QLabel("Лог ЭБУ"), 0, 0)
         f.addWidget(self.ed_ecu, 0, 1)
         f.addWidget(b1, 0, 2)
-        f.addWidget(QtWidgets.QLabel("Лог УДК"), 1, 0)
+        f.addWidget(QtWidgets.QLabel("Лог ШДК"), 1, 0)
         f.addWidget(self.ed_wb, 1, 1)
         h = QtWidgets.QHBoxLayout()
         h.addWidget(b2)
         h.addWidget(b3)
         f.addLayout(h, 1, 2)
-        f.addWidget(QtWidgets.QLabel("Сдвиг УДК"), 2, 0)
+        f.addWidget(QtWidgets.QLabel("Сдвиг ШДК"), 2, 0)
         f.addWidget(self.sp_offset, 2, 1)
         f.addWidget(self.btn_off, 2, 2)
         f.addWidget(self.lb_off, 3, 0, 1, 3)
@@ -206,7 +212,7 @@ class UdkDialog(QtWidgets.QDialog):
         for text, val in (("сам: по подписи и величине", "auto"),
                           ("г/с", "g/s"), ("кг/ч", "kg/h")):
             self.cb_maf.addItem(text, val)
-        f.addRow("УДК пишет", self.cb_lam)
+        f.addRow("ШДК пишет", self.cb_lam)
         f.addRow("Расход в", self.cb_maf)
         return g
 
@@ -217,12 +223,14 @@ class UdkDialog(QtWidgets.QDialog):
             "Лямбду полного газа (KLLAMFA)")
         self.rb_kl.setToolTip(
             "Цель по лямбде при газе в пол, по оборотам. Ставится такой, "
-            "чтобы УДК показал желаемую. Трогает только полный газ.")
+            "чтобы ШДК показал желаемую. Трогает только полный газ. Только "
+            "с ШДК: цель не 1.000 размыкает контур, и узкому зонду её не "
+            "проверить.")
         self.rb_hfm = QtWidgets.QRadioButton("Тарировку ДМРВ (HFM_LIN)")
         self.rb_hfm.setToolTip(
             "Расход по напряжению ДМРВ. Убирает ошибку измерения воздуха "
-            "во всех режимах, нагрузка для УОЗ становится честной. На "
-            "частичных нужна коррекция STFT в логе.")
+            "во всех режимах, нагрузка для УОЗ становится честной. Нужна "
+            "коррекция STFT в логе; по родному зонду -- обязательно.")
         self.rb_hfm.setChecked(True)
         self.rb_kl.toggled.connect(self._target_changed)
         h = QtWidgets.QHBoxLayout()
@@ -274,8 +282,16 @@ class UdkDialog(QtWidgets.QDialog):
         f = QtWidgets.QFormLayout(g)
         d = udk.Settings()
         self.sp_lag = self._spin(0, 3, d.lag, 2, 0.05, " с",
-                                 "УДК видит газ, сгоревший раньше: на столько "
+                                 "ШДК видит газ, сгоревший раньше: на столько "
                                  "его показания сдвигаются назад")
+        self.sp_stlim = self._spin(5, 50, d.stft_lim, 0, 1, " %",
+                                   "предел быстрой коррекции в блоке: у "
+                                   "FBH3ID60 ±25 %. STFT у предела, а зонд "
+                                   "беден -- ошибка больше, чем видно")
+        self.sp_nbset = self._spin(0, 15, d.nb_settle, 1, 0.5, " с",
+                                   "после замыкания контура STFT стартует с "
+                                   "нуля и догоняет ошибку -- столько ему не "
+                                   "верим")
         self.sp_ect = self._spin(-40, 120, d.ect_min, 0, 5, " °C",
                                  "холоднее -- прогревное обогащение, не верим")
         self.sp_rate = self._spin(5, 500, d.tps_rate, 0, 5, " %/с",
@@ -300,7 +316,9 @@ class UdkDialog(QtWidgets.QDialog):
         self.chk_bts.setToolTip(
             "Если включена, цель берётся ещё и минимумом с KFLBTS. Когда "
             "она на самом деле включается, из лога не видно.")
-        f.addRow("Задержка УДК", self.sp_lag)
+        f.addRow("Задержка ШДК", self.sp_lag)
+        f.addRow("Предел STFT", self.sp_stlim)
+        f.addRow("После замыкания", self.sp_nbset)
         f.addRow("ОЖ не ниже", self.sp_ect)
         f.addRow("Рывок дросселя", self.sp_rate)
         f.addRow("После рывка", self.sp_settle)
@@ -330,7 +348,7 @@ class UdkDialog(QtWidgets.QDialog):
 
     def ask_wb(self) -> None:
         path, _ = QtWidgets.QFileDialog.getOpenFileName(
-            self, "Лог УДК", self._dir(), LOG_FILTER)
+            self, "Лог ШДК", self._dir(), LOG_FILTER)
         if path:
             self.load_wb(path)
 
@@ -383,7 +401,7 @@ class UdkDialog(QtWidgets.QDialog):
             for src, log in (("ecu", self.ecu), ("wb", self.wb)):
                 if log is None:
                     continue
-                pre = "ЭБУ: " if src == "ecu" else "УДК: "
+                pre = "ЭБУ: " if src == "ecu" else "ШДК: "
                 for name, ch in log.channels.items():
                     cb.addItem(pre + ch.label, (src, name))
             want = auto.get(role)
@@ -416,7 +434,8 @@ class UdkDialog(QtWidgets.QDialog):
             bts=self.chk_bts.isChecked(),
             lam_kind=self.cb_lam.currentData(),
             maf_unit=self.cb_maf.currentData(),
-            variant=self.cb_var.currentData())
+            variant=self.cb_var.currentData(),
+            stft_lim=self.sp_stlim.value(), nb_settle=self.sp_nbset.value())
 
     def find_offset(self) -> None:
         if self.ecu is None or self.wb is None:
@@ -451,8 +470,19 @@ class UdkDialog(QtWidgets.QDialog):
         st = res.settings
         bits = ["Годных %.0f с из %.0f, в поправку %.0f с."
                 % (res.accepted, res.total, len(res.used) * st.dt)]
-        if res.bands:
-            worst = max(res.bands, key=lambda b: b.err)
+        if res.narrow:
+            bits.append("ШДК нет -- по УДК (родной зонд) и коррекциям.")
+        seen = [b for b in res.bands if b.closed > 0]
+        if seen and res.narrow:
+            worst = max(seen, key=lambda b: b.err)
+            bits.append("Полный газ: хуже всего %d–%d об/мин, STFT %+.1f %%, "
+                        "LTFT %+.1f %% -- воздуха мимо счёта %+.1f %%%s."
+                        % (worst.lo, worst.hi, worst.stft, worst.ltft,
+                           (worst.err - 1) * 100,
+                           ", коррекция в упоре -- на деле больше"
+                           if worst.sat >= udk.SAT_SHARE else ""))
+        elif seen:
+            worst = max(seen, key=lambda b: b.err)
             bits.append("Полный газ: хуже всего %d–%d об/мин, λ %.3f при "
                         "цели %.3f (%+.1f %% воздуха мимо счёта)."
                         % (worst.lo, worst.hi, worst.lam, worst.lcmd,
@@ -470,10 +500,16 @@ class UdkDialog(QtWidgets.QDialog):
     def _fill_nodes(self, res: udk.Result) -> None:
         t = self.tbl_nodes
         hfm = res.target == "hfm"
-        heads = (["Узел", "с данных", "λ УДК", "цель", "ошибка воздуха",
-                  "множитель", "топлива", "откуда"] if hfm else
-                 ["Обороты", "с данных", "λ УДК", "цель", "ошибка воздуха",
-                  "было", "стало", "топлива", "откуда"])
+        nb = res.narrow
+        if hfm and nb:
+            heads = ["Узел", "с данных", "ошибка воздуха", "STFT в упоре",
+                     "множитель", "топлива", "откуда"]
+        elif hfm:
+            heads = ["Узел", "с данных", "λ ШДК", "цель", "ошибка воздуха",
+                     "множитель", "топлива", "откуда"]
+        else:
+            heads = ["Обороты", "с данных", "λ ШДК", "цель", "ошибка воздуха",
+                     "было", "стало", "топлива", "откуда"]
         nodes = [n for n in res.nodes
                  if not (hfm and n.status == "нет данных" and n.new == n.old)]
         t.clear()
@@ -484,10 +520,14 @@ class UdkDialog(QtWidgets.QDialog):
             has = n.time > 0
             fuel = ((n.new - 1) * 100 if hfm
                     else (n.old / n.new - 1) * 100 if n.new else 0.0)
-            row = [n.label, "%.1f" % n.time,
-                   "%.3f" % n.lam if has else "–",
-                   "%.3f" % n.lcmd if has else "–",
-                   "%+.1f %%" % ((n.err - 1) * 100) if has else "–"]
+            err = "%+.1f %%" % ((n.err - 1) * 100) if has else "–"
+            if nb:
+                row = [n.label, "%.1f" % n.time, err,
+                       "%.0f %%" % (n.sat * 100) if has else "–"]
+            else:
+                row = [n.label, "%.1f" % n.time,
+                       "%.3f" % n.lam if has else "–",
+                       "%.3f" % n.lcmd if has else "–", err]
             row += (["%.3f" % n.new] if hfm
                     else ["%.3f" % n.old, "%.3f" % n.new])
             row += ["%+.1f %%" % fuel, n.status]
@@ -501,21 +541,42 @@ class UdkDialog(QtWidgets.QDialog):
 
     def _fill_bands(self, res: udk.Result) -> None:
         t = self.tbl_bands
-        heads = ["Обороты", "с", "λ средняя", "λ мин", "λ макс", "цель",
-                 "ошибка воздуха"]
+        nb = res.narrow
+        if nb:
+            heads = ["Обороты", "с", "контур замкнут", "STFT", "LTFT",
+                     "ошибка воздуха", "STFT в упоре", "зонд беден"]
+        else:
+            heads = ["Обороты", "с", "λ средняя", "λ мин", "λ макс", "цель",
+                     "ошибка воздуха"]
         t.clear()
         t.setColumnCount(len(heads))
         t.setHorizontalHeaderLabels(heads)
         t.setRowCount(len(res.bands))
+        ecol = heads.index("ошибка воздуха")
         for r, b in enumerate(res.bands):
-            row = ["%.0f–%.0f" % (b.lo, b.hi), "%.1f" % b.time,
-                   "%.3f" % b.lam, "%.3f" % b.lmin, "%.3f" % b.lmax,
-                   "%.3f" % b.lcmd, "%+.1f %%" % ((b.err - 1) * 100)]
+            has = b.closed > 0
+            if nb:
+                row = ["%.0f–%.0f" % (b.lo, b.hi), "%.1f" % b.time,
+                       "%.0f %%" % (b.closed * 100),
+                       "%+.1f %%" % b.stft if has else "–",
+                       "%+.1f %%" % b.ltft if has else "–",
+                       "%+.1f %%" % ((b.err - 1) * 100) if has else "–",
+                       "%.0f %%" % (b.sat * 100) if has else "–",
+                       "%.0f %%" % (b.o2lean * 100)
+                       if b.o2lean is not None else "–"]
+            else:
+                row = ["%.0f–%.0f" % (b.lo, b.hi), "%.1f" % b.time,
+                       "%.3f" % b.lam, "%.3f" % b.lmin, "%.3f" % b.lmax,
+                       "%.3f" % b.lcmd, "%+.1f %%" % ((b.err - 1) * 100)]
             for c, text in enumerate(row):
                 it = _item(text, c != 0)
-                if c == 6:
+                if c == ecol and has:
                     _paint(it, (b.err - 1) * 100)
                 t.setItem(r, c, it)
+        if nb:
+            t.horizontalHeaderItem(7).setToolTip(
+                "доля времени с разомкнутым контуром, когда узкий зонд "
+                "показывал «бедно»")
         t.resizeColumnsToContents()
         t.horizontalHeader().setStretchLastSection(True)
 
@@ -541,7 +602,7 @@ class UdkDialog(QtWidgets.QDialog):
         if self.result is None:
             return
         path, _ = QtWidgets.QFileDialog.getSaveFileName(
-            self, "Отчёт", os.path.join(self._dir(), "смесь_по_удк.txt"),
+            self, "Отчёт", os.path.join(self._dir(), "смесь.txt"),
             "Текст (*.txt);;Все (*)")
         if path:
             with open(path, "w", encoding="utf-8") as fh:

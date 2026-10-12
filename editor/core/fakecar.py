@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Машина-имитатор: ELM327 и УДК поверх модели мотора.
+Машина-имитатор: ELM327 (с родным узким зондом в PID 0x14) и ШДК поверх модели мотора.
 
 Логгер разговаривает с портами. Чтобы проверить его целиком -- от
 текста ELM до строки в файле и поправки в прошивке -- без машины, здесь
@@ -49,9 +49,10 @@ class FakeCar:
     """Состояние мотора во времени: поездка из udksim, по кругу."""
 
     def __init__(self, fm, sensor_raw=None, err=udksim.err_lean_top,
-                 drive=udksim.DRIVE, ltft=0.0, seed=1):
+                 drive=udksim.DRIVE, ltft=0.0, seed=1, **sim):
+        # sim -- что ещё передать модели: by_code, nb_ctrl, stft_max
         self.truth = udksim.run(fm, sensor_raw or fm.hfm_raw, err=err,
-                                drive=drive, seed=seed, ltft=ltft)
+                                drive=drive, seed=seed, ltft=ltft, **sim)
         self.dt = self.truth[1].t - self.truth[0].t
         self.period = len(self.truth) * self.dt
 
@@ -73,7 +74,7 @@ class FakeCar:
             0x0F: 25.0,
             0x10: s.ml / 3.6,
             0x11: s.tps,
-            0x14: 0.45,
+            0x14: (s.o2v, s.stft),
         }[pid]
 
     def did_value(self, did: int, t: float) -> float:
@@ -312,9 +313,9 @@ class FakeElm(Transport):
 
 
 class FakeWideband(Transport):
-    """УДК: пакеты ISP2 или текстовые строки с лямбдой из модели."""
+    """ШДК: пакеты ISP2 или текстовые строки с лямбдой из модели."""
 
-    name = "имитатор УДК"
+    name = "имитатор ШДК"
 
     def __init__(self, car: FakeCar, clock, proto: str = "isp2",
                  lag: float = 0.3, rate: float = 12.2,

@@ -78,7 +78,7 @@ def main():
               == ("ecu", "Throttle position"),
               "каналы распознаны и выставлены в списках")
         check(abs(d.sp_offset.value() - 7.5) < 0.25,
-              "сдвиг подобран сам при открытии лога УДК: %.2f"
+              "сдвиг подобран сам при открытии лога ШДК: %.2f"
               % d.sp_offset.value())
 
         check(d.rb_hfm.isChecked() and d.chk_keep.isChecked(),
@@ -127,10 +127,23 @@ def main():
 
         d.drop_wb()
         check(d.wb is None and d.cb_role["lam"].currentData() is None,
-              "лог УДК убран -- лямбды не стало, расчёт не врёт молча")
+              "лог ШДК убран -- лямбды не стало")
+        d.rb_hfm.setChecked(True)
         d.compute()
-        check(d.result is None and "Не посчиталось" in d.summary.text(),
-              "без УДК -- понятный отказ: %s" % d.summary.text()[:60])
+        check(d.result is not None and d.result.narrow
+              and "по УДК" in d.summary.text(),
+              "без ШДК считается по УДК и коррекциям: %s"
+              % d.summary.text()[:70])
+        check(d.tbl_bands.horizontalHeaderItem(2).text() == "контур замкнут"
+              and d.tbl_nodes.horizontalHeaderItem(3).text()
+              == "STFT в упоре",
+              "таблицы -- про коррекции и упор, а не про лямбду")
+        d.rb_kl.setChecked(True)
+        d.compute()
+        check(d.result is None and "Не посчиталось" in d.summary.text()
+              and "без ШДК" in d.summary.text(),
+              "KLLAMFA без ШДК -- понятный отказ: %s"
+              % d.summary.text()[:70])
         d.close()
         w.close()
     finally:

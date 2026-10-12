@@ -157,11 +157,12 @@ class MainWindow(QtWidgets.QMainWindow):
                                       triggered=self.close)
         self.act_udk = QtGui.QAction("Смесь по УДК...", self,
                                      triggered=self.open_udk)
-        self.act_udk.setToolTip("Поправки топлива по логу езды с УДК")
-        self.act_log = QtGui.QAction("Снять лог: ELM + УДК...", self,
+        self.act_udk.setToolTip("Поправки топлива по логу езды: по УДК "
+                                "(родной зонд и коррекции) или по ШДК")
+        self.act_log = QtGui.QAction("Снять лог...", self,
                                      triggered=self.open_logger)
-        self.act_log.setToolTip("Логгер: блок через ELM327 и УДК через свой "
-                                "порт в один файл")
+        self.act_log.setToolTip("Логгер: блок через ELM327 -- УДК, коррекции, "
+                                "расход; ШДК, если есть, в тот же файл")
         # Отмена и повтор гасятся вместе с остальным: пока прошивка не
         # открыта, отменять нечего, и живые кнопки просто врут.
         for a in (self.act_save, self.act_save_as, self.act_bin,

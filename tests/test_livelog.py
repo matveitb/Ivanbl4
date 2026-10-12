@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Проверка логгера: ELM, УДК, запись, сквозной прогон до поправки.
+Проверка логгера: ELM (с УДК и STFT в PID 14), ШДК, запись, сквозной прогон до поправки.
 
 Машины в проверке нет, поэтому собеседники -- имитаторы из
 editor/core/fakecar.py: ELM327 v1.5, который отвечает текстом как
-настоящий (эхо, «SEARCHING...», «NO DATA», «?»), и УДК, который шлёт
+настоящий (эхо, «SEARCHING...», «NO DATA», «?»), и ШДК, который шлёт
 пакеты Innovate ISP2. Часы виртуальные: каждый запрос к ELM двигает
 время на задержку K-линии, и пять минут езды проходят за доли секунды.
 
@@ -141,6 +141,16 @@ def test_elm_grammar():
           "блока учтена" % (mean, max(abs(e) for e in errs)))
     check(obd.PIDS[0x10].decode(bytes([0xFF, 0xFF])) is None,
           "PID 10 = FFFF -- упор, значения нет")
+    # PID 14: напряжение УДК и STFT одним ответом
+    p14 = obd.PIDS[0x14]
+    body = obd.encode(0x14, (0.725, -3.125))
+    (name, unit, dec), = p14.extra
+    check(abs(p14.decode(body) - 0.725) < 1e-9 and abs(dec(body) + 3.125) < 1e-9
+          and name == obd.PIDS[0x06].name,
+          "PID 14: УДК %.3f В и STFT %+.3f %% -- в тот же канал, что PID 06"
+          % (p14.decode(body), dec(body)))
+    check(dec(obd.encode(0x14, 0.45)) is None,
+          "PID 14 со вторым байтом FF -- STFT нет, а не -100 %")
 
 
 def test_elm_driver():
@@ -179,7 +189,7 @@ def test_elm_driver():
 
 
 def test_isp2():
-    print("-- УДК: Innovate ISP2")
+    print("-- ШДК: Innovate ISP2")
     pk = W.isp2_packet(0.873) + W.isp2_packet(None, func=4) + \
         W.isp2_packet(1.25, aux=2) + W.isp2_packet(None, func=6)
     p = W.Isp2Parser()
@@ -221,7 +231,7 @@ def test_isp2():
 
 
 def test_ascii():
-    print("-- УДК: текст")
+    print("-- ШДК: текст")
     p = W.AsciiParser()
     out = p.feed(b"14.70\r\n1,000\r\n13.23\r\nhello\r\n22.5")
     check(len(out) == 3, "три строки с числами, мусорная пропущена, "
@@ -250,7 +260,7 @@ def test_ascii():
 
 
 def test_plx_zt2():
-    print("-- УДК: PLX и Zeitronix")
+    print("-- ШДК: PLX и Zeitronix")
     p = W.PlxParser()
     out = p.feed(W.plx_packet(0.95) + W.plx_packet(1.10, instance=1)
                  + W.plx_packet(0.90))
@@ -289,6 +299,17 @@ def test_schedule():
     check(livelog.plan_for({0x1235}) is obd.PLAN_22
           and livelog.plan_for(set()) is obd.PLAN_01,
           "есть АЦП ДМРВ -- план с ним, нет -- обычный")
+    order = livelog.schedule(obd.PLAN_01, None)
+    check(order.count((1, 0x14)) == order.count((1, 0x0C))
+          and (1, 0x06) not in order,
+          "без ШДК УДК со STFT (PID 14) -- каждый круг, PID 06 не нужен")
+    order = livelog.schedule(obd.PLAN_01, {0x0C, 0x10, 0x11, 0x06})
+    check(order.count((1, 0x06)) == order.count((1, 0x0C))
+          and (1, 0x14) not in order,
+          "нет PID 14 -- STFT по PID 06, так же часто")
+    order = livelog.schedule(livelog.plan_for(set(), None, wb=True), None)
+    check(2 * order.count((1, 0x14)) == order.count((1, 0x0C)),
+          "с ШДК УДК со STFT -- через круг: чаще обороты и дроссель")
 
 
 def test_end_to_end():
@@ -329,7 +350,7 @@ def test_end_to_end():
         roles = udk.detect_roles(log, None)
         check(roles["lam"] == ("ecu", livelog.LAMBDA_NAME)
               and roles["stft"] and roles["ect"],
-              "роли распознаны в своём же логе, УДК в нём же")
+              "роли распознаны в своём же логе, ШДК в нём же")
         res = udk.analyze(fm, log, None, roles, udk.Settings(target="hfm"))
         err = udksim.err_lean_top
         devs = []
@@ -346,6 +367,42 @@ def test_end_to_end():
               "до %.1f %%" % (len(devs), max(devs) * 100 if devs else 99))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_narrowband():
+    print("-- без ШДК: УДК и STFT из PID 14 -> расчёт по коррекциям")
+    p = P.Project.open(A2L, V2M)
+    fm = udk.FuelModel.from_project(p)
+    car = fakecar.FakeCar(fm, by_code=True, nb_ctrl=True, ltft=3.0)
+    clk = fakecar.VirtualClock(0.0)
+    fe = fakecar.FakeElm(car, clk)
+    e = E.Elm327(fe, clock=clk)
+    e.init("3")
+    sup = e.supported_pids()
+    dids = livelog.probe_dids(e)
+    L = livelog.LiveLogger(e, clock=clk, supported=sup, dids=dids)
+    check(L.wb is None and (1, 0x14) in L.ecu.order
+          and (1, 0x06) not in L.ecu.order,
+          "ШДК нет -- STFT берётся из PID 14 вместе с УДК")
+    L.run_for(car.period - 1.0)
+    log = L.rec.snapshot()
+    o2 = log.channels.get(obd.PIDS[0x14].name)
+    st = log.channels.get(obd.PIDS[0x06].name)
+    r = L.rates(window=1e9)
+    check(o2 is not None and st is not None
+          and len(o2.v) == len(st.v) and min(o2.v) < 0.2 < 0.7 < max(o2.v),
+          "в логе УДК (%.2f…%.2f В) и STFT, по %.1f в секунду"
+          % (min(o2.v) if o2 else 0, max(o2.v) if o2 else 0,
+             r.get(obd.PIDS[0x06].name, 0)))
+    roles = udk.detect_roles(log, None)
+    check(roles["lam"] is None and roles["o2v"] == ("ecu", o2.name)
+          and roles["closed"] == ("ecu", obd.DIDS[0x1216].name),
+          "роли: ШДК нет, УДК и флаг регулятора (DID 1216) найдены")
+    res = udk.analyze(fm, log, None, roles, udk.Settings(target="hfm"))
+    devs = _node_devs(fm, res, udksim.err_lean_top)
+    check(res.narrow and len(devs) >= 6 and max(devs) < 0.025,
+          "по коррекциям ошибка ДМРВ найдена: %d узлов, расхождение до "
+          "%.1f %%" % (len(devs), max(devs) * 100 if devs else 99))
 
 
 def _node_devs(fm, res, err):
@@ -551,6 +608,7 @@ def main():
     test_ascii()
     test_plx_zt2()
     test_schedule()
+    test_narrowband()
     test_end_to_end()
     test_mode22()
     test_sessions_and_faults()

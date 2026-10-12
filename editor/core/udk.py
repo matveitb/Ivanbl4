@@ -8,27 +8,41 @@
 
     топливо = воздух_по_ДМРВ / (14.7 * лямбда_заданная) * коррекции
 
-Широкополосный датчик (УДК) показывает, что получилось на самом деле.
-Отсюда одна величина на каждый момент лога -- ОШИБКА ВОЗДУХА:
+Отсюда одна величина на каждый момент лога -- ОШИБКА ВОЗДУХА e: во
+сколько раз воздуха в цилиндре больше, чем насчитал блок. e = 1.10 --
+воздуха на 10 % больше, топлива не хватает на те же 10 %.
 
-    e = лямбда_УДК * (1 + STFT) * (1 + LTFT) / лямбда_заданная
+Чем она меряется -- два способа, выбираются сами по логу.
 
-e = 1.10 значит, что воздуха в цилиндре на 10 % больше, чем насчитал
-блок, и топлива ему не хватает на те же 10 %. Коррекции STFT и LTFT в
-формуле потому, что на частичных блок сам доливает по узкому зонду, и УДК
-там показывает единицу при любой ошибке ДМРВ -- ошибка видна только в
-коррекциях.
+* По УДК -- родному узкому зонду. Он говорит только «богаче единицы»
+  или «беднее», но блок по нему сам держит лямбду 1.000, двигая быструю
+  коррекцию STFT. Пока контур замкнут и зонд переключается, лямбда
+  равна единице, и всю ошибку ДМРВ блок уже доливает коррекциями:
+
+      e = (1 + STFT) * (1 + LTFT)
+
+  У v2M цель на полном газе 1.000, и контур там тоже замкнут (0x84BB04,
+  docs/41) -- ошибка видна и на верхах. Предел STFT в блоке +-25 %
+  (0x84B06C: 0x15DD6 = 0xA000, нижний 0x1B0C2 = 0x6000). Упёрся --
+  зонд остаётся бедным, и e по коррекциям -- только нижняя граница
+  настоящей ошибки: поправка верна по знаку, но мала, нужен ещё проход.
+* По ШДК -- широкополосному, если он есть. Он показывает лямбду
+  числом, и контур не нужен:
+
+      e = лямбда_ШДК * (1 + STFT) * (1 + LTFT) / лямбда_заданная
 
 Чем править (выбирается)
 ------------------------
 * ДМРВ, `HFM_LIN` -- тарировка: расход по напряжению. Поправка e
   раскладывается по расходу, и таблица умножается на неё. Чинит причину
   (неверно измеренный воздух) сразу во всех режимах, и нагрузка для УОЗ
-  становится честной. Это классическая «калибровка ДМРВ по УДК».
+  становится честной. Это классическая «откатка ДМРВ по УДК».
 * Полная нагрузка, `KLLAMFA_0/_1` -- цель по лямбде при газе в пол, по
-  оборотам. Новая цель такая, чтобы УДК показал желаемую лямбду:
+  оборотам. Только с ШДК: цель, отличная от 1.000, размыкает контур, и
+  узкому зонду проверить её нечем. Новая цель такая, чтобы ШДК показал
+  желаемую лямбду:
 
-      цель_новая = лямбда_желаемая * цель_была / лямбда_УДК_без_STFT
+      цель_новая = лямбда_желаемая * цель_была / лямбда_ШДК_без_STFT
 
   Чинит только полный газ, ничего больше не трогает. Быстро и
   безопасно, но ошибку ДМРВ не убирает, а прячет.
@@ -79,14 +93,17 @@ KGH_PER_GS = 3.6
 
 # -- роли каналов -----------------------------------------------------------
 
-# (роль, подпись, обязательна)
+# (роль, подпись, обязательна). STFT обязательна без ШДК -- это
+# проверяется при сведении: роль сама по себе необязательна
 ROLES = [
     ("rpm", "Обороты", True),
     ("maf", "Расход воздуха (ДМРВ)", True),
     ("tps", "Дроссель", True),
-    ("lam", "УДК: лямбда или AFR", True),
     ("stft", "Быстрая коррекция (STFT)", False),
     ("ltft", "Адаптация (LTFT)", False),
+    ("o2v", "УДК: узкий зонд, В", False),
+    ("closed", "Контур по зонду замкнут", False),
+    ("lam", "ШДК: лямбда или AFR, если есть", False),
     ("ect", "Температура ОЖ", False),
     ("adc", "АЦП ДМРВ (точный ключ тарировки)", False),
     ("lcmd", "Заданная лямбда из блока", False),
@@ -102,9 +119,19 @@ _PAT = {
              r"цел\w* (λ|лямбд)", r"command|equivalence"),
     "tps": (r"throttle|дросс|\btps\b|\bдз\b",
             r"relative|относит|command|задан|педал|pedal|accel|\bb\)|\bb$|volt|напряж"),
-    "lam": (r"lambda|лямбд|λ|\bудк\b|\bшдк\b|\bafr\b|wideband|\blc-?[12]\b|wbo2|air.?fuel|соста\w+ смеси",
+    # ШДК. Слово «УДК» само по себе сюда не ведёт: УДК -- родной узкий
+    # зонд, у него вольты. «УДК лямбда» из логов прошлой версии логгера
+    # -- ШДК и находится по «лямбде»
+    "lam": (r"lambda|лямбд|λ|\bшдк\b|\bafr\b|wideband|\blc-?[12]\b|wbo2|air.?fuel|соста\w+ смеси",
             r"command|задан|equivalence|o2 sensor|кислород|volt|напряж|target|цел|"
-            r"control|active|closed|регулят|контур"),
+            r"control|active|closed|регулят|контур|зонд"),
+    "o2v": (r"(\bo2\b|oxygen|кислород|\bудк\b|зонд).*(volt|напряж|\(v\)|\bv$|, ?в$)|"
+            r"(volt|напряж).*(\bo2\b|oxygen|кислород|\bудк\b|зонд)",
+            r"sensor ?2|датчик ?2|зонд ?2|\bs2\b|b1s2|bank ?2|банк ?2|после|"
+            r"downstream|post|диагност|trim|коррек"),
+    "closed": (r"closed.?loop|fuel system status|топливн\w* систем|"
+               r"контур|регулятор по зонду|lambda control",
+               r"bank ?2|банк ?2"),
     "stft": (r"short.?term|\bstft\b|кратко|быстр\w* корр", r"bank ?2|банк ?2"),
     "ltft": (r"long.?term|\bltft\b|долго|адаптац", r"bank ?2|банк ?2"),
     "ect": (r"coolant|охлажд|\bож\b|\bтож\b|engine temp|температура двиг|\bect\b",
@@ -116,7 +143,7 @@ def detect_roles(ecu: logio.LogFile, wb: logio.LogFile | None) -> dict:
     """
     Какой канал за что отвечает -- по имени и единицам.
 
-    Возвращает роль -> (источник, имя канала) или None. УДК ищется
+    Возвращает роль -> (источник, имя канала) или None. ШДК ищется
     сначала в отдельном логе: если человек его дал, лямбда там.
     """
     out = {r: None for r, _, _ in ROLES}
@@ -136,6 +163,12 @@ def detect_roles(ecu: logio.LogFile, wb: logio.LogFile | None) -> dict:
             # расход из режима 22 (0.1 кг/ч) точнее OBD-шного (0.25 г/с)
             ecu_first = [c for c in cands if re.search(r"ecu|эбу", c[1], re.I)]
             cands = ecu_first or cands
+        if role == "closed" and len(cands) > 1:
+            # флаг регулятора (DID 1216) надёжнее PID 03: тот бывает
+            # устаревшим (0x84B89E)
+            act = [c for c in cands
+                   if re.search(r"active|регулятор", c[1], re.I)]
+            cands = act or cands
         if role == "lam" and len(cands) > 1:
             # из «лямбды» и «AFR» одного логгера берём лямбду
             lam_first = [c for c in cands
@@ -317,8 +350,8 @@ class Settings:
     # желаемая лямбда на полном газе; None -- та, что уже задана прошивкой
     # (у v2M и MPower это 1.000): смесь доводится до цели, цель не меняется
     lam_want: float | None = None
-    lag: float = 0.3            # задержка УДК относительно ЭБУ, с
-    offset: float = 0.0         # время ЭБУ = время УДК + offset (отдельный лог)
+    lag: float = 0.3            # задержка ШДК относительно ЭБУ, с
+    offset: float = 0.0         # время ЭБУ = время ШДК + offset (отдельный лог)
     dt: float = 0.1             # шаг общей шкалы времени, с
     max_gap: float = 2.0        # дальше этого между показаниями -- нет данных
     ect_min: float = 70.0       # холоднее -- прогревное обогащение
@@ -339,6 +372,10 @@ class Settings:
     stoich: float = STOICH
     variant: int = 0
     hfm_step: int = 16          # точек тарировки на узел поправки
+    # без ШДК -- по узкому зонду и коррекциям
+    stft_lim: float = 25.0      # предел STFT в блоке, % (0x15DD6, 0x1B0C2)
+    nb_settle: float = 3.0      # с после замыкания контура: STFT догоняет
+    open_hold: float = 3.0      # STFT ровно 0 дольше -- контур разомкнут
 
 
 @dataclass
@@ -355,6 +392,9 @@ class Sample:
     rl: float
     e: float            # ошибка воздуха
     adc: float | None = None   # АЦП ДМРВ, если блок его отдал
+    o2v: float | None = None   # узкий зонд, В
+    sat: int = 0        # STFT в упоре: +1 -- сверху (бедно), -1 -- снизу
+    closed: bool = True  # контур по зонду замкнут
 
 
 @dataclass
@@ -362,10 +402,11 @@ class Node:
     x: float            # обороты или номер точки тарировки
     label: str
     time: float = 0.0   # с данных (взвешенных)
-    lam: float = 0.0    # средняя лямбда УДК
+    lam: float = 0.0    # средняя лямбда ШДК
     lcmd: float = 0.0   # средняя заданная
     err: float = 0.0    # средняя ошибка воздуха e
     want: float = 0.0   # что требуют данные (до пределов)
+    sat: float = 0.0    # доля времени со STFT в упоре
     old: float = 1.0
     new: float = 1.0
     status: str = ""
@@ -385,6 +426,12 @@ class Band:
     lmax: float = 0.0
     lcmd: float = 0.0
     err: float = 0.0
+    # без ШДК
+    stft: float = 0.0
+    ltft: float = 0.0
+    sat: float = 0.0        # доля времени замкнутого контура в упоре STFT
+    closed: float = 0.0     # доля времени полной нагрузки с замкнутым контуром
+    o2lean: float | None = None  # доля разомкнутого времени с бедным зондом
 
 
 @dataclass
@@ -401,6 +448,8 @@ class Result:
     notes: list = field(default_factory=list)
     hfm_new: list = field(default_factory=list)  # новая тарировка, сырые
     kllamfa_new: list = field(default_factory=list)
+    narrow: bool = False        # без ШДК: по узкому зонду и коррекциям
+    open_fl: list = field(default_factory=list)  # полный газ, контур разомкнут
 
     @property
     def accepted(self) -> float:
@@ -449,14 +498,7 @@ def _transients(tps: logio.Channel, st: Settings,
                  if rpm is not None else None)
             if r is None or r > st.cut_rpm:
                 out.append((t[i - 1], t[i] + st.settle))
-    out.sort()
-    merged = []
-    for a, b in out:
-        if merged and a <= merged[-1][1]:
-            merged[-1] = (merged[-1][0], max(merged[-1][1], b))
-        else:
-            merged.append((a, b))
-    return merged
+    return _merge_spans(out)
 
 
 def _inside(spans, starts, t: float) -> bool:
@@ -469,8 +511,122 @@ def _reject(res: Result, why: str, dt: float) -> None:
 
 
 REASONS = ("нет показаний", "холодный мотор", "обороты ниже порога",
-           "дроссель закрыт, сброс топлива", "УДК вне диапазона",
-           "рывок дросселя", "нет расхода")
+           "дроссель закрыт, сброс топлива", "ШДК вне диапазона",
+           "рывок дросселя", "нет расхода", "контур разомкнут",
+           "контур только что замкнулся")
+
+
+def _merge_spans(out: list) -> list:
+    out.sort()
+    merged = []
+    for a, b in out:
+        if merged and a <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], b))
+        else:
+            merged.append((a, b))
+    return merged
+
+
+def _around(ts, idx: list, max_gap: float) -> tuple:
+    """
+    Отрезок от показания перед idx[0] до показания после idx[-1]: где-то
+    между ними состояние и сменилось, и верить нельзя всему промежутку.
+    """
+    i, j = idx[0], idx[-1]
+    a = ts[i - 1] if i > 0 and ts[i] - ts[i - 1] <= 2 * max_gap else ts[i]
+    b = (ts[j + 1] if j + 1 < len(ts) and ts[j + 1] - ts[j] <= 2 * max_gap
+         else ts[j])
+    return a, b
+
+
+def _stft_open(ch: logio.Channel, st: Settings,
+               o2: logio.Channel | None = None) -> list:
+    """
+    Где STFT стоит ровно на нуле -- там контур разомкнут.
+
+    Выключая регулятор, блок сбрасывает STFT в 0x8000, то есть в 0 %
+    (0x84A9B6), и держит там. Это ловит и разомкнутый контур, о котором
+    PID 03 промолчал (байт 0x8939 бывает устаревшим).
+
+    Но и замкнутый контур на здоровом режиме ходит пилой вокруг нуля, а
+    OBD огрубляет STFT до 0.78 %: показание «ровно 0» там обычное. Хуже
+    того, ELM спрашивает раз в секунду, «качели» качаются примерно так
+    же, и показания могут раз за разом попадать в одну фазу -- как
+    стробоскоп. Поэтому нужно долго -- open_hold и не меньше четырёх
+    показаний подряд, -- а если в логе есть УДК, он за это время не
+    должен переключаться туда-сюда: в разомкнутом контуре смесь не
+    качается. Переключения бывают и там -- сменился режим, обогащение на
+    разгон, -- но редко; «качели» же меняют сторону через показание.
+    """
+    out, run = [], []
+    ts = ch.t
+
+    def steady(a, b):
+        if o2 is None:
+            return True
+        i = bisect.bisect_left(o2.t, a)
+        j = bisect.bisect_right(o2.t, b)
+        side = [v > 0.45 for v in o2.v[i:j]]
+        flips = sum(1 for x, y in zip(side, side[1:]) if x != y)
+        return flips < 3 or flips < 0.35 * (len(side) - 1)
+
+    def flush():
+        if (len(run) >= 4 and ts[run[-1]] - ts[run[0]] >= st.open_hold
+                and steady(ts[run[0]], ts[run[-1]])):
+            out.append(_around(ts, run, st.max_gap))
+        run.clear()
+
+    for i, v in enumerate(ch.v):
+        if abs(v) < 0.05:
+            if run and ts[i] - ts[run[-1]] > 2 * st.max_gap:
+                flush()
+            run.append(i)
+        else:
+            flush()
+    flush()
+    return _merge_spans(out)
+
+
+def _closed_kind(ch: logio.Channel) -> str:
+    """Флаг 0/1 (DID 1216) или состояние по OBD (PID 03: 2 -- замкнут)."""
+    lab = ("%s %s" % (ch.name, ch.unit)).lower()
+    if re.search(r"status|состоя|систем", lab):
+        return "status"
+    if re.search(r"active|регулятор|closed", lab):
+        return "flag"
+    return "status" if any(v > 1.5 for v in ch.v) else "flag"
+
+
+def _is_closed(v: float, kind: str) -> bool:
+    if kind == "flag":
+        return v >= 0.5
+    n = int(round(v))
+    if n > 255:              # оба байта PID 03 одним числом
+        n >>= 8
+    return bool(n & 2)
+
+
+def _channel_open(ch: logio.Channel, st: Settings) -> list:
+    """
+    Отрезки, где канал «контур замкнут» говорит «нет»: от середины до
+    соседнего показания до середины до следующего. Флаг спрашивается раз в
+    несколько кругов, и брать весь промежуток до соседа -- значит терять
+    секунды полного газа перед каждым накатом. Сам накат и так ловится
+    точно, по дросселю.
+    """
+    kind = _closed_kind(ch)
+    ts = ch.t
+    out = []
+    for i, v in enumerate(ch.v):
+        if _is_closed(v, kind):
+            continue
+        a = b = ts[i]
+        if i > 0 and ts[i] - ts[i - 1] <= 2 * st.max_gap:
+            a = (ts[i - 1] + ts[i]) / 2
+        if i + 1 < len(ts) and ts[i + 1] - ts[i] <= 2 * st.max_gap:
+            b = (ts[i] + ts[i + 1]) / 2
+        out.append((a, b))
+    return _merge_spans(out)
 
 
 def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
@@ -480,24 +636,57 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
     need = [ROLE_TITLES[r] for r, _, must in ROLES if must and ch[r] is None]
     if need:
         raise ValueError("в логе не найдено: " + ", ".join(need))
+    narrow = ch["lam"] is None
+    res.narrow = narrow
+    if narrow and ch["stft"] is None:
+        raise ValueError(
+            "в логе нет ни ШДК, ни быстрой коррекции STFT. По родному зонду "
+            "(УДК) смесь считается через коррекции: он сам говорит только "
+            "«богато» или «бедно». Добавьте в лог Short term fuel trim "
+            "(PID 06 или 14)")
 
-    lam_k, lam_kind = lam_scale(ch["lam"], st.lam_kind, st.stoich)
     maf_k, maf_unit = maf_scale(ch["maf"], st.maf_unit)
-    res.notes.append("УДК: %s «%s»%s" % (
-        lam_kind, ch["lam"].name,
-        (", делю на %.1f" % st.stoich) if lam_kind == "AFR" else ""))
+    if narrow:
+        res.notes.append(
+            "ШДК нет -- считаю по УДК (узкий зонд) и коррекциям: пока контур "
+            "замкнут, блок держит λ 1.000, и ошибка ДМРВ -- это то, что "
+            "доливают STFT и LTFT")
+        if ch["o2v"] is not None:
+            res.notes.append("узкий зонд «%s»: по нему проверяется упор STFT"
+                             % ch["o2v"].name)
+        if ch["closed"] is not None:
+            res.notes.append("замкнут ли контур -- по «%s» и по цели из "
+                             "прошивки%s" % (
+                                 ch["closed"].name,
+                                 "" if _closed_kind(ch["closed"]) == "flag"
+                                 else ", и по STFT (ровно 0 дольше %.0f с -- "
+                                 "разомкнут)" % st.open_hold))
+        else:
+            res.notes.append("замкнут ли контур -- по цели из прошивки и по "
+                             "STFT: блок, размыкая, сбрасывает его в 0 (ровно "
+                             "0 дольше %.0f с -- разомкнут)" % st.open_hold)
+        lam_k = 1.0
+        lam_ch = None
+    else:
+        lam_k, lam_kind = lam_scale(ch["lam"], st.lam_kind, st.stoich)
+        res.notes.append("ШДК: %s «%s»%s" % (
+            lam_kind, ch["lam"].name,
+            (", делю на %.1f" % st.stoich) if lam_kind == "AFR" else ""))
+        # лямбда: из своего лога на часы ЭБУ, и раньше на время задержки --
+        # ШДК видит газ, который сгорел lag секунд назад
+        shift = -st.lag
+        if roles["lam"][0] == "wb":
+            shift += st.offset
+        lam_ch = logio.shifted(ch["lam"], shift)
     res.notes.append("расход: «%s» в %s" % (ch["maf"].name, maf_unit))
-
-    # лямбда: из своего лога на часы ЭБУ, и раньше на время задержки --
-    # УДК видит газ, который сгорел lag секунд назад
-    shift = -st.lag
-    if roles["lam"][0] == "wb":
-        shift += st.offset
-    lam_ch = logio.shifted(ch["lam"], shift)
 
     for r in ("stft", "ltft", "ect"):
         if ch[r] is None:
             res.warnings.append("%s в логе нет" % ROLE_TITLES[r])
+    if narrow and ch["ltft"] is None:
+        res.warnings.append(
+            "без LTFT считаю адаптацию нулевой: если блок её уже выучил, "
+            "эта часть ошибки в поправку не попадёт")
     if ch["adc"] is not None:
         res.notes.append("ключ тарировки ДМРВ -- сырой АЦП «%s», без "
                          "поправки пульсаций" % ch["adc"].name)
@@ -507,13 +696,30 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
 
     spans = _transients(ch["tps"], st, ch["rpm"])
     starts = [a for a, _ in spans]
+    if narrow:
+        opens = []
+        # флаг регулятора из режима 22 -- сам блок, ему и верим; PID 03
+        # бывает устаревшим, к нему -- ещё и STFT, стоящий на нуле
+        flag = ch["closed"] is not None and _closed_kind(ch["closed"]) == "flag"
+        if not flag:
+            opens = _stft_open(ch["stft"], st, ch["o2v"])
+        if ch["closed"] is not None:
+            opens = _merge_spans(opens + _channel_open(ch["closed"], st))
+        open_starts = [a for a, _ in opens]
+    last_open = -1e9
 
-    t0 = max(ch["rpm"].t[0], ch["maf"].t[0], ch["tps"].t[0], lam_ch.t[0])
-    t1 = min(ch["rpm"].t[-1], ch["maf"].t[-1], ch["tps"].t[-1], lam_ch.t[-1])
+    main = lam_ch if lam_ch is not None else ch["stft"]
+    t0 = max(ch["rpm"].t[0], ch["maf"].t[0], ch["tps"].t[0], main.t[0])
+    t1 = min(ch["rpm"].t[-1], ch["maf"].t[-1], ch["tps"].t[-1], main.t[-1])
     if t1 <= t0:
-        raise ValueError("лог ЭБУ и лог УДК не пересекаются по времени -- "
-                         "проверьте сдвиг")
+        raise ValueError("лог ЭБУ и лог ШДК не пересекаются по времени -- "
+                         "проверьте сдвиг" if not narrow else
+                         "в логе нет отрезка, где есть все нужные каналы")
     for why in REASONS:
+        if narrow and why == "ШДК вне диапазона":
+            continue
+        if not narrow and why.startswith("контур"):
+            continue
         res.rejected[why] = 0.0
 
     out = []
@@ -525,40 +731,14 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
         rpm = logio.sample(ch["rpm"], t, g)
         maf = logio.sample(ch["maf"], t, g)
         tps = logio.sample(ch["tps"], t, g)
-        lam = logio.sample(lam_ch, t, g)
-        if None in (rpm, maf, tps, lam):
+        lam = logio.sample(lam_ch, t, g) if lam_ch is not None else 1.0
+        stft = (logio.sample(ch["stft"], t, g)
+                if ch["stft"] is not None else None)
+        if None in (rpm, maf, tps, lam) or (narrow and stft is None):
             _reject(res, "нет показаний", st.dt)
             continue
         maf *= maf_k
         lam *= lam_k
-        if ch["ect"] is not None:
-            ect = logio.sample(ch["ect"], t, 30.0)
-            if ect is not None and ect < st.ect_min:
-                _reject(res, "холодный мотор", st.dt)
-                continue
-        if rpm < st.rpm_min:
-            _reject(res, "обороты ниже порога", st.dt)
-            continue
-        if tps < st.tps_min and rpm > st.cut_rpm:
-            # закрытый дроссель выше ХХ -- накат, топливо перекрыто или
-            # вот-вот вернётся; на самом ХХ закрытый дроссель -- норма
-            _reject(res, "дроссель закрыт, сброс топлива", st.dt)
-            continue
-        if not (st.lam_lo <= lam <= st.lam_hi):
-            _reject(res, "УДК вне диапазона", st.dt)
-            continue
-        if spans and _inside(spans, starts, t):
-            _reject(res, "рывок дросселя", st.dt)
-            continue
-        if maf <= 0.5:
-            _reject(res, "нет расхода", st.dt)
-            continue
-        stft = (logio.sample(ch["stft"], t, g)
-                if ch["stft"] is not None else None)
-        ltft = (logio.sample(ch["ltft"], t, g)
-                if ch["ltft"] is not None else None)
-        adc = (logio.sample(ch["adc"], t, g)
-               if ch["adc"] is not None else None)
         rl = fm.rl(rpm, maf)
         lcmd, fl = fm.lam_cmd(rpm, tps, rl, st.bts)
         if ch["lcmd"] is not None:
@@ -567,9 +747,71 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
             got = logio.sample(ch["lcmd"], t, g)
             if got is not None and 0.5 < got < 1.5:
                 lcmd = got
+        ect = (logio.sample(ch["ect"], t, 30.0)
+               if ch["ect"] is not None else None)
+        cold = ect is not None and ect < st.ect_min
+        cut = tps < st.tps_min and rpm > st.cut_rpm
+        is_open = False
+        if narrow:
+            # регулятор выключают цель не ровно 1.000 и нагрузка от 99.75 %
+            # (0x84BB04), сброс топлива и холодный мотор; плюс что сказал
+            # сам блок и STFT, сброшенный в ноль
+            is_open = (cold or cut or abs(lcmd - 1.0) > 0.002 or rl >= 99.75
+                       or (opens and _inside(opens, open_starts, t)))
+            if is_open:
+                last_open = t
+        if cold:
+            _reject(res, "холодный мотор", st.dt)
+            continue
+        if rpm < st.rpm_min:
+            _reject(res, "обороты ниже порога", st.dt)
+            continue
+        if cut:
+            # закрытый дроссель выше ХХ -- накат, топливо перекрыто или
+            # вот-вот вернётся; на самом ХХ закрытый дроссель -- норма
+            _reject(res, "дроссель закрыт, сброс топлива", st.dt)
+            continue
+        if not narrow and not (st.lam_lo <= lam <= st.lam_hi):
+            _reject(res, "ШДК вне диапазона", st.dt)
+            continue
+        if spans and _inside(spans, starts, t):
+            _reject(res, "рывок дросселя", st.dt)
+            continue
+        if maf <= 0.5:
+            _reject(res, "нет расхода", st.dt)
+            continue
+        # LTFT меняется минутами, и логгер спрашивает её редко: дыра
+        # между показаниями -- не повод считать её нулём
+        ltft = (logio.sample(ch["ltft"], t, 30.0)
+                if ch["ltft"] is not None else None)
+        adc = (logio.sample(ch["adc"], t, g)
+               if ch["adc"] is not None else None)
+        o2v = (logio.sample(ch["o2v"], t, g)
+               if ch["o2v"] is not None else None)
+        sat = 0
+        if narrow:
+            if is_open:
+                if fl:
+                    res.open_fl.append(Sample(
+                        t, rpm, maf, tps, lcmd, stft, ltft, fl, lcmd, rl,
+                        1.0, adc, o2v, 0, False))
+                _reject(res, "контур разомкнут", st.dt)
+                continue
+            if t - last_open < st.nb_settle:
+                # STFT после замыкания стартует с нуля и догоняет ошибку
+                # интегратором -- несколько секунд он врёт
+                _reject(res, "контур только что замкнулся", st.dt)
+                continue
+            # контур замкнут, зонд переключается -- в цилиндре цель
+            lam = lcmd
+            edge = st.stft_lim - 1.0
+            if stft >= edge and (o2v is None or o2v < 0.45):
+                sat = 1
+            elif stft <= -edge and (o2v is None or o2v > 0.45):
+                sat = -1
         trims = (1 + (stft or 0.0) / 100) * (1 + (ltft or 0.0) / 100)
         out.append(Sample(t, rpm, maf, tps, lam, stft, ltft, fl, lcmd, rl,
-                          lam * trims / lcmd, adc))
+                          lam * trims / lcmd, adc, o2v, sat))
     return out
 
 
@@ -608,18 +850,18 @@ def _match(ev_a, ev_b, cand, tol):
 def find_offset(ecu: logio.LogFile, wb: logio.LogFile, roles: dict,
                 st: Settings) -> tuple[float | None, str]:
     """
-    Сдвиг отдельного лога УДК: время ЭБУ = время УДК + сдвиг.
+    Сдвиг отдельного лога ШДК: время ЭБУ = время ШДК + сдвиг.
 
     Опора -- КОНЕЦ сброса топлива. Катились накатом с закрытым дросселем
-    -- форсунки перекрыты, УДК лежит в бедном упоре. Нажали газ -- топливо
-    вернулось сразу, и УДК падает к единице. В логе ЭБУ это виден подъём
-    дросселя после закрытого на оборотах, в логе УДК -- падение лямбды из
+    -- форсунки перекрыты, ШДК лежит в бедном упоре. Нажали газ -- топливо
+    вернулось сразу, и ШДК падает к единице. В логе ЭБУ это виден подъём
+    дросселя после закрытого на оборотах, в логе ШДК -- падение лямбды из
     упора. Таких событий за поездку десятки, и совпасть все разом при
     неверном сдвиге не могут.
 
     Начало сброса для этого не годится: Bosch перекрывает топливо не
     сразу, а с выдержкой, и она сместила бы сдвиг на неё. Возврат топлива
-    по газу выдержки не имеет, между событиями только задержка самого УДК.
+    по газу выдержки не имеет, между событиями только задержка самого ШДК.
 
     Если событий мало, а у обоих логов есть часы, берём разницу часов.
     """
@@ -627,7 +869,7 @@ def find_offset(ecu: logio.LogFile, wb: logio.LogFile, roles: dict,
     tps = _channel(ecu, None, roles.get("tps"))
     lam = _channel(ecu, wb, roles.get("lam"))
     if rpm is None or tps is None or lam is None or roles["lam"][0] != "wb":
-        return None, "нужен лог ЭБУ с оборотами и дросселем и отдельный лог УДК"
+        return None, "нужен лог ЭБУ с оборотами и дросселем и отдельный лог ШДК"
     k, _ = lam_scale(lam, st.lam_kind, st.stoich)
     g = st.max_gap
 
@@ -649,7 +891,7 @@ def find_offset(ecu: logio.LogFile, wb: logio.LogFile, roles: dict,
     ev_wb = _events(lam.t[0], lam.t[-1], 0.02,
                     lambda x: x * k < 1.15, lambda x: x * k > 1.45,
                     lambda t: logio.sample(lam, t, g))
-    # события лога ЭБУ на шкале УДК сдвинуты ещё и на задержку датчика
+    # события лога ЭБУ на шкале ШДК сдвинуты ещё и на задержку датчика
     ev_ecu = [x + st.lag for x in ev_ecu]
 
     clock = None
@@ -691,15 +933,18 @@ def find_offset(ecu: logio.LogFile, wb: logio.LogFile, roles: dict,
                           "из %d" % (len(pairs), len(ev_ecu)))
     if clock is not None:
         return clock, "по часам логов"
-    return None, ("опорных событий мало (ЭБУ %d, УДК %d), часов нет -- "
+    return None, ("опорных событий мало (ЭБУ %d, ШДК %d), часов нет -- "
                   "сдвиг задайте руками" % (len(ev_ecu), len(ev_wb)))
 
 
 # -- поправки -------------------------------------------------------------------
 
 def _accumulate(xs, samples, key, value):
-    """Взвешенные суммы по узлам: время, лямбда, цель, ошибка, требование."""
-    acc = [[0.0] * 5 for _ in xs]
+    """
+    Взвешенные суммы по узлам: время, лямбда, цель, ошибка, требование,
+    время в упоре STFT.
+    """
+    acc = [[0.0] * 6 for _ in xs]
     for s in samples:
         x = key(s)
         if x is None:
@@ -712,6 +957,7 @@ def _accumulate(xs, samples, key, value):
             a[2] += w * s.lcmd
             a[3] += w * s.e
             a[4] += w * v
+            a[5] += w * (1.0 if s.sat else 0.0)
     return acc
 
 
@@ -722,7 +968,7 @@ def _fill(nodes: list[Node], interior: bool, above: bool, below: str) -> None:
     "hold" -- как у первого, "one" -- без изменения.
     """
     have = [i for i, n in enumerate(nodes) if n.status == "по данным"
-            or n.status.startswith("упёрлось")]
+            or n.status.startswith("упёрлось") or n.status.startswith("упор")]
     if not have:
         return
     for i, n in enumerate(nodes):
@@ -758,6 +1004,22 @@ def _limit(want: float, old: float, st: Settings) -> tuple[float, bool]:
     return v, abs(v - want) > 1e-9
 
 
+SAT_SHARE = 0.3     # столько времени узла STFT в упоре -- узел в упоре
+
+
+def _sat_warning(res: Result, st: Settings) -> None:
+    hit = [n for n in res.nodes if n.time and n.sat >= SAT_SHARE]
+    if not hit:
+        return
+    res.warnings.append(
+        "на %d узл. (%s) STFT стоял в упоре %.0f %%: зонд так и не дошёл до "
+        "единицы, настоящая ошибка больше, чем видно по коррекциям. "
+        "Поправка там -- нижняя граница: залейте, снимите новый лог и "
+        "посчитайте ещё раз, каждый проход добирает остаток"
+        % (len(hit), ", ".join(n.label.split(",")[0] for n in hit[:6])
+           + (" …" if len(hit) > 6 else ""), st.stft_lim))
+
+
 def correct_kllamfa(fm: FuelModel, samples: list[Sample], st: Settings,
                     res: Result) -> None:
     xs = fm.kllamfa_x
@@ -770,7 +1032,7 @@ def correct_kllamfa(fm: FuelModel, samples: list[Sample], st: Settings,
             "не по чему" % "/".join("%.0f" % v for v in fm.wdkvln[fm.variant]))
 
     def required(s: Sample) -> float:
-        # цель, при которой УДК покажет желаемое; STFT на полном газе
+        # цель, при которой ШДК покажет желаемое; STFT на полном газе
         # выключается вместе с переходом на богатую цель, его вклад убираем
         want = s.lcmd if st.lam_want is None else st.lam_want
         return want * s.lcmd / (s.lam * (1 + (s.stft or 0.0) / 100))
@@ -785,6 +1047,7 @@ def correct_kllamfa(fm: FuelModel, samples: list[Sample], st: Settings,
         if w > 0:
             n.lam, n.lcmd, n.err, n.want = (acc[i][1] / w, acc[i][2] / w,
                                             acc[i][3] / w, acc[i][4] / w)
+            n.sat = acc[i][5] / w
         if n.time >= st.min_time:
             n.new, hit = _limit(n.want, old, st)
             n.new = min(max(n.new, 0.70), 1.10)
@@ -835,17 +1098,25 @@ def correct_hfm(fm: FuelModel, samples: list[Sample], st: Settings,
         if w > 0:
             nd.lam, nd.lcmd, nd.err, nd.want = (acc[i][1] / w, acc[i][2] / w,
                                                 acc[i][3] / w, acc[i][4] / w)
+            nd.sat = acc[i][5] / w
         if nd.time >= st.min_time and q > 0:
             # e > 1 -- воздуха больше, чем думает блок: таблицу вверх.
             # В терминах _limit «богаче» -- это множитель вверх.
             lo, hi = 1 - st.max_lean / 100, 1 + st.max_rich / 100
             nd.new = min(max(nd.want, lo), hi)
             hit = abs(nd.new - nd.want) > 1e-9
-            nd.status = "упёрлось в предел шага" if hit else "по данным"
+            if nd.sat >= SAT_SHARE:
+                # коррекция в упоре, зонд всё равно беден (или богат):
+                # настоящая ошибка больше -- поправка верна по знаку, но
+                # это нижняя граница
+                nd.status = "упор STFT, нужен ещё проход"
+            else:
+                nd.status = "упёрлось в предел шага" if hit else "по данным"
         else:
             nd.status = "мало данных" if w > 0 else "нет данных"
         res.nodes.append(nd)
     _fill(res.nodes, True, st.fill_empty, "one")
+    _sat_warning(res, st)
 
     mult = [nd.new for nd in res.nodes]
     raw = list(fm.hfm_raw)
@@ -867,9 +1138,12 @@ def correct_hfm(fm: FuelModel, samples: list[Sample], st: Settings,
 
 
 def full_load_bands(samples: list[Sample], st: Settings,
-                    step: float = 500.0) -> list[Band]:
-    """Что показывал УДК на полном газе -- по полосам оборотов."""
-    fl = [s for s in samples if s.fl]
+                    step: float = 500.0, open_fl=()) -> list[Band]:
+    """
+    Полная нагрузка по полосам оборотов: что показал ШДК, а без него --
+    коррекции, упор STFT и сколько времени контур был замкнут.
+    """
+    fl = [s for s in samples if s.fl] + list(open_fl)
     if not fl:
         return []
     lo = math.floor(min(s.rpm for s in fl) / step) * step
@@ -881,11 +1155,21 @@ def full_load_bands(samples: list[Sample], st: Settings,
         inb = [s for s in fl if a <= s.rpm < a + step]
         if inb:
             b.time = len(inb) * st.dt
-            b.lam = sum(s.lam for s in inb) / len(inb)
-            b.lmin = min(s.lam for s in inb)
-            b.lmax = max(s.lam for s in inb)
-            b.lcmd = sum(s.lcmd for s in inb) / len(inb)
-            b.err = sum(s.e for s in inb) / len(inb)
+            cl = [s for s in inb if s.closed]
+            b.closed = len(cl) / len(inb)
+            if cl:
+                k = len(cl)
+                b.lam = sum(s.lam for s in cl) / k
+                b.lmin = min(s.lam for s in cl)
+                b.lmax = max(s.lam for s in cl)
+                b.lcmd = sum(s.lcmd for s in cl) / k
+                b.err = sum(s.e for s in cl) / k
+                b.stft = sum(s.stft or 0.0 for s in cl) / k
+                b.ltft = sum(s.ltft or 0.0 for s in cl) / k
+                b.sat = sum(1 for s in cl if s.sat) / k
+            op = [s for s in inb if not s.closed and s.o2v is not None]
+            if op:
+                b.o2lean = sum(1 for s in op if s.o2v < 0.45) / len(op)
             bands.append(b)
         a += step
     return bands
@@ -920,14 +1204,41 @@ def _model_warnings(fm: FuelModel, samples: list[Sample], st: Settings,
                 % (amb * st.dt))
 
 
+def _open_warning(samples: list[Sample], st: Settings, res: Result) -> None:
+    """Без ШДК полный газ виден, только пока контур замкнут."""
+    op = len(res.open_fl) * st.dt
+    cl = sum(1 for s in samples if s.fl) * st.dt
+    if op < max(2.0, cl):
+        return
+    msg = ("на полном газе контур был разомкнут %.0f с, замкнут %.0f с: там "
+           "блок по зонду не регулирует, и ошибку по коррекциям не видно"
+           % (op, cl))
+    nb = [s for s in res.open_fl if s.o2v is not None]
+    if nb:
+        msg += ("; зонд при этом показывал «бедно» %.0f %% времени"
+                % (100.0 * sum(1 for s in nb if s.o2v < 0.45) / len(nb)))
+    msg += (". Если KLLAMFA ниже 1.000 -- поставьте на время 1.000 (как в "
+            "v2M): контур замкнётся и на верхах, и ошибка ДМРВ там станет "
+            "видна в STFT")
+    res.warnings.append(msg)
+
+
 def analyze(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
             roles: dict, st: Settings) -> Result:
     res = Result(settings=st, target=st.target)
     fm.variant = st.variant
     samples = merge(fm, ecu, wb, roles, st, res)
+    if res.narrow and st.target == "kllamfa":
+        raise ValueError(
+            "цель полного газа (KLLAMFA) без ШДК не поправить: как только "
+            "цель уходит от 1.000, блок размыкает контур, и узкий зонд "
+            "показывает только «богато» или «бедно», без числа. По УДК "
+            "правится ДМРВ (HFM_LIN) -- он чинит и верха")
     res.samples = samples
     _model_warnings(fm, samples, st, res)
-    res.bands = full_load_bands(samples, st)
+    res.bands = full_load_bands(samples, st, open_fl=res.open_fl)
+    if res.narrow:
+        _open_warning(samples, st, res)
     if st.target == "hfm":
         correct_hfm(fm, samples, st, res)
     else:
@@ -985,9 +1296,10 @@ def apply(project, res: Result) -> list:
 def report(res: Result) -> str:
     st = res.settings
     L = []
-    L.append("Смесь по УДК: %s" % ("тарировка ДМРВ (HFM_LIN)"
-                                    if res.target == "hfm"
-                                    else "лямбда полной нагрузки (KLLAMFA)"))
+    L.append("Смесь %s: %s" % (
+        "по УДК (узкий зонд, по коррекциям)" if res.narrow else "по ШДК",
+        "тарировка ДМРВ (HFM_LIN)" if res.target == "hfm"
+        else "лямбда полной нагрузки (KLLAMFA)"))
     L.append("Лог: %.0f с на общей шкале, годных %.0f с, в поправку %.0f с"
              % (res.total, res.accepted, len(res.used) * st.dt))
     rej = [(k, v) for k, v in res.rejected.items() if v > 0]
@@ -997,9 +1309,28 @@ def report(res: Result) -> str:
         L.append("* " + n)
     for w in res.warnings:
         L.append("! " + w)
-    if res.bands:
+    if res.bands and res.narrow:
         L.append("")
-        L.append("Полная нагрузка, что показал УДК:")
+        L.append("Полная нагрузка по коррекциям (ошибка -- сколько воздуха "
+                 "блок недосчитал):")
+        L.append("%-12s %6s %7s %7s %7s %8s %6s %10s" % (
+            "об/мин", "с", "замкн.", "STFT", "LTFT", "ошибка", "упор",
+            "зонд беден"))
+        for b in res.bands:
+            has = b.closed > 0
+            L.append("%5.0f-%-6.0f %6.1f %6.0f%% %7s %7s %8s %6s %10s" % (
+                b.lo, b.hi, b.time, b.closed * 100,
+                "%+.1f%%" % b.stft if has else "-",
+                "%+.1f%%" % b.ltft if has else "-",
+                "%+.1f%%" % ((b.err - 1) * 100) if has else "-",
+                "%.0f%%" % (b.sat * 100) if has else "-",
+                "%.0f%%" % (b.o2lean * 100) if b.o2lean is not None else "-"))
+        L.append("  замкн. -- доля времени с работающим регулятором: только "
+                 "по ней видна ошибка; упор -- STFT на пределе, ошибка там "
+                 "больше показанной; зонд беден -- при разомкнутом контуре")
+    elif res.bands:
+        L.append("")
+        L.append("Полная нагрузка, что показал ШДК:")
         L.append("%-12s %7s %7s %7s %7s %8s %8s" % (
             "об/мин", "с", "λ ср", "λ мин", "λ макс", "цель", "ошибка"))
         for b in res.bands:
@@ -1007,9 +1338,20 @@ def report(res: Result) -> str:
                 b.lo, b.hi, b.time, b.lam, b.lmin, b.lmax, b.lcmd,
                 (b.err - 1) * 100))
     L.append("")
-    if res.target == "hfm":
+    if res.target == "hfm" and res.narrow:
+        L.append("%-22s %6s %8s %6s %8s  %s" % (
+            "узел", "с", "ошибка", "упор", "множ.", "откуда"))
+        for n in res.nodes:
+            if n.status == "нет данных" and n.new == n.old:
+                continue
+            L.append("%-22s %6.1f %8s %6s %8.3f  %s" % (
+                n.label, n.time,
+                "%+.1f%%" % ((n.err - 1) * 100) if n.time else "-",
+                "%.0f%%" % (n.sat * 100) if n.time else "-",
+                n.new, n.status))
+    elif res.target == "hfm":
         L.append("%-22s %6s %7s %7s %8s %8s  %s" % (
-            "узел", "с", "λ УДК", "цель", "ошибка", "множ.", "откуда"))
+            "узел", "с", "λ ШДК", "цель", "ошибка", "множ.", "откуда"))
         for n in res.nodes:
             if n.status == "нет данных" and n.new == n.old:
                 continue
@@ -1023,7 +1365,7 @@ def report(res: Result) -> str:
         L.append("KLLAMFA, желаемая λ на полном газе %s:" % (
             "как в прошивке" if st.lam_want is None else "%.3f" % st.lam_want))
         L.append("%-7s %6s %7s %7s %8s %7s %7s %8s  %s" % (
-            "об/мин", "с", "λ УДК", "цель", "ошибка", "было", "стало",
+            "об/мин", "с", "λ ШДК", "цель", "ошибка", "было", "стало",
             "изм.", "откуда"))
         for n in res.nodes:
             L.append("%-7s %6.1f %7s %7s %8s %7.3f %7.3f %+7.1f%%  %s" % (

@@ -103,7 +103,7 @@ def test_formats():
     check(roles["tps"] == ("ecu", "Throttle Position(Manifold)"),
           "дроссель: взят абсолютный, а не относительный")
     check(roles["lam"] == ("ecu", "Air Fuel Ratio(Measured)"),
-          "УДК внутри лога ЭБУ найден: %s" % (roles["lam"],))
+          "ШДК внутри лога ЭБУ найден: %s" % (roles["lam"],))
     k, kind = udk.lam_scale(ch["Air Fuel Ratio(Measured)"])
     check(kind == "AFR" and abs(14.7 * k - 1) < 1e-9,
           "AFR распознан и переводится в лямбду делением на 14.7")
@@ -186,7 +186,7 @@ def test_offset_and_hfm():
     tr, ecu, wb = drive(fm, sensor)
     roles = udk.detect_roles(ecu, wb)
     check(roles["lam"] == ("wb", "Лямбда") and roles["stft"]
-          and roles["ect"], "роли: УДК из своего лога, коррекции и ОЖ из ELM")
+          and roles["ect"], "роли: ШДК из своего лога, коррекции и ОЖ из ELM")
 
     st = udk.Settings(target="hfm")
     off, how = udk.find_offset(ecu, wb, roles, st)
@@ -314,7 +314,7 @@ def test_closed_at_wot():
     lam_wot = sum(s.lam for s in wot) / len(wot)
     stft_wot = sum(s.stft for s in wot) / len(wot)
     check(abs(lam_wot - 1.0) < 0.02 and stft_wot > 8,
-          "УДК на полном газе почти 1.000 (%.3f) -- ошибку прячет STFT %+.1f %%"
+          "ШДК на полном газе почти 1.000 (%.3f) -- ошибку прячет STFT %+.1f %%"
           % (lam_wot, stft_wot))
     ecu = logio.parse_text(udksim.ecu_log_carscanner(tr, seed=31), "ecu.csv")
     wb = logio.parse_text(udksim.wb_log(tr, offset=0.0, seed=32), "wb.csv")
@@ -328,14 +328,14 @@ def test_closed_at_wot():
     stft2 = sum(s.stft for s in wot2) / len(wot2)
     check(abs(stft2) < 3.0,
           "после поправки ДМРВ STFT на полном газе %+.1f %% вместо %+.1f %%: "
-          "ошибка найдена через коррекцию, а не через УДК" % (stft2, stft_wot))
-    # регулятор упёрся (предел 10 %): УДК видит остаток, коррекция -- свою
+          "ошибка найдена через коррекцию, а не через ШДК" % (stft2, stft_wot))
+    # регулятор упёрся (предел 10 %): ШДК видит остаток, коррекция -- свою
     # часть, вместе -- вся ошибка
     tr3 = udksim.run(fm, sensor, ltft=0.0, by_code=True, stft_max=10.0)
     wot3 = [s for s in tr3 if fm.full_load(s.rpm, s.tps) and s.rpm > 5500
             and not s.enrich and s.ect >= 70]
     check(sum(s.lam for s in wot3) / len(wot3) > 1.04,
-          "коррекция упёрлась в 10 %% -- УДК показывает бедно: %.3f"
+          "коррекция упёрлась в 10 %% -- ШДК показывает бедно: %.3f"
           % (sum(s.lam for s in wot3) / len(wot3)))
     ecu = logio.parse_text(udksim.ecu_log_carscanner(tr3, seed=33), "ecu.csv")
     wb = logio.parse_text(udksim.wb_log(tr3, offset=0.0, seed=34), "wb.csv")
@@ -389,7 +389,7 @@ def test_guards():
     except ValueError as exc:
         check("Дроссель" in str(exc), "без дросселя: «%s»" % exc)
 
-    # УДК внутри лога ЭБУ (один широкий лог) -- сдвиг не нужен
+    # ШДК внутри лога ЭБУ (один широкий лог) -- сдвиг не нужен
     tr = udksim.run(fm, sensor)
     rows = ["Time;Engine RPM;MAF (g/s);TPS (%);STFT (%);LTFT (%);"
             "ECT (C);Wideband AFR"]
@@ -400,12 +400,156 @@ def test_guards():
     one = logio.parse_text("\n".join(rows))
     roles = udk.detect_roles(one, None)
     check(roles["lam"] == ("ecu", "Wideband AFR"),
-          "один общий лог: УДК найден в нём же")
+          "один общий лог: ШДК найден в нём же")
     res = udk.analyze(fm, one, None, roles,
                       udk.Settings(target="kllamfa", lag=0.0))
     check(res.bands and res.bands[-1].err > 1.1,
           "по общему логу видно обеднение на верхах: %+.1f %% на %d об/мин"
           % ((res.bands[-1].err - 1) * 100, res.bands[-1].lo))
+
+
+def nb_log(tr, seed, pids=None):
+    """Лог Car Scanner без ШДК: обороты, расход, дроссель, коррекции, УДК."""
+    return logio.parse_text(udksim.ecu_log_carscanner(
+        tr, seed=seed, pids=pids or udksim.PIDS_NB), "ecu.csv")
+
+
+def wot_trims(fm, tr, rpm=5000):
+    """Что на верхах доливают коррекции: (1+STFT)(1+LTFT), среднее."""
+    v = [(1 + s.stft / 100) * (1 + s.ltft / 100) for s in tr
+         if fm.full_load(s.rpm, s.tps) and s.rpm > rpm and s.closed
+         and not s.enrich and s.ect >= 70]
+    return sum(v) / len(v)
+
+
+def test_narrowband():
+    print("-- по УДК: родной узкий зонд, без ШДК")
+    p = P.Project.open(A2L, V2M)
+    fm = udk.FuelModel.from_project(p)
+    sensor = list(fm.hfm_raw)
+    err = udksim.err_lean_top
+    tr = udksim.run(fm, sensor, ltft=3.0, by_code=True, nb_ctrl=True)
+    before = wot_trims(fm, tr)
+    ecu = nb_log(tr, 41)
+    roles = udk.detect_roles(ecu, None)
+    check(roles["lam"] is None and roles["o2v"] == ("ecu", "O2 sensor 1 voltage")
+          and roles["stft"] and roles["ltft"],
+          "роли: ШДК нет, УДК (вольты) и коррекции найдены")
+    res = udk.analyze(fm, ecu, None, roles, udk.Settings(target="hfm"))
+    check(res.narrow and "по УДК" in udk.report(res),
+          "расчёт сам перешёл на коррекции, в отчёте так и сказано")
+    check(res.rejected.get("контур только что замкнулся", 0) > 0
+          and "ШДК вне диапазона" not in res.rejected,
+          "после замыкания контура STFT не верим, пока догоняет")
+    good = [n for n in res.nodes if n.status == "по данным"
+            and fm.hfm_flow(int(n.x)) > 60]
+    devs = [abs(n.new - err(solve_true(fm.hfm_flow(int(n.x)), err)))
+            for n in good]
+    check(len(good) >= 6 and max(devs) < 0.025,
+          "ошибка ДМРВ найдена по одним коррекциям: %d узлов, расхождение до "
+          "%.1f %%" % (len(good), max(devs) * 100 if devs else 99))
+    low = [n for n in good if fm.hfm_flow(int(n.x)) < 110]
+    check(low and all(abs(n.new - 1) < 0.015 for n in low),
+          "где ДМРВ не врёт, LTFT +3 %% не принят за его ошибку: %s"
+          % " ".join("%.3f" % n.new for n in low))
+    hi = [b for b in res.bands if b.lo >= 5000 and b.closed > 0]
+    check(hi and all(b.err > 1.10 and b.stft > 8 for b in hi),
+          "на верхах видно: STFT %s при λ 1.000 в цилиндре"
+          % " ".join("%+.1f%%" % b.stft for b in hi))
+
+    udk.apply(p, res)
+    fm2 = udk.FuelModel.from_project(p)
+    tr2 = udksim.run(fm2, sensor, ltft=3.0, by_code=True, nb_ctrl=True)
+    after = wot_trims(fm2, tr2)
+    check(before > 1.08 and abs(after - 1.0) < 0.025,
+          "на исправленной прошивке коррекциям на полном газе доливать "
+          "нечего: было %+.1f %%, стало %+.1f %%"
+          % ((before - 1) * 100, (after - 1) * 100))
+
+    try:
+        udk.analyze(fm, ecu, None, roles, udk.Settings(target="kllamfa"))
+        check(False, "KLLAMFA без ШДК обязан отказаться")
+    except ValueError as exc:
+        check("без ШДК" in str(exc) and "HFM_LIN" in str(exc),
+              "KLLAMFA без ШДК -- отказ с причиной и что делать вместо")
+    bare = nb_log(tr, 42)
+    for name in [n for n in bare.channels if "trim" in n]:
+        del bare.channels[name]
+    try:
+        udk.analyze(fm, bare, None, udk.detect_roles(bare, None),
+                    udk.Settings())
+        check(False, "без ШДК и без STFT расчёт обязан отказаться")
+    except ValueError as exc:
+        check("ни ШДК, ни" in str(exc), "без ШДК и без STFT: понятный отказ")
+
+
+def test_saturation():
+    print("-- по УДК: коррекция в упоре, несколько проходов")
+    p = P.Project.open(A2L, V2M)
+    fm = udk.FuelModel.from_project(p)
+    sensor = list(fm.hfm_raw)
+    st = udk.Settings(target="hfm", stft_lim=8.0)
+    passes = []
+    for k in range(2):
+        cur = udk.FuelModel.from_project(p)
+        tr = udksim.run(cur, sensor, ltft=3.0, by_code=True, nb_ctrl=True,
+                        stft_max=8.0)
+        res = udk.analyze(cur, nb_log(tr, 51 + k), None,
+                          udk.detect_roles(nb_log(tr, 51 + k), None), st)
+        passes.append((wot_trims(cur, tr), res))
+        if k == 0:
+            top = [n for n in res.nodes if n.status.startswith("упор")]
+            check(top and all(fm.hfm_flow(int(n.x)) > 200 for n in top)
+                  and any("упоре" in w for w in res.warnings),
+                  "предел STFT 8 %%: упор найден на %d верхних узлах, в "
+                  "предупреждении -- нужен ещё проход" % len(top))
+            check(res.bands[-1].sat > 0.5,
+                  "в полосах полного газа виден упор: %.0f %% времени"
+                  % (res.bands[-1].sat * 100))
+        udk.apply(p, res)
+    tr = udksim.run(udk.FuelModel.from_project(p), sensor, ltft=3.0,
+                    by_code=True, nb_ctrl=True, stft_max=8.0)
+    final = wot_trims(udk.FuelModel.from_project(p), tr)
+    wot = [s for s in tr if fm.full_load(s.rpm, s.tps) and s.rpm > 5000
+           and s.closed and not s.enrich]
+    lam = sum(s.lam for s in wot) / len(wot)
+    check(abs(final - 1.0) < 0.025 and abs(lam - 1.0) < 0.01,
+          "за два прохода: на верхах λ %.3f, коррекции доливают %+.1f %%"
+          % (lam, (final - 1) * 100))
+
+
+def test_open_loop():
+    print("-- по УДК: контур на полном газе разомкнут")
+    p = P.Project.open(A2L, V2M)
+    fm = udk.FuelModel.from_project(p)
+    # как принято думать про Bosch: на полной нагрузке регулятор выключен,
+    # STFT сброшен в 0
+    tr = udksim.run(fm, list(fm.hfm_raw), ltft=3.0, nb_ctrl=True)
+    ecu = nb_log(tr, 61, udksim.PIDS_NB + [("Fuel system status", "")])
+    roles = udk.detect_roles(ecu, None)
+    check(roles["closed"] == ("ecu", "Fuel system status"),
+          "PID 03 распознан как признак контура")
+    res = udk.analyze(fm, ecu, None, roles, udk.Settings(target="hfm"))
+    fl = [b for b in res.bands if b.lo >= 4000]
+    check(fl and all(b.closed < 0.2 for b in fl)
+          and res.rejected["контур разомкнут"] > 10,
+          "полный газ не принят за λ 1.000 со STFT 0: разомкнуто %.0f с"
+          % res.rejected["контур разомкнут"])
+    check(any("контур был разомкнут" in w and "KLLAMFA" in w
+              for w in res.warnings)
+          and fl[-1].o2lean is not None and fl[-1].o2lean > 0.9,
+          "сказано, что верха так не видно и что делать; зонд там беден "
+          "%.0f %% времени" % ((fl[-1].o2lean or 0) * 100))
+    # без PID 03 то же самое ловится по STFT, сброшенному в ноль
+    ecu = nb_log(tr, 62)
+    res2 = udk.analyze(fm, ecu, None, udk.detect_roles(ecu, None),
+                       udk.Settings(target="hfm"))
+    check(res2.rejected["контур разомкнут"] > 0.8 * res.rejected["контур разомкнут"],
+          "без PID 03 разомкнутый контур найден по STFT = 0: %.0f с"
+          % res2.rejected["контур разомкнут"])
+    check(udk._is_closed(2, "status") and not udk._is_closed(4, "status")
+          and udk._is_closed(0x0200, "status") and udk._is_closed(1, "flag"),
+          "PID 03: 2 -- замкнут, 4 -- нет; DID 1216: 1 -- замкнут")
 
 
 def main():
@@ -416,6 +560,9 @@ def main():
     test_keep_target()
     test_closed_at_wot()
     test_guards()
+    test_narrowband()
+    test_saturation()
+    test_open_loop()
     print()
     if fails:
         print("ПРОВАЛЕНО: %d" % len(fails))

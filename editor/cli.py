@@ -10,7 +10,7 @@
     python3 -m editor.cli show --a2l F.a2l --bin FW.bin --map KFZWOP
     python3 -m editor.cli diff --a2l F.a2l --bin A.bin --other B.bin
     python3 -m editor.cli udk  --a2l F.a2l --bin FW.bin --log elm.csv \
-        [--wb udk.csv] [--target hfm|kllamfa] [--out новая.bin]
+        [--wb шдк.csv] [--target hfm|kllamfa] [--out новая.bin]
     python3 -m editor.cli log  --elm COM3 [--wb COM4 --wb-proto isp2] \
         [--out лог.csv] [--seconds 600]
 """
@@ -84,7 +84,10 @@ def cmd_diff(a) -> int:
 
 
 def cmd_udk(a) -> int:
-    """Смесь по УДК: отчёт и, если задан --out, исправленная прошивка."""
+    """
+    Смесь по логу: отчёт и, если задан --out, исправленная прошивка. Без
+    ШДК -- по УДК (родному узкому зонду) и коррекциям.
+    """
     import logio
     import project as proj
     import udk
@@ -93,7 +96,8 @@ def cmd_udk(a) -> int:
     st = udk.Settings(target=a.target, lam_want=a.want, lag=a.lag,
                       variant=a.variant, bts=a.bts, lam_kind=a.lam,
                       maf_unit=a.maf, max_rich=a.max_rich,
-                      max_lean=a.max_lean, ect_min=a.ect_min)
+                      max_lean=a.max_lean, ect_min=a.ect_min,
+                      stft_lim=a.stft_lim)
     fm = udk.FuelModel.from_project(p, a.variant)
     ecu = logio.read_log(a.log)
     wb = logio.read_log(a.wb) if a.wb else None
@@ -112,12 +116,16 @@ def cmd_udk(a) -> int:
             if off is None:
                 print("Сдвиг логов не найден: " + how, file=sys.stderr)
                 return 2
-            print("Сдвиг лога УДК: %+.2f с (%s)" % (off, how))
+            print("Сдвиг лога ШДК: %+.2f с (%s)" % (off, how))
             st.offset = off
         else:
             st.offset = float(a.offset)
     print()
-    res = udk.analyze(fm, ecu, wb, roles, st)
+    try:
+        res = udk.analyze(fm, ecu, wb, roles, st)
+    except ValueError as exc:
+        print("Не посчиталось: %s" % exc, file=sys.stderr)
+        return 2
     print(udk.report(res))
     if a.out:
         eds = udk.apply(p, res)
@@ -134,7 +142,7 @@ def cmd_udk(a) -> int:
 
 
 def cmd_log(a) -> int:
-    """Снять лог: ELM и УДК в один файл. Ctrl+C -- стоп."""
+    """Снять лог: ELM (и ШДК, если есть) в один файл. Ctrl+C -- стоп."""
     import time
     import elm as E
     import livelog
@@ -152,7 +160,7 @@ def cmd_log(a) -> int:
         if fm is None:
             print("для имитатора нужны --a2l и --bin", file=sys.stderr)
             return 2
-        car = fakecar.FakeCar(fm)
+        car = fakecar.FakeCar(fm, by_code=True, nb_ctrl=True)
 
     def open_elm():
         if a.elm == "demo":
@@ -188,16 +196,20 @@ def cmd_log(a) -> int:
         L.wb_reopen = lambda: E.SerialTransport(a.wb, a.wb_baud or parser.baud)
     L.start()
     print("пишу в %s, Ctrl+C -- стоп" % out)
-    names = {"об/мин": obd.PIDS[0x0C].name, "г/с": obd.PIDS[0x10].name,
-             "дроссель": obd.PIDS[0x11].name, "λ": livelog.LAMBDA_NAME}
+    # подпись -> (канал, формат)
+    names = {"об/мин": (obd.PIDS[0x0C].name, "%.0f"),
+             "г/с": (obd.PIDS[0x10].name, "%.0f"),
+             "дроссель": (obd.PIDS[0x11].name, "%.0f"),
+             "УДК, В": (obd.PIDS[0x14].name, "%.2f"),
+             "STFT": (obd.PIDS[0x06].name, "%+.1f"),
+             "ШДК λ": (livelog.LAMBDA_NAME, "%.3f")}
     try:
         end = time.monotonic() + a.seconds if a.seconds else None
         while end is None or time.monotonic() < end:
             time.sleep(1.0)
             last = L.latest()
-            bits = ["%s %s" % (k, ("%.3f" % last[n][1]) if k == "λ"
-                               else ("%.0f" % last[n][1]))
-                    for k, n in names.items() if n in last]
+            bits = ["%s %s" % (k, fmt % last[n][1])
+                    for k, (n, fmt) in names.items() if n in last]
             print("%6.0f с  %s%s" % (L.clock(), "  ".join(bits),
                                      ("  ! " + L.error) if L.error else ""))
             L.error = ""
@@ -237,12 +249,13 @@ def main(argv=None) -> int:
     p.add_argument("--other", required=True)
     p.set_defaults(fn=cmd_diff)
 
-    p = sub.add_parser("udk", help="смесь по УДК: поправки по логу")
+    p = sub.add_parser("udk", help="смесь по УДК или ШДК: поправки по логу")
     common(p)
     p.add_argument("--log", required=True, help="лог ЭБУ (ELM): CSV")
-    p.add_argument("--wb", help="отдельный лог УДК, если он своим файлом")
+    p.add_argument("--wb", help="отдельный лог ШДК, если он есть; без ШДК "
+                                "считается по УДК (родному зонду) и STFT")
     p.add_argument("--offset", default="auto",
-                   help="сдвиг лога УДК, с: время ЭБУ = время УДК + сдвиг; "
+                   help="сдвиг лога ШДК, с: время ЭБУ = время ШДК + сдвиг; "
                         "auto -- подобрать по возвратам топлива")
     p.add_argument("--target", choices=["hfm", "kllamfa"], default="hfm",
                    help="hfm -- тарировка ДМРВ, kllamfa -- лямбда полного газа")
@@ -250,7 +263,9 @@ def main(argv=None) -> int:
                    help="желаемая лямбда на полном газе (для kllamfa); "
                         "без него -- та, что уже в прошивке")
     p.add_argument("--lag", type=float, default=0.3,
-                   help="задержка УДК относительно ЭБУ, с")
+                   help="задержка ШДК относительно ЭБУ, с")
+    p.add_argument("--stft-lim", type=float, default=25.0,
+                   help="предел STFT в блоке, %%: у него -- упор коррекции")
     p.add_argument("--variant", type=int, choices=[0, 1], default=0)
     p.add_argument("--bts", action="store_true",
                    help="считать, что защита компонентов KFLBTS работала")
@@ -260,12 +275,12 @@ def main(argv=None) -> int:
     p.add_argument("--max-lean", type=float, default=10.0)
     p.add_argument("--ect-min", type=float, default=70.0)
     p.add_argument("--role", action="append",
-                   help="задать канал руками: роль=имя (rpm, maf, tps, lam, "
-                        "stft, ltft, ect)")
+                   help="задать канал руками: роль=имя (rpm, maf, tps, "
+                        "stft, ltft, o2v, closed, lam, ect, adc, lcmd)")
     p.add_argument("--out", help="записать исправленную прошивку сюда")
     p.set_defaults(fn=cmd_udk)
 
-    p = sub.add_parser("log", help="снять лог: ELM327 и УДК в один файл")
+    p = sub.add_parser("log", help="снять лог: ELM327 (и ШДК) в один файл")
     p.add_argument("--elm", required=True,
                    help="COM3, /dev/ttyUSB0, wifi[:host:port] или demo")
     p.add_argument("--baud", type=int, default=0,
@@ -274,8 +289,8 @@ def main(argv=None) -> int:
                    help="ATSP: 0 -- искать (по умолчанию), 3 -- ISO 9141 "
                         "(режим 22, АЦП ДМРВ), 5 -- KWP быстрый (чтение "
                         "памяти, если блок даст), 4 -- KWP 5 бод")
-    p.add_argument("--wb", help="порт УДК (COM4) или demo; без него -- "
-                                "только блок")
+    p.add_argument("--wb", help="порт ШДК (COM4) или demo; без него -- "
+                                "только блок, смесь по УДК и коррекциям")
     p.add_argument("--wb-proto", default="isp2",
                    choices=sorted(__import__("wideband").PARSERS))
     p.add_argument("--wb-baud", type=int, default=0)
