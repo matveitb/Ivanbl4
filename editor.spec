@@ -44,6 +44,8 @@ HIDDEN = [
     "mapaccess", "compare", "edits", "saving", "project",
     # окно
     "main_window", "tree", "grid", "plot2d", "plot3d", "palette", "diffview",
+    # смесь по УДК: окно открывается по меню, ядро и модель -- оттуда же
+    "udk_window", "udk", "logio", "udksim",
     # инструменты проекта, которые ядро зовёт по имени
     "fwlib", "bosch_csum", "fwdiff", "torque", "a2l_legacy", "categories",
 ]

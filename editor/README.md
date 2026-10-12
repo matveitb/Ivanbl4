@@ -56,6 +56,7 @@ dist\selftest.exe --selftest firmware\FBH3ID60_stok.bin
 python3 -m editor.cli list --a2l results/FBH3ID60_legacy.a2l --bin firmware/FBH3ID60_stok.bin
 python3 -m editor.cli show --a2l ... --bin ... --map KFZWOP
 python3 -m editor.cli diff --a2l ... --bin сток.bin --other правленая.bin
+python3 -m editor.cli udk --a2l ... --bin ... --log elm.csv [--wb udk.csv] --out новая.bin
 ```
 
 ## Раскладка
@@ -71,6 +72,9 @@ python3 -m editor.cli diff --a2l ... --bin сток.bin --other правлена
 | `core/saving.py` | сохранение с пересчётом сумм, поиск таблицы сумм |
 | `core/compare.py` | сравнение двух прошивок в терминах карт |
 | `core/project.py` | образ, описание, история и группировка в одном месте |
+| `core/logio.py` | чтение логов: Car Scanner, Torque, LogWorks, любой CSV |
+| `core/udk.py` | смесь по УДК: цель по лямбде по коду блока, отбор, поправки |
+| `core/udksim.py` | модель мотора с известной ошибкой ДМРВ — для проверок |
 | `ui/` | окно: дерево, таблица, кривая, поверхность, сравнение, палитра |
 
 Разбор ASAP2 — полноценный, а не регулярка под наш файл: редактор должен
@@ -112,6 +116,8 @@ python3 tests/test_editor_core.py
 python3 tests/test_editor_diff.py
 python3 tests/test_editor_edits.py
 python3 tests/test_editor_ui.py
+python3 tests/test_udk.py
+python3 tests/test_udk_ui.py
 ```
 
 Последний идёт на платформе `offscreen` и без PySide6 не проваливается,
@@ -122,6 +128,6 @@ python3 tests/test_editor_ui.py
 Готово: ядро, дерево с группировкой, таблица с правкой, отмена и повтор,
 сохранение с суммами, файл проекта `*.ktp`, кривая и поверхность,
 сравнение прошивок и в окне, и из командной строки, свои группы мышью,
-недавние файлы.
+недавние файлы, смесь по УДК (docs/40).
 
 Осталось: научить редактор писать A2L, а не только читать.

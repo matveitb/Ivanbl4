@@ -188,6 +188,35 @@ def selftest() -> int:
     check(round(ys[0]) == 440 and round(xs[0]) == 10,
           "оси KFMIOP на месте: обороты с %g, нагрузка с %g" % (ys[0], xs[0]))
 
+    # смесь по УДК: ядро, разбор логов и окно тянутся лениво, по меню.
+    # Прогоняем на модели мотора с известной ошибкой ДМРВ: поправка
+    # обязана её найти и лечь в тарировку.
+    import logio
+    import udk
+    import udksim
+    fm = udk.FuelModel.from_project(p)
+    tr = udksim.run(fm, fm.hfm_raw)
+    ecu = logio.parse_text(udksim.ecu_log_carscanner(tr), "elm.csv")
+    wb = logio.parse_text(udksim.wb_log(tr, offset=5.0), "udk.csv")
+    roles = udk.detect_roles(ecu, wb)
+    st = udk.Settings(target="hfm")
+    off, how = udk.find_offset(ecu, wb, roles, st)
+    check(off is not None and abs(off - 5.0) < 0.3,
+          "УДК: сдвиг логов найден: %s (%s)" % (off, how))
+    st.offset = off or 5.0
+    res = udk.analyze(fm, ecu, wb, roles, st)
+    top = max(n.new for n in res.nodes)
+    check(top > 1.08, "УДК: обеднение на верхах найдено, множитель %.3f"
+          % top)
+    eds = udk.apply(p, res)
+    check(any(e.map_name == "HFM_LIN" for e in eds),
+          "УДК: поправка легла в тарировку ДМРВ")
+    try:
+        import udk_window                                   # noqa: F401
+        check(hasattr(udk_window, "UdkDialog"), "окно «Смесь по УДК» в сборке")
+    except Exception as exc:                                # noqa: BLE001
+        check(False, "окно «Смесь по УДК» не импортируется: %s" % exc)
+
     shutil.rmtree(tmp, ignore_errors=True)
     say("")
     if fails:

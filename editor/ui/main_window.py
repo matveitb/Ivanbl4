@@ -155,11 +155,16 @@ class MainWindow(QtWidgets.QMainWindow):
                                        triggered=self._toggle_plots)
         self.act_quit = QtGui.QAction("Выход", self, shortcut=S.Quit,
                                       triggered=self.close)
+        self.act_udk = QtGui.QAction("Смесь по УДК...", self,
+                                     triggered=self.open_udk)
+        self.act_udk.setToolTip("Поправки топлива по логу езды с УДК")
         # Отмена и повтор гасятся вместе с остальным: пока прошивка не
         # открыта, отменять нечего, и живые кнопки просто врут.
         for a in (self.act_save, self.act_save_as, self.act_bin,
-                  self.act_diff, self.act_undo, self.act_redo):
+                  self.act_diff, self.act_undo, self.act_redo,
+                  self.act_udk):
             a.setEnabled(False)
+        self.udk = None            # окно «Смесь по УДК», создаётся по спросу
 
     def _build_toolbar(self) -> None:
         tb = self.addToolBar("Правка")
@@ -231,6 +236,9 @@ class MainWindow(QtWidgets.QMainWindow):
         m.addAction(self.act_group_auto)
         m.addAction(self.act_group_user)
 
+        m = self.menuBar().addMenu("Инструменты")
+        m.addAction(self.act_udk)
+
     # -- открытие и сохранение -------------------------------------------
 
     def preset_a2l(self, path: str) -> None:
@@ -268,6 +276,8 @@ class MainWindow(QtWidgets.QMainWindow):
             "Образы (*.bin *.ori *.mod);;Все (*)")
         if binp:
             self.project.reload_bin(binp)
+            if self.udk is not None:
+                self.udk.set_project(self.project)
             self.tree.set_project(self.project)
             self.grid.setRowCount(0)
             self.grid.setColumnCount(0)
@@ -368,8 +378,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.tree.set_project(self.project)
         self.diff.set_project(self.project)
         for a in (self.act_save, self.act_save_as, self.act_bin,
-                  self.act_diff):
+                  self.act_diff, self.act_udk):
             a.setEnabled(True)
+        if self.udk is not None:
+            self.udk.set_project(self.project)
         self._update_title()
         t = self.project.csum_table
         self.statusBar().showMessage(
@@ -478,6 +490,36 @@ class MainWindow(QtWidgets.QMainWindow):
         self._update_title()
         self.statusBar().showMessage("%s: %s на %s (%d ячеек)"
                                      % (word, ed.title, ed.map_name, ed.count))
+
+    def open_udk(self) -> None:
+        """
+        Окно «Смесь по УДК». Одно на всё время работы и немодальное:
+        считать по логу и смотреть карту в редакторе хочется одновременно.
+        """
+        if not self.project:
+            return
+        if self.udk is None:
+            from udk_window import UdkDialog
+            self.udk = UdkDialog(self.project, self.settings, self)
+            self.udk.applied.connect(self._after_udk)
+        self.udk.show()
+        self.udk.raise_()
+        self.udk.activateWindow()
+
+    def _after_udk(self, names: list) -> None:
+        """Окно УДК записало правку -- показать её так же, как ручную."""
+        self.tree.mark_changed(self.project.changed_maps())
+        if self.grid.map_name in names:
+            self.grid.refresh()
+            self.curve.refresh()
+            self.surface.refresh()
+        elif names:
+            self.tree.select_map(names[0])
+            self.open_map(names[0])
+        self._update_title()
+        self.statusBar().showMessage(
+            "Смесь по УДК: изменены %s. Сохраните прошивку -- суммы "
+            "пересчитаются" % ", ".join(names))
 
     def focus_search(self) -> None:
         self.tree.search.setFocus()

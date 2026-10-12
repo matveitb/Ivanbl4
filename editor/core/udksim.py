@@ -1,0 +1,200 @@
+#!/usr/bin/env python3
+"""
+Модель мотора с заведомо известной ошибкой ДМРВ -- для проверки udk.py.
+
+Проверять «смесь по УДК» на настоящем логе нечем: правильного ответа к
+нему никто не знает. Поэтому здесь мотор, у которого ответ известен:
+
+* физический ДМРВ даёт напряжение по ИСХОДНОЙ тарировке, но врёт на
+  err(расход) -- например, недодаёт 15 % на больших расходах;
+* блок считает воздух по ТЕКУЩЕЙ тарировке и цель по ТЕКУЩИМ картам --
+  ровно как FuelModel, то есть как блок по коду;
+* на частичных работает узкий зонд: STFT подтягивает смесь к единице,
+  LTFT стоит на своём; на полной нагрузке регулятор выключен;
+* при отпускании газа на оборотах топливо перекрывается, УДК уходит в
+  бедный упор; при рывке газа -- короткое обогащение на ускорение;
+* ELM опрашивает параметры по кругу, около раза в секунду каждый, с
+  квантованием OBD; УДК пишет свой лог 10 раз в секунду, со своим нулём
+  часов и с задержкой датчика.
+
+Тогда проверка честная: udk.py обязан найти заложенную ошибку, а та же
+модель с исправленной прошивкой -- выдать желаемую смесь.
+
+Модуль нужен проверкам и самопроверке сборки, в работе не участвует.
+"""
+
+from __future__ import annotations
+
+import math
+import random
+from dataclasses import dataclass
+
+# (длительность с, обороты в начале, в конце, дроссель %)
+DRIVE = [
+    (30, 850, 850, 2.0),             # прогрев на ХХ
+    (12, 2000, 2000, 14), (12, 2500, 2500, 18), (12, 3000, 3000, 22),
+    (10, 3500, 3500, 26), (10, 4000, 4000, 30), (8, 4500, 4500, 34),
+    (6, 1500, 6500, 100), (4, 6500, 2000, 0),      # полный газ и накат
+    (10, 2200, 2200, 16),
+    (7, 1600, 6500, 100), (4, 6500, 2200, 0),
+    (10, 2800, 2800, 22),
+    (7, 1500, 6600, 100), (4, 6600, 2000, 0),
+    (8, 3200, 3200, 45), (8, 2400, 2400, 60),
+    (6, 2000, 6200, 100), (5, 6200, 1800, 0),
+    (15, 2600, 2600, 20),
+]
+
+PIDS = [("Engine RPM", "rpm"), ("Mass air flow rate", "g/s"),
+        ("Throttle position", "%"), ("Short term fuel % trim - Bank 1", "%"),
+        ("Long term fuel % trim - Bank 1", "%"),
+        ("Engine coolant temperature", "°C")]
+
+
+def err_lean_top(q: float) -> float:
+    """По умолчанию: ДМРВ недодаёт до 18 % выше 120 кг/ч."""
+    return 1.0 + 0.18 * min(1.0, max(0.0, (q - 120.0) / 230.0))
+
+
+@dataclass
+class Truth:
+    t: float
+    rpm: float
+    tps: float
+    ml: float        # кг/ч, что насчитал блок
+    lam: float       # что в цилиндре
+    stft: float
+    ltft: float
+    ect: float
+    enrich: bool = False     # обогащение на ускорение
+
+
+def _rl_true(rpm: float, tps: float) -> float:
+    rlmax = 82 + 8 * math.sin(min(rpm, 6500) / 6500 * math.pi)
+    return rlmax * (1 - math.exp(-tps / 12.0)) + 1.5
+
+
+def run(fm_ecu, sensor_raw, err=err_lean_top, drive=DRIVE, seed=1,
+        ltft=3.0, step=0.02, pk=None) -> list[Truth]:
+    """
+    Прогнать поездку. fm_ecu -- прошивка блока (FuelModel), sensor_raw --
+    тарировка, которой на самом деле соответствует датчик (исходная).
+    pk(обороты, дроссель) -- поправка пульсаций, на которую блок множит
+    расход до того, как отдать его в OBD.
+    """
+    rnd = random.Random(seed)
+    fac, ofs = fm_ecu.hfm_factor, fm_ecu.hfm_ofs
+    sens = [r * fac - ofs for r in sensor_raw]
+    ecu = [r * fac - ofs for r in fm_ecu.hfm_raw]
+    n = len(sens)
+
+    def volt_index(q_tab):
+        lo, hi = 0, n - 1
+        if q_tab <= sens[0]:
+            return 0.0
+        if q_tab >= sens[-1]:
+            return float(n - 1)
+        while hi - lo > 1:
+            mid = (lo + hi) // 2
+            if sens[mid] < q_tab:
+                lo = mid
+            else:
+                hi = mid
+        a, b = sens[lo], sens[hi]
+        return lo + ((q_tab - a) / (b - a) if b > a else 0.0)
+
+    def ecu_flow(fi):
+        # блок между точками не интерполирует (docs/36), но отсчёты
+        # усредняются -- в среднем выходит линейно
+        i = int(fi)
+        if i >= n - 1:
+            return ecu[-1]
+        return ecu[i] + (ecu[i + 1] - ecu[i]) * (fi - i)
+
+    out = []
+    t, stft, ect = 0.0, 0.0, 60.0
+    last_tps, enrich_until = 0.0, -1.0
+    for dur, r0, r1, tps in drive:
+        steps = int(dur / step)
+        for k in range(steps):
+            rpm = r0 + (r1 - r0) * k / max(1, steps - 1)
+            rpm += rnd.gauss(0, 6)
+            ect = min(90.0, ect + step * 0.6)
+            if tps - last_tps > 20:
+                enrich_until = t + 0.6
+            last_tps = tps
+            p = pk(rpm, tps) if pk else 1.0
+            q_true = _rl_true(rpm, tps) * rpm * fm_ecu.kumsrl
+            q_tab = q_true / err(q_true)            # датчик врёт
+            ml = ecu_flow(volt_index(q_tab)) * p    # что насчитал блок
+            real = q_true * p
+            rl = fm_ecu.rl(rpm, ml)
+            lcmd, fl = fm_ecu.lam_cmd(rpm, tps, rl)
+            cut = tps < 1.0 and rpm > 1400
+            if fl or cut or ect < 70:
+                stft = 0.0
+                closed = False
+            else:
+                closed = True
+            fuel = ml / lcmd * (1 + stft / 100) * (1 + ltft / 100)
+            if t < enrich_until:
+                fuel *= 1.12
+            lam = 3.0 if cut else real / fuel
+            if closed:
+                # интегратор узкого зонда: тянет к единице за ~0.4 с
+                stft += (lam - 1.0) * 100 * step / 0.4
+                stft = max(-25.0, min(25.0, stft))
+            out.append(Truth(t, rpm, tps, ml, lam, stft, ltft, ect,
+                             t < enrich_until))
+            t += step
+    return out
+
+
+def _q(x, s):
+    return round(x / s) * s
+
+
+def ecu_log_carscanner(truth: list[Truth], rate=8.0, seed=2) -> str:
+    """Лог ELM как у Car Scanner: длинный, по одному параметру на строку."""
+    rnd = random.Random(seed)
+    lines = ['"SECONDS";"PID";"VALUE";"UNITS"']
+    i = 0
+    period = 1.0 / rate
+    t = 0.0
+    T = truth[-1].t
+    dt = truth[1].t - truth[0].t
+    while t < T:
+        k = min(int(t / dt), len(truth) - 1)
+        s = truth[k]
+        name, unit = PIDS[i % len(PIDS)]
+        v = {"Engine RPM": _q(s.rpm, 0.25),
+             "Mass air flow rate": _q(s.ml / 3.6, 0.01),
+             "Throttle position": _q(s.tps, 100 / 255),
+             "Short term fuel % trim - Bank 1": _q(s.stft, 100 / 128),
+             "Long term fuel % trim - Bank 1": _q(s.ltft, 100 / 128),
+             "Engine coolant temperature": round(s.ect)}[name]
+        lines.append('"%.3f";"%s";"%s";"%s"' % (t, name, ("%.2f" % v), unit))
+        i += 1
+        t += period * (0.8 + 0.4 * rnd.random())
+    return "\n".join(lines) + "\n"
+
+
+def wb_log(truth: list[Truth], offset=12.3, lag=0.3, rate=10.0,
+           seed=3) -> str:
+    """
+    Лог УДК своим логгером: десять раз в секунду, свой ноль часов.
+
+    offset -- на сколько часы ЭБУ впереди: время ЭБУ = время УДК + offset.
+    Десятичная запятая и табуляция -- как у русской локали.
+    """
+    rnd = random.Random(seed)
+    dt = truth[1].t - truth[0].t
+    lines = ["Логгер УДК, экспорт", "", "Время, с\tЛямбда\tAFR"]
+    t_ecu = offset           # лог УДК начат на offset секунд позже
+    while t_ecu < truth[-1].t:
+        k = int((t_ecu - lag) / dt)
+        if k >= 0:
+            lam = min(truth[k].lam, 1.9) + rnd.gauss(0, 0.004)
+            lines.append(("%.2f\t%.3f\t%.2f" % (t_ecu - offset, lam,
+                                                lam * 14.7)).replace(".", ","))
+        t_ecu += 1.0 / rate
+    return "\n".join(lines) + "\n"

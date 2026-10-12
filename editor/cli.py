@@ -9,6 +9,8 @@
     python3 -m editor.cli list --a2l F.a2l --bin FW.bin
     python3 -m editor.cli show --a2l F.a2l --bin FW.bin --map KFZWOP
     python3 -m editor.cli diff --a2l F.a2l --bin A.bin --other B.bin
+    python3 -m editor.cli udk  --a2l F.a2l --bin FW.bin --log elm.csv \
+        [--wb udk.csv] [--target hfm|kllamfa] [--out новая.bin]
 """
 
 from __future__ import annotations
@@ -79,6 +81,56 @@ def cmd_diff(a) -> int:
     return 0
 
 
+def cmd_udk(a) -> int:
+    """Смесь по УДК: отчёт и, если задан --out, исправленная прошивка."""
+    import logio
+    import project as proj
+    import udk
+
+    p = proj.Project.open(a.a2l, a.bin)
+    st = udk.Settings(target=a.target, lam_want=a.want, lag=a.lag,
+                      variant=a.variant, bts=a.bts, lam_kind=a.lam,
+                      maf_unit=a.maf, max_rich=a.max_rich,
+                      max_lean=a.max_lean, ect_min=a.ect_min)
+    fm = udk.FuelModel.from_project(p, a.variant)
+    ecu = logio.read_log(a.log)
+    wb = logio.read_log(a.wb) if a.wb else None
+    roles = udk.detect_roles(ecu, wb)
+    for spec in a.role or []:
+        role, _, name = spec.partition("=")
+        src = "wb" if wb is not None and name in wb.channels else "ecu"
+        roles[role] = (src, name) if name else None
+    print("Каналы:")
+    for role, title, _ in udk.ROLES:
+        r = roles.get(role)
+        print("  %-26s %s" % (title, ("%s: %s" % r) if r else "--"))
+    if wb is not None:
+        if a.offset == "auto":
+            off, how = udk.find_offset(ecu, wb, roles, st)
+            if off is None:
+                print("Сдвиг логов не найден: " + how, file=sys.stderr)
+                return 2
+            print("Сдвиг лога УДК: %+.2f с (%s)" % (off, how))
+            st.offset = off
+        else:
+            st.offset = float(a.offset)
+    print()
+    res = udk.analyze(fm, ecu, wb, roles, st)
+    print(udk.report(res))
+    if a.out:
+        eds = udk.apply(p, res)
+        if not eds:
+            print("\nПрошивка не изменилась -- записывать нечего")
+            return 0
+        r = p.save(a.out)
+        print("\nЗаписано %s: %s; сумм исправлено %d из %d%s" % (
+            a.out, ", ".join("%s %d яч." % (e.map_name, e.count) for e in eds),
+            r.fixed, r.records, ("; " + r.note) if r.note else ""))
+        print("После прошивки сбросьте адаптацию (снять клемму) и снимите "
+              "новый лог: поправка считается за несколько проходов.")
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Редактор калибровок без окна")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -104,6 +156,33 @@ def main(argv=None) -> int:
     common(p)
     p.add_argument("--other", required=True)
     p.set_defaults(fn=cmd_diff)
+
+    p = sub.add_parser("udk", help="смесь по УДК: поправки по логу")
+    common(p)
+    p.add_argument("--log", required=True, help="лог ЭБУ (ELM): CSV")
+    p.add_argument("--wb", help="отдельный лог УДК, если он своим файлом")
+    p.add_argument("--offset", default="auto",
+                   help="сдвиг лога УДК, с: время ЭБУ = время УДК + сдвиг; "
+                        "auto -- подобрать по возвратам топлива")
+    p.add_argument("--target", choices=["hfm", "kllamfa"], default="kllamfa",
+                   help="hfm -- тарировка ДМРВ, kllamfa -- лямбда полного газа")
+    p.add_argument("--want", type=float, default=0.88,
+                   help="желаемая лямбда на полном газе (для kllamfa)")
+    p.add_argument("--lag", type=float, default=0.3,
+                   help="задержка УДК относительно ЭБУ, с")
+    p.add_argument("--variant", type=int, choices=[0, 1], default=0)
+    p.add_argument("--bts", action="store_true",
+                   help="считать, что защита компонентов KFLBTS работала")
+    p.add_argument("--lam", choices=["auto", "lambda", "afr"], default="auto")
+    p.add_argument("--maf", choices=["auto", "g/s", "kg/h"], default="auto")
+    p.add_argument("--max-rich", type=float, default=25.0)
+    p.add_argument("--max-lean", type=float, default=10.0)
+    p.add_argument("--ect-min", type=float, default=70.0)
+    p.add_argument("--role", action="append",
+                   help="задать канал руками: роль=имя (rpm, maf, tps, lam, "
+                        "stft, ltft, ect)")
+    p.add_argument("--out", help="записать исправленную прошивку сюда")
+    p.set_defaults(fn=cmd_udk)
 
     a = ap.parse_args(argv)
     return a.fn(a)
