@@ -81,6 +81,11 @@ def main():
               "сдвиг подобран сам при открытии лога УДК: %.2f"
               % d.sp_offset.value())
 
+        check(d.rb_hfm.isChecked() and d.chk_keep.isChecked(),
+              "по умолчанию: править ДМРВ, цель -- как в прошивке")
+        d.rb_kl.setChecked(True)
+        d.chk_keep.setChecked(False)
+        check(d.sp_want.isEnabled(), "сняли галку -- можно задать свою цель")
         d.sp_want.setValue(0.88)
         d.compute()
         check(d.result is not None and d.tbl_nodes.rowCount() == 6,

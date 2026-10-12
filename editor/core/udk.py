@@ -303,8 +303,10 @@ class FuelModel:
 
 @dataclass
 class Settings:
-    target: str = "kllamfa"     # "kllamfa" | "hfm"
-    lam_want: float = 0.88      # желаемая лямбда на полном газе
+    target: str = "hfm"         # "hfm" | "kllamfa"
+    # желаемая лямбда на полном газе; None -- та, что уже задана прошивкой
+    # (у v2M и MPower это 1.000): смесь доводится до цели, цель не меняется
+    lam_want: float | None = None
     lag: float = 0.3            # задержка УДК относительно ЭБУ, с
     offset: float = 0.0         # время ЭБУ = время УДК + offset (отдельный лог)
     dt: float = 0.1             # шаг общей шкалы времени, с
@@ -317,7 +319,7 @@ class Settings:
     lam_hi: float = 1.60
     tps_rate: float = 40.0      # %/с: быстрее -- рывок дросселя
     settle: float = 1.0         # с после рывка не верим
-    min_time: float = 0.5       # с данных на узел
+    min_time: float = 1.0       # с данных на узел
     max_rich: float = 25.0      # % обогащения за один проход
     max_lean: float = 10.0      # % обеднения за один проход
     fill_empty: bool = True     # продлить на узлы без данных
@@ -408,8 +410,19 @@ def _channel(ecu, wb, ref):
     return log.channels.get(name) if log is not None else None
 
 
-def _transients(tps: logio.Channel, st: Settings) -> list[tuple[float, float]]:
-    """Отрезки времени, когда дроссель дёргали: туда не смотрим."""
+def _transients(tps: logio.Channel, st: Settings,
+                rpm: logio.Channel | None = None) -> list[tuple[float, float]]:
+    """
+    Отрезки времени, когда дроссель дёргали: туда не смотрим.
+
+    Два случая. Рывок -- дроссель меняется быстрее tps_rate. И выход из
+    наката -- дроссель открыли после закрытого на оборотах, с какой угодно
+    скоростью: топливо возвращается после сброса, плёнка на стенках
+    впуска пустая, и первые мгновения смесь бедная не из-за ДМРВ. ELM
+    опрашивает дроссель пару раз в секунду, и плавное на вид открытие с
+    нуля до 16 % за полсекунды по скорости рывком не считается -- поэтому
+    отдельное правило.
+    """
     out = []
     t, v = tps.t, tps.v
     for i in range(1, len(t)):
@@ -418,6 +431,13 @@ def _transients(tps: logio.Channel, st: Settings) -> list[tuple[float, float]]:
             continue
         if abs(v[i] - v[i - 1]) / span > st.tps_rate:
             out.append((t[i - 1], t[i] + st.settle))
+            continue
+        closed_a, closed_b = v[i - 1] < st.tps_min, v[i] < st.tps_min
+        if closed_a != closed_b:
+            r = (logio.sample(rpm, t[i - 1], st.max_gap)
+                 if rpm is not None else None)
+            if r is None or r > st.cut_rpm:
+                out.append((t[i - 1], t[i] + st.settle))
     out.sort()
     merged = []
     for a, b in out:
@@ -468,7 +488,7 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
         if ch[r] is None:
             res.warnings.append("%s в логе нет" % ROLE_TITLES[r])
 
-    spans = _transients(ch["tps"], st)
+    spans = _transients(ch["tps"], st, ch["rpm"])
     starts = [a for a, _ in spans]
 
     t0 = max(ch["rpm"].t[0], ch["maf"].t[0], ch["tps"].t[0], lam_ch.t[0])
@@ -717,7 +737,8 @@ def correct_kllamfa(fm: FuelModel, samples: list[Sample], st: Settings,
     def required(s: Sample) -> float:
         # цель, при которой УДК покажет желаемое; STFT на полном газе
         # выключается вместе с переходом на богатую цель, его вклад убираем
-        return st.lam_want * s.lcmd / (s.lam * (1 + (s.stft or 0.0) / 100))
+        want = s.lcmd if st.lam_want is None else st.lam_want
+        return want * s.lcmd / (s.lam * (1 + (s.stft or 0.0) / 100))
 
     acc = _accumulate(xs, used, lambda s: s.rpm, required)
     cur = fm.kllamfa[fm.variant]
@@ -957,7 +978,8 @@ def report(res: Result) -> str:
                 "%+.1f%%" % ((n.err - 1) * 100) if n.time else "-",
                 n.new, n.status))
     else:
-        L.append("KLLAMFA, желаемая λ на полном газе %.3f:" % st.lam_want)
+        L.append("KLLAMFA, желаемая λ на полном газе %s:" % (
+            "как в прошивке" if st.lam_want is None else "%.3f" % st.lam_want))
         L.append("%-7s %6s %7s %7s %8s %7s %7s %8s  %s" % (
             "об/мин", "с", "λ УДК", "цель", "ошибка", "было", "стало",
             "изм.", "откуда"))

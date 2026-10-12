@@ -223,15 +223,22 @@ class UdkDialog(QtWidgets.QDialog):
             "Расход по напряжению ДМРВ. Убирает ошибку измерения воздуха "
             "во всех режимах, нагрузка для УОЗ становится честной. На "
             "частичных нужна коррекция STFT в логе.")
-        self.rb_kl.setChecked(True)
+        self.rb_hfm.setChecked(True)
         self.rb_kl.toggled.connect(self._target_changed)
         h = QtWidgets.QHBoxLayout()
-        h.addWidget(QtWidgets.QLabel("Желаемая λ на полном газе"))
+        self.chk_keep = QtWidgets.QCheckBox("цель как в прошивке")
+        self.chk_keep.setChecked(True)
+        self.chk_keep.setToolTip(
+            "Довести смесь до той лямбды, что уже задана (у v2M -- 1.000), "
+            "не меняя саму цель. Снять галку -- задать свою.")
+        self.chk_keep.toggled.connect(self._target_changed)
+        h.addWidget(self.chk_keep)
         self.sp_want = QtWidgets.QDoubleSpinBox()
         self.sp_want.setRange(0.70, 1.05)
         self.sp_want.setDecimals(3)
         self.sp_want.setSingleStep(0.01)
-        self.sp_want.setValue(0.88)
+        self.sp_want.setValue(1.0)
+        self.sp_want.setToolTip("желаемая лямбда на полном газе")
         h.addWidget(self.sp_want)
         h.addStretch(1)
         self.cb_var = QtWidgets.QComboBox()
@@ -240,9 +247,9 @@ class UdkDialog(QtWidgets.QDialog):
         self.cb_var.setToolTip(
             "У KLLAMFA и WDKVLN по два варианта, какой работает -- решает "
             "блок. Считаем по выбранному, пишем в оба.")
+        v.addWidget(self.rb_hfm)
         v.addWidget(self.rb_kl)
         v.addLayout(h)
-        v.addWidget(self.rb_hfm)
         h2 = QtWidgets.QHBoxLayout()
         h2.addWidget(QtWidgets.QLabel("Цель и порог полного газа:"))
         h2.addWidget(self.cb_var)
@@ -399,7 +406,8 @@ class UdkDialog(QtWidgets.QDialog):
     def settings(self) -> udk.Settings:
         return udk.Settings(
             target="kllamfa" if self.rb_kl.isChecked() else "hfm",
-            lam_want=self.sp_want.value(), lag=self.sp_lag.value(),
+            lam_want=(None if self.chk_keep.isChecked()
+                      else self.sp_want.value()), lag=self.sp_lag.value(),
             offset=self.sp_offset.value(), ect_min=self.sp_ect.value(),
             tps_rate=self.sp_rate.value(), settle=self.sp_settle.value(),
             min_time=self.sp_min.value(), max_rich=self.sp_rich.value(),
@@ -549,7 +557,9 @@ class UdkDialog(QtWidgets.QDialog):
         self.btn_apply.setEnabled(False)
 
     def _target_changed(self) -> None:
-        self.sp_want.setEnabled(self.rb_kl.isChecked())
+        kl = self.rb_kl.isChecked()
+        self.chk_keep.setEnabled(kl)
+        self.sp_want.setEnabled(kl and not self.chk_keep.isChecked())
         self.result = None
         self.btn_apply.setEnabled(False)
 

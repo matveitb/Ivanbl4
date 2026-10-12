@@ -66,6 +66,8 @@ class Truth:
     ltft: float
     ect: float
     enrich: bool = False     # обогащение на ускорение
+    closed: bool = False     # регулятор по узкому зонду работает
+    cut: bool = False        # топливо перекрыто
 
 
 def _rl_true(rpm: float, tps: float) -> float:
@@ -144,7 +146,7 @@ def run(fm_ecu, sensor_raw, err=err_lean_top, drive=DRIVE, seed=1,
                 stft += (lam - 1.0) * 100 * step / 0.4
                 stft = max(-25.0, min(25.0, stft))
             out.append(Truth(t, rpm, tps, ml, lam, stft, ltft, ect,
-                             t < enrich_until))
+                             t < enrich_until, closed, cut))
             t += step
     return out
 

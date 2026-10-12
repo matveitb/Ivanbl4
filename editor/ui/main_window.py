@@ -158,6 +158,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.act_udk = QtGui.QAction("Смесь по УДК...", self,
                                      triggered=self.open_udk)
         self.act_udk.setToolTip("Поправки топлива по логу езды с УДК")
+        self.act_log = QtGui.QAction("Снять лог: ELM + УДК...", self,
+                                     triggered=self.open_logger)
+        self.act_log.setToolTip("Логгер: блок через ELM327 и УДК через свой "
+                                "порт в один файл")
         # Отмена и повтор гасятся вместе с остальным: пока прошивка не
         # открыта, отменять нечего, и живые кнопки просто врут.
         for a in (self.act_save, self.act_save_as, self.act_bin,
@@ -165,6 +169,7 @@ class MainWindow(QtWidgets.QMainWindow):
                   self.act_udk):
             a.setEnabled(False)
         self.udk = None            # окно «Смесь по УДК», создаётся по спросу
+        self.logger = None         # окно «Снять лог», так же
 
     def _build_toolbar(self) -> None:
         tb = self.addToolBar("Правка")
@@ -237,6 +242,7 @@ class MainWindow(QtWidgets.QMainWindow):
         m.addAction(self.act_group_user)
 
         m = self.menuBar().addMenu("Инструменты")
+        m.addAction(self.act_log)
         m.addAction(self.act_udk)
 
     # -- открытие и сохранение -------------------------------------------
@@ -382,6 +388,8 @@ class MainWindow(QtWidgets.QMainWindow):
             a.setEnabled(True)
         if self.udk is not None:
             self.udk.set_project(self.project)
+        if self.logger is not None:
+            self.logger.set_project(self.project)
         self._update_title()
         t = self.project.csum_table
         self.statusBar().showMessage(
@@ -506,6 +514,31 @@ class MainWindow(QtWidgets.QMainWindow):
         self.udk.raise_()
         self.udk.activateWindow()
 
+    def open_logger(self) -> None:
+        """
+        Окно «Снять лог». Работает и без открытой прошивки -- писать лог
+        можно всегда; прошивка нужна, чтобы прямо в езде видеть цель и
+        ошибку, и для имитатора.
+        """
+        if self.logger is None:
+            from logger_window import LoggerDialog
+            self.logger = LoggerDialog(self.project, self.settings, self)
+            self.logger.open_in_calc.connect(self._log_to_calc)
+        self.logger.show()
+        self.logger.raise_()
+        self.logger.activateWindow()
+
+    def _log_to_calc(self, path: str) -> None:
+        """Снятый лог -- сразу в окно расчёта."""
+        if not self.project:
+            self.statusBar().showMessage(
+                "Лог записан: %s. Откройте прошивку, чтобы считать поправку"
+                % path)
+            return
+        self.open_udk()
+        self.udk.drop_wb()
+        self.udk.load_ecu(path)
+
     def _after_udk(self, names: list) -> None:
         """Окно УДК записало правку -- показать её так же, как ручную."""
         self.tree.mark_changed(self.project.changed_maps())
@@ -560,6 +593,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.vsplit.restoreState(v)
 
     def closeEvent(self, ev) -> None:
+        # логгер пишет в своих потоках -- остановить и дописать файл
+        if self.logger is not None:
+            self.logger.close()
         self.settings.setValue("geometry", self.saveGeometry())
         self.settings.setValue("vsplit", self.vsplit.saveState())
         if self.project and self.project.dirty:

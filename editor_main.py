@@ -217,6 +217,38 @@ def selftest() -> int:
     except Exception as exc:                                # noqa: BLE001
         check(False, "окно «Смесь по УДК» не импортируется: %s" % exc)
 
+    # логгер: ELM327 и УДК против имитатора, по виртуальным часам
+    import elm as E
+    import fakecar
+    import livelog
+    import wideband
+    car = fakecar.FakeCar(fm)
+    clk = fakecar.VirtualClock(0.0)
+    e = E.Elm327(fakecar.FakeElm(car, clk), clock=clk)
+    e.init("0")
+    sup = e.supported_pids()
+    lp = os.path.join(tmp, "live.csv")
+    L = livelog.LiveLogger(e, fakecar.FakeWideband(car, clk),
+                           wideband.Isp2Parser(), path=lp, clock=clk,
+                           supported=sup)
+    L.run_for(60.0)
+    L.rec.close()
+    log2 = logio.read_log(lp)
+    check(len(log2.channels) >= 7,
+          "логгер: записал и прочёл свой лог, каналов %d" % len(log2.channels))
+    try:
+        import serial                                       # noqa: F401
+        from serial.tools import list_ports                 # noqa: F401
+        ports = E.list_serial_ports()
+        check(True, "pyserial в сборке, портов видно: %d" % len(ports))
+    except Exception as exc:                                # noqa: BLE001
+        check(False, "pyserial не импортируется: %s" % exc)
+    try:
+        import logger_window                                # noqa: F401
+        check(hasattr(logger_window, "LoggerDialog"), "окно логгера в сборке")
+    except Exception as exc:                                # noqa: BLE001
+        check(False, "окно логгера не импортируется: %s" % exc)
+
     shutil.rmtree(tmp, ignore_errors=True)
     say("")
     if fails:

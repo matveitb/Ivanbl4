@@ -274,6 +274,26 @@ def test_kllamfa():
           "хотели 0.880" % (after, lo2, hi2))
 
 
+def test_keep_target():
+    print("-- KLLAMFA: цель как в прошивке")
+    p = P.Project.open(A2L, V2M)
+    fm = udk.FuelModel.from_project(p)
+    sensor = list(fm.hfm_raw)
+    tr, ecu, wb = drive(fm, sensor, seed=21)
+    roles = udk.detect_roles(ecu, wb)
+    st = udk.Settings(target="kllamfa")
+    check(st.lam_want is None, "по умолчанию цель не задаётся, берётся из прошивки")
+    st.offset, _ = udk.find_offset(ecu, wb, roles, st)
+    res = udk.analyze(fm, ecu, wb, roles, st)
+    check("как в прошивке" in udk.report(res), "в отчёте сказано, откуда цель")
+    udk.apply(p, res)
+    fm2 = udk.FuelModel.from_project(p)
+    after, lo2, hi2 = fl_lambda(fm2, udksim.run(fm2, sensor, ltft=0.0))
+    check(abs(after - 1.0) < 0.015 and hi2 < 1.03,
+          "v2M: цель 1.000 осталась, ошибку ДМРВ на полном газе закрыла "
+          "KLLAMFA -- λ %.3f (%.3f…%.3f)" % (after, lo2, hi2))
+
+
 def test_guards():
     print("-- пределы и неполные логи")
     p = P.Project.open(A2L, V2M)
@@ -339,6 +359,7 @@ def main():
     test_model()
     test_offset_and_hfm()
     test_kllamfa()
+    test_keep_target()
     test_guards()
     print()
     if fails:

@@ -11,6 +11,8 @@
     python3 -m editor.cli diff --a2l F.a2l --bin A.bin --other B.bin
     python3 -m editor.cli udk  --a2l F.a2l --bin FW.bin --log elm.csv \
         [--wb udk.csv] [--target hfm|kllamfa] [--out новая.bin]
+    python3 -m editor.cli log  --elm COM3 [--wb COM4 --wb-proto isp2] \
+        [--out лог.csv] [--seconds 600]
 """
 
 from __future__ import annotations
@@ -131,6 +133,76 @@ def cmd_udk(a) -> int:
     return 0
 
 
+def cmd_log(a) -> int:
+    """Снять лог: ELM и УДК в один файл. Ctrl+C -- стоп."""
+    import time
+    import elm as E
+    import livelog
+    import obd
+    import wideband
+
+    fm = None
+    if a.a2l and a.bin:
+        import project as proj
+        import udk
+        fm = udk.FuelModel.from_project(proj.Project.open(a.a2l, a.bin))
+    car = None
+    if a.elm == "demo" or a.wb == "demo":
+        import fakecar
+        if fm is None:
+            print("для имитатора нужны --a2l и --bin", file=sys.stderr)
+            return 2
+        car = fakecar.FakeCar(fm)
+
+    if a.elm == "demo":
+        t = fakecar.FakeElm(car, time.monotonic, realtime=True)
+    elif a.elm.startswith("wifi"):
+        _, _, addr = a.elm.partition(":")
+        host, _, port = (addr or "192.168.0.10:35000").partition(":")
+        t = E.TcpTransport(host, int(port or 35000))
+    else:
+        t = E.connect_serial(a.elm, a.baud, print)
+    e = E.Elm327(t)
+    e.init(a.proto, print)
+    sup = e.supported_pids()
+    print("блок отдаёт PID: " + " ".join("%02X" % p for p in sorted(sup)))
+
+    wt = parser = None
+    if a.wb:
+        kw = {"kind": a.wb_kind} if a.wb_proto == "ascii" else {}
+        parser = wideband.make(a.wb_proto, **kw)
+        if a.wb == "demo":
+            wt = fakecar.FakeWideband(car, time.monotonic, proto=a.wb_proto,
+                                      realtime=True)
+        else:
+            wt = E.SerialTransport(a.wb, a.wb_baud or parser.baud)
+    out = a.out or time.strftime("лог_%Y-%m-%d_%H-%M-%S.csv")
+    L = livelog.LiveLogger(e, wt, parser, path=out, supported=sup)
+    L.start()
+    print("пишу в %s, Ctrl+C -- стоп" % out)
+    names = {"об/мин": obd.PIDS[0x0C].name, "г/с": obd.PIDS[0x10].name,
+             "дроссель": obd.PIDS[0x11].name, "λ": livelog.LAMBDA_NAME}
+    try:
+        end = time.monotonic() + a.seconds if a.seconds else None
+        while end is None or time.monotonic() < end:
+            time.sleep(1.0)
+            last = L.latest()
+            bits = ["%s %s" % (k, ("%.3f" % last[n][1]) if k == "λ"
+                               else ("%.0f" % last[n][1]))
+                    for k, n in names.items() if n in last]
+            print("%6.0f с  %s%s" % (L.clock(), "  ".join(bits),
+                                     ("  ! " + L.error) if L.error else ""))
+            L.error = ""
+    except KeyboardInterrupt:
+        pass
+    L.stop()
+    e.close()
+    if wt is not None:
+        wt.close()
+    print("записано: %s" % out)
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Редактор калибровок без окна")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -164,10 +236,11 @@ def main(argv=None) -> int:
     p.add_argument("--offset", default="auto",
                    help="сдвиг лога УДК, с: время ЭБУ = время УДК + сдвиг; "
                         "auto -- подобрать по возвратам топлива")
-    p.add_argument("--target", choices=["hfm", "kllamfa"], default="kllamfa",
+    p.add_argument("--target", choices=["hfm", "kllamfa"], default="hfm",
                    help="hfm -- тарировка ДМРВ, kllamfa -- лямбда полного газа")
-    p.add_argument("--want", type=float, default=0.88,
-                   help="желаемая лямбда на полном газе (для kllamfa)")
+    p.add_argument("--want", type=float, default=None,
+                   help="желаемая лямбда на полном газе (для kllamfa); "
+                        "без него -- та, что уже в прошивке")
     p.add_argument("--lag", type=float, default=0.3,
                    help="задержка УДК относительно ЭБУ, с")
     p.add_argument("--variant", type=int, choices=[0, 1], default=0)
@@ -183,6 +256,28 @@ def main(argv=None) -> int:
                         "stft, ltft, ect)")
     p.add_argument("--out", help="записать исправленную прошивку сюда")
     p.set_defaults(fn=cmd_udk)
+
+    p = sub.add_parser("log", help="снять лог: ELM327 и УДК в один файл")
+    p.add_argument("--elm", required=True,
+                   help="COM3, /dev/ttyUSB0, wifi[:host:port] или demo")
+    p.add_argument("--baud", type=int, default=0,
+                   help="скорость COM-порта ELM; 0 -- подобрать")
+    p.add_argument("--proto", default="0", choices=["0", "3", "4", "5"],
+                   help="ATSP: 0 -- искать, 5 -- KWP быстрый, 4 -- KWP 5 бод, "
+                        "3 -- ISO 9141")
+    p.add_argument("--wb", help="порт УДК (COM4) или demo; без него -- "
+                                "только блок")
+    p.add_argument("--wb-proto", default="isp2",
+                   choices=sorted(__import__("wideband").PARSERS))
+    p.add_argument("--wb-baud", type=int, default=0)
+    p.add_argument("--wb-kind", default="auto",
+                   choices=["auto", "lambda", "afr"])
+    p.add_argument("--out", help="файл лога")
+    p.add_argument("--seconds", type=float, default=0,
+                   help="остановиться через столько секунд")
+    p.add_argument("--a2l", help="для имитатора: описание")
+    p.add_argument("--bin", help="для имитатора: прошивка")
+    p.set_defaults(fn=cmd_log)
 
     a = ap.parse_args(argv)
     return a.fn(a)
