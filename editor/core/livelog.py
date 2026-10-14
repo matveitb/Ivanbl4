@@ -374,10 +374,16 @@ class LiveLogger:
         before = self.elm.stats.answered
         self.ecu.step()
         self._fails = 0 if self.elm.stats.answered > before else self._fails + 1
-        if self.elm.stats.fatal or self._fails >= 30:
-            self.error = ("связь с блоком потеряна (%s), переподключаюсь"
-                          % (self.elm.stats.fatal or self.elm.stats.last_error))
+        # Блок молчит (NO DATA) -- адаптер на месте, ждём: зажигание могли
+        # выключить на минуту. Молчит сам адаптер, без «>» -- пропал
+        # Bluetooth или Wi-Fi, и ждать нечего: порт открывается заново.
+        silent = self.elm.stats.silent >= 3
+        if self.elm.stats.fatal or self._fails >= 30 or silent:
+            self.error = ("связь с %s потеряна (%s), переподключаюсь" % (
+                "адаптером" if silent else "блоком",
+                self.elm.stats.fatal or self.elm.stats.last_error))
             self._fails = 0
+            self.elm.stats.silent = 0
             try:
                 self.elm.reinit()
                 self.reconnects += 1

@@ -62,6 +62,89 @@ GAUGES = [
 GAUGE_COLS = 6
 
 
+# Шаги -- словами Windows, как они написаны на экране (русская Windows 10
+# и 11; 11 до 24H2 и после различается одной строкой, обе даны).
+HELP_BT = """
+<h3>1. Спарить адаптер с ноутбуком — один раз</h3>
+<ol>
+<li>Адаптер — в разъём OBD, зажигание включить: адаптер питается от
+разъёма.</li>
+<li>Если адаптер подключён к телефону (Car Scanner) — отключите его там или
+выключите на телефоне Bluetooth: адаптер держит только одно подключение.</li>
+<li><b>Windows 11:</b> «Параметры» → «Bluetooth и устройства» → «Добавить
+устройство» → «Bluetooth».<br>
+Если адаптера нет в списке — нажмите внизу «Показать все устройства». На
+Windows 11 постарше этой строки нет: тогда «Bluetooth и устройства» →
+«Устройства» → «Обнаружение устройств Bluetooth» → «Дополнительно», и
+заново «Добавить устройство».</li>
+<li><b>Windows 10:</b> «Параметры» → «Устройства» → «Bluetooth и другие
+устройства» → «Добавление Bluetooth или другого устройства» →
+«Bluetooth».</li>
+<li>Выберите адаптер — обычно он называется <b>OBDII</b>, OBD2, OBD-II,
+V-LINK или CHX. PIN-код: <b>1234</b>; не подошёл — 0000 или 6789.</li>
+<li>Адаптер станет «Сопряжено» — это нормально. Подключится он, когда
+программа откроет его порт.</li>
+</ol>
+<h3>2. Здесь, в окне «Снять лог»</h3>
+<ol>
+<li>«Подключение» — строка вида <b>«COM5 · Bluetooth «OBDII» · исходящий»</b>.
+Номер у вас свой. Не уверены — нажмите «Найти адаптер», программа сама
+переберёт порты.</li>
+<li>«Скорость порта» — «подобрать», «Протокол» — «сам (ATSP0)».</li>
+<li>«ШДК, если есть» → «Порт» — <b>«нет: смесь по УДК (родной зонд)»</b>.</li>
+<li>«Подключить и писать». Первое подключение — 5–20 секунд, потом оживут
+приборы: обороты, расход, дроссель, «УДК, В», STFT, LTFT.</li>
+<li>Поехали, потом «Стоп» → «Открыть в расчёте».</li>
+</ol>
+<h3>Если порта «исходящий» нет</h3>
+<p>Кнопка «COM-порты Bluetooth» ниже → «Добавить...» → «Исходящий» →
+«Обзор...» → выбрать адаптер → «ОК». Если адаптера там нет — удалите его
+в «Bluetooth и устройства» и спарьте заново.</p>
+<p>Адаптер «для iPhone» (только Bluetooth LE) COM-порта не создаёт вовсе —
+с ноутбуком он не заработает, нужен обычный Bluetooth.</p>
+"""
+
+
+def _open_windows(what: str) -> bool:
+    """Открыть окно Windows: Bluetooth в «Параметрах» или вкладку COM-портов."""
+    if sys.platform != "win32":
+        return False
+    import subprocess
+    try:
+        if what == "bluetooth":
+            os.startfile("ms-settings:bluetooth")           # noqa: S606
+        else:
+            # классическое окно «Параметры Bluetooth», сразу на «COM-порты»
+            subprocess.Popen(["rundll32.exe", "shell32.dll,Control_RunDLL",
+                              "bthprops.cpl,,2"])
+        return True
+    except Exception:                                       # noqa: BLE001
+        return False
+
+
+class BtHelp(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Как подключить Bluetooth-адаптер")
+        self.resize(640, 640)
+        v = QtWidgets.QVBoxLayout(self)
+        t = QtWidgets.QTextBrowser()
+        t.setHtml(HELP_BT)
+        v.addWidget(t, 1)
+        h = QtWidgets.QHBoxLayout()
+        for text, what in (("Bluetooth в Windows", "bluetooth"),
+                           ("COM-порты Bluetooth", "ports")):
+            b = QtWidgets.QPushButton(text)
+            b.setEnabled(sys.platform == "win32")
+            b.clicked.connect(lambda _=False, w=what: _open_windows(w))
+            h.addWidget(b)
+        h.addStretch(1)
+        ok = QtWidgets.QPushButton("Закрыть")
+        ok.clicked.connect(self.accept)
+        h.addWidget(ok)
+        v.addLayout(h)
+
+
 def default_log_path() -> str:
     base = os.path.join(os.path.expanduser("~"), "Documents")
     if not os.path.isdir(base):
@@ -330,6 +413,11 @@ class LoggerDialog(QtWidgets.QDialog):
         for k, t in PROTOCOLS:
             self.cb_proto.addItem(t, k)
         f.addRow("Протокол", self.cb_proto)
+        self.btn_help = QtWidgets.QPushButton("Как подключить?")
+        self.btn_help.setToolTip("Пошагово: спарить адаптер в Windows и "
+                                 "снять лог по родному зонду")
+        self.btn_help.clicked.connect(lambda: BtHelp(self).exec())
+        f.addRow("", self.btn_help)
         return g
 
     def _build_wb(self) -> QtWidgets.QGroupBox:

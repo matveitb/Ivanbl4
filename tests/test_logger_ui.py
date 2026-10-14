@@ -185,6 +185,40 @@ def main():
             check(LW.E is E, "окно пользуется тем же модулем elm")
             d.refresh_ports()
 
+        # подсказка «Как подключить?»: всё, что она велит нажать в этом
+        # окне, в окне действительно так и называется
+        h = LW.BtHelp(d)
+        help_txt = h.findChild(QtWidgets.QTextBrowser).toPlainText()
+        seen = set()
+        for w in d.findChildren(QtWidgets.QWidget):
+            for getter in ("text", "title"):
+                f = getattr(w, getter, None)
+                if callable(f):
+                    try:
+                        seen.add(f())
+                    except TypeError:
+                        pass
+            if isinstance(w, QtWidgets.QComboBox):
+                seen.update(w.itemText(i) for i in range(w.count()))
+        form_labels = set()
+        for fl in d.findChildren(QtWidgets.QFormLayout):
+            for r in range(fl.rowCount()):
+                it = fl.itemAt(r, QtWidgets.QFormLayout.ItemRole.LabelRole)
+                if it is not None and it.widget() is not None:
+                    form_labels.add(it.widget().text())
+        named = ["Подключение", "Скорость порта", "подобрать", "Протокол",
+                 "сам (ATSP0)", "ШДК, если есть", "Порт",
+                 "нет: смесь по УДК (родной зонд)", "Подключить и писать",
+                 "Стоп", "Открыть в расчёте", "Найти адаптер", "УДК, В"]
+        missing = [n for n in named
+                   if "«%s»" % n not in help_txt or
+                   not any(n == x or (n == "сам (ATSP0)" and x.startswith(n))
+                           for x in seen | form_labels)]
+        check(not missing and "Добавить устройство" in help_txt,
+              "подсказка называет кнопки и поля так же, как окно%s"
+              % ("" if not missing else ": нет " + ", ".join(missing)))
+        h.close()
+
         # плохой порт -- понятная ошибка, окно не висит
         d.cb_elm.addItem("нет такого", "COM_NO_SUCH_PORT_99")
         d.cb_elm.setCurrentIndex(d.cb_elm.count() - 1)

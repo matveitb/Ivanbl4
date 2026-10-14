@@ -133,6 +133,9 @@ class FakeElm(Transport):
         self.ready_at = 0.0
         self.requests = 0
         self.closed = False
+        # Bluetooth пропал молча: порт открыт, байты уходят в никуда, ответа
+        # нет -- так ведёт себя Windows, когда адаптер выдернули из разъёма
+        self.muted = False
         self._defaults()
 
     def _defaults(self) -> None:
@@ -148,6 +151,8 @@ class FakeElm(Transport):
     def write(self, data: bytes) -> None:
         if self.closed:
             raise OSError("порт закрыт")
+        if self.muted:
+            return
         self.inbuf += data
         while b"\r" in self.inbuf:
             line, self.inbuf = self.inbuf.split(b"\r", 1)
@@ -168,6 +173,13 @@ class FakeElm(Transport):
     def read(self, timeout: float) -> bytes:
         if self.closed:
             raise OSError("порт закрыт")
+        if self.muted:
+            # таймауты ELM -- по настоящим часам, так что и молчать надо по
+            # настоящим; виртуальные идут вместе с ними
+            time.sleep(timeout)
+            if not self.realtime:
+                self.clock.advance(timeout)
+            return b""
         if self.realtime and self.out:
             wait = self.ready_at - time.monotonic()
             if wait > timeout:

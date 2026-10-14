@@ -441,6 +441,9 @@ class ElmStats:
     errors: int = 0
     last_error: str = ""
     fatal: str = ""            # ошибка, после которой нужна новая инициализация
+    # запросов подряд, на которые адаптер не ответил ничем, даже «>»: так
+    # пропадает Bluetooth -- порт Windows остаётся открытым, а ответов нет
+    silent: int = 0
     latency: float = 0.0       # с, скользящее среднее
     reinits: int = 0
 
@@ -662,9 +665,12 @@ class Elm327:
         except ElmError as exc:
             self.stats.errors += 1
             self.stats.last_error = str(exc)
+            if "не ответил" in str(exc):
+                self.stats.silent += 1
             if "оборвалась" in str(exc) or "закрыл" in str(exc):
                 self.stats.fatal = str(exc)
             return None
+        self.stats.silent = 0
         lines = clean_lines(txt, cmd)
         rows = data_bytes(lines)
         body = find_reply(rows, mode, reply_id, n, self.ecu)

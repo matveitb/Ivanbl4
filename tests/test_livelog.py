@@ -621,6 +621,26 @@ def test_sessions_and_faults():
           "обрыв порта: открыт новый, запись продолжилась (%d порта)"
           % len(ports))
 
+    # Bluetooth пропал молча: порт открыт, адаптер не отвечает ничем.
+    # Ждать 30 запросов нельзя -- три без «>», и порт открывается заново
+    clk = fakecar.VirtualClock(0.0)
+    ports.clear()
+    e = E.Elm327(reopen(), clock=clk, reopen=reopen)
+    e.init("0")
+    sup, dids, mems = livelog.prepare(e)
+    L = livelog.LiveLogger(e, None, None, clock=clk, supported=sup,
+                           dids=dids, mems=mems)
+    L.run_for(20)
+    ports[0].muted = True
+    t_mute = clk.t
+    L.run_for(40)
+    rpm = L.rec.channels[obd.PIDS[0x0C].name]
+    after = [t for t in rpm.t if t > t_mute]
+    check(len(ports) == 2 and L.reconnects == 1 and after
+          and after[0] - t_mute < 15,
+          "Bluetooth пропал молча: через %.1f с порт открыт заново, запись "
+          "идёт дальше" % ((after[0] - t_mute) if after else 99))
+
 
 def test_threads():
     print("-- потоками, по настоящим часам")
