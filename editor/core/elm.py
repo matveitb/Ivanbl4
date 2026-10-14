@@ -159,11 +159,19 @@ class TcpTransport(Transport):
 
 # -- какие порты есть и какой из них адаптер ------------------------------------
 
-# Bluetooth-порт Windows: SPP-служба 1101 под BTHENUM. В конце -- адрес
-# устройства: у исходящего порта настоящий, у входящего -- нули.
+# Bluetooth-порт Windows: SPP-служба 1101 под BTHENUM (так pyserial отдаёт
+# hwid -- путь к экземпляру устройства). В конце -- адрес устройства: у
+# исходящего порта настоящий, у входящего -- нули, и счётчик после «_» у
+# входящих бывает любой:
 #   BTHENUM\{00001101-0000-1000-8000-00805F9B34FB}_LOCALMFG&0002\7&2B1A8F16&0&001DA5686E0D_C00000000
+#   BTHENUM\{00001101-...}_VID&0001005D_PID&223B\8&2A5819FC&0&1C5216ACAD82_C00000000
+#   BTHENUM\{00001101-...}_LOCALMFG&0000\7&2B1A8F16&0&000000000000_0000000D
+# Служба обязательно 1101: pyserial перечисляет и модемы, и модем
+# телефона по Bluetooth (служба 1103) с настоящим адресом за адаптер
+# сойти не должен.
 _BT = re.compile(r"BTHENUM", re.I)
-_BT_MAC = re.compile(r"&([0-9A-F]{12})_[0-9A-F]+$", re.I)
+_BT_SPP = re.compile(r"BTHENUM\\\{0*1101-0000-1000-8000-00805F9B34FB\}", re.I)
+_BT_MAC = re.compile(r"&([0-9A-F]{12})_C?[0-9A-F]{8}$", re.I)
 # так обычно зовутся ELM327 по Bluetooth
 _ELM_NAME = re.compile(r"obd|elm|v-?link|vgate|konnwei|veepeak|icar|"
                        r"scan|car|diag|spp", re.I)
@@ -198,11 +206,44 @@ class PortInfo:
         return {"bt": 2, "usb": 3, "other": 4, "bt-in": 9}.get(self.kind, 5)
 
 
-def _bt_name(mac: str) -> str:
+def _bt_name_api(mac: str) -> str:
     """
-    Имя спаренного Bluetooth-устройства по адресу -- то, что Windows
-    показывает в «Bluetooth и устройства». Лежит в реестре, читается без
-    прав администратора. Не Windows или ключа нет -- пусто.
+    Имя устройства так, как его показывает Windows (с учётом
+    переименования): BluetoothGetDeviceInfo из bthprops.cpl.
+    """
+    import ctypes
+    from ctypes import wintypes
+
+    class _ST(ctypes.Structure):
+        _fields_ = [(n, wintypes.WORD) for n in (
+            "y", "mo", "dow", "d", "h", "mi", "s", "ms")]
+
+    class _Info(ctypes.Structure):          # BLUETOOTH_DEVICE_INFO
+        _fields_ = [("dwSize", wintypes.DWORD),
+                    ("Address", ctypes.c_ulonglong),
+                    ("ulClassofDevice", wintypes.ULONG),
+                    ("fConnected", wintypes.BOOL),
+                    ("fRemembered", wintypes.BOOL),
+                    ("fAuthenticated", wintypes.BOOL),
+                    ("stLastSeen", _ST), ("stLastUsed", _ST),
+                    ("szName", wintypes.WCHAR * 248)]
+    try:
+        api = ctypes.WinDLL("bthprops.cpl")
+    except (OSError, AttributeError):
+        return ""
+    info = _Info()
+    info.dwSize = ctypes.sizeof(info)
+    info.Address = int(mac, 16)
+    if api.BluetoothGetDeviceInfo(None, ctypes.byref(info)) != 0:
+        return ""
+    return (info.szName or "").strip()
+
+
+def _bt_name_reg(mac: str) -> str:
+    """
+    То же из реестра: FriendlyName -- если переименовали, Name -- как
+    устройство назвалось само. Двоичные строки UTF-8 с нулём в конце.
+    Читается без прав администратора.
     """
     try:
         import winreg
@@ -212,12 +253,33 @@ def _bt_name(mac: str) -> str:
            r"\Devices\%s" % mac.lower())
     try:
         with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, key) as k:
-            v, _ = winreg.QueryValueEx(k, "Name")
+            for value in ("FriendlyName", "Name"):
+                try:
+                    v, _ = winreg.QueryValueEx(k, value)
+                except OSError:
+                    continue
+                if isinstance(v, (bytes, bytearray)):
+                    v = bytes(v).split(b"\0")[0].decode("utf-8", "replace")
+                if str(v).strip():
+                    return str(v).strip()
     except OSError:
-        return ""
-    if isinstance(v, (bytes, bytearray)):
-        v = bytes(v).split(b"\0")[0].decode("utf-8", "replace")
-    return str(v).strip()
+        pass
+    return ""
+
+
+def _bt_name(mac: str) -> str:
+    """
+    Имя спаренного Bluetooth-устройства по адресу -- то, что Windows
+    показывает в «Bluetooth и устройства». Не Windows -- пусто.
+    """
+    for f in (_bt_name_api, _bt_name_reg):
+        try:
+            name = f(mac)
+        except Exception:                                   # noqa: BLE001
+            name = ""
+        if name:
+            return name
+    return ""
 
 
 def classify_port(device: str, description: str = "", hwid: str = "",
@@ -228,7 +290,7 @@ def classify_port(device: str, description: str = "", hwid: str = "",
         m = _BT_MAC.search(hw)
         if m and int(m.group(1), 16) == 0:
             p.kind = "bt-in"
-        elif m:
+        elif m and _BT_SPP.search(hw):
             p.kind = "bt-out"
             p.mac = m.group(1).upper()
             p.bt_name = name_of(p.mac)
@@ -258,14 +320,48 @@ def list_serial_ports() -> list[tuple[str, str]]:
     return [(p.device, p.label) for p in port_infos()]
 
 
+def run_within(fn, limit: float):
+    """
+    fn() в отдельном потоке, не дольше limit секунд. Открытие
+    Bluetooth-порта Windows бывает зависает насовсем (адаптер включён, но не
+    отвечает): ждать его вечно нельзя. Не успело -- TimeoutError, а если
+    порт всё-таки откроется позже, он тут же закрывается.
+    """
+    import threading
+    box = {}
+    late = threading.Event()
+
+    def run():
+        try:
+            box["v"] = fn()
+        except BaseException as exc:                        # noqa: BLE001
+            box["e"] = exc
+        if late.is_set() and "v" in box:
+            try:
+                box["v"].close()
+            except Exception:                               # noqa: BLE001
+                pass
+
+    th = threading.Thread(target=run, daemon=True)
+    th.start()
+    th.join(limit)
+    if th.is_alive():
+        late.set()
+        raise TimeoutError("не открылся за %g с" % limit)
+    if "e" in box:
+        raise box["e"]
+    return box["v"]
+
+
 def find_elm(ports: list[PortInfo], opener=None, log=None,
-             cancelled=lambda: False) -> str | None:
+             cancelled=lambda: False, limit: float = 20.0) -> str | None:
     """
     Перебрать порты и найти тот, где отвечает ELM327: ATI -> «ELM327».
     Входящие Bluetooth-порты не трогаются -- адаптер на них не ответит.
-    Открытие исходящего порта само поднимает связь с адаптером, это
-    несколько секунд; если адаптер выключен (зажигание), Windows ждёт
-    дольше -- поэтому сначала самые вероятные.
+    Открытие исходящего порта само поднимает связь с адаптером: обычно
+    секунда-две; если адаптер выключен, Windows ждёт 5-13 с и отвечает
+    «превышен таймаут семафора», а бывает, что и не отвечает вовсе --
+    поэтому на порт не больше limit секунд, и сначала самые вероятные.
     """
     say = log or (lambda m: None)
     opener = opener or (lambda dev: connect_serial(dev, None, say))
@@ -276,7 +372,7 @@ def find_elm(ports: list[PortInfo], opener=None, log=None,
             continue
         say("пробую %s..." % p.label)
         try:
-            t = opener(p.device)
+            t = run_within(lambda: opener(p.device), limit)
         except Exception as exc:                            # noqa: BLE001
             say("  %s: %s" % (p.device, exc))
             continue

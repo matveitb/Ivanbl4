@@ -149,6 +149,90 @@ def test_formats():
           "выборка: через дыру в 9 с значение не выдумывается")
 
 
+def _cs_log(names_units):
+    """Лог в формате Car Scanner: по три показания каждого канала."""
+    rows = ['"SECONDS";"PID";"VALUE";"UNITS";"LATITUDE";"LONGTITUDE";']
+    t = 26939.5
+    for k in range(3):
+        for name, unit, v in names_units:
+            rows.append('"%.3f";"%s";"%s";"%s";"55.7";"37.6";' % (
+                t, name, v, unit))
+            t += 0.12
+    return "\r\n".join(rows) + "\r\n"
+
+
+def test_carscanner_names():
+    print("-- Car Scanner: каналы по настоящим именам, с соседями-ловушками")
+    # имена и единицы -- из настоящих экспортов (английский интерфейс);
+    # ловушки стоят раньше настоящих каналов
+    en = [("Engine RPM x1000", "rpm", 1.6), ("Engine RPM", "rpm", 1600),
+          ("Power from MAF", "hp", 12), ("MAF air flow rate", "g/sec", 9.5),
+          ("Fuel economizer (based on fuel system status and throttle "
+           "position)", "", 0),
+          ("Absolute throttle position B", "%", 30),
+          ("Relative throttle position", "%", 10),
+          ("Throttle position", "%", 14),
+          ("Oxygen sensor 1 Bank 1 Short term fuel trim", "%", 3.1),
+          ("Oxygen sensor 2 Bank 1 Short term fuel trim", "%", -100),
+          ("Short term fuel % trim - Bank 1", "%", 3.1),
+          ("Long term secondary oxygen sensor trim Bank 1", "%", 0),
+          ("Long term fuel % trim - Bank 1", "%", 1.6),
+          ("Oxygen sensor 2 Bank 1 Voltage", "V", 0.6),
+          ("Oxygen sensor 1 Bank 1 Voltage", "V", 0.7),
+          ("Engine coolant temperature", "℃", 88),
+          ("Fuel/Air commanded equivalence ratio", "", 1.0)]
+    L = logio.parse_text(_cs_log(en), "2024-11-13 07-28-24.csv")
+    r = udk.detect_roles(L, None)
+    want = {"rpm": "Engine RPM", "maf": "MAF air flow rate",
+            "tps": "Throttle position",
+            "stft": "Short term fuel % trim - Bank 1",
+            "ltft": "Long term fuel % trim - Bank 1",
+            "o2v": "Oxygen sensor 1 Bank 1 Voltage",
+            "ect": "Engine coolant temperature", "lam": None, "closed": None}
+    bad = {k: r[k] for k, v in want.items() if (r[k] or (None, None))[1] != v}
+    check(not bad, "английский Car Scanner: все роли верные%s"
+          % ("" if not bad else ", ошибки: %s" % bad))
+    k, unit = udk.maf_scale(L.channels["MAF air flow rate"])
+    check(unit == "г/с", "«g/sec» понят как г/с")
+
+    # Русский интерфейс пишет в CSV русские имена. Точных у нас нет --
+    # вероятные варианты; главное, чтобы ловушки и тут не сработали
+    ru = [("Обороты двигателя x1000", "rpm", 1.6),
+          ("Обороты двигателя", "rpm", 1600),
+          ("Мощность по ДМРВ", "л.с.", 12),
+          ("Массовый расход воздуха", "г/с", 9.5),
+          ("Экономайзер топлива (на основе статуса топливной системы и "
+           "положения дроссельной заслонки)", "", 0),
+          ("Абсолютное положение дроссельной заслонки B", "%", 30),
+          ("Положение дроссельной заслонки", "%", 14),
+          ("Датчик кислорода 1 Банк 1 Кратковременная коррекция топлива",
+           "%", 3.1),
+          ("Кратковременная коррекция топлива - Банк 1", "%", 3.1),
+          ("Долговременная коррекция топлива - Банк 1", "%", 1.6),
+          ("Датчик кислорода 2 Банк 1 Напряжение", "V", 0.6),
+          ("Датчик кислорода 1 Банк 1 Напряжение", "V", 0.7),
+          ("Температура охлаждающей жидкости", "℃", 88),
+          ("Статус топливной системы", "", 2)]
+    L = logio.parse_text(_cs_log(ru), "ru.csv")
+    r = udk.detect_roles(L, None)
+    want = {"rpm": "Обороты двигателя", "maf": "Массовый расход воздуха",
+            "tps": "Положение дроссельной заслонки",
+            "stft": "Кратковременная коррекция топлива - Банк 1",
+            "ltft": "Долговременная коррекция топлива - Банк 1",
+            "o2v": "Датчик кислорода 1 Банк 1 Напряжение",
+            "ect": "Температура охлаждающей жидкости",
+            "closed": "Статус топливной системы", "lam": None}
+    bad = {k: r[k] for k, v in want.items() if (r[k] or (None, None))[1] != v}
+    check(not bad, "русские имена: все роли верные%s"
+          % ("" if not bad else ", ошибки: %s" % bad))
+    # только PID 0x14 -- STFT берётся из его второго байта, второй зонд нет
+    only14 = [x for x in en if not x[0].startswith("Short term")]
+    r = udk.detect_roles(logio.parse_text(_cs_log(only14), "x.csv"), None)
+    check(r["stft"] and r["stft"][1]
+          == "Oxygen sensor 1 Bank 1 Short term fuel trim",
+          "нет PID 06 -- STFT из ответа о первом зонде, не о втором")
+
+
 def test_model():
     print("-- модель блока")
     ps = P.Project.open(A2L, STOCK)
@@ -411,7 +495,7 @@ def test_guards():
 def nb_log(tr, seed, pids=None):
     """Лог Car Scanner без ШДК: обороты, расход, дроссель, коррекции, УДК."""
     return logio.parse_text(udksim.ecu_log_carscanner(
-        tr, seed=seed, pids=pids or udksim.PIDS_NB), "ecu.csv")
+        tr, seed=seed, pids=pids or udksim.PIDS_NB, extras=True), "ecu.csv")
 
 
 def wot_trims(fm, tr, rpm=5000):
@@ -432,7 +516,7 @@ def test_narrowband():
     before = wot_trims(fm, tr)
     ecu = nb_log(tr, 41)
     roles = udk.detect_roles(ecu, None)
-    check(roles["lam"] is None and roles["o2v"] == ("ecu", "O2 sensor 1 voltage")
+    check(roles["lam"] is None and roles["o2v"] == ("ecu", "Oxygen sensor 1 Bank 1 Voltage")
           and roles["stft"] and roles["ltft"],
           "роли: ШДК нет, УДК (вольты) и коррекции найдены")
     res = udk.analyze(fm, ecu, None, roles, udk.Settings(target="hfm"))
@@ -554,6 +638,7 @@ def test_open_loop():
 
 def main():
     test_formats()
+    test_carscanner_names()
     test_model()
     test_offset_and_hfm()
     test_kllamfa()

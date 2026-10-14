@@ -35,6 +35,52 @@ import udk                                                  # noqa: E402
 
 LOG_FILTER = "Логи (*.csv *.txt *.log *.tsv);;Все (*)"
 
+# Пункты Car Scanner -- по его справке и русским инструкциям; в разных
+# версиях (2.x из Google Play и RuStore, 1.x) подписи немного разнятся,
+# поэтому рядом сказано, что это по смыслу.
+HELP_CS = """
+<h3>Car Scanner на телефоне (Android)</h3>
+<ol>
+<li>Адаптер — в разъём, зажигание включить. В настройках телефона →
+Bluetooth спарить адаптер: обычно <b>OBDII</b>, PIN <b>1234</b>
+(или 0000).</li>
+<li>В Car Scanner: шестерёнка справа вверху («Настройки») → «Адаптер»
+(«Адаптер OBDII ELM327», в старых версиях — «Подключение») → тип
+подключения <b>Bluetooth</b> — не «Bluetooth LE (4.0)» → «Выбрать
+устройство» → ваш OBDII. Назад, на главном экране — «Подключить».</li>
+<li><b>Car Scanner пишет только то, что видно на экране.</b> Откройте
+«Все датчики» и оставьте только эти (подписи по смыслу, на английском —
+как они попадут в файл):
+<ul>
+<li>обороты двигателя — Engine RPM;</li>
+<li>массовый расход воздуха — MAF air flow rate;</li>
+<li>положение дроссельной заслонки — Throttle position (не
+«относительное» и не «B»);</li>
+<li>кратковременная коррекция топлива, банк 1 — Short term fuel % trim -
+Bank 1;</li>
+<li>долговременная коррекция топлива, банк 1 — Long term fuel % trim -
+Bank 1;</li>
+<li>датчик кислорода 1, банк 1, напряжение — Oxygen sensor 1 Bank 1
+Voltage (это и есть УДК);</li>
+<li>температура охлаждающей жидкости — Engine coolant temperature.</li>
+</ul>
+Чем меньше датчиков на экране, тем чаще пишется каждый.</li>
+<li>Запись включена по умолчанию (раздел «Запись данных»). Поехали: прогретый
+мотор, третья передача, газ в пол от 1500 до отсечки 3–4 раза, между
+разгонами накат; плюс ровные участки на разных оборотах по 5–10 секунд.</li>
+<li>Закончили — <b>«Отключить»</b>. Только так файл сохраняется: если смахнуть
+приложение, записи не будет.</li>
+<li>Список записей → долгое нажатие на запись → «Поделиться» (или ⋮ →
+экспорт) → <b>CSV</b> → отправить себе на ноутбук (Telegram, почта,
+кабель).</li>
+<li>Здесь: «Лог ЭБУ» → «Открыть...» → этот файл → «Посчитать». Каналы
+распознаются сами — и английские, и русские имена; если какой-то не
+нашёлся, выберите его в списке «Каналы» руками.</li>
+</ol>
+<p>Телефон и ноутбук к одному адаптеру сразу не подключатся: адаптер
+держит одно подключение.</p>
+"""
+
 
 def _item(text: str, align_right: bool = True) -> QtWidgets.QTableWidgetItem:
     it = QtWidgets.QTableWidgetItem(text)
@@ -133,10 +179,13 @@ class UdkDialog(QtWidgets.QDialog):
         self.btn_report.clicked.connect(self.save_report)
         close = QtWidgets.QPushButton("Закрыть")
         close.clicked.connect(self.close)
+        self.btn_cs = QtWidgets.QPushButton("Как снять лог в Car Scanner?")
+        self.btn_cs.clicked.connect(self.show_cs_help)
         bl = QtWidgets.QHBoxLayout()
         bl.addWidget(self.btn_calc)
         bl.addWidget(self.btn_apply)
         bl.addStretch(1)
+        bl.addWidget(self.btn_cs)
         bl.addWidget(self.btn_report)
         bl.addWidget(close)
 
@@ -623,6 +672,20 @@ class UdkDialog(QtWidgets.QDialog):
         self.sp_want.setEnabled(kl and not self.chk_keep.isChecked())
         self.result = None
         self.btn_apply.setEnabled(False)
+
+    def show_cs_help(self) -> None:
+        d = QtWidgets.QDialog(self)
+        d.setWindowTitle("Лог в Car Scanner")
+        d.resize(640, 680)
+        v = QtWidgets.QVBoxLayout(d)
+        t = QtWidgets.QTextBrowser()
+        t.setHtml(HELP_CS)
+        v.addWidget(t, 1)
+        ok = QtWidgets.QPushButton("Закрыть")
+        ok.clicked.connect(d.accept)
+        v.addWidget(ok, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self._help = d
+        d.show()
 
     def _say(self, html: str) -> None:
         self.summary.setText(html)

@@ -144,6 +144,12 @@ def main():
               and "без ШДК" in d.summary.text(),
               "KLLAMFA без ШДК -- понятный отказ: %s"
               % d.summary.text()[:70])
+        d.show_cs_help()
+        txt = d._help.findChild(QtWidgets.QTextBrowser).toPlainText()
+        check("Oxygen sensor 1 Bank 1 Voltage" in txt and "«Отключить»" in txt
+              and "«Посчитать»" in txt and d.btn_calc.text() == "Посчитать",
+              "подсказка про Car Scanner: какие датчики и как сохранить")
+        d._help.close()
         d.close()
         w.close()
     finally:

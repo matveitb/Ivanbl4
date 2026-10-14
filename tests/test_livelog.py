@@ -412,6 +412,34 @@ def test_ports():
           "без адаптера -- None, перебраны все, кроме входящего: %s"
           % " ".join(tried))
 
+    # модем телефона по Bluetooth (служба 1103) с настоящим адресом --
+    # не адаптер; входящий порт со счётчиком 0000000D -- входящий
+    dun = E.classify_port("COM8", desc % "COM8", out_hw.replace(
+        "00001101", "00001103"), names.get)
+    odd_in = E.classify_port("COM9", desc % "COM9", in_hw.replace(
+        "_00000000", "_0000000D"), names.get)
+    check(dun.kind == "bt" and odd_in.kind == "bt-in",
+          "модем по Bluetooth за адаптер не принят, входящий с другим "
+          "счётчиком распознан")
+
+    # открытие порта зависло насовсем (так бывает с Bluetooth в Windows):
+    # поиск не ждёт вечно, идёт к следующему
+    import time as _t
+
+    def stuck(dev):
+        if dev == "COM3":
+            _t.sleep(5)
+        return opener(dev)
+    order = sorted(ps, key=lambda p: p.rank)
+    msgs = []
+    t0 = _t.monotonic()
+    found = E.find_elm([q for q in order if q.device != "COM5"],
+                       opener=stuck, log=msgs.append, limit=0.3)
+    check(found is None and any("не открылся за" in m for m in msgs)
+          and _t.monotonic() - t0 < 3,
+          "COM3 завис -- через 0.3 с дальше: %s"
+          % [m for m in msgs if "COM3:" in m])
+
 
 def test_narrowband():
     print("-- без ШДК: УДК и STFT из PID 14 -> расчёт по коррекциям")

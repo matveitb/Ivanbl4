@@ -5,8 +5,13 @@ OBD-II режим 01: что спрашивать у блока и как пер
 Пересчёты -- стандарт SAE J1979, и для нашего блока они сверены с кодом
 обработчика режима 01 (0x864996, docs/40): какая ячейка ОЗУ уходит в
 ответ и как она пересчитывается. Имена каналов -- те же, что пишет
-Car Scanner: тогда лог нашего логгера читается тем же разбором, что и
-лог Car Scanner, и поправка по нему считается без переделок.
+Car Scanner на английском (сверены с настоящими экспортами: «MAF air flow
+rate» в g/sec, «Oxygen sensor 1 Bank 1 Voltage», ℃): тогда лог нашего
+логгера читается тем же разбором, что и лог Car Scanner, и поправка по
+нему считается без переделок. Второй байт PID 0x14 Car Scanner пишет
+отдельным каналом «Oxygen sensor 1 Bank 1 Short term fuel trim»; у нас
+он идёт в канал STFT -- в нашем блоке это та же ячейка 0x95AE, что и в
+PID 0x06.
 """
 
 from __future__ import annotations
@@ -74,7 +79,7 @@ PIDS = {p.pid: p for p in (
         "контур топлива"),
     Pid(0x04, "Calculated engine load", "%", 1,
         lambda b: b[0] * 100 / 255, "расчётная нагрузка"),
-    Pid(0x05, "Engine coolant temperature", "°C", 1,
+    Pid(0x05, "Engine coolant temperature", "℃", 1,
         lambda b: b[0] - 40.0, "температура ОЖ"),
     Pid(0x06, "Short term fuel % trim - Bank 1", "%", 1,
         lambda b: (b[0] - 128) * 100 / 128, "STFT"),
@@ -86,15 +91,15 @@ PIDS = {p.pid: p for p in (
         lambda b: float(b[0]), "скорость"),
     Pid(0x0E, "Timing advance", "°", 1,
         lambda b: b[0] / 2.0 - 64, "угол"),
-    Pid(0x0F, "Intake air temperature", "°C", 1,
+    Pid(0x0F, "Intake air temperature", "℃", 1,
         lambda b: b[0] - 40.0, "температура воздуха"),
-    Pid(0x10, "Mass air flow rate", "g/s", 2, _maf_gs, "расход воздуха"),
+    Pid(0x10, "MAF air flow rate", "g/sec", 2, _maf_gs, "расход воздуха"),
     Pid(0x11, "Throttle position", "%", 1,
         lambda b: b[0] * 100 / 255, "дроссель"),
     # УДК -- родной узкий зонд. A -- байт 0x88CE (из АЦП 0x8901), по
     # стандарту 5 мВ на единицу; пересчёт делает функция сегмента 0, её в
     # дампе нет, так что масштаб -- по стандарту, не по коду. B -- STFT
-    Pid(0x14, "O2 sensor 1 voltage", "V", 2,
+    Pid(0x14, "Oxygen sensor 1 Bank 1 Voltage", "V", 2,
         lambda b: b[0] / 200.0, "УДК, узкий зонд",
         (("Short term fuel % trim - Bank 1", "%", _trim_b),)),
 )}

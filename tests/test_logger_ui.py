@@ -121,7 +121,7 @@ def main():
         check(u.ed_ecu.text() == path2
               and u.cb_role["lam"].currentData() is None
               and u.cb_role["o2v"].currentData()
-              == ("ecu", "O2 sensor 1 voltage")
+              == ("ecu", "Oxygen sensor 1 Bank 1 Voltage")
               and u.cb_role["stft"].currentData() is not None,
               "лог без ШДК в расчёте: УДК и коррекции, лямбды нет")
 

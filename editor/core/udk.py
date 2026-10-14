@@ -110,32 +110,63 @@ ROLES = [
 ]
 ROLE_TITLES = {r: t for r, t, _ in ROLES}
 
+# Роль -> (подходит, не подходит, кого предпочесть). «Не подходит»
+# проверяется и по имени, и по имени с единицами. Из подошедших берётся
+# тот, кто раньше попал в список предпочтений; первый попавшийся в логе
+# -- только при равенстве. Список составлен по настоящим экспортам Car
+# Scanner: рядом с нужными каналами там стоят похожие и ненужные --
+# «Engine RPM x1000», «Absolute throttle position B», «Power from MAF»,
+# «Fuel economizer (based on fuel system status and throttle position)»,
+# «Long term secondary oxygen sensor trim Bank 1», второй зонд.
+_SENSOR2 = (r"(sensor|датчик\w*|зонд\w*)( кислорода)?[ ,№]*2\b|\bs2\b|b1s2|"
+            r"bank ?2|банк ?2|после кат|downstream|post.?cat")
 _PAT = {
-    "rpm": (r"rpm|об/мин|оборот|engine speed|nmot|частота вращ", r"vehicle|скорост|км/ч|km/h"),
+    "rpm": (r"rpm|об/мин|оборот|engine speed|nmot|частота вращ|drehzahl",
+            r"vehicle|скорост|км/ч|km/h|x ?1000|компрессор|kompressor|"
+            r"вентилят|fan\b|turbo|турбин",
+            [r"^engine rpm$|^обороты двигателя$|^engine rpm\b",
+             r"^[^\[].*(engine|двигател|motor)", r"engine|двигател|motor",
+             r"^[^\[]"]),
     "maf": (r"\bmaf\b|mass air|air ?flow|air mass|расход возд|массов\w* расход|дмрв|\bml\b",
-            r"volt|напряж|\(v\)|, ?в$|voltage|correct|коррек|adc|ацп|counts"),
-    "adc": (r"(maf|дмрв|hfm).*(adc|ацп)|(adc|ацп).*(maf|дмрв|hfm)", r"$^"),
+            r"volt|напряж|\(v\)|, ?в$|voltage|correct|коррек|adc|ацп|counts|"
+            r"power|мощн|\bhp\b|л\.? ?с\b",
+            # режим 22 (0.1 кг/ч) точнее OBD-шного (0.25 г/с)
+            [r"ecu|эбу", r"air flow rate|расход возд|массов\w* расход"]),
+    "adc": (r"(maf|дмрв|hfm).*(adc|ацп)|(adc|ацп).*(maf|дмрв|hfm)", r"$^", []),
     "lcmd": (r"lambda target|target lambda|заданн\w* (λ|лямбд)|"
-             r"цел\w* (λ|лямбд)", r"command|equivalence"),
-    "tps": (r"throttle|дросс|\btps\b|\bдз\b",
-            r"relative|относит|command|задан|педал|pedal|accel|\bb\)|\bb$|volt|напряж"),
+             r"цел\w* (λ|лямбд)", r"command|equivalence", []),
+    # дроссель -- тот байт, что блок сравнивает с WDKVLN: PID 0x11
+    "tps": (r"throttle|дросс|\btps\b|\bдз\b|drossel",
+            r"relative|относит|command|задан|педал|pedal|accel|actuator|"
+            r"привод|econom|эконом|\b[b-f]\)|\b[b-f]$|\b[вс]$|volt|напряж",
+            [r"^throttle position$|^положение дроссел\w*( заслонки)?$",
+             r"^throttle position|^положение дроссел"]),
     # ШДК. Слово «УДК» само по себе сюда не ведёт: УДК -- родной узкий
     # зонд, у него вольты. «УДК лямбда» из логов прошлой версии логгера
     # -- ШДК и находится по «лямбде»
     "lam": (r"lambda|лямбд|λ|\bшдк\b|\bafr\b|wideband|\blc-?[12]\b|wbo2|air.?fuel|соста\w+ смеси",
-            r"command|задан|equivalence|o2 sensor|кислород|volt|напряж|target|цел|"
-            r"control|active|closed|регулят|контур|зонд"),
+            r"command|задан|equivalence|эквивал|o2 sensor|oxygen|кислород|volt|"
+            r"напряж|target|цел|control|active|closed|регулят|контур|зонд",
+            # из «лямбды» и «AFR» одного логгера берём лямбду
+            [r"lambda|лямбд|λ"]),
     "o2v": (r"(\bo2\b|oxygen|кислород|\bудк\b|зонд).*(volt|напряж|\(v\)|\bv$|, ?в$)|"
             r"(volt|напряж).*(\bo2\b|oxygen|кислород|\bудк\b|зонд)",
-            r"sensor ?2|датчик ?2|зонд ?2|\bs2\b|b1s2|bank ?2|банк ?2|после|"
-            r"downstream|post|диагност|trim|коррек"),
+            _SENSOR2 + r"|диагност|trim|коррек", [r"sensor ?1|датчик\w*.*1|зонд\w*.*1"]),
+    # флаг регулятора (DID 1216) надёжнее PID 03: тот бывает устаревшим
     "closed": (r"closed.?loop|fuel system status|топливн\w* систем|"
                r"контур|регулятор по зонду|lambda control",
-               r"bank ?2|банк ?2"),
-    "stft": (r"short.?term|\bstft\b|кратко|быстр\w* корр", r"bank ?2|банк ?2"),
-    "ltft": (r"long.?term|\bltft\b|долго|адаптац", r"bank ?2|банк ?2"),
-    "ect": (r"coolant|охлажд|\bож\b|\bтож\b|engine temp|температура двиг|\bect\b",
-            r"\bvolt"),
+               r"bank ?2|банк ?2|econom|эконом", [r"active|регулятор"]),
+    # STFT -- из PID 06, а не второй байт PID 14 у датчика: это та же
+    # ячейка, но у второго зонда там -100 или 0, а не коррекция
+    "stft": (r"short.?term|\bstft\b|кратко|быстр\w* корр",
+             _SENSOR2 + r"|secondary|втор",
+             [r"^short term fuel % trim|^кратко\w* коррекци\w* топлива",
+              r"^(?!.*(oxygen|\bo2\b|кислород|sensor|датчик|зонд))"]),
+    "ltft": (r"long.?term|\bltft\b|долго|адаптац",
+             _SENSOR2 + r"|secondary|втор|oxygen|\bo2\b|кислород|sensor|датчик|зонд",
+             [r"^long term fuel % trim|^долго\w* коррекци\w* топлива"]),
+    "ect": (r"coolant|охлажд|\bож\b|\bтож\b|engine temp|температура двиг|\bect\b|kühlmittel",
+            r"\bvolt", [r"^engine coolant|^температура охлажд"]),
 }
 
 
@@ -148,34 +179,27 @@ def detect_roles(ecu: logio.LogFile, wb: logio.LogFile | None) -> dict:
     """
     out = {r: None for r, _, _ in ROLES}
     sources = [("ecu", ecu)] + ([("wb", wb)] if wb is not None else [])
-    for role, (pat, bad) in _PAT.items():
+    for role, (pat, bad, prefer) in _PAT.items():
         rx, rbad = re.compile(pat, re.I), re.compile(bad, re.I)
+        rpref = [re.compile(x, re.I) for x in prefer]
         order = list(reversed(sources)) if role == "lam" else sources
         cands = []
         for src, log in order:
             for name, ch in log.channels.items():
+                if not ch.v:
+                    continue
                 lab = "%s %s" % (name, ch.unit)
-                if rx.search(lab) and not rbad.search(lab):
+                if rx.search(lab) and not (rbad.search(lab)
+                                           or rbad.search(name)):
                     cands.append((src, name))
             if cands:
                 break
-        if role == "maf" and len(cands) > 1:
-            # расход из режима 22 (0.1 кг/ч) точнее OBD-шного (0.25 г/с)
-            ecu_first = [c for c in cands if re.search(r"ecu|эбу", c[1], re.I)]
-            cands = ecu_first or cands
-        if role == "closed" and len(cands) > 1:
-            # флаг регулятора (DID 1216) надёжнее PID 03: тот бывает
-            # устаревшим (0x84B89E)
-            act = [c for c in cands
-                   if re.search(r"active|регулятор", c[1], re.I)]
-            cands = act or cands
-        if role == "lam" and len(cands) > 1:
-            # из «лямбды» и «AFR» одного логгера берём лямбду
-            lam_first = [c for c in cands
-                         if re.search(r"lambda|лямбд|λ", c[1], re.I)]
-            cands = lam_first or cands
+
+        def score(c):
+            return next((i for i, r in enumerate(rpref)
+                         if r.search(c[1].strip())), len(rpref))
         if cands:
-            out[role] = cands[0]
+            out[role] = min(cands, key=score)
     return out
 
 
@@ -529,13 +553,17 @@ def _merge_spans(out: list) -> list:
 
 def _around(ts, idx: list, max_gap: float) -> tuple:
     """
-    Отрезок от показания перед idx[0] до показания после idx[-1]: где-то
-    между ними состояние и сменилось, и верить нельзя всему промежутку.
+    Отрезок вокруг показаний idx[0]..idx[-1]: края -- на серединах до
+    соседних показаний. Где-то между соседями состояние и сменилось;
+    середина ошибается меньше всего, а после замыкания всё равно
+    выжидается nb_settle. Брать весь промежуток до соседа нельзя: перед
+    накатом это последняя секунда полного газа, самые верхние обороты.
     """
     i, j = idx[0], idx[-1]
-    a = ts[i - 1] if i > 0 and ts[i] - ts[i - 1] <= 2 * max_gap else ts[i]
-    b = (ts[j + 1] if j + 1 < len(ts) and ts[j + 1] - ts[j] <= 2 * max_gap
-         else ts[j])
+    a = ((ts[i - 1] + ts[i]) / 2 if i > 0 and ts[i] - ts[i - 1] <= 2 * max_gap
+         else ts[i])
+    b = ((ts[j] + ts[j + 1]) / 2
+         if j + 1 < len(ts) and ts[j + 1] - ts[j] <= 2 * max_gap else ts[j])
     return a, b
 
 
@@ -615,18 +643,9 @@ def _channel_open(ch: logio.Channel, st: Settings) -> list:
     точно, по дросселю.
     """
     kind = _closed_kind(ch)
-    ts = ch.t
-    out = []
-    for i, v in enumerate(ch.v):
-        if _is_closed(v, kind):
-            continue
-        a = b = ts[i]
-        if i > 0 and ts[i] - ts[i - 1] <= 2 * st.max_gap:
-            a = (ts[i - 1] + ts[i]) / 2
-        if i + 1 < len(ts) and ts[i + 1] - ts[i] <= 2 * st.max_gap:
-            b = (ts[i] + ts[i + 1]) / 2
-        out.append((a, b))
-    return _merge_spans(out)
+    return _merge_spans([_around(ch.t, [i], st.max_gap)
+                         for i, v in enumerate(ch.v)
+                         if not _is_closed(v, kind)])
 
 
 def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
@@ -732,8 +751,10 @@ def merge(fm: FuelModel, ecu: logio.LogFile, wb: logio.LogFile | None,
         maf = logio.sample(ch["maf"], t, g)
         tps = logio.sample(ch["tps"], t, g)
         lam = logio.sample(lam_ch, t, g) if lam_ch is not None else 1.0
-        stft = (logio.sample(ch["stft"], t, g)
-                if ch["stft"] is not None else None)
+        # без ШДК STFT -- само измерение, и оно скачет: ближайшее
+        # показание, а не прямая между соседними
+        pick = logio.sample_nearest if narrow else logio.sample
+        stft = (pick(ch["stft"], t, g) if ch["stft"] is not None else None)
         if None in (rpm, maf, tps, lam) or (narrow and stft is None):
             _reject(res, "нет показаний", st.dt)
             continue

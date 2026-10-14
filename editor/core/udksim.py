@@ -46,12 +46,34 @@ DRIVE = [
     (15, 2600, 2600, 20),
 ]
 
-PIDS = [("Engine RPM", "rpm"), ("Mass air flow rate", "g/s"),
+# Имена и единицы -- как в настоящих экспортах Car Scanner (английский
+# интерфейс): «MAF air flow rate» в g/sec, ℃, а не °C
+PIDS = [("Engine RPM", "rpm"), ("MAF air flow rate", "g/sec"),
         ("Throttle position", "%"), ("Short term fuel % trim - Bank 1", "%"),
         ("Long term fuel % trim - Bank 1", "%"),
-        ("Engine coolant temperature", "°C")]
-# лог без ШДК: тот же Car Scanner плюс напряжение родного зонда
-PIDS_NB = PIDS + [("O2 sensor 1 voltage", "V")]
+        ("Engine coolant temperature", "℃")]
+# лог без ШДК: тот же Car Scanner плюс оба зонда (PID 0x14 и 0x15)
+PIDS_NB = PIDS + [("Oxygen sensor 1 Bank 1 Voltage", "V"),
+                  ("Oxygen sensor 2 Bank 1 Voltage", "V")]
+# Что Car Scanner пишет рядом и что легко принять за нужное: расчётные
+# каналы (запроса не стоят, идут с той же меткой времени) и второй байт
+# ответов о зондах. В логе они стоят раньше настоящих -- выбор «первый
+# подошедший» на них бы попался.
+EXTRAS = {
+    "Engine RPM": [("Engine RPM x1000", "rpm")],
+    "MAF air flow rate": [("Power from MAF", "hp")],
+    "Throttle position": [
+        ("Fuel economizer (based on fuel system status and throttle "
+         "position)", ""),
+        ("Absolute throttle position B", "%"),
+        ("Relative throttle position", "%")],
+    "Long term fuel % trim - Bank 1": [
+        ("Long term secondary oxygen sensor trim Bank 1", "%")],
+    "Oxygen sensor 1 Bank 1 Voltage": [
+        ("Oxygen sensor 1 Bank 1 Short term fuel trim", "%")],
+    "Oxygen sensor 2 Bank 1 Voltage": [
+        ("Oxygen sensor 2 Bank 1 Short term fuel trim", "%")],
+}
 
 
 def err_lean_top(q: float) -> float:
@@ -212,8 +234,11 @@ def _q(x, s):
 
 
 def ecu_log_carscanner(truth: list[Truth], rate=8.0, seed=2,
-                       pids=None) -> str:
-    """Лог ELM как у Car Scanner: длинный, по одному параметру на строку."""
+                       pids=None, extras: bool = False) -> str:
+    """
+    Лог ELM как у Car Scanner: длинный, по одному параметру на строку.
+    extras -- писать и соседние каналы (EXTRAS), как настоящий Car Scanner.
+    """
     rnd = random.Random(seed)
     pids = PIDS if pids is None else pids
     lines = ['"SECONDS";"PID";"VALUE";"UNITS"']
@@ -226,15 +251,31 @@ def ecu_log_carscanner(truth: list[Truth], rate=8.0, seed=2,
         k = min(int(t / dt), len(truth) - 1)
         s = truth[k]
         name, unit = pids[i % len(pids)]
-        v = {"Engine RPM": _q(s.rpm, 0.25),
-             "Mass air flow rate": _q(s.ml / 3.6, 0.01),
+        vals = {"Engine RPM": _q(s.rpm, 0.25),
+             "MAF air flow rate": _q(s.ml / 3.6, 0.01),
              "Throttle position": _q(s.tps, 100 / 255),
              "Short term fuel % trim - Bank 1": _q(s.stft, 100 / 128),
              "Long term fuel % trim - Bank 1": _q(s.ltft, 100 / 128),
              "Engine coolant temperature": round(s.ect),
-             "O2 sensor 1 voltage": _q(s.o2v, 0.005),
-             "Fuel system status": 2.0 if s.closed else 4.0}[name]
-        lines.append('"%.3f";"%s";"%s";"%s"' % (t, name, ("%.2f" % v), unit))
+             "Oxygen sensor 1 Bank 1 Voltage": _q(s.o2v, 0.005),
+             "Oxygen sensor 1 Bank 1 Short term fuel trim":
+                 _q(s.stft, 100 / 128),
+             "Engine RPM x1000": _q(s.rpm / 1000, 0.01),
+             "Fuel economizer (based on fuel system status and throttle "
+             "position)": 1.0 if s.tps < 1.0 else 0.0,
+             "Absolute throttle position B":
+                 _q(min(100, s.tps * 0.8 + 15), 100 / 255),
+             "Relative throttle position": _q(s.tps * 0.9, 100 / 255),
+             "Power from MAF": round(s.ml / 3.6 * 1.25, 1),
+             "Long term secondary oxygen sensor trim Bank 1": 0.0,
+             "Oxygen sensor 2 Bank 1 Voltage": 0.62,
+             "Oxygen sensor 2 Bank 1 Short term fuel trim": -100.0,
+             "Fuel system status": 2.0 if s.closed else 4.0}
+        for n2, u2 in (EXTRAS.get(name, []) if extras else []):
+            lines.append('"%.3f";"%s";"%s";"%s"' % (t, n2, "%.2f" % vals[n2],
+                                                    u2))
+        lines.append('"%.3f";"%s";"%s";"%s"' % (t, name, "%.2f" % vals[name],
+                                                unit))
         i += 1
         t += period * (0.8 + 0.4 * rnd.random())
     return "\n".join(lines) + "\n"

@@ -31,6 +31,7 @@
 
 from __future__ import annotations
 
+import bisect
 import datetime as _dt
 import os
 import re
@@ -474,6 +475,27 @@ def sample(ch: Channel, t: float, max_gap: float) -> float | None:
         return None
     k = (t - a) / (b - a) if b > a else 0.0
     return ch.v[i - 1] + (ch.v[i] - ch.v[i - 1]) * k
+
+
+def sample_nearest(ch: Channel, t: float, max_gap: float) -> float | None:
+    """
+    Ближайшее показание, без интерполяции. Для величин, которые прыгают:
+    STFT по узкому зонду ходит пилой, а на сбросе топлива падает в ноль
+    скачком -- прямая между +12 % и 0 выдумала бы промежуточные значения
+    на последней секунде полного газа.
+    """
+    ts = ch.t
+    n = len(ts)
+    if n == 0:
+        return None
+    i = bisect.bisect_left(ts, t)
+    best = None
+    for j in (i - 1, i):
+        if 0 <= j < n and (best is None or abs(ts[j] - t) < abs(ts[best] - t)):
+            best = j
+    if abs(ts[best] - t) > max_gap:
+        return None
+    return ch.v[best]
 
 
 def shifted(ch: Channel, dt: float) -> Channel:
